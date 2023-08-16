@@ -7,5 +7,11 @@
   "routes": [{
     "src": "/(.*)",
     "dest": "src/index.ts"
-  }]
+  }],
+  "build": {
+    "env": {
+      "CI": "false"
+    },
+    "command": "tsc && mv src/index.ts dist/index.ts"
+  }
 }
