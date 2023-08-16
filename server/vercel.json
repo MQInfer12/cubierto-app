@@ -12,6 +12,6 @@
     "env": {
       "CI": "false"
     },
-    "command": "tsc && mv src/index.ts dist/index.ts"
+    "command": "tsc && mv src/index.ts dist/index.ts && npx prisma generate"
   }
 }
