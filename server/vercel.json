@@ -1,17 +1,18 @@
 {
   "version": 2,
-  "builds": [{
-    "src": "src/index.ts",
-    "use": "@vercel/node"
-  }],
-  "routes": [{
-    "src": "/(.*)",
-    "dest": "src/index.ts"
-  }],
-  "build": {
-    "env": {
-      "CI": "false"
-    },
-    "command": "tsc && mv src/index.ts dist/index.ts && npx prisma generate"
-  }
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node",
+      "config": { 
+        "includeFiles": ["dist/**"] 
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/index.js"
+    }
+  ]
 }
