@@ -11,22 +11,102 @@ datasource db {
 }
 
 model Usuario {
-  id              String          @id
-  name            String          @db.VarChar(255)
-  email           String          @db.VarChar(255)
-  foto            String          @db.VarChar(255)
-  rol             String          @db.VarChar(255)
-  telefono        Int?            
-  portada         String          @db.VarChar(255)
-  descripcion     String          @db.VarChar(255)         
-  ubicaciones     Ubicacion[]
+  id                  String      @id
+  nombre              String      @db.VarChar(255)
+  email               String      @db.VarChar(255)
+  foto                String      @db.VarChar(255)
+  rol                 String      @default("usuario") @db.VarChar(255)
+  notificaciones      String      @default("todas") @db.VarChar(255)
+  telefono            Int?
+  portada             String?     @db.VarChar(255)
+  descripcion         String?     @db.VarChar(255)
+  ubicacionActualId   Int?        @unique
+  ubicacionActual     Ubicacion?  @relation(fields: [ubicacionActualId], references: [id], name: "ubicacion_actual")
+  ubicaciones         Ubicacion[] @relation("ubicaciones")
+  productos           Producto[]
+  ventas              Venta[]
+  donaciones          Donacion[]  @relation("donador")
+  donacionesRecibidas Donacion[]  @relation("donaciones")
+  favoritos           Favorito[]  @relation("usuario_favorito")
+  favoritoDe          Favorito[]  @relation("restaurante_favorito")
 }
 
 model Ubicacion {
-  id            Int             @id @default(autoincrement())
-  nombre        String          @db.VarChar(255)
-  latitud       Decimal 
+  id            Int      @id @default(autoincrement())
+  nombre        String   @db.VarChar(255)
+  latitud       Decimal
   longitud      Decimal
   usuarioId     String
-  usuario       Usuario         @relation(fields: [usuarioId], references: [id])
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id], name: "ubicaciones")
+  usuarioActual Usuario? @relation("ubicacion_actual")
+}
+
+model Producto {
+  id                Int               @id @default(autoincrement())
+  nombre            String            @db.VarChar(255)
+  descripcion       String            @db.VarChar(511)
+  foto              String            @db.VarChar(255)
+  precio            Decimal
+  usuarioId         String
+  usuario           Usuario           @relation(fields: [usuarioId], references: [id])
+  activos           ProductoActivo[]
+  detalleDonaciones DetalleDonacion[]
+}
+
+model ProductoActivo {
+  id               Int            @id @default(autoincrement())
+  cantidad         Int
+  precioDescontado Decimal
+  fecha            DateTime       @default(now())
+  estado           Boolean        @default(true)
+  productoId       Int
+  producto         Producto       @relation(fields: [productoId], references: [id])
+  detalleVentas    DetalleVenta[]
+}
+
+model Venta {
+  id        Int            @id @default(autoincrement())
+  estado    String         @default("pendiente") @db.VarChar(255)
+  fecha     DateTime       @default(now())
+  usuarioId String
+  usuario   Usuario        @relation(fields: [usuarioId], references: [id])
+  detalles  DetalleVenta[]
+}
+
+model DetalleVenta {
+  id               Int            @id @default(autoincrement())
+  precioUnitario   Decimal
+  cantidad         Int
+  productoActivoId Int
+  productoActivo   ProductoActivo @relation(fields: [productoActivoId], references: [id])
+  ventaId          Int
+  venta            Venta          @relation(fields: [ventaId], references: [id])
+}
+
+model Donacion {
+  id             Int               @id @default(autoincrement())
+  estado         String            @default("pendiente") @db.VarChar(255)
+  fecha          DateTime          @default(now())
+  donadorId      String
+  donador        Usuario           @relation(fields: [donadorId], references: [id], name: "donador")
+  beneficiarioId String
+  beneficiario   Usuario           @relation(fields: [beneficiarioId], references: [id], name: "donaciones")
+  detalles       DetalleDonacion[]
+}
+
+model DetalleDonacion {
+  id         Int      @id @default(autoincrement())
+  cantidad   Int
+  donacionId Int
+  donacion   Donacion @relation(fields: [donacionId], references: [id])
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+}
+
+model Favorito {
+  id            Int     @id @default(autoincrement())
+  usuarioId     String
+  usuario       Usuario @relation(fields: [usuarioId], references: [id], name: "usuario_favorito")
+  restauranteId String
+  restaurante   Usuario @relation(fields: [restauranteId], references: [id], name: "restaurante_favorito")
 }
