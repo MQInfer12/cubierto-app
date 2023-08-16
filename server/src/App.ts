@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   res.send('¡CUBIERTO Backend!');
 });
 
-app.use(usuarioController);
+app.use(usuarioController); 
 
 app.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);
