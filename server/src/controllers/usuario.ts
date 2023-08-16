@@ -1,12 +1,18 @@
 import { Router } from 'express';
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Usuario } from '@prisma/client'
+import { CreateUsuarioInput, UpdateUsuarioInput } from '../interfaces/usuario';
+import { ApiResponse } from '../interfaces/apiResponse';
 
 const app = Router();
 const prisma = new PrismaClient();
 
 app.get('/usuario', async (req, res) => {
   const users = await prisma.usuario.findMany();
-  res.json(users);
+  const response: ApiResponse<Usuario[]> = {
+    message: "Usuarios obtenidos correctamente",
+    data: users
+  }
+  res.json(response);
 })
 
 app.get('/usuario/:id', async (req, res) => {
@@ -15,42 +21,38 @@ app.get('/usuario/:id', async (req, res) => {
       id: req.params.id
     }
   });
-  res.json(user);
+  const response: ApiResponse<Usuario> = {
+    message: "Usuario obtenido correctamente",
+    data: user
+  }
+  res.json(response);
 });
 
 app.post('/usuario', async (req, res) => {
+  const data: CreateUsuarioInput = req.body;
   const user = await prisma.usuario.create({
-    data: {
-      id: req.body.id,
-      nombre: req.body.nombre,
-      email: req.body.email,
-      foto: req.body.foto,
-    }
+    data: data
   });
-  res.json({
+  const response: ApiResponse<Usuario> = {
     message: "Usuario creado correctamente",
     data: user
-  });
+  }
+  res.json(response);
 });
 
 app.put('/usuario/:id', async (req, res) => {
+  const data: UpdateUsuarioInput = req.body;
   const user = await prisma.usuario.update({
     where: {
       id: req.params.id
     },
-    data: {
-      nombre: req.body.nombre,
-      email: req.body.email,
-      foto: req.body.foto,
-      descripcion: req.body.descripcion,
-      portada: req.body.portada,
-      telefono: Number(req.body.telefono)
-    }
+    data: data
   });
-  res.json({
+  const response: ApiResponse<Usuario> = {
     message: "Usuario modificado correctamente",
     data: user
-  });
+  }
+  res.json(response);
 });
 
 app.delete('/usuario/:id', async (req, res) => {
@@ -59,10 +61,11 @@ app.delete('/usuario/:id', async (req, res) => {
       id: req.params.id
     }
   });
-  res.json({
+  const response: ApiResponse<Usuario> = {
     message: "Usuario eliminado correctamente",
     data: user
-  })
+  }
+  res.json(response);
 });
 
 export default app;
