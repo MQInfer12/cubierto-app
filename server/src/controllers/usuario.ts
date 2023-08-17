@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { PrismaClient, Usuario } from '@prisma/client'
-import { CreateUsuarioInput, UpdateUsuarioInput } from '../interfaces/usuario';
+import { PrismaClient } from '@prisma/client'
+import { CreateUsuarioInput, UpdateUsuarioInput, Usuario } from '../interfaces/usuario';
 import { ApiResponse } from '../interfaces/apiResponse';
 
 const app = Router();

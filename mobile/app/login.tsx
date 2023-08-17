@@ -3,6 +3,7 @@ import GoogleLogin from '../components/login/googleLogin';
 import { Image, StyleSheet, View } from 'react-native';
 import { Dimensions } from 'react-native';
 import FontedText from '../components/global/fontedText';
+import { colors } from '../styles/colors';
 
 const win = Dimensions.get('window');
 const ratio = win.width / 720;
@@ -14,9 +15,10 @@ const Login = () => {
       <Image style={styles.image} source={require('../assets/images/loginBG.png')} />
       <View style={styles.buttonContainer}>
         <View style={styles.top}>
-          <FontedText weight={700} style={styles.topText}>Bienvenido</FontedText>
+          <FontedText weight={700} style={styles.topText}>¡Bienvenido!</FontedText>
         </View>
         <View style={styles.bottom}>
+          <Image style={styles.logo} source={require('../assets/images/CubiertoLogo.png')} />
           <FontedText style={styles.text} weight={600}>Inicia sesión con tu cuenta de Google</FontedText>
           <GoogleLogin />
         </View>
@@ -45,20 +47,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   topText: {
-    color: 'white',
+    color: colors.white,
     marginLeft: 32,
     fontSize: 40
   },
   bottom: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    paddingTop: 12
   },
   text: {
-    opacity: 0.4,
+    color: colors.gray500,
     fontSize: 16,
     width: '80%',
     textAlign: 'center',
     marginBottom: 24
+  },
+  logo: {
+    height: 160,
+    aspectRatio: 432 / 410,
+    marginBottom: 32
   }
 })

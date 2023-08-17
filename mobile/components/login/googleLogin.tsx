@@ -5,6 +5,7 @@ import * as WebBrowser from 'expo-web-browser'
 import * as Linking from "expo-linking"
 import { router } from 'expo-router'
 import FontedText from '../global/fontedText'
+import { colors } from '../../styles/colors'
 
 const REDIRECT_URI = process.env.EXPO_PUBLIC_BACKEND + "google";
 const OAUTH_ID = process.env.EXPO_PUBLIC_OAUTH_ID;
@@ -62,11 +63,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderWidth: 1,
     borderRadius: 56,
-    borderColor: 'rgba(0, 0, 0, 0.2)'
+    borderColor: colors.gray500
   },
   text: {
     fontSize: 18,
-    opacity: 0.3
+    color: colors.gray500
   },
   logo: {
     width: 40,

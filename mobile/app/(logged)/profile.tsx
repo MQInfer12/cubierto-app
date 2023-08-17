@@ -1,10 +1,10 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { useUser } from '../context/user';
+import { useUser } from '../../context/user';
 import { router } from 'expo-router'
-import { UseLoggedUser } from '../hooks/useLoggedUser'
+import { UseLoggedUser } from '../../hooks/useLoggedUser'
 
-const Index = () => {
+const Home = () => {
   const user = UseLoggedUser();
   const { setUser } = useUser();
 
@@ -25,7 +25,7 @@ const Index = () => {
   )
 }
 
-export default Index
+export default Home
 
 const styles = StyleSheet.create({
   container: {
