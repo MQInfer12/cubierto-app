@@ -18,8 +18,7 @@ const GoogleLogin = () => {
       const res = await fetch(`${process.env.EXPO_PUBLIC_BACKEND}usuario/${userId}`);
       if(res.ok) {
         const json = await res.json();
-        console.log(json);
-        setUser(json);
+        setUser(json.data);
       }
     }
   }
