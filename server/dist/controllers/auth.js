@@ -16,54 +16,52 @@ const prisma = new client_1.PrismaClient();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
-function signUp(code, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
-            console.log("url", url);
-            const response = yield fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
-            const responseJson = yield response.json();
-            console.log("response", responseJson);
-            if (response.ok) {
-                const data = yield response.json();
-                const verify = yield fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${data.id_token}`);
-                const verifyJson = yield response.json();
-                console.log("verify", verifyJson);
-                if (verify.ok) {
-                    const userData = yield verify.json();
-                    const { sub, name, email, picture } = userData;
-                    let user = yield prisma.usuario.findUnique({
-                        where: {
-                            id: sub
+const signUp = (code, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
+        console.log("url", url);
+        const response = yield fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const responseJson = yield response.json();
+        console.log("response", responseJson);
+        if (response.ok) {
+            const data = yield response.json();
+            const verify = yield fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${data.id_token}`);
+            const verifyJson = yield response.json();
+            console.log("verify", verifyJson);
+            if (verify.ok) {
+                const userData = yield verify.json();
+                const { sub, name, email, picture } = userData;
+                let user = yield prisma.usuario.findUnique({
+                    where: {
+                        id: sub
+                    }
+                });
+                if (!user) {
+                    user = yield prisma.usuario.create({
+                        data: {
+                            id: sub,
+                            nombre: name,
+                            email: email,
+                            foto: picture
                         }
                     });
-                    if (!user) {
-                        user = yield prisma.usuario.create({
-                            data: {
-                                id: sub,
-                                nombre: name,
-                                email: email,
-                                foto: picture
-                            }
-                        });
-                    }
-                    console.log("user", user);
-                    res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
                 }
+                console.log("user", user);
+                res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
             }
         }
-        catch (e) {
-            res.json({
-                error: "¡Ocurrió un error inesperado, inténtalo de nuevo!"
-            });
-        }
-    });
-}
+    }
+    catch (e) {
+        res.json({
+            error: "¡Ocurrió un error inesperado, inténtalo de nuevo!"
+        });
+    }
+});
 app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { code } = req.query;
     if (!code) {
