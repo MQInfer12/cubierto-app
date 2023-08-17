@@ -1,20 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import GoogleLogin from './components/login/googleLogin';
+import { useUser } from './context/user';
 
 export default function App() {
+  const { user } = useUser();
+
   return (
-    <View style={styles.container}>
-      <Text>Hola mundo! CUBIERTO</Text>
-      <StatusBar style="auto" />
-    </View>
+    <GoogleLogin />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });

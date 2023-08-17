@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "expo": "~49.0.7",
+    "expo-linking": "^5.0.2",
     "expo-status-bar": "~1.6.0",
+    "expo-web-browser": "^12.3.2",
     "react": "18.2.0",
-    "react-native": "0.72.3"
+    "react-native": "0.72.3",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
