@@ -1,7 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useUser } from '../../context/user'
 import * as WebBrowser from 'expo-web-browser'
+import * as Linking from "expo-linking"
 
 const REDIRECT_URI = process.env.EXPO_PUBLIC_BACKEND + "google";
 const OAUTH_ID = process.env.EXPO_PUBLIC_OAUTH_ID;
@@ -10,7 +11,17 @@ const GoogleLogin = () => {
   const { setUser } = useUser();
 
   const getUserData = async (result: any) => {
-    console.log(result);
+    const { url } = result;
+    if(url) {
+      const params = Linking.parse(url) as any;
+      const { userId } = params.queryParams;
+      const res = await fetch(`${process.env.EXPO_PUBLIC_BACKEND}usuario/${userId}`);
+      if(res.ok) {
+        const json = await res.json();
+        console.log(json);
+        setUser(json);
+      }
+    }
   }
 
   const handlePress = async () => {
@@ -20,6 +31,10 @@ const GoogleLogin = () => {
     );
     getUserData(result);
   }
+
+  useEffect(() => {
+    Linking.addEventListener("url", getUserData);
+  }, []);
 
   return (
     <View style={styles.container}>

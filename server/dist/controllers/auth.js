@@ -18,7 +18,7 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
 function signUp(code, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&grant_type=authorization_code`;
+        const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
         const response = yield fetch(url, {
             method: "POST",
             headers: {
@@ -58,6 +58,7 @@ app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             error: "Código inválido"
         });
     }
+    console.log(code);
     signUp(code, res);
 }));
 exports.default = app;

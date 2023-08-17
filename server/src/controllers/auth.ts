@@ -8,8 +8,8 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
 
-async function signUp(code: any, res: any) {
-  const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&grant_type=authorization_code`;
+async function signUp(code: string, res: any) {
+  const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -49,7 +49,8 @@ app.get("/google", async (req, res) => {
       error: "Código inválido"
     })
   }
-  signUp(code, res);
+  console.log(code);
+  signUp(code as string, res);
 });
 
 export default app;
