@@ -37,7 +37,7 @@ async function signUp(code: any, res: any) {
           }
         });
       }
-      res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${user.id}")</script>`);
+      res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
     }
   }
 }
