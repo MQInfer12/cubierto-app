@@ -2,16 +2,18 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useUser } from '../context/user';
 import { router } from 'expo-router'
+import { UseLoggedUser } from '../hooks/useLoggedUser'
 
 const Index = () => {
-  const { user, setUser } = useUser();
+  const user = UseLoggedUser();
+  const { setUser } = useUser();
 
   const handleLogout = () => {
     setUser(null);
-    router.replace("/");
+    router.replace("/login");
   }
 
-  if(user) return (
+  return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: user.foto }} />
       <Text>{user.nombre}</Text>

@@ -1,4 +1,4 @@
-import { TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { useUser } from '../../context/user'
 import * as WebBrowser from 'expo-web-browser'
@@ -44,10 +44,32 @@ const GoogleLogin = () => {
   });
 
   return (
-    <TouchableOpacity onPress={handlePress}>
-      <FontedText>Logeate con Google</FontedText>
+    <TouchableOpacity style={styles.button} onPress={handlePress}>
+      <Image style={styles.logo} source={require('../../assets/images/GoogleLogo.png')} />
+      <FontedText weight={600} style={styles.text}>Continúa con Google</FontedText>
     </TouchableOpacity>
   )
 }
 
 export default GoogleLogin
+
+const styles = StyleSheet.create({
+  button: {
+    flexDirection: 'row',
+    gap: 16,
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderWidth: 1,
+    borderRadius: 56,
+    borderColor: 'rgba(0, 0, 0, 0.2)'
+  },
+  text: {
+    fontSize: 18,
+    opacity: 0.3
+  },
+  logo: {
+    width: 40,
+    aspectRatio: 2008 / 2048
+  }
+})
