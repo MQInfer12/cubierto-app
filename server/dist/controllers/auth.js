@@ -20,6 +20,7 @@ function signUp(code, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
+            console.log("url", url);
             const response = yield fetch(url, {
                 method: "POST",
                 headers: {

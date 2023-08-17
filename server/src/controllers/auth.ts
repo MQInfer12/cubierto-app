@@ -11,6 +11,7 @@ const BACKEND_URL = process.env.BACKEND_URL;
 async function signUp(code: string, res: any) {
   try {
     const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
+    console.log("url", url);
     const response = await fetch(url, {
       method: "POST",
       headers: {
