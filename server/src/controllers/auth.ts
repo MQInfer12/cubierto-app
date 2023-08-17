@@ -17,9 +17,13 @@ async function signUp(code: string, res: any) {
         "Content-Type": "application/json",
       }
     });
+    const responseJson = await response.json();
+    console.log("response", responseJson);
     if(response.ok) {
       const data = await response.json();
       const verify = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${data.id_token}`);
+      const verifyJson = await response.json();
+      console.log("verify", verifyJson);
       if(verify.ok) {
         const userData = await verify.json();
         const { sub, name, email, picture } = userData;
@@ -38,6 +42,7 @@ async function signUp(code: string, res: any) {
             }
           });
         }
+        console.log("user", user);
         res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
       }
     }
@@ -55,6 +60,7 @@ app.get("/google", async (req, res) => {
       error: "Código inválido"
     })
   }
+  console.log("code", code);
   signUp(code as string, res);
 });
 

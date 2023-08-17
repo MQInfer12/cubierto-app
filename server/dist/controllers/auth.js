@@ -26,9 +26,13 @@ function signUp(code, res) {
                     "Content-Type": "application/json",
                 }
             });
+            const responseJson = yield response.json();
+            console.log("response", responseJson);
             if (response.ok) {
                 const data = yield response.json();
                 const verify = yield fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${data.id_token}`);
+                const verifyJson = yield response.json();
+                console.log("verify", verifyJson);
                 if (verify.ok) {
                     const userData = yield verify.json();
                     const { sub, name, email, picture } = userData;
@@ -47,6 +51,7 @@ function signUp(code, res) {
                             }
                         });
                     }
+                    console.log("user", user);
                     res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
                 }
             }
@@ -65,6 +70,7 @@ app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             error: "Código inválido"
         });
     }
+    console.log("code", code);
     signUp(code, res);
 }));
 exports.default = app;
