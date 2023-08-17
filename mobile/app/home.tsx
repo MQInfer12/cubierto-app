@@ -1,23 +1,29 @@
-import { StyleSheet } from 'react-native';
-import GoogleLogin from './components/login/googleLogin';
-import { useUser } from './context/user';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { useUser } from '../context/user';
+import { router } from 'expo-router'
 
-export default function App() {
+const Index = () => {
   const { user, setUser } = useUser();
 
-  if(!user) return <GoogleLogin />
-  return (
+  const handleLogout = () => {
+    setUser(null);
+    router.replace("/");
+  }
+
+  if(user) return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: user.foto }} />
       <Text>{user.nombre}</Text>
       <Text>{user.email}</Text>
-      <TouchableOpacity onPress={() => setUser(null)}>
+      <TouchableOpacity onPress={handleLogout}>
         <Text>Cerrar sesión</Text>
       </TouchableOpacity>
     </View>
-  );
+  )
 }
+
+export default Index
 
 const styles = StyleSheet.create({
   container: {

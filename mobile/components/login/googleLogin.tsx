@@ -1,14 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { useUser } from '../../context/user'
 import * as WebBrowser from 'expo-web-browser'
 import * as Linking from "expo-linking"
+import { router } from 'expo-router'
+import FontedText from '../global/fontedText'
 
 const REDIRECT_URI = process.env.EXPO_PUBLIC_BACKEND + "google";
 const OAUTH_ID = process.env.EXPO_PUBLIC_OAUTH_ID;
 
 const GoogleLogin = () => {
-  const { setUser } = useUser();
+  const { user, setUser } = useUser();
 
   const getUserData = async (result: any) => {
     const { url } = result;
@@ -35,21 +37,17 @@ const GoogleLogin = () => {
     Linking.addEventListener("url", getUserData);
   }, []);
 
+  useEffect(() => {
+    if(user) {
+      router.replace("/home");
+    }
+  });
+
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress}>
-        <Text>Logeate con Google</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={handlePress}>
+      <FontedText>Logeate con Google</FontedText>
+    </TouchableOpacity>
   )
 }
 
 export default GoogleLogin
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-})
