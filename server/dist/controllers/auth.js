@@ -17,6 +17,9 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
 const signUp = (code, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("CLIENT_ID", CLIENT_ID);
+    console.log("CLIENT_SECRET", CLIENT_SECRET);
+    console.log("BACKEND_URL", BACKEND_URL);
     try {
         const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
         console.log("url", url);
