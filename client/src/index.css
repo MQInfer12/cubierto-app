@@ -6,10 +6,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 body{
   background-color: #E75854;
-  font-family: 'Poppins', sans-serif;
+ 
 }
 ::-webkit-scrollbar {
   width: 10px; /* Ancho de la barra de desplazamiento */

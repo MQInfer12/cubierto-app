@@ -8,7 +8,6 @@ export const ContentNavbar = styled.header`
   ${ComunStyles}
   justify-content:space-between;
   margin: 2rem auto 3rem auto;
-
   font-size: 20px;
   & > nav {
     width: 90%;
@@ -58,6 +57,7 @@ export const Content = styled.article`
     color: #fff;
     & > h1 {
       font-size: 6rem;
+     
       line-height: 96px;
       ${fonts}
     }

@@ -12,14 +12,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navbar />} >
-          <Route path="/" element={<Home />} />
-          
-          <Route path="/ofertas" element={<Ofertas />} />
-          <Route path="/quienes-somos" element={<QuienesSomos />} />
-        <Route path="/estadisticas" element={<Estadisticas />} />
-        <Route path="/organizacion" element={<Organizacion />} />
-        <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Navbar />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/ofertas" element={<Ofertas />} />
+            <Route path="/quienes-somos" element={<QuienesSomos />} />
+            <Route path="/estadisticas" element={<Estadisticas />} />
+            <Route path="/organizacion" element={<Organizacion />} />
+            <Route path="/register" element={<Register />} />
           </Route>
         </Routes>
       </BrowserRouter>
