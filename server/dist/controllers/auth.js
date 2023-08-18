@@ -59,7 +59,7 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
 });
 app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.query);
-    const { code, appUrl } = req.query;
+    const { code, state: appUrl } = req.query;
     if (!code) {
         return res.status(400).json({
             error: "Código inválido"
