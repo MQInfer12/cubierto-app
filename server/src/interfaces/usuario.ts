@@ -3,8 +3,8 @@ export interface Usuario {
   nombre: string;
   email: string;
   foto: string;
-  rol: "usuario" | "restaurante" | "proveedor" | "beneficiario";
-  notificaciones: "todas" | "favoritos";
+  rol: string;
+  notificaciones: string;
   telefono: number;
   portada: string;
   descripcion: string;
