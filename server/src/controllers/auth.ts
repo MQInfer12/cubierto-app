@@ -50,6 +50,7 @@ const signUp = async (code: string, appUrl: string, res: any) => {
 }
 
 app.get("/google", async (req, res) => {
+  console.log(req.query);
   const { code, appUrl } = req.query;
   if(!code) {
     return res.status(400).json({
