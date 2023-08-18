@@ -17,4 +17,4 @@ const xprisma = prisma.$extends({
   }
 });
 
-export default xprisma;
+export default xprisma as PrismaClient;
