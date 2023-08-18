@@ -11,7 +11,7 @@ const REDIRECT_URI = process.env.EXPO_PUBLIC_BACKEND + "google";
 const OAUTH_ID = process.env.EXPO_PUBLIC_OAUTH_ID;
 
 const GoogleLogin = () => {
-  const appUrl = Linking.useURL();
+  const appUrl = Linking.createURL("");
   const { user, setUser } = useUser();
 
   const getUserData = async (result: any) => {
@@ -43,7 +43,7 @@ const GoogleLogin = () => {
     if(user) {
       router.replace("/home");
     }
-  });
+  }, [user]);
 
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
