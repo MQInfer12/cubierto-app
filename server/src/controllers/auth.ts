@@ -8,7 +8,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
 
-const signUp = async (code: string, res: any) => {
+const signUp = async (code: string, appUrl: string, res: any) => {
   try {
     const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
     const response = await fetch(url, {
@@ -38,7 +38,8 @@ const signUp = async (code: string, res: any) => {
             }
           });
         }
-        res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
+        console.log(`Sending script to ${appUrl}`);
+        res.send(`<script>window.location.replace("${appUrl}?userId=${sub}")</script>`);
       }
     }
   } catch (e) {
@@ -49,13 +50,13 @@ const signUp = async (code: string, res: any) => {
 }
 
 app.get("/google", async (req, res) => {
-  const { code } = req.query;
+  const { code, appUrl } = req.query;
   if(!code) {
     return res.status(400).json({
       error: "Código inválido"
     })
   }
-  signUp(code as string, res);
+  signUp(code as string, appUrl as string, res);
 });
 
 export default app;
