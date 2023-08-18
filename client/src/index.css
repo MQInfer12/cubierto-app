@@ -1,5 +1,32 @@
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@1,400&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+body{
+  background-color: #E75854;
+  font-family: 'Poppins', sans-serif;
+}
+::-webkit-scrollbar {
+  width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e7595493; /* Color del "pulgarcito" de la barra */
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #362d2ddc; /* Color del "pulgarcito" al pasar el mouse */
+  width: 12px; /* Ancho de la barra de desplazamiento */
+
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f177; /* Color de fondo de la barra */
+
 }
