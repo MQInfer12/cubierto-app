@@ -14,6 +14,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route path="/" element={<Home />} />
+<<<<<<< HEAD
+=======
+
+>>>>>>> b931435a53fc70e91435c2b4f71ffe0919cd8382
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/quienes-somos" element={<QuienesSomos />} />
             <Route path="/estadisticas" element={<Estadisticas />} />

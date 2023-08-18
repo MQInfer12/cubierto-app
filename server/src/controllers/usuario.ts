@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { CreateUsuarioInput, UpdateUsuarioInput, Usuario } from '../interfaces/usuario';
+import { CreateUsuarioInput, UpdateUsuarioInput } from '../interfaces/usuario';
 import { ApiResponse } from '../interfaces/apiResponse';
 import xprisma from '../middlewares/queries';
+import { Usuario } from '@prisma/client';
 
 const app = Router();
 

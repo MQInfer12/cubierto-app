@@ -42,13 +42,15 @@ model Ubicacion {
 }
 
 model Producto {
-  id                Int               @id @default(autoincrement())
-  nombre            String            @db.VarChar(255)
-  descripcion       String            @db.VarChar(511)
-  foto              String            @db.VarChar(255)
+  id                Int                 @id @default(autoincrement())
+  nombre            String              @db.VarChar(255)
+  descripcion       String              @db.VarChar(511)
+  foto              String              @db.VarChar(255)
   precio            Decimal
   usuarioId         String
-  usuario           Usuario           @relation(fields: [usuarioId], references: [id])
+  usuario           Usuario             @relation(fields: [usuarioId], references: [id])
+  categoriaId       Int?
+  categoria         Categoria?          @relation(fields: [categoriaId], references: [id])
   activos           ProductoActivo[]
   detalleDonaciones DetalleDonacion[]
 }
@@ -95,12 +97,12 @@ model Donacion {
 }
 
 model DetalleDonacion {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   cantidad   Int
   donacionId Int
-  donacion   Donacion @relation(fields: [donacionId], references: [id])
+  donacion   Donacion   @relation(fields: [donacionId], references: [id])
   productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
+  producto   Producto   @relation(fields: [productoId], references: [id])
 }
 
 model Favorito {
@@ -109,4 +111,11 @@ model Favorito {
   usuario       Usuario @relation(fields: [usuarioId], references: [id], name: "usuario_favorito")
   restauranteId String
   restaurante   Usuario @relation(fields: [restauranteId], references: [id], name: "restaurante_favorito")
+}
+
+model Categoria {
+  id            Int         @id @default(autoincrement())
+  nombre        String      @db.VarChar(255)
+  ionicon       String      @db.VarChar(40)
+  productos     Producto[]
 }

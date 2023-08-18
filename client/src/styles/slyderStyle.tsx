@@ -16,11 +16,10 @@ export const Aside = styled.aside`
   }
 `;
 export const SliderStyle = styled.article`
-display:flex;
-flex-direction:row;
-${Stylecomun}
-justify-content:center;
-align-items:center;
-gap:2rem;
-
+  display: flex;
+  flex-direction: row;
+  ${Stylecomun}
+  justify-content:center;
+  align-items: center;
+  gap: 2rem;
 `;
