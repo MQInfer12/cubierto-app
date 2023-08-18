@@ -17,6 +17,7 @@ const detalleVenta_1 = __importDefault(require("./controllers/detalleVenta"));
 const donacion_1 = __importDefault(require("./controllers/donacion"));
 const detalleDonacion_1 = __importDefault(require("./controllers/detalleDonacion"));
 const favorito_1 = __importDefault(require("./controllers/favorito"));
+const categoria_1 = __importDefault(require("./controllers/categoria"));
 const app = (0, express_1.default)();
 const port = 3000;
 dotenv_1.default.config();
@@ -36,6 +37,7 @@ app.use(detalleVenta_1.default);
 app.use(donacion_1.default);
 app.use(detalleDonacion_1.default);
 app.use(favorito_1.default);
+app.use(categoria_1.default);
 app.listen(port, () => {
     return console.log(`server is listening on http://localhost:${port}`);
 });

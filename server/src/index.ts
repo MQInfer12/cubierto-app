@@ -12,6 +12,7 @@ import detalleVentaController from './controllers/detalleVenta';
 import donacionController from './controllers/donacion';
 import detalleDonacionController from './controllers/detalleDonacion';
 import favoritoController from './controllers/favorito'
+import categoriaController from './controllers/categoria'
 
 const app = express();
 const port = 3000;
@@ -36,6 +37,7 @@ app.use(detalleVentaController);
 app.use(donacionController);
 app.use(detalleDonacionController);
 app.use(favoritoController);
+app.use(categoriaController);
 
 app.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);
