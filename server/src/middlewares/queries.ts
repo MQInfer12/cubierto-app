@@ -13,6 +13,16 @@ const xprisma = prisma.$extends({
         }
         return query(newArgs);
       }
+    },
+    productoActivo: {
+      $allOperations({ model, operation, args, query}) {
+        const newArgs = args as any;
+        newArgs.include = {
+          ...newArgs.include,
+          producto: true
+        }
+        return query(newArgs);
+      }
     }
   }
 });

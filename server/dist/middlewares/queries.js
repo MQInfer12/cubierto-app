@@ -10,6 +10,13 @@ const xprisma = prisma.$extends({
                 newArgs.include = Object.assign(Object.assign({}, newArgs.include), { productos: true });
                 return query(newArgs);
             }
+        },
+        productoActivo: {
+            $allOperations({ model, operation, args, query }) {
+                const newArgs = args;
+                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { producto: true });
+                return query(newArgs);
+            }
         }
     }
 });
