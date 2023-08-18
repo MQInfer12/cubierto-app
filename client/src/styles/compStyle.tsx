@@ -47,7 +47,7 @@ export const BtnRegister = styled(Link)`
 `;
 export const Content = styled.article`
   ${ComunStyles};
- ${Stylecomun}
+  ${Stylecomun}
   gap: 18rem;
 
   & > section {
@@ -76,7 +76,7 @@ export const Content = styled.article`
 export const CarsStyle = styled.section`
   ${ComunStyles}
   width: 90%;
-  margin: 3.5rem  auto;
+  margin: 3.5rem auto;
   & > div {
     display: flex;
     align-items: flex-start;
@@ -84,18 +84,18 @@ export const CarsStyle = styled.section`
     flex-direction: column;
     padding: 2em;
     gap: 1.5rem;
-color:${colors.light};
-& > p{
-    font-size:1rem;
-    font-weight:400;
-    text-align:justify;
-    line-height: 1.75rem;
-}
-& > h2{
-    font-size:1.5rem;
-    font-weight:200;
-    line-height: 2.25rem;
-}
+    color: ${colors.light};
+    & > p {
+      font-size: 1rem;
+      font-weight: 400;
+      text-align: justify;
+      line-height: 1.75rem;
+    }
+    & > h2 {
+      font-size: 1.5rem;
+      font-weight: 200;
+      line-height: 2.25rem;
+    }
     & > img {
       background-color: ${colors.light};
       width: 3.5rem;

@@ -8,7 +8,7 @@ export const imagedata = [
     name: "image 1",
     description:
       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `${image1}`,
+    image: `${image2}`,
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ export const imagedata = [
     name: "image 3",
     description:
       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `${image3}`,
+    image: `${image1}`,
   },
   {
     id: 5,
@@ -43,6 +43,13 @@ export const imagedata = [
     name: "image 6",
     description:
       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `${image1}`,
+    image: `${image3}`,
+  },
+  {
+    id: 7,
+    name: "image 7",
+    description:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    image: `${image3}`,
   },
 ];
