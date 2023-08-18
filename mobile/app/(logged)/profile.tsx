@@ -1,21 +1,14 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useUser } from '../../context/user';
-import { router } from 'expo-router'
 import { UseLoggedUser } from '../../hooks/useLoggedUser'
 import { colors } from '../../styles/colors';
 import FontedText from '../../components/global/fontedText';
 import Icon from '../../components/global/icon';
-import { shadows } from '../../styles/shadows';
 
 const Home = () => {
   const user = UseLoggedUser();
-  const { setUser } = useUser();
-
-  const handleLogout = () => {
-    setUser(null);
-    router.replace("/login");
-  }
+  const { logout } = useUser();
 
   return (
     <View style={styles.container}>
@@ -44,7 +37,7 @@ const Home = () => {
           </View>
           <FontedText style={styles.bottomButtonText} weight={600}>Información legal</FontedText>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
+        <TouchableOpacity style={styles.bottomButton} onPress={logout}>
           <View style={styles.bottomIconContainer}>
             <Icon name='log-out-outline' size={16} color={colors.gray900} />
           </View>

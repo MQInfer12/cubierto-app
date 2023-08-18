@@ -12,7 +12,7 @@ const OAUTH_ID = process.env.EXPO_PUBLIC_OAUTH_ID;
 
 const GoogleLogin = () => {
   const appUrl = Linking.createURL("");
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
 
   const getUserData = async (result: any) => {
     const { url } = result;
@@ -23,6 +23,7 @@ const GoogleLogin = () => {
       if(res.ok) {
         const json = await res.json();
         setUser(json.data);
+        router.replace("/home");
       }
     }
   }
@@ -38,12 +39,6 @@ const GoogleLogin = () => {
   useEffect(() => {
     Linking.addEventListener("url", getUserData);
   }, []);
-
-  useEffect(() => {
-    if(user) {
-      router.replace("/home");
-    }
-  }, [user]);
 
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
