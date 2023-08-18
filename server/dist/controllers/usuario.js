@@ -8,13 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const client_1 = require("@prisma/client");
+const queries_1 = __importDefault(require("../middlewares/queries"));
 const app = (0, express_1.Router)();
-const prisma = new client_1.PrismaClient();
 app.get('/usuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield prisma.usuario.findMany();
+    const users = yield queries_1.default.usuario.findMany();
     const response = {
         message: "Usuarios obtenidos correctamente",
         data: users
@@ -22,7 +24,7 @@ app.get('/usuario', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     res.json(response);
 }));
 app.get('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield prisma.usuario.findUnique({
+    const user = yield queries_1.default.usuario.findUnique({
         where: {
             id: req.params.id
         }
@@ -35,7 +37,7 @@ app.get('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function
 }));
 app.post('/usuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
-    const user = yield prisma.usuario.create({
+    const user = yield queries_1.default.usuario.create({
         data: data
     });
     const response = {
@@ -46,7 +48,7 @@ app.post('/usuario', (req, res) => __awaiter(void 0, void 0, void 0, function* (
 }));
 app.put('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
-    const user = yield prisma.usuario.update({
+    const user = yield queries_1.default.usuario.update({
         where: {
             id: req.params.id
         },
@@ -59,7 +61,7 @@ app.put('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function
     res.json(response);
 }));
 app.delete('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield prisma.usuario.delete({
+    const user = yield queries_1.default.usuario.delete({
         where: {
             id: req.params.id
         }
