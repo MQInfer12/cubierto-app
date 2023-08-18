@@ -16,7 +16,7 @@ const prisma = new client_1.PrismaClient();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
-const signUp = (code, res) => __awaiter(void 0, void 0, void 0, function* () {
+const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
         const response = yield fetch(url, {
@@ -46,7 +46,8 @@ const signUp = (code, res) => __awaiter(void 0, void 0, void 0, function* () {
                         }
                     });
                 }
-                res.send(`<script>window.location.replace("exp://192.168.0.29:8081?userId=${sub}")</script>`);
+                console.log(`Sending script to ${appUrl}`);
+                res.send(`<script>window.location.replace("${appUrl}?userId=${sub}")</script>`);
             }
         }
     }
@@ -57,13 +58,13 @@ const signUp = (code, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { code } = req.query;
+    const { code, state: appUrl } = req.query;
     if (!code) {
         return res.status(400).json({
             error: "Código inválido"
         });
     }
-    signUp(code, res);
+    signUp(code, appUrl, res);
 }));
 exports.default = app;
 //# sourceMappingURL=auth.js.map

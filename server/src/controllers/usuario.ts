@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { PrismaClient, Usuario } from '@prisma/client'
-import { CreateUsuarioInput, UpdateUsuarioInput } from '../interfaces/usuario';
+import { CreateUsuarioInput, UpdateUsuarioInput, Usuario } from '../interfaces/usuario';
 import { ApiResponse } from '../interfaces/apiResponse';
+import xprisma from '../middlewares/queries';
 
 const app = Router();
-const prisma = new PrismaClient();
 
 app.get('/usuario', async (req, res) => {
-  const users = await prisma.usuario.findMany();
+  const users = await xprisma.usuario.findMany();
   const response: ApiResponse<Usuario[]> = {
     message: "Usuarios obtenidos correctamente",
     data: users
@@ -16,7 +15,7 @@ app.get('/usuario', async (req, res) => {
 })
 
 app.get('/usuario/:id', async (req, res) => {
-  const user = await prisma.usuario.findUnique({
+  const user = await xprisma.usuario.findUnique({
     where: {
       id: req.params.id
     }
@@ -30,7 +29,7 @@ app.get('/usuario/:id', async (req, res) => {
 
 app.post('/usuario', async (req, res) => {
   const data: CreateUsuarioInput = req.body;
-  const user = await prisma.usuario.create({
+  const user = await xprisma.usuario.create({
     data: data
   });
   const response: ApiResponse<Usuario> = {
@@ -42,7 +41,7 @@ app.post('/usuario', async (req, res) => {
 
 app.put('/usuario/:id', async (req, res) => {
   const data: UpdateUsuarioInput = req.body;
-  const user = await prisma.usuario.update({
+  const user = await xprisma.usuario.update({
     where: {
       id: req.params.id
     },
@@ -56,7 +55,7 @@ app.put('/usuario/:id', async (req, res) => {
 });
 
 app.delete('/usuario/:id', async (req, res) => {
-  const user = await prisma.usuario.delete({
+  const user = await xprisma.usuario.delete({
     where: {
       id: req.params.id
     }
