@@ -1,4 +1,4 @@
-import { FlatList, Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Icon from '../../components/global/icon'
 import { colors } from '../../styles/colors'
@@ -26,13 +26,6 @@ const Home = () => {
       <CategoriaMapper />
       <FontedText style={styles.ofertasText} weight={700}>Ofertas promocionales</FontedText>
       <ScrollView horizontal={true} contentContainerStyle={styles.cardsContainer} showsHorizontalScrollIndicator={false}>
-        <TouchableOpacity style={styles.cardContainer}>
-          <Image style={styles.cardImage} source={{ uri: "https://i0.wp.com/elcalderoviajero.com/wp-content/uploads/2018/12/pique-a-lo-macho-12.jpg?fit=750%2C498&ssl=1" }} />
-          <View style={styles.cardTextContainer}>
-            <FontedText weight={700} style={styles.cardName}>Pique Macho</FontedText>
-            <FontedText weight={600} style={styles.cardPrice}>Bs. 25</FontedText>
-          </View>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.cardContainer}>
           <Image style={styles.cardImage} source={{ uri: "https://i0.wp.com/elcalderoviajero.com/wp-content/uploads/2018/12/pique-a-lo-macho-12.jpg?fit=750%2C498&ssl=1" }} />
           <View style={styles.cardTextContainer}>
