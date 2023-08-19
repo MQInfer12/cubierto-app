@@ -1,3 +1,5 @@
+import { Producto } from "./producto";
+
 type Usuario = {
   id: string;
   nombre: string;
@@ -9,6 +11,7 @@ type Usuario = {
   portada: string;
   descripcion: string;
   ubicacionActualId: number;
+  productos: Producto[]
 }
 
 export default Usuario;

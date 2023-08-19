@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Usuario } from "../interfaces/usuario";
+import Usuario from "../interfaces/usuario";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from "expo-router";
 
