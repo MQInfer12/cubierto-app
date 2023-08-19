@@ -6,26 +6,37 @@ import Organizacion from "./pages/Organizacion";
 import Estadisticas from "./pages/Estadisticas";
 import Ofertas from "./pages/Ofertas";
 import Register from "./pages/Login/Register";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Pedir from "./pages/dashboard/Pedir";
+import ProtectRoute from "./components/ProtectRoute";
+import Usuarios from "./pages/dashboard/Usuarios";
+
 
 function App() {
+  console.log(import.meta.env.VITE_OUTHID);
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navbar />}>
-            <Route path="/" element={<Home />} />
-<<<<<<< HEAD
-=======
 
->>>>>>> b931435a53fc70e91435c2b4f71ffe0919cd8382
-            <Route path="/ofertas" element={<Ofertas />} />
-            <Route path="/quienes-somos" element={<QuienesSomos />} />
-            <Route path="/estadisticas" element={<Estadisticas />} />
-            <Route path="/organizacion" element={<Organizacion />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+    <>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_OUTHID}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navbar />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/ofertas" element={<Ofertas />} />
+              <Route path="/quienes-somos" element={<QuienesSomos />} />
+              <Route path="/estadisticas" element={<Estadisticas />} />
+              <Route path="/organizacion" element={<Organizacion />} />
+              <Route path="/login" element={<Register />} />
+              <Route path="/pedir" element={
+                <ProtectRoute>
+                  <Usuarios />
+                  
+                </ProtectRoute>
+              } />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ComunStyles } from "../styles/styleGlobal";
@@ -8,10 +8,10 @@ const Footer = () => {
       <h2>LOGO</h2>
       <div>
         <div>
-          <Links>Link 1</Links>
-          <Links>Link 1</Links>
-          <Links>Link 1</Links>
-          <Links>Link 1</Links>
+          <Links to="" >Link 1</Links>
+          <Links to="">Link 1</Links>
+          <Links to="">Link 1</Links>
+          <Links to="">Link 1</Links>
         </div>
         <span />
         <section>
