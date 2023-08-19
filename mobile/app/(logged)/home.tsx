@@ -4,6 +4,7 @@ import Icon from '../../components/global/icon'
 import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
 import FontedText from '../../components/global/fontedText'
+import CategoriaMapper from '../../components/home/categoriaMapper'
 
 const Home = () => {
   return (
@@ -22,32 +23,7 @@ const Home = () => {
         </TouchableOpacity>
       </View>
       <Image style={styles.image} source={require('../../assets/images/homeImage.png')} />
-      <ScrollView horizontal={true} contentContainerStyle={styles.categoriesContainer} showsHorizontalScrollIndicator={false}>
-        <View style={styles.categorieContainer}>
-          <TouchableOpacity style={styles.categorieButton}>
-            <Icon color={colors.primary500} size={24} name="fast-food-outline" />
-          </TouchableOpacity>
-          <FontedText style={styles.categorieText}>Burgers</FontedText>
-        </View>
-        <View style={styles.categorieContainer}>
-          <TouchableOpacity style={styles.categorieButton}>
-            <Icon color={colors.primary500} size={24} name="beer-outline" />
-          </TouchableOpacity>
-          <FontedText style={styles.categorieText}>Bebidas</FontedText>
-        </View>
-        <View style={styles.categorieContainer}>
-          <TouchableOpacity style={styles.categorieButton}>
-            <Icon color={colors.primary500} size={24} name="pizza-outline" />
-          </TouchableOpacity>
-          <FontedText style={styles.categorieText}>Pizza</FontedText>
-        </View>
-        <View style={styles.categorieContainer}>
-          <TouchableOpacity style={styles.categorieButton}>
-            <Icon color={colors.primary500} size={24} name="restaurant-outline" />
-          </TouchableOpacity>
-          <FontedText style={styles.categorieText}>Variado</FontedText>
-        </View>
-      </ScrollView>
+      <CategoriaMapper />
       <FontedText style={styles.ofertasText} weight={700}>Ofertas promocionales</FontedText>
       <ScrollView horizontal={true} contentContainerStyle={styles.cardsContainer} showsHorizontalScrollIndicator={false}>
         <TouchableOpacity style={styles.cardContainer}>
@@ -110,29 +86,6 @@ const styles = StyleSheet.create({
   image: {
     minWidth: "100%",
     aspectRatio: 360 / 183
-  },
-  categoriesContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    gap: 32
-  },
-  categorieContainer: {
-    alignItems: "center",
-    gap: 8
-  },
-  categorieButton: {
-    backgroundColor: colors.white,
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    ...shadows.shadow400,
-  },
-  categorieText: {
-    fontSize: 12,
-    color: colors.gray500
   },
   ofertasText: {
     fontSize: 24,

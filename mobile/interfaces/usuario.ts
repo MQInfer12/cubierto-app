@@ -1,4 +1,4 @@
-export interface Usuario {
+type Usuario = {
   id: string;
   nombre: string;
   email: string;
@@ -11,5 +11,4 @@ export interface Usuario {
   ubicacionActualId: number;
 }
 
-export type CreateUsuarioInput = Usuario;
-export type UpdateUsuarioInput = Partial<Usuario>;
+export default Usuario;
