@@ -16,6 +16,24 @@ const prisma = new client_1.PrismaClient();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
+const checkGoogleUserId = (googleUser) => __awaiter(void 0, void 0, void 0, function* () {
+    let user = yield prisma.usuario.findUnique({
+        where: {
+            id: googleUser.sub
+        }
+    });
+    if (!user) {
+        user = yield prisma.usuario.create({
+            data: {
+                id: googleUser.sub,
+                nombre: googleUser.name,
+                email: googleUser.email,
+                foto: googleUser.picture
+            }
+        });
+    }
+    return user;
+});
 const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
@@ -30,24 +48,10 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
             const verify = yield fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${data.id_token}`);
             if (verify.ok) {
                 const userData = yield verify.json();
-                const { sub, name, email, picture } = userData;
-                let user = yield prisma.usuario.findUnique({
-                    where: {
-                        id: sub
-                    }
-                });
-                if (!user) {
-                    user = yield prisma.usuario.create({
-                        data: {
-                            id: sub,
-                            nombre: name,
-                            email: email,
-                            foto: picture
-                        }
-                    });
-                }
+                const googleUser = userData;
+                const user = yield checkGoogleUserId(googleUser);
                 console.log(`Sending script to ${appUrl}`);
-                res.send(`<script>window.location.replace("${appUrl}?userId=${sub}")</script>`);
+                res.send(`<script>window.location.replace("${appUrl}?userId=${user.id}")</script>`);
             }
         }
     }
@@ -65,6 +69,26 @@ app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     signUp(code, appUrl, res);
+}));
+app.post("/google/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const credential = req.body.credential;
+    try {
+        const resUserData = yield fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${credential}`);
+        if (resUserData.ok) {
+            const userData = yield resUserData.json();
+            const user = yield checkGoogleUserId(userData);
+            const response = {
+                message: "Datos del usuario encontrados correctamente",
+                data: user
+            };
+            res.json(response);
+        }
+    }
+    catch (e) {
+        res.json({
+            error: "¡Ocurrió un error inesperado, inténtalo de nuevo!"
+        });
+    }
 }));
 exports.default = app;
 //# sourceMappingURL=auth.js.map

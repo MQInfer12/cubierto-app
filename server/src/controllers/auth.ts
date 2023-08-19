@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Usuario } from '@prisma/client'
+import { ApiResponse } from '../interfaces/apiResponse';
 
 const app = Router();
 const prisma = new PrismaClient();
@@ -7,6 +8,32 @@ const prisma = new PrismaClient();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const BACKEND_URL = process.env.BACKEND_URL;
+
+interface GoogleUser {
+  sub: string
+  name: string
+  email: string
+  picture: string
+}
+
+const checkGoogleUserId = async (googleUser: GoogleUser) => {
+  let user = await prisma.usuario.findUnique({
+    where: {
+      id: googleUser.sub
+    }
+  });
+  if(!user) {
+    user = await prisma.usuario.create({
+      data: {
+        id: googleUser.sub,
+        nombre: googleUser.name,
+        email: googleUser.email,
+        foto: googleUser.picture
+      }
+    });
+  }
+  return user;
+}
 
 const signUp = async (code: string, appUrl: string, res: any) => {
   try {
@@ -22,24 +49,10 @@ const signUp = async (code: string, appUrl: string, res: any) => {
       const verify = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${data.id_token}`);
       if(verify.ok) {
         const userData = await verify.json();
-        const { sub, name, email, picture } = userData;
-        let user = await prisma.usuario.findUnique({
-          where: {
-            id: sub
-          }
-        });
-        if(!user) {
-          user = await prisma.usuario.create({
-            data: {
-              id: sub,
-              nombre: name,
-              email: email,
-              foto: picture
-            }
-          });
-        }
+        const googleUser: GoogleUser = userData;
+        const user = await checkGoogleUserId(googleUser);
         console.log(`Sending script to ${appUrl}`);
-        res.send(`<script>window.location.replace("${appUrl}?userId=${sub}")</script>`);
+        res.send(`<script>window.location.replace("${appUrl}?userId=${user.id}")</script>`);
       }
     }
   } catch (e) {
@@ -57,6 +70,26 @@ app.get("/google", async (req, res) => {
     })
   }
   signUp(code as string, appUrl as string, res);
+});
+
+app.post("/google/login", async (req, res) => {
+  const credential = req.body.credential;
+  try {
+    const resUserData = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${credential}`);
+    if(resUserData.ok) {
+      const userData: GoogleUser = await resUserData.json();
+      const user = await checkGoogleUserId(userData);
+      const response: ApiResponse<Usuario> = {
+        message: "Datos del usuario encontrados correctamente",
+        data: user
+      }
+      res.json(response);
+    }
+  } catch (e) {
+    res.json({
+      error: "¡Ocurrió un error inesperado, inténtalo de nuevo!"
+    });
+  }
 });
 
 export default app;
