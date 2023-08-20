@@ -5,15 +5,24 @@ import { Categoria } from '../../interfaces/categoria'
 import CategoriaCard from './categoriaCard'
 import CategoriaSkeleton from './categoriaSkeleton'
 
-const CategoriaMapper = () => {
-  const { res } = useGet<Categoria[]>('categoria');
+interface Props {
+  categorias: Categoria[] | undefined
+  categoriaSeleccionada: number | null
+  seleccionarCategoria: (id: number) => void
+}
 
+const CategoriaMapper = ({ categorias, categoriaSeleccionada, seleccionarCategoria }: Props) => {
   return (
     <ScrollView horizontal={true} contentContainerStyle={styles.categoriesContainer} showsHorizontalScrollIndicator={false}>
       {
-        res ?
-        res?.data.map(categoria => (
-          <CategoriaCard key={categoria.id} categoria={categoria} />
+        categorias ?
+        categorias.map(categoria => (
+          <CategoriaCard 
+            key={categoria.id} 
+            categoria={categoria} 
+            seleccionarCategoria={seleccionarCategoria} 
+            active={categoriaSeleccionada === categoria.id}
+          />
         )) :
         new Array(5).fill("skeleton").map((v, i) => (
           <CategoriaSkeleton key={i} />

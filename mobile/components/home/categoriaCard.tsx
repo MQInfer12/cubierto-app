@@ -8,15 +8,17 @@ import { Categoria } from '../../interfaces/categoria'
 
 interface Props {
   categoria: Categoria
+  seleccionarCategoria: (id: number) => void
+  active: Boolean
 }
 
-const CategoriaCard = ({ categoria }: Props) => {
+const CategoriaCard = ({ categoria, seleccionarCategoria, active }: Props) => {
   return (
     <View 
       style={styles.categorieContainer}
     >
-      <TouchableOpacity style={styles.categorieButton}>
-        <Icon color={colors.primary500} size={24} name={categoria.ionicon} />
+      <TouchableOpacity style={styles.categorieButton(active)} onPress={() => seleccionarCategoria(categoria.id)}>
+        <Icon color={active ? colors.white : colors.primary500} size={24} name={categoria.ionicon} />
       </TouchableOpacity>
       <FontedText style={styles.categorieText}>{categoria.nombre}</FontedText>
     </View>
@@ -25,13 +27,13 @@ const CategoriaCard = ({ categoria }: Props) => {
 
 export default CategoriaCard
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<any>({
   categorieContainer: {
     alignItems: "center",
     gap: 8
   },
-  categorieButton: {
-    backgroundColor: colors.white,
+  categorieButton: (active: Boolean) => ({
+    backgroundColor: active ? colors.primary500 : colors.white,
     width: 52,
     height: 52,
     borderRadius: 26,
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     ...shadows.shadow400,
-  },
+  }),
   categorieText: {
     fontSize: 12,
     color: colors.gray500

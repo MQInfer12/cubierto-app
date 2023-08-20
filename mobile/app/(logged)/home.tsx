@@ -1,12 +1,26 @@
 import { Image, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from '../../components/global/icon'
 import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
 import FontedText from '../../components/global/fontedText'
 import CategoriaMapper from '../../components/home/categoriaMapper'
+import { useGet } from '../../hooks/useGet'
+import { PedirResponse } from '../../interfaces/pages/pedir'
+import OfertaMapper from '../../components/home/ofertaMapper'
 
 const Home = () => {
+  const { res } = useGet<PedirResponse>('pedir');
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
+
+  const seleccionarCategoria = (id: number) => {
+    if(categoriaSeleccionada === id) {
+      setCategoriaSeleccionada(null);
+    } else {
+      setCategoriaSeleccionada(id);
+    }
+  }
+  
   return (
     <ScrollView>
       <View style={styles.controlsContainer}>
@@ -23,17 +37,17 @@ const Home = () => {
         </TouchableOpacity>
       </View>
       <Image style={styles.image} source={require('../../assets/images/homeImage.png')} />
-      <CategoriaMapper />
+      <CategoriaMapper 
+        categorias={res?.data.categorias} 
+        seleccionarCategoria={seleccionarCategoria}
+        categoriaSeleccionada={categoriaSeleccionada}
+      />
       <FontedText style={styles.ofertasText} weight={700}>Ofertas promocionales</FontedText>
-      <ScrollView horizontal={true} contentContainerStyle={styles.cardsContainer} showsHorizontalScrollIndicator={false}>
-        <TouchableOpacity style={styles.cardContainer}>
-          <Image style={styles.cardImage} source={{ uri: "https://i0.wp.com/elcalderoviajero.com/wp-content/uploads/2018/12/pique-a-lo-macho-12.jpg?fit=750%2C498&ssl=1" }} />
-          <View style={styles.cardTextContainer}>
-            <FontedText weight={700} style={styles.cardName}>Pique Macho</FontedText>
-            <FontedText weight={600} style={styles.cardPrice}>Bs. 25</FontedText>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
+      <OfertaMapper 
+        ofertas={res?.data.ofertas.filter(oferta => 
+          categoriaSeleccionada ? oferta.producto.categoriaId === categoriaSeleccionada : true
+        )}
+      />
     </ScrollView>
   )
 }
@@ -84,35 +98,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: colors.gray900,
     paddingHorizontal: 20
-  },
-  cardsContainer: {
-    paddingHorizontal: 20,
-    gap: 20,
-    paddingVertical: 24
-  },
-  cardContainer: {
-    height: 240,
-    width: 260,
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    ...shadows.shadow400
-  },
-  cardImage: {
-    height: 160,
-    borderRadius: 16
-  },
-  cardTextContainer: {
-    flex: 1,
-    justifyContent: "center",
-    gap: 6,
-    padding: 14
-  },
-  cardName: {
-    color: colors.gray900,
-    fontSize: 18
-  },
-  cardPrice: {
-    color: colors.gray500,
-    fontSize: 14
   }
 })

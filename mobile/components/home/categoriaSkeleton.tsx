@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Platform } from 'react-native'
 import React from 'react'
 import { Skeleton } from 'moti/skeleton'
 import { colors } from '../../styles/colors'
-import SkeletonSpacer from '../global/skeletonSpacer'
+import SkeletonSpacer from '../global/skeletons/skeletonSpacer'
+import SkeletonText from '../global/skeletons/skeletonText'
 
 const CategoriaSkeleton = () => {
   return (
@@ -15,11 +16,9 @@ const CategoriaSkeleton = () => {
         radius="round"
       />
       <SkeletonSpacer height={8} />
-      <Skeleton
-        width={52} 
-        height={12 * 1.33}
-        colorMode='light'
-        backgroundColor={colors.gray400}
+      <SkeletonText 
+        fontSize={12}
+        width={52}
       />
     </View>
   )
