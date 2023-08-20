@@ -2,25 +2,26 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Icon from './icon'
 import { colors } from '../../styles/colors'
-import { usePathname } from 'expo-router'
+import { Link, useNavigation, usePathname } from 'expo-router'
 import { router } from 'expo-router'
 import { shadows } from '../../styles/shadows'
 
 const Navbar = () => {
   const currentRoute = usePathname();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => router.replace('/home')}>
+      <TouchableOpacity onPress={() => router.push('/home')} style={styles.button}>
         <Icon name='home' color={currentRoute === "/home" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.replace('/cart')}>
+      <TouchableOpacity onPress={() => router.push('/cart')} style={styles.button}>
         <Icon name='cart' color={currentRoute === "/cart" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.replace('/starred')}>
+      <TouchableOpacity onPress={() => router.push('/starred')} style={styles.button}>
         <Icon name='heart' color={currentRoute === "/starred" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.replace('/profile')}>
+      <TouchableOpacity onPress={() => router.push('/profile')} style={styles.button}>
         <Icon name='person' color={currentRoute === "/profile" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
     </View>

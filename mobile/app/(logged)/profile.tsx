@@ -5,8 +5,10 @@ import { UseLoggedUser } from '../../hooks/useLoggedUser'
 import { colors } from '../../styles/colors';
 import FontedText from '../../components/global/fontedText';
 import Icon from '../../components/global/icon';
+import { useSetRouteName } from '../../context/routeName';
 
 const Home = () => {
+  useSetRouteName('Perfil');
   const user = UseLoggedUser();
   const { logout } = useUser();
 

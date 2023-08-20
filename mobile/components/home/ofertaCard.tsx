@@ -4,6 +4,7 @@ import { ProductoActivo } from '../../interfaces/productoActivo'
 import FontedText from '../global/fontedText'
 import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
+import { router } from 'expo-router'
 
 interface Props {
   oferta: ProductoActivo
@@ -11,7 +12,7 @@ interface Props {
 
 const OfertaCard = ({ oferta }: Props) => {
   return (
-    <TouchableOpacity style={styles.cardContainer}>
+    <TouchableOpacity onPress={() => router.push(`verOferta/${oferta.id}`)} style={styles.cardContainer}>
       <Image style={styles.cardImage} source={{ uri: oferta.producto.foto }} />
       <View style={styles.cardTextContainer}>
         <FontedText weight={700} style={styles.cardName}>{oferta.producto.nombre}</FontedText>
