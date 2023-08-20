@@ -56,9 +56,12 @@ app.put('/productoActivo/:id', async (req, res) => {
 });
 
 app.delete('/productoActivo/:id', async (req, res) => {
-  const productoActivo = await xprisma.productoActivo.delete({
+  const productoActivo = await xprisma.productoActivo.update({
     where: {
       id: Number(req.params.id)
+    },
+    data: {
+      eliminado: true
     }
   });
   const response: ApiResponse<ProductoActivo> = {

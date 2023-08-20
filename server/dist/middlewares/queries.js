@@ -4,19 +4,53 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const xprisma = prisma.$extends({
     query: {
+        $allModels: {
+            findMany({ args, query }) {
+                args.orderBy = {
+                    id: "desc"
+                };
+                return query(args);
+            }
+        },
         usuario: {
-            $allOperations({ model, operation, args, query }) {
+            $allOperations({ args, query }) {
                 const newArgs = args;
                 newArgs.include = Object.assign(Object.assign({}, newArgs.include), { productos: true });
                 return query(newArgs);
-            }
+            },
+            findMany({ args, query }) {
+                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                return query(args);
+            },
+            findUnique({ args, query }) {
+                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                return query(args);
+            },
+        },
+        producto: {
+            findMany({ args, query }) {
+                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                return query(args);
+            },
+            findUnique({ args, query }) {
+                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                return query(args);
+            },
         },
         productoActivo: {
-            $allOperations({ model, operation, args, query }) {
+            $allOperations({ args, query }) {
                 const newArgs = args;
                 newArgs.include = Object.assign(Object.assign({}, newArgs.include), { producto: true });
                 return query(newArgs);
-            }
+            },
+            findMany({ args, query }) {
+                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                return query(args);
+            },
+            findUnique({ args, query }) {
+                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                return query(args);
+            },
         }
     }
 });

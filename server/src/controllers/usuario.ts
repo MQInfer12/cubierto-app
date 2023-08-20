@@ -56,9 +56,12 @@ app.put('/usuario/:id', async (req, res) => {
 });
 
 app.delete('/usuario/:id', async (req, res) => {
-  const user = await xprisma.usuario.delete({
+  const user = await xprisma.usuario.update({
     where: {
       id: req.params.id
+    },
+    data: {
+      eliminado: true
     }
   });
   const response: ApiResponse<Usuario> = {

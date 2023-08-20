@@ -29,6 +29,7 @@ model Usuario {
   donacionesRecibidas Donacion[]  @relation("donaciones")
   favoritos           Favorito[]  @relation("usuario_favorito")
   favoritoDe          Favorito[]  @relation("restaurante_favorito")
+  eliminado           Boolean     @default(false)
 }
 
 model Ubicacion {
@@ -53,6 +54,7 @@ model Producto {
   categoria         Categoria?          @relation(fields: [categoriaId], references: [id])
   activos           ProductoActivo[]
   detalleDonaciones DetalleDonacion[]
+  eliminado         Boolean     @default(false)
 }
 
 model ProductoActivo {
@@ -60,10 +62,10 @@ model ProductoActivo {
   cantidad         Int
   precioDescontado Decimal
   fecha            DateTime       @default(now())
-  estado           Boolean        @default(true)
   productoId       Int
   producto         Producto       @relation(fields: [productoId], references: [id])
   detalleVentas    DetalleVenta[]
+  eliminado        Boolean        @default(false)
 }
 
 model Venta {

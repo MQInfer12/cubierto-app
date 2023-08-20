@@ -61,9 +61,12 @@ app.put('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function
     res.json(response);
 }));
 app.delete('/usuario/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield queries_1.default.usuario.delete({
+    const user = yield queries_1.default.usuario.update({
         where: {
             id: req.params.id
+        },
+        data: {
+            eliminado: true
         }
     });
     const response = {

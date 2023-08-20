@@ -61,9 +61,12 @@ app.put('/producto/:id', (req, res) => __awaiter(void 0, void 0, void 0, functio
     res.json(response);
 }));
 app.delete('/producto/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const producto = yield queries_1.default.producto.delete({
+    const producto = yield queries_1.default.producto.update({
         where: {
             id: Number(req.params.id)
+        },
+        data: {
+            eliminado: true
         }
     });
     const response = {
