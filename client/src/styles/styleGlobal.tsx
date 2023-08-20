@@ -1,7 +1,7 @@
 import { css } from "styled-components";
 
 export const colors = {
-  primary: "#0554F2",
+  primary: " #E75854;",
   secondary: "#056CF2",
   gr1: "#27133A",
   gr2: "#31384F",
@@ -20,6 +20,7 @@ export const sizes = {
   large: "992px",
   extraLarge: "1200px",
   modify: "50%",
+  por:"100%",
 };
 export const ComunStyles = css`
   display: flex;

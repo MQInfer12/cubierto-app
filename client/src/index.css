@@ -9,10 +9,7 @@
   font-family: 'Poppins', sans-serif;
  
 }
-body{
-  background-color: #E75854;
- 
-}
+
 ::-webkit-scrollbar {
   width: 10px; /* Ancho de la barra de desplazamiento */
 }

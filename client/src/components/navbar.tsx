@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { BtnRegister, ContentNavbar, Links } from "../styles/compStyle";
+import { BtnRegister, ConNab, ContentNavbar, Links } from "../styles/compStyle";
 import { useUser } from "../context/useUser";
 const Navbar = () => {
   const { user } = useUser();
   return (
-    <>
+    <ConNab>
       <ContentNavbar>
         <Links to="/">Logo</Links>
         <nav>
@@ -13,13 +13,12 @@ const Navbar = () => {
           <Links to="/organizacion">Organizacion</Links>
           <Links to="/ofertas">Ofertas</Links>
         </nav>
-
-        <BtnRegister to={user ? '/pedir' : '/login'}>{
+        <BtnRegister to={user ? 'dashboard' : '/login'}>{
           user ? 'dashboard' : 'login'
         }</BtnRegister>
       </ContentNavbar>
       <Outlet />
-    </>
+    </ConNab>
   );
 };
 
