@@ -9,7 +9,14 @@ interface Props {
 
 const FontedText = ({ children, style, weight = 400, ...props }: Props) => {
 return (
-    <Text style={[styles.text(weight), style]} {...props}>{ children }</Text>
+    <Text style={[
+      styles.text(weight), {
+        ...style, 
+        lineHeight: style?.lineHeight || (style?.fontSize || 12) * 1.33
+      }
+    ]} {...props}>
+      { children }
+    </Text>
   );
 }
 

@@ -9,7 +9,7 @@ type ApiResponse<T> = {
   data: T
 }
 
-export const sendRequest = async <T,>(route: string, body: Record<string, any>, options?: Options) => {
+export const sendRequest = async <T,>(route: string, body: Record<string, any> | null, options?: Options) => {
   const thisOptions: Options = {
     method: options?.method || "POST"
   }
@@ -19,7 +19,7 @@ export const sendRequest = async <T,>(route: string, body: Record<string, any>, 
       "Content-Type": "application/json",
       "Accept": "application/json"
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body || {})
   });
   if(res.ok) {
     const json: ApiResponse<T> = await res.json();
