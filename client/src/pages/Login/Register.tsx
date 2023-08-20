@@ -32,7 +32,6 @@ const Register = () => {
         shape="circle"
         size='medium'
       />
-
     </>
   )
 }

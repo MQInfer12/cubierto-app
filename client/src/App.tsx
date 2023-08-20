@@ -8,7 +8,7 @@ import Ofertas from "./pages/Ofertas";
 import Register from "./pages/Login/Register";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Pedir from "./pages/dashboard/Pedir";
-import ProtectRoute from "./components/ProtectRoute";
+import ProtectRoute from "./components/protectRoute";
 import Usuarios from "./pages/dashboard/Usuarios";
 
 
@@ -29,8 +29,7 @@ function App() {
               <Route path="/login" element={<Register />} />
               <Route path="/pedir" element={
                 <ProtectRoute>
-                  <Usuarios />
-                  
+                  <Pedir />
                 </ProtectRoute>
               } />
             </Route>
