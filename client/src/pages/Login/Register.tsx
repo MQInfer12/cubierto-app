@@ -21,7 +21,7 @@ const Register = () => {
     if (response.ok) {
       const user = await response.json();
       setUser(user);
-      navigate('/pedir');
+      navigate('/dashboard');
     }
 
   }

@@ -2,12 +2,20 @@ import { styled } from "styled-components";
 import { colors, ComunStyles, fonts, sizes, Stylecomun } from "./styleGlobal";
 import { Link } from "react-router-dom";
 
+export const Contenedor = styled.header`
+  background-color: ${colors.primary};
+`;
+export const ConNab = styled.nav`
+  background-color: ${colors.primary};
+  padding-top: 2rem;
+`;
 export const ContentNavbar = styled.header`
-  background-color: ${colors.trasparent};
+  background-color: ${colors.primary};
   width: 90%;
   ${ComunStyles}
   justify-content:space-between;
-  margin: 2rem auto 3rem auto;
+  margin: 0rem auto 3rem auto;
+
   font-size: 20px;
   & > nav {
     width: 90%;
@@ -48,7 +56,6 @@ export const Content = styled.article`
   ${ComunStyles};
   ${Stylecomun}
   gap: 18rem;
-
   & > section {
     ${ComunStyles};
     flex-direction: column;
@@ -57,7 +64,7 @@ export const Content = styled.article`
     color: #fff;
     & > h1 {
       font-size: 6rem;
-     
+
       line-height: 96px;
       ${fonts}
     }
