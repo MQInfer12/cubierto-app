@@ -2,17 +2,19 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import usuarioController from './controllers/usuario';
+
+import usuarioController from './controllers/models/usuario';
+import productoController from './controllers/models/producto';
+import ubicacionController from './controllers/models/ubicacion';
+import productoActivoController from './controllers/models/productoActivo';
+import ventaController from './controllers/models/venta';
+import detalleVentaController from './controllers/models/detalleVenta';
+import donacionController from './controllers/models/donacion';
+import detalleDonacionController from './controllers/models/detalleDonacion';
+import favoritoController from './controllers/models/favorito';
+import categoriaController from './controllers/models/categoria';
 import authController from './controllers/auth';
-import productoController from './controllers/producto';
-import ubicacionController from './controllers/ubicacion';
-import productoActivoController from './controllers/productoActivo';
-import ventaController from './controllers/venta';
-import detalleVentaController from './controllers/detalleVenta';
-import donacionController from './controllers/donacion';
-import detalleDonacionController from './controllers/detalleDonacion';
-import favoritoController from './controllers/favorito'
-import categoriaController from './controllers/categoria'
+import getPagesController from './controllers/pages/get';
 
 const app = express();
 const port = 3000;
@@ -38,6 +40,7 @@ app.use(donacionController);
 app.use(detalleDonacionController);
 app.use(favoritoController);
 app.use(categoriaController);
+app.use(getPagesController);
 
 app.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import xprisma from "../middlewares/queries";
-import { ApiResponse } from "../interfaces/apiResponse";
+import xprisma from "../../middlewares/queries";
+import { ApiResponse } from "../../interfaces/apiResponse";
 import { Donacion } from "@prisma/client";
-import { CreateDonacionInput, UpdateDonacionInput } from "../interfaces/donacion";
+import { CreateDonacionInput, UpdateDonacionInput } from "../../interfaces/models/donacion";
 
 const app = Router();
 

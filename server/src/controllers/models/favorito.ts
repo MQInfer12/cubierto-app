@@ -1,8 +1,8 @@
 import { Router } from "express";
-import xprisma from "../middlewares/queries";
-import { ApiResponse } from "../interfaces/apiResponse";
+import xprisma from "../../middlewares/queries";
+import { ApiResponse } from "../../interfaces/apiResponse";
 import { Favorito } from "@prisma/client";
-import { CreateFavoritoInput, UpdateFavoritoInput } from "../interfaces/favorito";
+import { CreateFavoritoInput, UpdateFavoritoInput } from "../../interfaces/models/favorito";
 
 const app = Router();
 

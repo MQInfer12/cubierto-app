@@ -1,8 +1,8 @@
 import { Router } from "express";
-import xprisma from "../middlewares/queries";
-import { ApiResponse } from "../interfaces/apiResponse";
+import xprisma from "../../middlewares/queries";
+import { ApiResponse } from "../../interfaces/apiResponse";
 import { Ubicacion } from "@prisma/client";
-import { CreateUbicacionInput, UpdateUbicacionInput } from "../interfaces/ubicacion";
+import { CreateUbicacionInput, UpdateUbicacionInput } from "../../interfaces/models/ubicacion";
 
 const app = Router();
 
