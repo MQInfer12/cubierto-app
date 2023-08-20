@@ -8,8 +8,10 @@ import CategoriaMapper from '../../components/home/categoriaMapper'
 import { useGet } from '../../hooks/useGet'
 import { PedirResponse } from '../../interfaces/pages/pedir'
 import OfertaMapper from '../../components/home/ofertaMapper'
+import { useSetRouteName } from '../../context/routeName'
 
 const Home = () => {
+  useSetRouteName('Home');
   const { res } = useGet<PedirResponse>('pedir');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
 
@@ -56,7 +58,6 @@ export default Home
 
 const styles = StyleSheet.create({
   controlsContainer: {
-    marginTop: 24,
     flexDirection: "row",
     gap: 16,
     paddingHorizontal: 20,

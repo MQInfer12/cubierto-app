@@ -8,7 +8,7 @@ interface Properties {
 }
 
 interface Functions {
-  setUser: (user: Usuario | null) => any
+  setUser: (user: Usuario | null) => Promise<void>
   logout: () => any
 }
 

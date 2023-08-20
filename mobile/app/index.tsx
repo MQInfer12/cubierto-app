@@ -1,15 +1,15 @@
 import { useUser } from '../context/user'
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useFonts } from 'expo-font'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Usuario } from '../interfaces/usuario'
+import Usuario from '../interfaces/usuario'
 
 const Index = () => {
   const { user, setUser } = useUser();
-  const [loadingUser, setLoadingUser] = useState(true);
-  
+  const [userLoaded, setUserLoaded] = useState(false);
+
   const [fontsLoaded] = useFonts({
     "Poppins100": require('../assets/fonts/Poppins-ExtraLight.ttf'),
     "Poppins200": require('../assets/fonts/Poppins-Light.ttf'),
@@ -32,20 +32,23 @@ const Index = () => {
   useEffect(() => {
     const getLocalUser = async () => {
       const localUser = await AsyncStorage.getItem("user");
-      setUser(localUser ? JSON.parse(localUser) as Usuario : null);
-      setLoadingUser(false);
+      await setUser(localUser ? JSON.parse(localUser) as Usuario : null);
+      setUserLoaded(true);
     }
     getLocalUser();
   }, []);
 
-  if(!fontsLoaded || loadingUser) return null;
+  useEffect(() => {
+    const hideSS = async () => {
+      await SplashScreen.hideAsync();
+      router.replace(user ? '/home' : '/login')
+    }
+    if(fontsLoaded && userLoaded) {
+      hideSS();
+    }
+  }, [fontsLoaded, userLoaded]);
 
-  const goTo = async () => {
-    await SplashScreen.hideAsync();
-    router.replace(user ? '/home' : '/login')
-  }
-
-  goTo();
+  return null;
 }
 
 export default Index

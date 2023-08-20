@@ -2,11 +2,13 @@ import { Slot } from 'expo-router'
 import { StyleSheet, View } from 'react-native'
 import Navbar from '../../components/global/navbar'
 import { colors } from '../../styles/colors'
+import Navigation from '../../components/global/navigation'
 
 const LoggedLayout = () => {
   return (
     <>
     <View style={styles.bodyContainer}>
+      <Navigation />
       <Slot />
     </View>
     <Navbar />

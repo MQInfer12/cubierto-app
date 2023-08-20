@@ -9,6 +9,7 @@ const OfertaSkeleton = () => {
       width={260}
       colorMode='light'
       backgroundColor={colors.gray400}
+      radius={16}
     />
   )
 }
