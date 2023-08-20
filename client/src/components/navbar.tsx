@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { BtnRegister, ContentNavbar, Links } from "../styles/compStyle";
+import { useUser } from "../context/useUser";
 const Navbar = () => {
+  const { user } = useUser();
   return (
     <>
       <ContentNavbar>
@@ -11,7 +13,10 @@ const Navbar = () => {
           <Links to="/organizacion">Organizacion</Links>
           <Links to="/ofertas">Ofertas</Links>
         </nav>
-        <BtnRegister to="/register">Register</BtnRegister>
+
+        <BtnRegister to={user ? '/pedir' : '/login'}>{
+          user ? 'dashboard' : 'login'
+        }</BtnRegister>
       </ContentNavbar>
       <Outlet />
     </>
