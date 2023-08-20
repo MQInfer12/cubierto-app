@@ -123,10 +123,18 @@ export const CasrStyle = styled.div`
   gap: 2em;
 margin:0 auto;
   & > div {
+    box-shadow:0 3px 10px 5px #0005;
+    transition:all .5s ease-in-out;
+    border-radius: 8px 8px 0px 0px;
+
+    &:hover{
+        transform:scale(1.1);
+      }
     & > img {
       width: 300px;
       height: 168px;
       border-radius: 8px 8px 0px 0px;
+      
     }
     & > article {
       display: flex;
