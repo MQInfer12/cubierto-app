@@ -17,6 +17,6 @@ export const shadows = {
     },
     shadowOpacity:  0.1,
     shadowRadius: 2.00,
-    elevation: 4
+    elevation: 10
   }
 }

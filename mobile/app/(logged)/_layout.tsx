@@ -20,7 +20,6 @@ export default LoggedLayout
 
 const styles = StyleSheet.create({
   bodyContainer: {
-    paddingTop: 48,
     flex: 1,
     backgroundColor: colors.bg
   }
