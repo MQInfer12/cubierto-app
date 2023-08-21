@@ -1,16 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import FontedText from '../../components/global/fontedText'
-import { colors } from '../../styles/colors'
 import NothingHere from '../../components/global/nothingHere'
 import { useSetRouteName } from '../../context/routeName'
+import { useCart } from '../../context/cart'
+import ItemMapper from '../../components/cart/itemMapper'
 
 const Cart = () => {
+  const { items } = useCart();
   useSetRouteName('Mis pedidos');
   
   return (
     <View style={styles.container}>
-      <NothingHere text="¡Ups, no tienes pedidos!" />
+      {
+        items.length ?
+        <ItemMapper />
+        :
+        <NothingHere text="¡Ups, no tienes pedidos!" />
+      }
     </View>
   )
 }
