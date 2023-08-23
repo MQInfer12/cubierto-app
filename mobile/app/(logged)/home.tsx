@@ -1,5 +1,5 @@
 import { Image, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Icon from '../../components/global/icon'
 import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
@@ -9,10 +9,13 @@ import { useGet } from '../../hooks/useGet'
 import { PedirResponse } from '../../interfaces/pages/pedir'
 import OfertaMapper from '../../components/home/ofertaMapper'
 import { useSetRouteName } from '../../context/routeName'
+import { useCart } from '../../context/cart'
+import { router } from 'expo-router'
 
 const Home = () => {
   useSetRouteName('Home');
   const { res } = useGet<PedirResponse>('pedir');
+  const { items } = useCart();
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
 
   const seleccionarCategoria = (id: number) => {
@@ -22,7 +25,15 @@ const Home = () => {
       setCategoriaSeleccionada(id);
     }
   }
+
+  useEffect(() => {
+    if(items.length) {
+      const idRestaurante = items[0].productoActivo.producto.usuarioId;
+      router.replace(`/restaurante/${idRestaurante}`)
+    }
+  }, [items]);
   
+  if(items.length) return null;
   return (
     <ScrollView>
       <View style={styles.controlsContainer}>

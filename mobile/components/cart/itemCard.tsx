@@ -1,6 +1,6 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { CartItem } from '../../context/cart'
+import { Image, StyleSheet, View } from 'react-native'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { CartItem, useCart } from '../../context/cart'
 import { colors } from '../../styles/colors'
 import FontedText from '../global/fontedText'
 import NumberInput from '../global/numberInput'
@@ -11,13 +11,18 @@ interface Props {
 
 const ItemCard = ({ item }: Props) => {
   const [cantidad, setCantidad] = useState(item.cantidad);
+  const { removeItem, changeQuantity } = useCart();
+
+  useEffect(() => {
+    setCantidad(item.cantidad);
+  }, [item.cantidad]);
 
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: item.productoActivo.producto.foto }} />
       <View style={styles.rightContainer}>
         <View style={styles.upTextContainer}>
-          <FontedText style={styles.nameText} weight={700}>{item.productoActivo.producto.nombre}</FontedText>
+          <FontedText numberOfLines={1} style={styles.nameText} weight={700}>{item.productoActivo.producto.nombre}</FontedText>
           <FontedText style={styles.priceText}>Bs. {item.productoActivo.precioDescontado * cantidad}</FontedText>
         </View>
         <View style={styles.bottomContainer}>
@@ -28,6 +33,9 @@ const ItemCard = ({ item }: Props) => {
               setValue={setCantidad}
               min={1}
               max={item.productoActivo.cantidad}
+              handleRemove={() => removeItem(item.productoActivo.id)}
+              handleAdd={() => changeQuantity(item.productoActivo.id, 1)}
+              handleSubstract={() => changeQuantity(item.productoActivo.id, -1)}
             />
           </View>
         </View>
@@ -65,7 +73,7 @@ const styles = StyleSheet.create({
   },
   priceText: {
     color: colors.gray600,
-    fontSize: 16,
+    fontSize: 14,
     alignSelf: "flex-end"
   },
   bottomContainer: {

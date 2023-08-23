@@ -12,13 +12,29 @@ interface Properties {
 
 interface Functions {
   setNewItem: (newItem: CartItem) => void
+  removeItem: (idItem: number) => void
+  changeQuantity: (idItem: number, number: number) => void
 }
 
 export const useCart = create<Properties & Functions>((set) => {
   return {
     items: [],
-    setNewItem: async (newItem) => {
+    setNewItem: (newItem) => {
       set(old => ({...old, items: [...old.items, newItem] }))
+    },
+    removeItem: (idItem) => {
+      set(old => ({...old, items: old.items.filter(item => item.productoActivo.id !== idItem)}))
+    },
+    changeQuantity: (idItem, number) => {
+      set(old => ({
+        ...old,
+        items: old.items.map(item => {
+          if(item.productoActivo.id === idItem) {
+            item.cantidad += number;
+          }
+          return item;
+        })
+      }))
     }
   }
 })

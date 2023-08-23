@@ -2,9 +2,8 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Icon from './icon'
 import { colors } from '../../styles/colors'
-import { Link, useNavigation, usePathname } from 'expo-router'
+import { useNavigation, usePathname } from 'expo-router'
 import { router } from 'expo-router'
-import { shadows } from '../../styles/shadows'
 
 const Navbar = () => {
   const currentRoute = usePathname();
@@ -38,7 +37,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.white,
     paddingBottom: 34,
-    ...shadows.shadow900
+    borderTopWidth: 1,
+    borderColor: colors.gray400
   },
   button: {
     padding: 12

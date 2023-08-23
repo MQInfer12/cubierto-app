@@ -2,6 +2,7 @@ import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
+import { RestauranteResponse } from "../../interfaces/pages/restaurante";
 
 const app = Router();
 
@@ -16,6 +17,29 @@ app.get('/pedir', async (req, res) => {
     }
   }
   res.json(response);
-})
+});
+
+app.get('/restaurante/:idRestaurante', async (req, res) => {
+  const restaurante = await xprisma.usuario.findUnique({
+    where: {
+      id: req.params.idRestaurante
+    }
+  });
+  const ofertasActivas = await xprisma.productoActivo.findMany({
+    where: {
+      producto: {
+        usuarioId: req.params.idRestaurante
+      }
+    }
+  });
+  const response: ApiResponse<RestauranteResponse> = {
+    message: "Datos obtenidos correctamente",
+    data: {
+      restaurante,
+      ofertasActivas
+    }
+  }
+  res.json(response);
+});
 
 export default app;

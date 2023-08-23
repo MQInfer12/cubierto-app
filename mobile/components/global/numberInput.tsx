@@ -4,25 +4,48 @@ import Icon from './icon'
 import { colors } from '../../styles/colors'
 import FontedText from './fontedText'
 
-interface Props {
+type Props = {
   value: number
   setValue: React.Dispatch<React.SetStateAction<number>>,
   min: number
   max: number
+  handleRemove?: () => any
+  handleAdd?: () => any
+  handleSubstract?: () => any
 }
 
-const NumberInput = ({ setValue, value, max, min }: Props) => {
+const NumberInput = ({ setValue, value, max, min, handleRemove, handleAdd, handleSubstract }: Props) => {
   return (
     <View style={styles.inputNumberContainer}>
       <TouchableOpacity 
-        onPress={() => value >= min + 1 && setValue(value - 1)} 
+        onPress={() => {
+          if(value >= min + 1) {
+            if(handleSubstract) {
+              handleSubstract()
+            } else {
+              setValue(value - 1)
+            }
+          } else {
+            if(handleRemove) {
+              handleRemove()
+            }
+          }
+        }} 
         style={styles.sideIconContainer}
       >
-        <Icon name="remove-outline" size={18} color={colors.primary500} />
+        <Icon name={handleRemove && value === min ? "trash-outline" : "remove-outline"} size={18} color={colors.primary500} />
       </TouchableOpacity>
       <FontedText style={styles.inputText}>{value}</FontedText>
       <TouchableOpacity 
-        onPress={() => value <= max - 1 && setValue(value + 1)} 
+        onPress={() => {
+          if(value <= max - 1) {
+            if(handleAdd) {
+              handleAdd();
+            } else {
+              setValue(value + 1)
+            }
+          }
+        }} 
         style={styles.sideIconContainer}
       >
         <Icon name="add" size={18} color={colors.primary500} />

@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Image, Dimensions, TextInput, TouchableOpacity, Pressable } from 'react-native'
+import { StyleSheet, View, ScrollView, Image, Dimensions, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { useSetRouteName } from '../../../context/routeName';
@@ -6,9 +6,10 @@ import { ProductoActivo } from '../../../interfaces/productoActivo';
 import { useGet } from '../../../hooks/useGet';
 import { colors } from '../../../styles/colors';
 import FontedText from '../../../components/global/fontedText';
-import Icon from '../../../components/global/icon';
 import { useCart } from '../../../context/cart';
 import NumberInput from '../../../components/global/numberInput';
+import { router } from 'expo-router';
+import Button from '../../../components/global/button';
 
 const MAXHEIGHT = Dimensions.get('window').height;
 
@@ -24,7 +25,8 @@ const VerOferta = () => {
     setNewItem({
       cantidad: cantidad,
       productoActivo: res?.data
-    })
+    });
+    router.push("/cart");
   }
 
   return (
@@ -41,9 +43,7 @@ const VerOferta = () => {
             min={1}
             max={res.data.cantidad}
           />
-          <TouchableOpacity onPress={handleAddToCart} style={styles.buttonAdd}>
-            <FontedText weight={700} style={styles.buttonAddText}>Añadir al carrito</FontedText>
-          </TouchableOpacity>
+          <Button onPress={handleAddToCart}>Añadir al carrito</Button>
         </View>
         <ScrollView contentContainerStyle={styles.scroll}>
           <FontedText style={styles.nameText} weight={700}>{res.data.producto.nombre}</FontedText>
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     top: 0,
-    objectFit: 'cover'
   },
   container: {
     position: "absolute",
@@ -104,14 +103,5 @@ const styles = StyleSheet.create({
     right: 20,
     marginBottom: 20,
     gap: 8
-  },
-  buttonAdd: {
-    backgroundColor: colors.primary500,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8
-  },
-  buttonAddText: {
-    color: colors.white
-  },
+  }
 })

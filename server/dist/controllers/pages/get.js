@@ -27,5 +27,27 @@ app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     };
     res.json(response);
 }));
+app.get('/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const restaurante = yield queries_1.default.usuario.findUnique({
+        where: {
+            id: req.params.idRestaurante
+        }
+    });
+    const ofertasActivas = yield queries_1.default.productoActivo.findMany({
+        where: {
+            producto: {
+                usuarioId: req.params.idRestaurante
+            }
+        }
+    });
+    const response = {
+        message: "Datos obtenidos correctamente",
+        data: {
+            restaurante,
+            ofertasActivas
+        }
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map
