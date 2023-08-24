@@ -15,6 +15,7 @@ import favoritoController from './controllers/models/favorito';
 import categoriaController from './controllers/models/categoria';
 import authController from './controllers/auth';
 import getPagesController from './controllers/pages/get';
+import postPagesController from './controllers/pages/post';
 
 const app = express();
 const port = 3000;
@@ -41,6 +42,7 @@ app.use(detalleDonacionController);
 app.use(favoritoController);
 app.use(categoriaController);
 app.use(getPagesController);
+app.use(postPagesController);
 
 app.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);

@@ -7,7 +7,7 @@ const xprisma = prisma.$extends({
     $allModels: {
       findMany({ args, query }) {
         args.orderBy = {
-          id: "desc"
+          id: "asc"
         }
         return query(args);
       }
@@ -57,7 +57,8 @@ const xprisma = prisma.$extends({
         const newArgs = args as any;
         newArgs.include = {
           ...newArgs.include,
-          producto: true
+          producto: true,
+          detalleVentas: true
         }
         return query(newArgs);
       },
