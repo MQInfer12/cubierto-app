@@ -20,7 +20,19 @@ const xprisma = prisma.$extends({
           productos: true,
           ventas: {
             include: {
-              detalles: true
+              detalles: {
+                include: {
+                  productoActivo: {
+                    include: {
+                      producto: {
+                        include: {
+                          usuario: true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -42,6 +54,14 @@ const xprisma = prisma.$extends({
       },
     },
     producto: {
+      $allOperations({ args, query}) {
+        const newArgs = args as any;
+        newArgs.include = {
+          ...newArgs.include, 
+          usuario: true
+        }
+        return query(newArgs);
+      },
       findMany({ args, query }) {
         args.where = {
           ...args.where,

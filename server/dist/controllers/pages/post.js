@@ -35,7 +35,15 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             id: venta.id
         },
         include: {
-            detalles: true
+            detalles: {
+                include: {
+                    productoActivo: {
+                        include: {
+                            producto: true
+                        }
+                    }
+                }
+            }
         }
     });
     const response = {

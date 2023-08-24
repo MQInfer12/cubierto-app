@@ -26,7 +26,15 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
       id: venta.id
     },
     include: {
-      detalles: true
+      detalles: {
+        include: {
+          productoActivo: {
+            include: {
+              producto: true
+            }
+          }
+        }
+      }
     }
   });
   const response: ApiResponse<Venta> = {
