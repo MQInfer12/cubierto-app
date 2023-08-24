@@ -21,9 +21,17 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
       ventaId: venta.id
     }))
   });
+  const ventaConDetalles = await xprisma.venta.findUnique({
+    where: {
+      id: venta.id
+    },
+    include: {
+      detalles: true
+    }
+  });
   const response: ApiResponse<Venta> = {
     message: "Se pidieron los productos correctamente",
-    data: venta
+    data: ventaConDetalles
   }
   res.json(response);
 });

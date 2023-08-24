@@ -30,9 +30,17 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             ventaId: venta.id
         }))
     });
+    const ventaConDetalles = yield queries_1.default.venta.findUnique({
+        where: {
+            id: venta.id
+        },
+        include: {
+            detalles: true
+        }
+    });
     const response = {
         message: "Se pidieron los productos correctamente",
-        data: venta
+        data: ventaConDetalles
     };
     res.json(response);
 }));
