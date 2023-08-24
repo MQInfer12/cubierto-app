@@ -30,7 +30,11 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
         include: {
           productoActivo: {
             include: {
-              producto: true
+              producto: {
+                include: {
+                  usuario: true
+                }
+              }
             }
           }
         }

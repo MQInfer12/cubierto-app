@@ -39,7 +39,11 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
                 include: {
                     productoActivo: {
                         include: {
-                            producto: true
+                            producto: {
+                                include: {
+                                    usuario: true
+                                }
+                            }
                         }
                     }
                 }
