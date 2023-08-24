@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 14,
-    fontFamily: "Poppins400",
+    fontFamily: "Biko400",
     color: colors.gray600,
     flex: 1,
     paddingRight: 24,

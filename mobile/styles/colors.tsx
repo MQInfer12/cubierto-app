@@ -1,5 +1,6 @@
 export const colors = {
-  gray900: "#2c2c2c",
+  gray900: "rgb(46, 23, 29)",
+  gray700: "rgb(93, 93, 93)",
   gray600: "#8d8a8a",
   gray500: "#ADA7A7",
   gray400: "#D9D9D9",
@@ -7,5 +8,7 @@ export const colors = {
   bg: "#E4EAF1",
   bgTransparent: "rgba(228, 234, 241, 0.8)",
   navTextColor: "#000000",
-  primary500: "#E75854"
+  primary700: "rgb(109, 55, 31)",
+  primary600: "rgb(195, 59, 11)",
+  primary500: "rgb(255, 54, 26)",
 }

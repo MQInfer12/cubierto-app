@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   inputText: {
     flex: 1,
     textAlign: "center",
-    fontFamily: "Poppins600",
+    fontFamily: "Biko600",
     color: colors.gray500,
     fontSize: 16
   }

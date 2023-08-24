@@ -11,15 +11,9 @@ const Index = () => {
   const [userLoaded, setUserLoaded] = useState(false);
 
   const [fontsLoaded] = useFonts({
-    "Poppins100": require('../assets/fonts/Poppins-ExtraLight.ttf'),
-    "Poppins200": require('../assets/fonts/Poppins-Light.ttf'),
-    "Poppins300": require('../assets/fonts/Poppins-Thin.ttf'),
-    "Poppins400": require('../assets/fonts/Poppins-Regular.ttf'),
-    "Poppins500": require('../assets/fonts/Poppins-Medium.ttf'),
-    "Poppins600": require('../assets/fonts/Poppins-SemiBold.ttf'),
-    "Poppins700": require('../assets/fonts/Poppins-Bold.ttf'),
-    "Poppins800": require('../assets/fonts/Poppins-ExtraBold.ttf'),
-    "Poppins900": require('../assets/fonts/Poppins-Black.ttf')
+    "Biko400": require('../assets/fonts/Biko_Regular.otf'),
+    "Biko600": require('../assets/fonts/Biko_Bold.otf'),
+    "Biko700": require('../assets/fonts/Biko_Black.otf')
   }) 
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Image, Dimensions, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, View, ScrollView, Image, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { useSetRouteName } from '../../../context/routeName';
@@ -10,13 +10,14 @@ import { useCart } from '../../../context/cart';
 import NumberInput from '../../../components/global/numberInput';
 import { router } from 'expo-router';
 import Button from '../../../components/global/button';
+import { LinearGradient } from 'expo-linear-gradient'
 
 const MAXHEIGHT = Dimensions.get('window').height;
 
 const VerOferta = () => {
   useSetRouteName('Ver producto');
   const { idOferta } = useLocalSearchParams();
-  const { setNewItem } = useCart();
+  const { items, setNewItem } = useCart();
   const { res } = useGet<ProductoActivo>(`productoActivo/${idOferta}`);
   const [cantidad, setCantidad] = useState(1);
 
@@ -29,22 +30,43 @@ const VerOferta = () => {
     router.push("/cart");
   }
 
+  const cantidadEnCarrito = items.find(item => item.productoActivo.id === Number(idOferta))?.cantidad;
+  const maxproducts = (res?.data.cantidad || 1) - (cantidadEnCarrito || 0);
+
   return (
     <>
     {
       res &&
       <>
-      <Image style={styles.image} source={{ uri: res.data.producto.foto }} />
-      <View style={styles.container}>
-        <View style={styles.buttonsContainer}>
-          <NumberInput 
-            value={cantidad}
-            setValue={setCantidad}
-            min={1}
-            max={res.data.cantidad}
+      <View style={styles.imageContainer}>
+        <View style={styles.imageRelative}>
+          <Image style={styles.image} source={{ uri: res.data.producto.foto }} />
+          <LinearGradient 
+            style={styles.gradient}
+            colors={['rgba(0, 0, 0, 0)', colors.gray900]}
+            locations={[0.5, 1]}
           />
-          <Button onPress={handleAddToCart}>Añadir al carrito</Button>
         </View>
+      </View>
+      <View style={styles.container}>
+          <View style={styles.buttonsContainer}>
+            {
+              !!maxproducts ?
+              <>
+              <NumberInput 
+                value={cantidad}
+                setValue={setCantidad}
+                min={1}
+                max={maxproducts}
+              />
+              <Button onPress={handleAddToCart}>Añadir al carrito</Button>
+              </> :
+              <View style={styles.noStockContainer}>
+                <FontedText weight={700} style={styles.noStockText}>¡Ya no hay stock!</FontedText>
+                {cantidadEnCarrito ? <FontedText weight={600} style={styles.inMyCartText}>En tu carrito: {cantidadEnCarrito}</FontedText> : null}
+              </View>
+            }
+          </View>
         <ScrollView contentContainerStyle={styles.scroll}>
           <FontedText style={styles.nameText} weight={700}>{res.data.producto.nombre}</FontedText>
           <FontedText style={styles.priceText} weight={600}>Bs. {res.data.precioDescontado}</FontedText>
@@ -60,12 +82,26 @@ const VerOferta = () => {
 export default VerOferta
 
 const styles = StyleSheet.create({
-  image: {
+  imageContainer: {
     height: MAXHEIGHT - 236 - 106,
     width: "100%",
     position: "absolute",
     left: 0,
     top: 0,
+  },
+  imageRelative: {
+    height: "100%",
+    width: "100%",
+  },
+  image: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  gradient: {
+    flex: 1
   },
   container: {
     position: "absolute",
@@ -103,5 +139,23 @@ const styles = StyleSheet.create({
     right: 20,
     marginBottom: 20,
     gap: 8
+  },
+  noStockText: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 12,
+    color: colors.white,
+    fontSize: 18
+  },
+  noStockContainer: {
+    gap: -20,
+  },
+  inMyCartText: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 12,
+    color: colors.white,
+    fontSize: 14,
+    alignSelf: "flex-end"
   }
 })

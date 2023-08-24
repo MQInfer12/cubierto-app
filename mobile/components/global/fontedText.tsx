@@ -23,7 +23,7 @@ return (
 
 const styles = StyleSheet.create<any>({
   text: (weight: number): TextStyle => ({
-    fontFamily: `Poppins${weight}`
+    fontFamily: `Biko${weight}`
   })
 })
 
