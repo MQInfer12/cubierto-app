@@ -30,8 +30,12 @@ const VerOferta = () => {
     router.push("/cart");
   }
 
+  const cantidadVendida = res?.data.detalleVentas.reduce((suma, detalle) => {
+    suma += detalle.cantidad;
+    return suma;
+  }, 0);
   const cantidadEnCarrito = items.find(item => item.productoActivo.id === Number(idOferta))?.cantidad;
-  const maxproducts = (res?.data.cantidad || 1) - (cantidadEnCarrito || 0);
+  const maxproducts = (res?.data.cantidad || 1) - (cantidadEnCarrito || 0) - (cantidadVendida || 0);
 
   return (
     <>
@@ -53,6 +57,7 @@ const VerOferta = () => {
             {
               !!maxproducts ?
               <>
+              <FontedText weight={600} style={styles.cantidadText}>Disponibles: {maxproducts}</FontedText>
               <NumberInput 
                 value={cantidad}
                 setValue={setCantidad}
@@ -157,5 +162,10 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 14,
     alignSelf: "flex-end"
+  },
+  cantidadText: {
+    borderRadius: 12,
+    color: colors.white,
+    fontSize: 14,
   }
 })

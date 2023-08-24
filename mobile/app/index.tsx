@@ -26,7 +26,7 @@ const Index = () => {
   useEffect(() => {
     const getLocalUser = async () => {
       const localUser = await AsyncStorage.getItem("user");
-      await setUser(localUser ? JSON.parse(localUser) as Usuario : null);
+      setUser(localUser ? JSON.parse(localUser) as Usuario : null);
       setUserLoaded(true);
     }
     getLocalUser();

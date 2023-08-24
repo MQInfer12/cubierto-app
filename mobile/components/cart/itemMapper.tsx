@@ -1,17 +1,32 @@
-import { StyleSheet, ScrollView, View } from 'react-native'
+import { StyleSheet, ScrollView, View, Alert } from 'react-native'
 import React from 'react'
 import { useCart } from '../../context/cart'
 import ItemCard from './itemCard';
 import Button from '../global/button';
 import { router } from 'expo-router';
+import NothingHere from '../global/nothingHere';
+import { sendRequest } from '../../utilities/sendRequest';
+import { useUser } from '../../context/user';
+import { Venta } from '../../interfaces/venta';
 
-const ItemMapper = () => {
+interface Props {
+  irAMisVentas: () => any
+}
+
+const ItemMapper = ({ irAMisVentas }: Props) => {
   const { items } = useCart();
+  const { user, addVenta } = useUser();
 
-  const handlePedir = () => {
-    console.log(items);
+  const handlePedir = async () => {
+    const res = await sendRequest<Venta>(`carrito/enviar/${user?.id}`, items);
+    if(res) {
+      addVenta(res.data);
+      Alert.alert("Se envió tu pedido correctamente");
+      irAMisVentas();
+    }
   }
 
+  if(!items.length) return <NothingHere text='¡Tu carrito está vacío!' />
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.buttons}>
@@ -30,7 +45,7 @@ export default ItemMapper
 const styles = StyleSheet.create({
   container: {
     gap: 16,
-    paddingBottom: 20,
+    paddingVertical: 20,
     alignItems: "center"
   },
   buttons: {

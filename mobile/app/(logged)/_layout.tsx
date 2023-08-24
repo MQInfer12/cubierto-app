@@ -3,16 +3,17 @@ import { StyleSheet, View } from 'react-native'
 import Navbar from '../../components/global/navbar'
 import { colors } from '../../styles/colors'
 import Navigation from '../../components/global/navigation'
+import ReloadUser from '../../components/wrappers/reloadUser'
 
 const LoggedLayout = () => {
   return (
-    <>
-    <View style={styles.bodyContainer}>
-      <Navigation />
-      <Slot />
-    </View>
-    <Navbar />
-    </>
+    <ReloadUser>
+      <View style={styles.bodyContainer}>
+        <Navigation />
+        <Slot />
+      </View>
+      <Navbar />
+    </ReloadUser>
   )
 }
 

@@ -1,4 +1,5 @@
 import { Producto } from "./producto";
+import { Venta } from "./venta";
 
 type Usuario = {
   id: string;
@@ -11,7 +12,8 @@ type Usuario = {
   portada: string;
   descripcion: string;
   ubicacionActualId: number;
-  productos: Producto[]
+  productos: Producto[];
+  ventas: Venta[]
 }
 
 export default Usuario;

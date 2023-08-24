@@ -1,3 +1,4 @@
+import { DetalleVenta } from "./detalleVenta";
 import { Producto } from "./producto";
 
 export interface ProductoActivo {
@@ -8,4 +9,5 @@ export interface ProductoActivo {
   productoId: number;
   eliminado: boolean;
   producto: Producto;
+  detalleVentas: DetalleVenta[];
 }
