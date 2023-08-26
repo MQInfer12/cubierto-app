@@ -2,7 +2,7 @@ import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { CreateColaInput } from "../../interfaces/models/cola";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import { Cola } from "@prisma/client";
+import { Cola, ProductoActivo } from "@prisma/client";
 import pusher from "../../utilities/pusher";
 
 const app = Router();
@@ -34,6 +34,11 @@ app.post('/cola/entrar', async (req, res) => {
   res.json(response);
 }); 
 
+interface SalirColaResponse {
+  cola: Cola[]
+  productoActivos: ProductoActivo[]
+}
+
 app.delete('/cola/salir/:id', async (req, res) => {
   const salio = await xprisma.cola.delete({
     where: {
@@ -43,14 +48,27 @@ app.delete('/cola/salir/:id', async (req, res) => {
       usuario: true
     }
   });
+
+  //DATOS PARA ACTUALIZAR
   const cola = await xprisma.cola.findMany({
     where: {
       restauranteId: salio.restauranteId
     }
   });
-  const response: ApiResponse<Cola[]> = {
+  const productoActivos = await xprisma.productoActivo.findMany({
+    where: {
+      producto: {
+        usuarioId: salio.restauranteId
+      }
+    }
+  });
+
+  const response: ApiResponse<SalirColaResponse> = {
     message: salio.usuario.nombre + " salió de la cola",
-    data: cola
+    data: {
+      cola,
+      productoActivos
+    }
   }
   await pusher.trigger("cola-channel", "salir", response);
   res.json(response);

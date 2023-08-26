@@ -51,14 +51,25 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
             usuario: true
         }
     });
+    //DATOS PARA ACTUALIZAR
     const cola = yield queries_1.default.cola.findMany({
         where: {
             restauranteId: salio.restauranteId
         }
     });
+    const productoActivos = yield queries_1.default.productoActivo.findMany({
+        where: {
+            producto: {
+                usuarioId: salio.restauranteId
+            }
+        }
+    });
     const response = {
         message: salio.usuario.nombre + " salió de la cola",
-        data: cola
+        data: {
+            cola,
+            productoActivos
+        }
     };
     yield pusher_1.default.trigger("cola-channel", "salir", response);
     res.json(response);
