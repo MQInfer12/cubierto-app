@@ -18,12 +18,19 @@ const pusher_1 = __importDefault(require("../../utilities/pusher"));
 const app = (0, express_1.Router)();
 app.post('/cola/entrar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
-    yield queries_1.default.cola.create({
-        data: data,
-        include: {
-            usuario: true
+    const existente = yield queries_1.default.cola.findUnique({
+        where: {
+            usuarioId: data.usuarioId
         }
     });
+    if (!existente) {
+        yield queries_1.default.cola.create({
+            data: data,
+            include: {
+                usuario: true
+            }
+        });
+    }
     const cola = yield queries_1.default.cola.findMany({
         where: {
             restauranteId: data.restauranteId

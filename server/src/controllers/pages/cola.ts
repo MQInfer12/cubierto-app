@@ -9,12 +9,19 @@ const app = Router();
 
 app.post('/cola/entrar', async (req, res) => {
   const data: CreateColaInput = req.body;
-  await xprisma.cola.create({
-    data: data,
-    include: {
-      usuario: true
+  const existente = await xprisma.cola.findUnique({
+    where: {
+      usuarioId: data.usuarioId
     }
   });
+  if(!existente) {
+    await xprisma.cola.create({
+      data: data,
+      include: {
+        usuario: true
+      }
+    });
+  }
   const cola = await xprisma.cola.findMany({
     where: {
       restauranteId: data.restauranteId
