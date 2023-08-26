@@ -61,7 +61,15 @@ const xprisma = prisma.$extends({
         productoActivo: {
             $allOperations({ args, query }) {
                 const newArgs = args;
-                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { producto: true, detalleVentas: true });
+                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { producto: {
+                        include: {
+                            usuario: {
+                                include: {
+                                    enCola: true
+                                }
+                            }
+                        }
+                    }, detalleVentas: true });
                 return query(newArgs);
             },
             findMany({ args, query }) {
