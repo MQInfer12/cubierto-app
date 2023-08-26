@@ -14,6 +14,7 @@ interface Functions {
   setNewItem: (newItem: CartItem) => void
   removeItem: (idItem: number) => void
   changeQuantity: (idItem: number, number: number) => void
+  emptyCart: () => void
 }
 
 export const useCart = create<Properties & Functions>((set) => {
@@ -49,6 +50,12 @@ export const useCart = create<Properties & Functions>((set) => {
           }
           return item;
         })
+      }))
+    },
+    emptyCart: () => {
+      set(old => ({
+        ...old,
+        items: []
       }))
     }
   }

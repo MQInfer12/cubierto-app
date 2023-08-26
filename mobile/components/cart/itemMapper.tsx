@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ItemMapper = ({ irAMisVentas }: Props) => {
-  const { items } = useCart();
+  const { items, emptyCart } = useCart();
   const { user, addVenta } = useUser();
 
   const handlePedir = async () => {
@@ -23,6 +23,7 @@ const ItemMapper = ({ irAMisVentas }: Props) => {
       addVenta(res.data);
       Alert.alert("Se envió tu pedido correctamente");
       irAMisVentas();
+      emptyCart();
     }
   }
 

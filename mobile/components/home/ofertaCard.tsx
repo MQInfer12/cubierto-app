@@ -11,6 +11,13 @@ interface Props {
 }
 
 const OfertaCard = ({ oferta }: Props) => {
+  const cantidadVendida = oferta.detalleVentas.reduce((suma, detalle) => {
+    suma += detalle.cantidad;
+    return suma;
+  }, 0);
+  const maxproducts = oferta.cantidad - cantidadVendida;
+
+  if(maxproducts <= 0) return null;
   return (
     <TouchableOpacity onPress={() => router.push(`verOferta/${oferta.id}`)} style={styles.cardContainer}>
       <Image style={styles.cardImage} source={{ uri: oferta.producto.foto }} />

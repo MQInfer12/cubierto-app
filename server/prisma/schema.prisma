@@ -84,7 +84,7 @@ model DetalleVenta {
   productoActivoId Int
   productoActivo   ProductoActivo @relation(fields: [productoActivoId], references: [id])
   ventaId          Int
-  venta            Venta          @relation(fields: [ventaId], references: [id])
+  venta            Venta          @relation(fields: [ventaId], references: [id], onDelete: Cascade)
 }
 
 model Donacion {
