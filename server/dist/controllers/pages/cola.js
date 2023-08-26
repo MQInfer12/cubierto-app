@@ -36,7 +36,7 @@ app.post('/cola/entrar', (req, res) => __awaiter(void 0, void 0, void 0, functio
     res.json(response);
 }));
 app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cola = yield queries_1.default.cola.delete({
+    const salio = yield queries_1.default.cola.delete({
         where: {
             id: Number(req.params.id)
         },
@@ -44,11 +44,16 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
             usuario: true
         }
     });
+    const cola = yield queries_1.default.cola.findMany({
+        where: {
+            restauranteId: salio.restauranteId
+        }
+    });
     const response = {
-        message: cola.usuario.nombre + " salió de la cola",
+        message: salio.usuario.nombre + " salió de la cola",
         data: cola
     };
-    pusher_1.default.trigger("cola-channel", "salir", cola);
+    pusher_1.default.trigger("cola-channel", "salir", response);
     res.json(response);
 }));
 exports.default = app;

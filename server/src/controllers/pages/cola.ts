@@ -28,7 +28,7 @@ app.post('/cola/entrar', async (req, res) => {
 }); 
 
 app.delete('/cola/salir/:id', async (req, res) => {
-  const cola = await xprisma.cola.delete({
+  const salio = await xprisma.cola.delete({
     where: {
       id: Number(req.params.id)
     },
@@ -36,11 +36,16 @@ app.delete('/cola/salir/:id', async (req, res) => {
       usuario: true
     }
   });
-  const response: ApiResponse<Cola> = {
-    message: cola.usuario.nombre + " salió de la cola",
+  const cola = await xprisma.cola.findMany({
+    where: {
+      restauranteId: salio.restauranteId
+    }
+  });
+  const response: ApiResponse<Cola[]> = {
+    message: salio.usuario.nombre + " salió de la cola",
     data: cola
   }
-  pusher.trigger("cola-channel", "salir", cola);
+  pusher.trigger("cola-channel", "salir", response);
   res.json(response);
 });
 
