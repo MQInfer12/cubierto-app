@@ -60,7 +60,7 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
         message: salio.usuario.nombre + " salió de la cola",
         data: cola
     };
-    pusher_1.default.trigger("cola-channel", "salir", response);
+    yield pusher_1.default.trigger("cola-channel", "salir", response);
     res.json(response);
 }));
 exports.default = app;

@@ -52,7 +52,7 @@ app.delete('/cola/salir/:id', async (req, res) => {
     message: salio.usuario.nombre + " salió de la cola",
     data: cola
   }
-  pusher.trigger("cola-channel", "salir", response);
+  await pusher.trigger("cola-channel", "salir", response);
   res.json(response);
 });
 
