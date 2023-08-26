@@ -1,5 +1,5 @@
 import { StyleSheet, View, ScrollView, Image, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { useSetRouteName } from '../../../context/routeName';
 import { ProductoActivo } from '../../../interfaces/productoActivo';
@@ -11,6 +11,8 @@ import NumberInput from '../../../components/global/numberInput';
 import { router } from 'expo-router';
 import Button from '../../../components/global/button';
 import { LinearGradient } from 'expo-linear-gradient'
+import { useCola } from '../../../context/cola';
+import { useHandleCola } from '../../../hooks/useHandleCola';
 
 const MAXHEIGHT = Dimensions.get('window').height;
 
@@ -19,6 +21,8 @@ const VerOferta = () => {
   const { idOferta } = useLocalSearchParams();
   const { items, setNewItem } = useCart();
   const { res } = useGet<ProductoActivo>(`productoActivo/${idOferta}`);
+  const { cola } = useCola();
+  const { myTurn, myPlace, hacerCola } = useHandleCola();
   const [cantidad, setCantidad] = useState(1);
 
   const handleAddToCart = () => {
@@ -38,48 +42,51 @@ const VerOferta = () => {
   const maxproducts = (res?.data.cantidad || 1) - (cantidadEnCarrito || 0) - (cantidadVendida || 0);
 
   return (
+    res &&
     <>
-    {
-      res &&
-      <>
-      <View style={styles.imageContainer}>
-        <View style={styles.imageRelative}>
-          <Image style={styles.image} source={{ uri: res.data.producto.foto }} />
-          <LinearGradient 
-            style={styles.gradient}
-            colors={['rgba(0, 0, 0, 0)', colors.gray900]}
-            locations={[0.5, 1]}
+    <View style={styles.imageContainer}>
+      <View style={styles.imageRelative}>
+        <Image style={styles.image} source={{ uri: res.data.producto.foto }} />
+        <LinearGradient 
+          style={styles.gradient}
+          colors={['rgba(0, 0, 0, 0)', colors.gray900]}
+          locations={[0.5, 1]}
+        />
+      </View>
+    </View>
+    <View style={styles.container}>
+      <View style={styles.buttonsContainer}>
+        {
+          !cola ?
+          <Button onPress={() => hacerCola(res.data.producto.usuario.id)}>Entrar a la cola</Button>
+          : !!maxproducts ?
+          !myTurn ?
+          <View style={styles.noStockContainer}>
+            <FontedText weight={700} style={styles.noStockText}>¡Estás en cola!</FontedText>
+            <FontedText weight={600} style={styles.inMyCartText}>Tu lugar: {myPlace}</FontedText>
+          </View> :
+          <>
+          <FontedText weight={600} style={styles.cantidadText}>Disponibles: {maxproducts}</FontedText>
+          <NumberInput 
+            value={cantidad}
+            setValue={setCantidad}
+            min={1}
+            max={maxproducts}
           />
-        </View>
-      </View>
-      <View style={styles.container}>
-          <View style={styles.buttonsContainer}>
-            {
-              !!maxproducts ?
-              <>
-              <FontedText weight={600} style={styles.cantidadText}>Disponibles: {maxproducts}</FontedText>
-              <NumberInput 
-                value={cantidad}
-                setValue={setCantidad}
-                min={1}
-                max={maxproducts}
-              />
-              <Button onPress={handleAddToCart}>Añadir al carrito</Button>
-              </> :
-              <View style={styles.noStockContainer}>
-                <FontedText weight={700} style={styles.noStockText}>¡Ya no hay stock!</FontedText>
-                {cantidadEnCarrito ? <FontedText weight={600} style={styles.inMyCartText}>En tu carrito: {cantidadEnCarrito}</FontedText> : null}
-              </View>
-            }
+          <Button onPress={handleAddToCart}>Añadir al carrito</Button>
+          </> :
+          <View style={styles.noStockContainer}>
+            <FontedText weight={700} style={styles.noStockText}>¡Ya no hay stock!</FontedText>
+            {cantidadEnCarrito ? <FontedText weight={600} style={styles.inMyCartText}>En tu carrito: {cantidadEnCarrito}</FontedText> : null}
           </View>
-        <ScrollView contentContainerStyle={styles.scroll}>
-          <FontedText style={styles.nameText} weight={700}>{res.data.producto.nombre}</FontedText>
-          <FontedText style={styles.priceText} weight={600}>Bs. {res.data.precioDescontado}</FontedText>
-          <FontedText style={styles.descriptionText}>{res.data.producto.descripcion}</FontedText>
-        </ScrollView>
+        }
       </View>
-      </>
-    }
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <FontedText style={styles.nameText} weight={700}>{res.data.producto.nombre}</FontedText>
+        <FontedText style={styles.priceText} weight={600}>Bs. {res.data.precioDescontado}</FontedText>
+        <FontedText style={styles.descriptionText}>{res.data.producto.descripcion}</FontedText>
+      </ScrollView>
+    </View>
     </>
   )
 }

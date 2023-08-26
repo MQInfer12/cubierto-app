@@ -13,7 +13,7 @@ type Usuario = {
   descripcion: string;
   ubicacionActualId: number;
   productos: Producto[];
-  ventas: Venta[]
+  ventas: Venta[];
 }
 
 export default Usuario;

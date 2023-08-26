@@ -8,23 +8,38 @@ import NothingHere from '../global/nothingHere';
 import { sendRequest } from '../../utilities/sendRequest';
 import { useUser } from '../../context/user';
 import { Venta } from '../../interfaces/venta';
+import { useHandleCola } from '../../hooks/useHandleCola';
 
 interface Props {
   irAMisVentas: () => any
 }
 
 const ItemMapper = ({ irAMisVentas }: Props) => {
-  const { items, emptyCart } = useCart();
+  const { items } = useCart();
   const { user, addVenta } = useUser();
+  const { salirDeCola } = useHandleCola();
 
-  const handlePedir = async () => {
+  const pedir = async () => {
     const res = await sendRequest<Venta>(`carrito/enviar/${user?.id}`, items);
     if(res) {
       addVenta(res.data);
       Alert.alert("Se envió tu pedido correctamente");
       irAMisVentas();
-      emptyCart();
+      salirDeCola();
     }
+  }
+
+  const handlePedir = async () => {
+    Alert.alert("¿Estás listo?", "Se enviará tu pedido", [{
+      text: "Modificar pedido",
+      onPress: () => {
+        return;
+      },
+      style: "cancel"
+    }, {
+      text: "Continuar",
+      onPress: pedir
+    }])
   }
 
   if(!items.length) return <NothingHere text='¡Tu carrito está vacío!' />
