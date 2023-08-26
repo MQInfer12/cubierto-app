@@ -11,6 +11,7 @@ import OfertaMapper from '../../components/home/ofertaMapper'
 import { useSetRouteName } from '../../context/routeName'
 import { router } from 'expo-router'
 import { useCola } from '../../context/cola'
+import { useUser } from '../../context/user'
 
 const Home = () => {
   useSetRouteName('Home');
@@ -29,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     if(cola) {
       const idRestaurante = cola[0].restauranteId;
-      router.replace(`/restaurante/${idRestaurante}`)
+      router.push(`/restaurante/${idRestaurante}`)
     }
   }, []);
   

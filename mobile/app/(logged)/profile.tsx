@@ -6,11 +6,21 @@ import { colors } from '../../styles/colors';
 import FontedText from '../../components/global/fontedText';
 import Icon from '../../components/global/icon';
 import { useSetRouteName } from '../../context/routeName';
+import { useCart } from '../../context/cart';
+import { useCola } from '../../context/cola';
 
 const Home = () => {
   useSetRouteName('Perfil');
   const user = UseLoggedUser();
   const { logout } = useUser();
+  const { emptyCart } = useCart();
+  const { vaciarCola } = useCola();
+
+  const handleLogout = () => {
+    logout();
+    emptyCart();
+    vaciarCola();
+  }
 
   return (
     <View style={styles.container}>
@@ -39,7 +49,7 @@ const Home = () => {
           </View>
           <FontedText style={styles.bottomButtonText} weight={600}>Información legal</FontedText>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton} onPress={logout}>
+        <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
           <View style={styles.bottomIconContainer}>
             <Icon name='log-out-outline' size={16} color={colors.gray900} />
           </View>

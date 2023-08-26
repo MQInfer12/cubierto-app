@@ -11,6 +11,7 @@ type Data<T> = ApiResponse<T> | null
 
 interface ReturnData<T> {
   res: Data<T>
+  setRes: React.Dispatch<React.SetStateAction<Data<T>>>
   getData: () => void
 }
 
@@ -31,6 +32,7 @@ export const useGet = <T,>(route: string): ReturnData<T> => {
 
   return {
     res,
+    setRes,
     getData
   }
 }

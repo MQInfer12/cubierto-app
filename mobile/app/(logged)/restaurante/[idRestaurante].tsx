@@ -19,10 +19,10 @@ const VerRestaurante = () => {
         const oferta = res.data.ofertasActivas.find(oferta => oferta.productoId === producto.id);
         return (
           oferta ?
-          <TouchableOpacity onPress={() => router.push(`/verOferta/${oferta.id}`)}>
+          <TouchableOpacity key={producto.id} onPress={() => router.push(`/verOferta/${oferta.id}`)}>
             <FontedText style={styles.text(true)}>{producto.nombre}</FontedText>
           </TouchableOpacity> :
-          <FontedText style={styles.text(false)}>{producto.nombre}</FontedText>
+          <FontedText style={styles.text(false)} key={producto.id}>{producto.nombre}</FontedText>
         )
       })}
     </View>

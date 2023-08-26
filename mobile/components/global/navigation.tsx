@@ -10,8 +10,8 @@ import { useHandleCola } from '../../hooks/useHandleCola'
 
 const Navigation = () => {
   const { route } = useRouteName();
-  const { cola } = useCola();
-  const { loadingSalir, myTurn, handleSalirDeCola } = useHandleCola();
+  const { cola, loadingSalir } = useCola();
+  const { myTurn, handleSalirDeCola } = useHandleCola();
 
   return (
     <View style={styles.container}>

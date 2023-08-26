@@ -6,17 +6,22 @@ import { useUser } from "../context/user";
 import { sendRequest } from "../utilities/sendRequest";
 import { Cola } from "../interfaces/cola";
 import { channel } from "../pusher";
+import { ProductoActivo } from '../interfaces/productoActivo';
 
 type ApiResponse<T> = {
   message: string, 
   data: T
 }
 
-export const useHandleCola = () => {
-  const { cola, vaciarCola, cargarCola } = useCola();
+interface SalirColaResponse {
+  cola: Cola[]
+  productoActivos: ProductoActivo[]
+}
+
+export const useHandleCola = (actualizarProducto?: (productos: ProductoActivo[]) => any) => {
+  const { cola, vaciarCola, cargarCola, setLoadingSalir } = useCola();
   const { user } = useUser();
   const { emptyCart } = useCart();
-  const [loadingSalir, setLoadingSalir] = useState(false);
 
   const hacerCola = async (restauranteId: string) => {
     const response = await sendRequest<Cola[]>(`cola/entrar`, {
@@ -25,22 +30,26 @@ export const useHandleCola = () => {
     });
     if(response) {
       cargarCola(response.data);
-      channel.bind("salir", (res: ApiResponse<Cola[]>) => {
-        cargarCola(res.data);
-      })
+      channel.bind(restauranteId, (res: ApiResponse<SalirColaResponse>) => {
+        cargarCola(res.data.cola);
+        if(actualizarProducto) {
+          actualizarProducto(res.data.productoActivos);
+        }
+      });
     }
   }
 
   const salirDeCola = async () => {
     if(!cola) return;
     const miCola = cola.find(lugar => lugar.usuarioId === user?.id);
+    const restauranteId = cola[0].restauranteId;
     if(!miCola) return;
     setLoadingSalir(true);
     const response = await sendRequest(`cola/salir/${miCola.id}`, null, {
       method: "DELETE"
     });
     if(response) {
-      channel.unbind("salir");
+      channel.unbind(restauranteId);
       vaciarCola();
       emptyCart();
     }
@@ -64,9 +73,7 @@ export const useHandleCola = () => {
     }])
   }
 
-
   return {
-    loadingSalir,
     myTurn,
     myPlace,
     hacerCola,

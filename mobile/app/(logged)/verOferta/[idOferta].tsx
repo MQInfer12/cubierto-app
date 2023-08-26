@@ -20,9 +20,17 @@ const VerOferta = () => {
   useSetRouteName('Ver producto');
   const { idOferta } = useLocalSearchParams();
   const { items, setNewItem } = useCart();
-  const { res } = useGet<ProductoActivo>(`productoActivo/${idOferta}`);
-  const { cola } = useCola();
-  const { myTurn, myPlace, hacerCola } = useHandleCola();
+  const { res, setRes } = useGet<ProductoActivo>(`productoActivo/${idOferta}`);
+  const { cola, loadingSalir } = useCola();
+  const { myTurn, myPlace, hacerCola, handleSalirDeCola } = useHandleCola(data => {
+    const thisProduct = data.find(producto => producto.id === res?.data.id);
+    if(thisProduct) {
+      setRes({
+        message: "Se actualizó el producto",
+        data: thisProduct
+      });
+    }
+  });
   const [cantidad, setCantidad] = useState(1);
 
   const handleAddToCart = () => {
@@ -59,22 +67,33 @@ const VerOferta = () => {
         {
           !cola ?
           <Button onPress={() => hacerCola(res.data.producto.usuario.id)}>Entrar a la cola</Button>
-          : !!maxproducts ?
-          !myTurn ?
-          <View style={styles.noStockContainer}>
-            <FontedText weight={700} style={styles.noStockText}>¡Estás en cola!</FontedText>
-            <FontedText weight={600} style={styles.inMyCartText}>Tu lugar: {myPlace}</FontedText>
-          </View> :
-          <>
-          <FontedText weight={600} style={styles.cantidadText}>Disponibles: {maxproducts}</FontedText>
-          <NumberInput 
-            value={cantidad}
-            setValue={setCantidad}
-            min={1}
-            max={maxproducts}
-          />
-          <Button onPress={handleAddToCart}>Añadir al carrito</Button>
-          </> :
+          : 
+          !!maxproducts ?
+            loadingSalir ?
+            <View style={styles.noStockContainer}>
+              <FontedText weight={700} style={styles.noStockText}>Saliendo de la cola...</FontedText>
+            </View> 
+            :
+            !myTurn ?
+            <>
+              <View style={styles.noStockContainer}>
+                <FontedText weight={700} style={styles.noStockText}>¡Estás en cola!</FontedText>
+                <FontedText weight={600} style={styles.inMyCartText}>Tu lugar: {myPlace}</FontedText>
+              </View> 
+              <Button onPress={handleSalirDeCola}>Salir de la cola</Button>
+            </>
+            :
+            <>
+              <FontedText weight={600} style={styles.cantidadText}>Disponibles: {maxproducts}</FontedText>
+              <NumberInput 
+                value={cantidad}
+                setValue={setCantidad}
+                min={1}
+                max={maxproducts}
+              />
+              <Button onPress={handleAddToCart}>Añadir al carrito</Button>
+            </> 
+          :
           <View style={styles.noStockContainer}>
             <FontedText weight={700} style={styles.noStockText}>¡Ya no hay stock!</FontedText>
             {cantidadEnCarrito ? <FontedText weight={600} style={styles.inMyCartText}>En tu carrito: {cantidadEnCarrito}</FontedText> : null}
