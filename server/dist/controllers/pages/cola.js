@@ -51,16 +51,17 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
             usuario: true
         }
     });
+    const restauranteId = salio.restauranteId;
     //DATOS PARA ACTUALIZAR
     const cola = yield queries_1.default.cola.findMany({
         where: {
-            restauranteId: salio.restauranteId
+            restauranteId: restauranteId
         }
     });
     const productoActivos = yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
-                usuarioId: salio.restauranteId
+                usuarioId: restauranteId
             }
         }
     });
@@ -71,7 +72,7 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
             productoActivos
         }
     };
-    yield pusher_1.default.trigger("cola-channel", "salir", response);
+    yield pusher_1.default.trigger("cola-channel", restauranteId, response);
     res.json(response);
 }));
 exports.default = app;

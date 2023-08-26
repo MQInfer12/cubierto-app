@@ -48,17 +48,18 @@ app.delete('/cola/salir/:id', async (req, res) => {
       usuario: true
     }
   });
+  const restauranteId = salio.restauranteId;
 
   //DATOS PARA ACTUALIZAR
   const cola = await xprisma.cola.findMany({
     where: {
-      restauranteId: salio.restauranteId
+      restauranteId: restauranteId
     }
   });
   const productoActivos = await xprisma.productoActivo.findMany({
     where: {
       producto: {
-        usuarioId: salio.restauranteId
+        usuarioId: restauranteId
       }
     }
   });
@@ -70,7 +71,7 @@ app.delete('/cola/salir/:id', async (req, res) => {
       productoActivos
     }
   }
-  await pusher.trigger("cola-channel", "salir", response);
+  await pusher.trigger("cola-channel", restauranteId, response);
   res.json(response);
 });
 
