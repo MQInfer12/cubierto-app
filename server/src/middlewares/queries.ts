@@ -84,11 +84,7 @@ const xprisma = prisma.$extends({
           ...newArgs.include,
           producto: {
             include: {
-              usuario: {
-                include: {
-                  enCola: true
-                }
-              }
+              usuario: true
             }
           },
           detalleVentas: true

@@ -18,14 +18,19 @@ const pusher_1 = __importDefault(require("../../utilities/pusher"));
 const app = (0, express_1.Router)();
 app.post('/cola/entrar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
-    const cola = yield queries_1.default.cola.create({
+    yield queries_1.default.cola.create({
         data: data,
         include: {
             usuario: true
         }
     });
+    const cola = yield queries_1.default.cola.findMany({
+        where: {
+            restauranteId: data.restauranteId
+        }
+    });
     const response = {
-        message: cola.usuario.nombre + " ingresó a la cola",
+        message: "Ingresaste a la cola",
         data: cola
     };
     res.json(response);

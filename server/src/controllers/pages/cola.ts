@@ -9,14 +9,19 @@ const app = Router();
 
 app.post('/cola/entrar', async (req, res) => {
   const data: CreateColaInput = req.body;
-  const cola = await xprisma.cola.create({
+  await xprisma.cola.create({
     data: data,
     include: {
       usuario: true
     }
   });
-  const response: ApiResponse<Cola> = {
-    message: cola.usuario.nombre + " ingresó a la cola",
+  const cola = await xprisma.cola.findMany({
+    where: {
+      restauranteId: data.restauranteId
+    }
+  });
+  const response: ApiResponse<Cola[]> = {
+    message: "Ingresaste a la cola",
     data: cola
   }
   res.json(response);
