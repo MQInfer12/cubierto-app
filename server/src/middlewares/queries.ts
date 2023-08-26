@@ -18,6 +18,7 @@ const xprisma = prisma.$extends({
         newArgs.include = {
           ...newArgs.include, 
           productos: true,
+          cola: true,
           ventas: {
             include: {
               detalles: {
