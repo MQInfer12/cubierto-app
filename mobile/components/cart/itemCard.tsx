@@ -17,6 +17,12 @@ const ItemCard = ({ item }: Props) => {
     setCantidad(item.cantidad);
   }, [item.cantidad]);
 
+  const cantidadVendida = item.productoActivo.detalleVentas.reduce((suma, detalle) => {
+    suma += detalle.cantidad;
+    return suma;
+  }, 0);
+  const maxproducts = item.productoActivo.cantidad - cantidadVendida;
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: item.productoActivo.producto.foto }} />
@@ -32,7 +38,7 @@ const ItemCard = ({ item }: Props) => {
               value={cantidad}
               setValue={setCantidad}
               min={1}
-              max={item.productoActivo.cantidad}
+              max={maxproducts}
               handleRemove={() => removeItem(item.productoActivo.id)}
               handleAdd={() => changeQuantity(item.productoActivo.id, 1)}
               handleSubstract={() => changeQuantity(item.productoActivo.id, -1)}

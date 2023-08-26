@@ -29,6 +29,8 @@ model Usuario {
   donacionesRecibidas Donacion[]  @relation("donaciones")
   favoritos           Favorito[]  @relation("usuario_favorito")
   favoritoDe          Favorito[]  @relation("restaurante_favorito")
+  cola                Cola?       @relation("cola")
+  enCola              Cola[]      @relation("enCola")
   eliminado           Boolean     @default(false)
 }
 
@@ -54,7 +56,7 @@ model Producto {
   categoria         Categoria?          @relation(fields: [categoriaId], references: [id])
   activos           ProductoActivo[]
   detalleDonaciones DetalleDonacion[]
-  eliminado         Boolean     @default(false)
+  eliminado         Boolean             @default(false)
 }
 
 model ProductoActivo {
@@ -120,4 +122,13 @@ model Categoria {
   nombre        String      @db.VarChar(255)
   ionicon       String      @db.VarChar(40)
   productos     Producto[]
+}
+
+model Cola {
+  id              Int         @id @default(autoincrement())
+  fecha           DateTime    @default(now())
+  usuarioId       String      @unique
+  usuario         Usuario     @relation(fields: [usuarioId], references: [id], name: "cola") 
+  restauranteId   String
+  restaurante     Usuario     @relation(fields: [restauranteId], references: [id], name: "enCola")
 }

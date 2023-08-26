@@ -17,7 +17,7 @@ const OfertaCard = ({ oferta }: Props) => {
   }, 0);
   const maxproducts = oferta.cantidad - cantidadVendida;
 
-  if(maxproducts <= 0) return null;
+  if(maxproducts <= 0) return null; 
   return (
     <TouchableOpacity onPress={() => router.push(`verOferta/${oferta.id}`)} style={styles.cardContainer}>
       <Image style={styles.cardImage} source={{ uri: oferta.producto.foto }} />
