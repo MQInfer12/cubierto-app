@@ -40,11 +40,21 @@ app.get('/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, v
             }
         }
     });
+    const categorias = yield queries_1.default.categoria.findMany({
+        where: {
+            productos: {
+                some: {
+                    usuarioId: req.params.idRestaurante
+                }
+            }
+        }
+    });
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
             restaurante,
-            ofertasActivas
+            ofertasActivas,
+            categorias
         }
     };
     res.json(response);

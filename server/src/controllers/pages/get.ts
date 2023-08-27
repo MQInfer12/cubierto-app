@@ -32,11 +32,21 @@ app.get('/restaurante/:idRestaurante', async (req, res) => {
       }
     }
   });
+  const categorias = await xprisma.categoria.findMany({
+    where: {
+      productos: {
+        some: {
+          usuarioId: req.params.idRestaurante
+        }
+      }
+    }
+  });
   const response: ApiResponse<RestauranteResponse> = {
     message: "Datos obtenidos correctamente",
     data: {
       restaurante,
-      ofertasActivas
+      ofertasActivas,
+      categorias
     }
   }
   res.json(response);
