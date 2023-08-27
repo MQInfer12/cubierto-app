@@ -1,0 +1,93 @@
+import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { useSetRouteName } from '../../context/routeName'
+import FontedText from '../../components/global/fontedText';
+import { useUser } from '../../context/user';
+import { colors } from '../../styles/colors';
+import Button from '../../components/global/button';
+import { sendRequest } from '../../utilities/sendRequest';
+import { router } from 'expo-router';
+import { Ubicacion } from '../../interfaces/ubicacion';
+
+const UserInfo = () => {
+  useSetRouteName("Información personal");
+  const { user, addUbicacion } = useUser();
+  const [form, setForm] = useState({
+    nombre: "",
+    latitud: "",
+    longitud: ""
+  });
+
+  const handleSave = async () => {
+    const res = await sendRequest<Ubicacion>(`ubicacion`, {
+      nombre: form.nombre,
+      latitud: Number(form.latitud),
+      longitud: Number(form.longitud),
+      usuarioId: user?.id
+    });
+    if(res) {
+      addUbicacion(res.data);
+      Alert.alert("Se guardó la ubicación con éxito");
+      router.back();
+    }
+  }
+
+  if(!user) return null;
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.inputContainer}>
+        <FontedText style={styles.inputTitle} weight={600}>Descripción de la ubicación</FontedText>
+        <TextInput 
+          style={styles.textInput} 
+          value={form.nombre} 
+          onChangeText={text => setForm(old => ({...old, nombre: text }))} 
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <FontedText style={styles.inputTitle} weight={600}>Latitud</FontedText>
+        <TextInput 
+          style={styles.textInput} 
+          value={form.latitud} 
+          onChangeText={text => setForm(old => ({...old, latitud: text.replace(/[^0-9-.]/g, '') }))} 
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <FontedText style={styles.inputTitle} weight={600}>Longitud</FontedText>
+        <TextInput 
+          style={styles.textInput} 
+          value={form.longitud} 
+          onChangeText={text => setForm(old => ({...old, longitud: text.replace(/[^0-9-.]/g, '') }))} 
+        />
+      </View>
+      <Button onPress={handleSave}>Guardar ubicación</Button>
+    </ScrollView>
+  )
+}
+
+export default UserInfo
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    gap: 16,
+    alignItems: "center"
+  },
+  inputContainer: {
+    gap: 4,
+    width: "100%"
+  },
+  inputTitle: {
+    fontSize: 14,
+    color: colors.gray600,
+    marginLeft: 8
+  },
+  textInput: {
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    fontFamily: "Biko400",
+    color: colors.gray900,
+    borderColor: colors.gray500,
+    borderRadius: 8
+  }
+})

@@ -24,6 +24,7 @@
     "pusher-js": "^8.3.0",
     "react": "18.2.0",
     "react-native": "0.72.4",
+    "react-native-element-dropdown": "^2.10.0",
     "react-native-reanimated": "~3.3.0",
     "zustand": "^4.4.1"
   },

@@ -8,6 +8,7 @@ import Icon from '../../components/global/icon';
 import { useSetRouteName } from '../../context/routeName';
 import { useCart } from '../../context/cart';
 import { useCola } from '../../context/cola';
+import { router } from 'expo-router';
 
 const Home = () => {
   useSetRouteName('Perfil');
@@ -31,7 +32,7 @@ const Home = () => {
       </View>
       <View style={styles.bottom}>
         <FontedText style={styles.bottomTitle} weight={600}>Mi cuenta</FontedText>
-        <TouchableOpacity style={styles.bottomButton}>
+        <TouchableOpacity onPress={() => router.push(`userInfo`)} style={styles.bottomButton}>
           <View style={styles.bottomIconContainer}>
             <Icon name='person-outline' size={16} color={colors.gray900} />
           </View>

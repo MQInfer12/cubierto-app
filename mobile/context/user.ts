@@ -3,6 +3,7 @@ import Usuario from "../interfaces/usuario";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from "expo-router";
 import { Venta } from "../interfaces/venta";
+import { Ubicacion } from "../interfaces/ubicacion";
 
 interface Properties {
   user: Usuario | null
@@ -12,6 +13,7 @@ interface Functions {
   setUser: (user: Usuario | null) => void
   logout: () => any
   addVenta: (newVenta: Venta) => void
+  addUbicacion: (newUbicacion: Ubicacion) => void
 }
 
 export const useUser = create<Properties & Functions>((set) => {
@@ -39,6 +41,20 @@ export const useUser = create<Properties & Functions>((set) => {
         }
         return old;
       })
+    },
+    addUbicacion: (newUbicacion) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              ubicaciones: [...old.user.ubicaciones, newUbicacion]
+            }
+          }
+        }
+        return old;
+      });
     }
   }
 })
