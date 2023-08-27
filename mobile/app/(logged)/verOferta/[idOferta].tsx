@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Image, Dimensions } from 'react-native'
+import { StyleSheet, View, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { useSetRouteName } from '../../../context/routeName';
@@ -63,6 +63,9 @@ const VerOferta = () => {
       </View>
     </View>
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => router.push(`restaurante/${res.data.producto.usuario.id}`)} style={styles.profileContainer}>
+        <Image style={styles.fotoPerfil} source={{ uri: res.data.producto.usuario.foto }} />
+      </TouchableOpacity>
       <View style={styles.buttonsContainer}>
         {
           !cola ?
@@ -143,6 +146,16 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 24,
     borderTopLeftRadius: 24,
     height: 260
+  },
+  profileContainer: {
+    position: "absolute",
+    top: -92,
+    left: 20
+  },
+  fotoPerfil: {
+    width: 72,
+    height: 72,
+    borderRadius: 36
   },
   scroll: {
     paddingHorizontal: 20,

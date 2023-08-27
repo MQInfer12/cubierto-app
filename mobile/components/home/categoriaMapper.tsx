@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     paddingVertical: 16,
     paddingHorizontal: 20,
-    gap: 32
+    gap: 32,
   }
 })

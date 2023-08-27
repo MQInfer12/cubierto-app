@@ -1,5 +1,5 @@
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, View, TouchableOpacity, Image, Linking, ScrollView } from 'react-native'
+import React, { useState } from 'react'
 import { useSetRouteName } from '../../../context/routeName';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useGet } from '../../../hooks/useGet';
@@ -7,16 +7,30 @@ import FontedText from '../../../components/global/fontedText';
 import { RestauranteResponse } from '../../../interfaces/pages/restaurante';
 import { colors } from '../../../styles/colors';
 import Icon from '../../../components/global/icon';
+import CategoriaMapper from '../../../components/home/categoriaMapper';
+import OfertaMapper from '../../../components/home/ofertaMapper';
+import ProductoMapper from '../../../components/restaurante/productoMapper';
 
 const VerRestaurante = () => {
   useSetRouteName('Ver restaurante');
   const { idRestaurante } = useLocalSearchParams();
   const { res } = useGet<RestauranteResponse>(`restaurante/${idRestaurante}`);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
+
+  const seleccionarCategoria = (id: number) => {
+    if(categoriaSeleccionada === id) {
+      setCategoriaSeleccionada(null);
+    } else {
+      setCategoriaSeleccionada(id);
+    }
+  }
 
   if(!res) return null;
   return (
     <View style={styles.container}>
       <View style={styles.datosContainer}>
+        <Image style={styles.portada} source={{ uri: res.data.restaurante.portada }} />
+        <View style={styles.background} />
         <FontedText weight={700} style={styles.nameText} numberOfLines={1}>{res.data.restaurante.nombre}</FontedText>
         <View style={styles.descripcionContainer}>
           {
@@ -31,38 +45,66 @@ const VerRestaurante = () => {
           <View style={[styles.iconsContainer, { flex: 3 }]}>
             {
               res.data.restaurante.ubicacionActual &&
-              <View style={styles.iconContainer}>
-                <Icon size={24} color={colors.white} name='location-outline' />
-                <FontedText style={styles.iconText} weight={600}>{res.data.restaurante.ubicacionActual.nombre}</FontedText>
-              </View>
+              <TouchableOpacity 
+                onPress={() => {
+                  const { latitud, longitud } = res.data.restaurante.ubicacionActual;
+                  Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${latitud}%2C${longitud}`)
+                }}
+              >
+                <View style={styles.iconContainer}>
+                  <Icon size={24} color={colors.white} name='location-outline' />
+                  <FontedText numberOfLines={1} style={styles.iconText} weight={600}>{res.data.restaurante.ubicacionActual.nombre}</FontedText>
+                </View>
+              </TouchableOpacity>
             }
-            <View style={styles.iconContainer}>
-              <Icon size={24} color={colors.white} name='mail-outline' />
-              <FontedText style={styles.iconText} weight={600}>{res.data.restaurante.email}</FontedText>
-            </View>
+            <TouchableOpacity 
+              onPress={() => {
+                Linking.openURL(`mailto:${res.data.restaurante.email}`)
+              }}
+            >
+              <View style={styles.iconContainer}>
+                <Icon size={24} color={colors.white} name='mail-outline' />
+                <FontedText numberOfLines={1} style={styles.iconText} weight={600}>{res.data.restaurante.email}</FontedText>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={[styles.iconsContainer, { flex: 1 }]}>
             {
               res.data.restaurante.telefono &&
-              <View style={styles.iconContainer}>
-                <Icon size={24} color={colors.white} name='call-outline' />
-                <FontedText style={styles.iconText} weight={600}>{res.data.restaurante.telefono}</FontedText>
-              </View>
+              <TouchableOpacity 
+                onPress={() => {
+                  Linking.openURL(`https://wa.me/${res.data.restaurante.telefono}`)
+                }}
+              >
+                <View style={styles.iconContainer}>
+                  <Icon size={24} color={colors.white} name='call-outline' />
+                  <FontedText style={styles.iconText} weight={600}>{res.data.restaurante.telefono}</FontedText>
+                </View>
+              </TouchableOpacity>
             }
           </View>
         </View>
       </View>
-      <View style={styles.productsContainer}>
-        {res?.data.restaurante.productos.map(producto => {
-          const oferta = res.data.ofertasActivas.find(oferta => oferta.productoId === producto.id);
-          return (
-            oferta ?
-            <TouchableOpacity key={producto.id} onPress={() => router.push(`/verOferta/${oferta.id}`)}>
-              <FontedText>{producto.nombre}</FontedText>
-            </TouchableOpacity> :
-            <FontedText key={producto.id}>{producto.nombre}</FontedText>
-          )
-        })}
+      <View style={styles.bottomContainer}>
+        <ScrollView contentContainerStyle={styles.productsContainer} showsVerticalScrollIndicator={false}>
+          <View>
+            <CategoriaMapper 
+              categorias={res.data.categorias}
+              categoriaSeleccionada={categoriaSeleccionada}
+              seleccionarCategoria={seleccionarCategoria}
+            />
+          </View>
+          <FontedText weight={700} style={styles.ofertasText}>Ofertas promocionales</FontedText>
+          <OfertaMapper 
+            ofertas={res.data.ofertasActivas.filter(oferta => categoriaSeleccionada ? oferta.producto.categoriaId === categoriaSeleccionada : true)}
+            showRestaurant={false}
+          />
+          <FontedText weight={700} style={styles.ofertasText}>Todos los productos</FontedText>
+          <ProductoMapper 
+            producto={res.data.restaurante.productos.filter(producto => categoriaSeleccionada ? producto.categoriaId === categoriaSeleccionada : true)}
+            ofertas={res.data.ofertasActivas}
+          />
+        </ScrollView>
       </View>
     </View>
   )
@@ -78,28 +120,44 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     height: "100%",
-    paddingTop: 116,
+    paddingTop: 96,
   },
   datosContainer: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    gap: 12,
+  },
+  portada: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0
+  },
+  background: {
+    backgroundColor: colors.primary500,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.8
   },
   nameText: {
-    fontSize: 32,
+    fontSize: 24,
     color: colors.white,
-    marginBottom: 8
   },
   descripcionContainer: {
     flexDirection: "row",
     gap: 24,
     justifyContent: "center",
-    marginBottom: 8
   },
   descriptionTextContainer: {
     flex: 1,
     justifyContent: "center"
   },
   descripcionText: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.white,
     textAlign: "justify"
   },
@@ -122,13 +180,21 @@ const styles = StyleSheet.create({
     gap: 4
   },
   iconText: {
-    color: colors.white
+    color: colors.white,
+    fontSize: 12
   },
-  productsContainer: {
+  bottomContainer: {
     backgroundColor: colors.white,
-    paddingHorizontal: 20,
     flex: 1,
     borderTopEndRadius: 24,
     borderTopLeftRadius: 24
+  },
+  productsContainer: {
+    paddingVertical: 8,
+  },
+  ofertasText: {
+    fontSize: 24,
+    color: colors.gray900,
+    paddingHorizontal: 20
   }
 })

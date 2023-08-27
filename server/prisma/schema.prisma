@@ -67,6 +67,7 @@ model ProductoActivo {
   productoId       Int
   producto         Producto       @relation(fields: [productoId], references: [id])
   detalleVentas    DetalleVenta[]
+  tiempo           Int            @default(60)
   eliminado        Boolean        @default(false)
 }
 

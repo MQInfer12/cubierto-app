@@ -1,29 +1,22 @@
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { ProductoActivo } from '../../interfaces/productoActivo'
 import FontedText from '../global/fontedText'
 import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
 import { router } from 'expo-router'
 import { LinearGradient } from 'expo-linear-gradient'
+import { Producto } from '../../interfaces/producto'
 
 interface Props {
-  oferta: ProductoActivo
-  showRestaurant?: boolean
+  producto: Producto
 }
 
-const OfertaCard = ({ oferta, showRestaurant = true }: Props) => {
-  const cantidadVendida = oferta.detalleVentas.reduce((suma, detalle) => {
-    suma += detalle.cantidad;
-    return suma;
-  }, 0);
-  const maxproducts = oferta.cantidad - cantidadVendida;
-
-  if(maxproducts <= 0) return null; 
+const ProductoCard = ({ producto }: Props) => {
+  if(!producto) return null;
   return (
-    <TouchableOpacity onPress={() => router.push(`verOferta/${oferta.id}`)} style={styles.cardContainer}>
+    <View style={styles.cardContainer}>
       <View>
-        <Image style={styles.cardImage} source={{ uri: oferta.producto.foto }} />
+        <Image style={styles.cardImage} source={{ uri: producto.foto }} />
         <LinearGradient 
           style={styles.gradient}
           colors={['rgba(0, 0, 0, 0)', colors.gray900]}
@@ -31,26 +24,16 @@ const OfertaCard = ({ oferta, showRestaurant = true }: Props) => {
         />
       </View>
       <View style={styles.cardTextContainer}>
-        {
-          showRestaurant &&
-          <TouchableOpacity onPress={() => router.push(`restaurante/${oferta.producto.usuario.id}`)}>
-            <View style={styles.profileContainer}>
-              <Image style={styles.profilePic} source={{ uri: oferta.producto.usuario.foto }} />
-              <FontedText numberOfLines={1} style={styles.profileText} weight={600}>{oferta.producto.usuario.nombre}</FontedText>
-            </View>
-          </TouchableOpacity>
-        }
-        <FontedText weight={700} style={styles.cardName} numberOfLines={1}>{oferta.producto.nombre}</FontedText>
+        <FontedText weight={700} style={styles.cardName} numberOfLines={1}>{producto.nombre}</FontedText>
         <View style={styles.pricesContainer}>
-          <FontedText weight={600} style={styles.cardPrice}>Bs. {oferta.precioDescontado}</FontedText>
-          <FontedText weight={400} style={styles.oldPriceText}>Bs. {oferta.producto.precio}</FontedText>
+          <FontedText weight={600} style={styles.cardPrice}>Bs. {producto.precio}</FontedText>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 
-export default OfertaCard
+export default ProductoCard
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -58,6 +41,7 @@ const styles = StyleSheet.create({
     width: 260,
     backgroundColor: colors.white,
     borderRadius: 16,
+    opacity: 0.6,
     ...shadows.shadow400
   },
   cardImage: {
