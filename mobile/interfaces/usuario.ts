@@ -18,6 +18,7 @@ type Usuario = {
   ventas: Venta[];
   cola: Cola;
   ubicaciones: Ubicacion[];
+  ubicacionActual: Ubicacion
 }
 
 export default Usuario;

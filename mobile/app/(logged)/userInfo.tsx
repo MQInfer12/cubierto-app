@@ -24,14 +24,13 @@ interface Form {
 const UserInfo = () => {
   useSetRouteName("Información personal");
   const { user, setUser, removeUbicacion } = useUser();
-  const initialForm: Form = {
+  const [form, setForm] = useState<Form>({
     foto: undefined,
     nombre: user?.nombre,
     descripcion: user?.descripcion,
     telefono: String(user?.telefono || ""),
     ubicacion: user?.ubicacionActualId
-  }
-  const [form, setForm] = useState<Form>(initialForm);
+  });
   const [progress, setProgress] = useState(0);
 
   const SeleccionarFoto = async () => {
@@ -61,7 +60,13 @@ const UserInfo = () => {
       method: "PUT"
     });
     if(res) {
-      setForm(initialForm);
+      setForm({
+        foto: undefined,
+        nombre: res.data.nombre,
+        descripcion: res.data?.descripcion,
+        telefono: String(res.data?.telefono || ""),
+        ubicacion: res.data?.ubicacionActualId
+      });
       setUser(res.data);
       Alert.alert("Se actualizaron tus datos con éxito");
     }
