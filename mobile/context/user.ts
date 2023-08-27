@@ -13,7 +13,8 @@ interface Functions {
   setUser: (user: Usuario | null) => void
   logout: () => any
   addVenta: (newVenta: Venta) => void
-  addUbicacion: (newUbicacion: Ubicacion) => void
+  addUbicacion: (ubicacion: Ubicacion) => void
+  removeUbicacion: (ubicacion: Ubicacion) => void
 }
 
 export const useUser = create<Properties & Functions>((set) => {
@@ -42,19 +43,33 @@ export const useUser = create<Properties & Functions>((set) => {
         return old;
       })
     },
-    addUbicacion: (newUbicacion) => {
+    addUbicacion: (ubicacion) => {
       set(old => {
         if(old.user) {
           return {
             ...old,
             user: {
               ...old.user,
-              ubicaciones: [...old.user.ubicaciones, newUbicacion]
+              ubicaciones: [...old.user.ubicaciones, ubicacion]
             }
           }
         }
         return old;
       });
+    },
+    removeUbicacion: (ubicacion) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              ubicaciones: old.user.ubicaciones.filter(u => u.id !== ubicacion.id)
+            }
+          }
+        }
+        return old;
+      })
     }
   }
 })

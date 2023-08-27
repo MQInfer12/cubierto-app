@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { useSetRouteName } from '../../context/routeName'
 import FontedText from '../../components/global/fontedText';
@@ -9,19 +9,50 @@ import { sendRequest } from '../../utilities/sendRequest';
 import Usuario from '../../interfaces/usuario';
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from 'expo-router';
+import { Ubicacion } from '../../interfaces/ubicacion';
+import * as ImagePicker from 'expo-image-picker';
+import { sendCloudinary } from '../../utilities/uploadImage';
+
+interface Form {
+  foto: ImagePicker.ImagePickerAsset | undefined,
+  nombre: string | undefined,
+  descripcion: string | undefined,
+  telefono: string
+  ubicacion: number | undefined
+}
 
 const UserInfo = () => {
   useSetRouteName("Información personal");
-  const { user, setUser } = useUser();
-  const [form, setForm] = useState({
+  const { user, setUser, removeUbicacion } = useUser();
+  const initialForm: Form = {
+    foto: undefined,
     nombre: user?.nombre,
     descripcion: user?.descripcion,
     telefono: String(user?.telefono || ""),
     ubicacion: user?.ubicacionActualId
-  });
+  }
+  const [form, setForm] = useState<Form>(initialForm);
+  const [progress, setProgress] = useState(0);
+
+  const SeleccionarFoto = async () => {
+    const res = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.7
+    });
+    if(!res.canceled) {
+      setForm(old => ({...old, foto: res.assets[0] }));
+    }
+  }
 
   const handleSave = async () => {
+    let fotoUrl: string | undefined = undefined;
+    if(form.foto) {
+      fotoUrl = await sendCloudinary(form.foto, setProgress);  
+    }
     const res = await sendRequest<Usuario>(`usuario/${user?.id}`, {
+      foto: fotoUrl,
       nombre: form.nombre,
       descripcion: form.descripcion || null,
       telefono: form.telefono ? Number(form.telefono) : null,
@@ -30,18 +61,31 @@ const UserInfo = () => {
       method: "PUT"
     });
     if(res) {
+      setForm(initialForm);
       setUser(res.data);
       Alert.alert("Se actualizaron tus datos con éxito");
     }
   }
 
   const handleBorrar = async () => {
-
+    const res = await sendRequest<Ubicacion>(`ubicacion/${form.ubicacion}`, null, {
+      method: "DELETE"
+    });
+    if(res) {
+      setForm(old => ({...old, ubicacion: undefined }))
+      removeUbicacion(res.data);
+      Alert.alert("Se eliminó la ubicación con éxito");
+    }
   }
 
   if(!user) return null;
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.fotoContainer}>
+        <TouchableOpacity onPress={SeleccionarFoto}>
+          <Image style={styles.foto} source={{ uri: form.foto?.uri || user.foto }} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.inputContainer}>
         <FontedText style={styles.inputTitle} weight={600}>Nombre de usuario</FontedText>
         <TextInput 
@@ -97,7 +141,7 @@ const UserInfo = () => {
             />
             <View style={{ gap: 4 }}>
               <Button onPress={() => router.push("ubicacion")}>Nueva</Button>
-              <Button onPress={() => router.push("ubicacion")}>Eliminar</Button>
+              <Button onPress={handleBorrar}>Eliminar</Button>
             </View>
           </View>
         </View>
@@ -113,8 +157,19 @@ export default UserInfo
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
+    paddingBottom: 24,
     gap: 16,
+    alignItems: "flex-end"
+  },
+  fotoContainer: {
+    width: "100%",
+    justifyContent: "center",
     alignItems: "center"
+  },
+  foto: {
+    height: 104,
+    width: 104,
+    borderRadius: 60
   },
   inputContainer: {
     gap: 4,
