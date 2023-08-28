@@ -10,7 +10,7 @@ import { useHandleCola } from '../../hooks/useHandleCola'
 
 const Navigation = () => {
   const { route } = useRouteName();
-  const { cola, loadingSalir } = useCola();
+  const { cola, loadingSalir, timer } = useCola();
   const { myTurn, handleSalirDeCola } = useHandleCola();
 
   return (
@@ -32,7 +32,7 @@ const Navigation = () => {
               loadingSalir ?
               "Saliendo de la cola..."
               : myTurn ?
-              "¡Es tu turno de pedir!" :
+              `¡Tienes ${timer}s para pedir!` :
               `Estás en cola: ${cola.length}` 
             }
           </FontedText>

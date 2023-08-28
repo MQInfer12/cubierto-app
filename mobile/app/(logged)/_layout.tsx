@@ -8,15 +8,15 @@ import IddleManager from '../../components/wrappers/iddleManager'
 
 const LoggedLayout = () => {
   return (
-    <IddleManager>
-      <ReloadUser>
+    <ReloadUser>
+      <IddleManager>
         <View style={styles.bodyContainer}>
           <Navigation />
           <Slot />
         </View>
         <Navbar />
-      </ReloadUser>
-    </IddleManager>
+      </IddleManager>
+    </ReloadUser>
   )
 }
 

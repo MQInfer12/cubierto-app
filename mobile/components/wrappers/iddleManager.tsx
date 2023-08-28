@@ -1,39 +1,45 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { PanResponder, View } from 'react-native';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react'
+import { PanResponder, PanResponderStatic, View } from 'react-native';
+import { useCola } from '../../context/cola';
+import { useHandleCola } from '../../hooks/useHandleCola';
 
 interface Props {
-  children: JSX.Element
+  children: JSX.Element | JSX.Element[]
 }
 
 const IddleManager = ({ children }: Props) => {
   const timerId = useRef<any>(false)
-  const [timeForInactivity] = useState(1);
+  const { cola, timer, countTimer, resetTimer } = useCola();
+  const { myTurn, salirDeCola } = useHandleCola();
 
-  useEffect(() => {
-    resetInactivityTimeout();
-  }, []);
-
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => {
-        resetInactivityTimeout();
-        return false;
-      }
-    })
-  ).current;
-
-  const resetInactivityTimeout = () => {
-    clearTimeout(timerId.current);
-    timerId.current = setTimeout(() => {
-      console.log("Usuario inactivo")
-    }, timeForInactivity * 60 * 1000);
+  const reset = () => {
+    clearInterval(timerId.current);
+    resetTimer();
   }
 
-  return (
-    <View style={{ flex: 1 }} {...panResponder.panHandlers}>
-      { children }
-    </View>
-  );
+  const resetInactivityInterval = () => {
+    timerId.current = setInterval(() => {
+      countTimer();
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if(timer === 0) {
+      salirDeCola();
+      reset();
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    if(cola && myTurn) {
+      resetInactivityInterval();
+    }
+    if(!cola) {
+      reset();
+    }
+  }, [cola]);
+
+  return children;
 }
 
 export default IddleManager
