@@ -25,6 +25,10 @@ const VerRestaurante = () => {
     }
   }
 
+  const handleLike = async () => {
+    
+  }
+
   if(!res) return null;
   return (
     <View style={styles.container}>
@@ -42,7 +46,7 @@ const VerRestaurante = () => {
           <Image style={styles.foto} source={{ uri: res.data.restaurante.foto }} />
         </View>
         <View style={styles.dataContainer}>
-          <View style={[styles.iconsContainer, { flex: 3 }]}>
+          <View style={[styles.iconsContainer, { flex: 2 }]}>
             {
               res.data.restaurante.ubicacionActual &&
               <TouchableOpacity 
@@ -82,12 +86,22 @@ const VerRestaurante = () => {
                 </View>
               </TouchableOpacity>
             }
+            <TouchableOpacity 
+              onPress={() => {
+                Linking.openURL(`https://wa.me/${res.data.restaurante.telefono}`)
+              }}
+            >
+              <View style={styles.iconContainer}>
+                <Icon size={24} color={colors.white} name='heart-outline' />
+                <FontedText style={styles.iconText} weight={600}>Añadir a favoritos</FontedText>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={styles.bottomContainer}>
         <ScrollView contentContainerStyle={styles.productsContainer} showsVerticalScrollIndicator={false}>
-          <View>
+          <View style={styles.upBottomContainer}>
             <CategoriaMapper 
               categorias={res.data.categorias}
               categoriaSeleccionada={categoriaSeleccionada}
@@ -126,6 +140,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     gap: 12,
+    zIndex: 1
   },
   portada: {
     position: "absolute",
@@ -189,6 +204,9 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 24,
     borderTopLeftRadius: 24,
     overflow: "hidden"
+  },
+  upBottomContainer: {
+    flexDirection: "row"
   },
   productsContainer: {
     paddingVertical: 8,

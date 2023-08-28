@@ -15,6 +15,7 @@ import { sendCloudinary } from '../../utilities/uploadImage';
 
 interface Form {
   foto: ImagePicker.ImagePickerAsset | undefined,
+  portada: ImagePicker.ImagePickerAsset | undefined,
   nombre: string | undefined,
   descripcion: string | undefined,
   telefono: string
@@ -26,6 +27,7 @@ const UserInfo = () => {
   const { user, setUser, removeUbicacion } = useUser();
   const [form, setForm] = useState<Form>({
     foto: undefined,
+    portada: undefined,
     nombre: user?.nombre,
     descripcion: user?.descripcion,
     telefono: String(user?.telefono || ""),
@@ -45,13 +47,30 @@ const UserInfo = () => {
     }
   }
 
+  const SeleccionarPortada = async () => {
+    const res = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [2, 1],
+      quality: 0.7
+    });
+    if(!res.canceled) {
+      setForm(old => ({...old, portada: res.assets[0] }));
+    }
+  }
+
   const handleSave = async () => {
     let fotoUrl: string | undefined = undefined;
+    let portadaUrl: string | undefined = undefined;
     if(form.foto) {
       fotoUrl = await sendCloudinary(form.foto, setProgress);  
     }
+    if(form.portada) { 
+      portadaUrl = await sendCloudinary(form.portada, setProgress);
+    }
     const res = await sendRequest<Usuario>(`usuario/${user?.id}`, {
       foto: fotoUrl,
+      portada: portadaUrl,
       nombre: form.nombre,
       descripcion: form.descripcion || null,
       telefono: form.telefono ? Number(form.telefono) : null,
@@ -62,6 +81,7 @@ const UserInfo = () => {
     if(res) {
       setForm({
         foto: undefined,
+        portada: undefined,
         nombre: res.data.nombre,
         descripcion: res.data?.descripcion,
         telefono: String(res.data?.telefono || ""),
@@ -87,9 +107,21 @@ const UserInfo = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.fotoContainer}>
-        <TouchableOpacity onPress={SeleccionarFoto}>
-          <Image style={styles.foto} source={{ uri: form.foto?.uri || user.foto }} />
-        </TouchableOpacity>
+        <View style={styles.unaFotoContainer}>
+          <FontedText style={styles.inputTitle} weight={600}>Foto de perfil</FontedText>
+          <TouchableOpacity onPress={SeleccionarFoto}>
+            <Image style={styles.foto} source={{ uri: form.foto?.uri || user.foto }} />
+          </TouchableOpacity>
+        </View>
+        {
+          user.rol === "restaurante" &&
+          <View style={styles.unaFotoContainer}>
+            <FontedText style={styles.inputTitle} weight={600}>Foto de portada</FontedText>
+            <TouchableOpacity onPress={SeleccionarPortada}>
+              <Image style={styles.fotoPortada} source={{ uri: form.portada?.uri || user.portada }} />
+            </TouchableOpacity>
+          </View>
+        }
       </View>
       <View style={styles.inputContainer}>
         <FontedText style={styles.inputTitle} weight={600}>Nombre de usuario</FontedText>
@@ -168,13 +200,25 @@ const styles = StyleSheet.create({
   },
   fotoContainer: {
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center"
+    flexDirection: "row"
+  },
+  unaFotoContainer: {
+    flex: 1,
+    gap: 4
   },
   foto: {
     height: 104,
     width: 104,
-    borderRadius: 60
+    borderRadius: 8,
+    borderColor: colors.gray500,
+    borderWidth: 1
+  },
+  fotoPortada: {
+    height: 104,
+    flex: 1,
+    borderRadius: 8,
+    borderColor: colors.gray500,
+    borderWidth: 1
   },
   inputContainer: {
     gap: 4,

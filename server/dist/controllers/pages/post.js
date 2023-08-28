@@ -56,5 +56,32 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
     };
     res.json(response);
 }));
+app.put('/liketo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    let message;
+    let favorito;
+    if (!data.favoritoId) {
+        message = "Se añadio un favorito correctamente";
+        favorito = yield queries_1.default.favorito.create({
+            data: {
+                restauranteId: data.restauranteId,
+                usuarioId: data.usuarioId
+            }
+        });
+    }
+    else {
+        message = "Se quito un favorito correctamente";
+        favorito = yield queries_1.default.favorito.delete({
+            where: {
+                id: data.favoritoId
+            }
+        });
+    }
+    const response = {
+        message,
+        data: favorito
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=post.js.map

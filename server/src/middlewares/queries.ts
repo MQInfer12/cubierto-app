@@ -21,6 +21,7 @@ const xprisma = prisma.$extends({
           cola: true,
           ubicaciones: true,
           ubicacionActual: true,
+          favoritos: true,
           ventas: {
             include: {
               detalles: {
