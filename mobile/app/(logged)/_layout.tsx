@@ -4,16 +4,19 @@ import Navbar from '../../components/global/navbar'
 import { colors } from '../../styles/colors'
 import Navigation from '../../components/global/navigation'
 import ReloadUser from '../../components/wrappers/reloadUser'
+import IddleManager from '../../components/wrappers/iddleManager'
 
 const LoggedLayout = () => {
   return (
-    <ReloadUser>
-      <View style={styles.bodyContainer}>
-        <Navigation />
-        <Slot />
-      </View>
-      <Navbar />
-    </ReloadUser>
+    <IddleManager>
+      <ReloadUser>
+        <View style={styles.bodyContainer}>
+          <Navigation />
+          <Slot />
+        </View>
+        <Navbar />
+      </ReloadUser>
+    </IddleManager>
   )
 }
 

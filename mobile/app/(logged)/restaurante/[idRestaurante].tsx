@@ -1,7 +1,7 @@
 import { StyleSheet, View, TouchableOpacity, Image, Linking, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { useSetRouteName } from '../../../context/routeName';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useGet } from '../../../hooks/useGet';
 import FontedText from '../../../components/global/fontedText';
 import { RestauranteResponse } from '../../../interfaces/pages/restaurante';
@@ -187,7 +187,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flex: 1,
     borderTopEndRadius: 24,
-    borderTopLeftRadius: 24
+    borderTopLeftRadius: 24,
+    overflow: "hidden"
   },
   productsContainer: {
     paddingVertical: 8,
