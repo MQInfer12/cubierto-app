@@ -10,11 +10,16 @@ import Icon from '../../../components/global/icon';
 import CategoriaMapper from '../../../components/home/categoriaMapper';
 import OfertaMapper from '../../../components/home/ofertaMapper';
 import ProductoMapper from '../../../components/restaurante/productoMapper';
+import { useUser } from '../../../context/user';
+import { Favorito } from '../../../interfaces/favorito';
+import { sendRequest } from '../../../utilities/sendRequest';
 
 const VerRestaurante = () => {
   useSetRouteName('Ver restaurante');
   const { idRestaurante } = useLocalSearchParams();
   const { res } = useGet<RestauranteResponse>(`restaurante/${idRestaurante}`);
+  const { user, addFavorito, removeFavorito } = useUser();
+  const [favoritoLoading, setFavoritoLoading] = useState(false);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
 
   const seleccionarCategoria = (id: number) => {
@@ -26,7 +31,24 @@ const VerRestaurante = () => {
   }
 
   const handleLike = async () => {
-    
+    setFavoritoLoading(true);
+    const favoritoExistente = user?.favoritos.find(favorito => favorito.restauranteId === res?.data.restaurante.id) || null;
+    const response = await sendRequest<Favorito>('liketo', {
+      usuarioId: user?.id,
+      restauranteId: res?.data.restaurante.id,
+      favoritoId: favoritoExistente?.id
+    }, {
+      method: "PUT"
+    });
+    if(response) {
+      console.log(response);
+      if(response.message === "Se añadio un favorito correctamente") {
+        addFavorito(response.data);
+      } else {
+        removeFavorito(response.data);
+      }
+    }
+    setFavoritoLoading(false);
   }
 
   if(!res) return null;
@@ -87,13 +109,16 @@ const VerRestaurante = () => {
               </TouchableOpacity>
             }
             <TouchableOpacity 
-              onPress={() => {
-                Linking.openURL(`https://wa.me/${res.data.restaurante.telefono}`)
-              }}
+              onPress={handleLike}
+              disabled={favoritoLoading}
             >
               <View style={styles.iconContainer}>
-                <Icon size={24} color={colors.white} name='heart-outline' />
-                <FontedText style={styles.iconText} weight={600}>Añadir a favoritos</FontedText>
+                <Icon size={24} color={colors.white} 
+                  name={user?.favoritos.find(fav => fav.restauranteId === res.data.restaurante.id) ? "heart" : 'heart-outline'} 
+                />
+                <FontedText style={styles.iconText} weight={600}>
+                  {user?.favoritos.find(fav => fav.restauranteId === res.data.restaurante.id) ? "Quitar de favoritos" : 'Añadir a favoritos'} 
+                </FontedText>
               </View>
             </TouchableOpacity>
           </View>

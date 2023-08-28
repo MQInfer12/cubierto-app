@@ -1,4 +1,5 @@
 import { Cola } from "./cola";
+import { Favorito } from "./favorito";
 import { Producto } from "./producto";
 import { Ubicacion } from "./ubicacion";
 import { Venta } from "./venta";
@@ -18,7 +19,8 @@ type Usuario = {
   ventas: Venta[];
   cola: Cola;
   ubicaciones: Ubicacion[];
-  ubicacionActual: Ubicacion
+  ubicacionActual: Ubicacion;
+  favoritos: Favorito[];
 }
 
 export default Usuario;

@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from "expo-router";
 import { Venta } from "../interfaces/venta";
 import { Ubicacion } from "../interfaces/ubicacion";
+import { Favorito } from "../interfaces/favorito";
 
 interface Properties {
   user: Usuario | null
@@ -15,6 +16,8 @@ interface Functions {
   addVenta: (newVenta: Venta) => void
   addUbicacion: (ubicacion: Ubicacion) => void
   removeUbicacion: (ubicacion: Ubicacion) => void
+  addFavorito: (favorito: Favorito) => void
+  removeFavorito: (favorito: Favorito) => void
 }
 
 export const useUser = create<Properties & Functions>((set) => {
@@ -65,6 +68,34 @@ export const useUser = create<Properties & Functions>((set) => {
             user: {
               ...old.user,
               ubicaciones: old.user.ubicaciones.filter(u => u.id !== ubicacion.id)
+            }
+          }
+        }
+        return old;
+      })
+    },
+    addFavorito: (favorito) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              favoritos: [...old.user.favoritos, favorito]
+            }
+          }
+        }
+        return old;
+      });
+    },
+    removeFavorito: (favorito) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              favoritos: old.user.favoritos.filter(f => f.id !== favorito.id)
             }
           }
         }

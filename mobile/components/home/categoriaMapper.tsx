@@ -17,14 +17,12 @@ const CategoriaMapper = ({ categorias, categoriaSeleccionada, seleccionarCategor
       {
         categorias ?
         categorias.map(categoria => (
-          <>
           <CategoriaCard 
             key={categoria.id} 
             categoria={categoria} 
             seleccionarCategoria={seleccionarCategoria} 
             active={categoriaSeleccionada === categoria.id}
           />
-          </>
         )) :
         new Array(5).fill("skeleton").map((v, i) => (
           <CategoriaSkeleton key={i} />
