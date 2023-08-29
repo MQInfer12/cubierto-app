@@ -3,12 +3,13 @@ import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
+import { filterOfertas } from "../../utilities/filterOfertas";
 
 const app = Router();
 
 app.get('/pedir', async (req, res) => {
   const categorias = await xprisma.categoria.findMany();
-  const ofertas = await xprisma.productoActivo.findMany();
+  const ofertas = filterOfertas(await xprisma.productoActivo.findMany());
   const response: ApiResponse<PedirResponse> = {
     message: "Datos obtenidos correctamente",
     data: {
@@ -25,13 +26,13 @@ app.get('/restaurante/:idRestaurante', async (req, res) => {
       id: req.params.idRestaurante
     }
   });
-  const ofertasActivas = await xprisma.productoActivo.findMany({
+  const ofertasActivas = filterOfertas(await xprisma.productoActivo.findMany({
     where: {
       producto: {
         usuarioId: req.params.idRestaurante
       }
     }
-  });
+  }));
   const categorias = await xprisma.categoria.findMany({
     where: {
       productos: {

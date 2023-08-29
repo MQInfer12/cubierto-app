@@ -14,47 +14,60 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
+const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
 app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const venta = yield queries_1.default.venta.create({
-        data: {
-            usuarioId: req.params.idUsuario
-        }
-    });
     const data = req.body;
-    yield queries_1.default.detalleVenta.createMany({
-        data: data.map(item => ({
-            cantidad: item.cantidad,
-            precioUnitario: item.productoActivo.precioDescontado,
-            productoActivoId: item.productoActivo.id,
-            ventaId: venta.id
-        }))
-    });
-    const ventaConDetalles = yield queries_1.default.venta.findUnique({
-        where: {
-            id: venta.id
-        },
-        include: {
-            detalles: {
-                include: {
-                    productoActivo: {
-                        include: {
-                            producto: {
-                                include: {
-                                    usuario: true
+    const productosActivos = data.map(item => item.productoActivo);
+    const activos = (0, filterOfertas_1.filterOfertas)(productosActivos);
+    if (productosActivos.length === activos.length) {
+        const venta = yield queries_1.default.venta.create({
+            data: {
+                usuarioId: req.params.idUsuario
+            }
+        });
+        yield queries_1.default.detalleVenta.createMany({
+            data: data.map(item => ({
+                cantidad: item.cantidad,
+                precioUnitario: item.productoActivo.precioDescontado,
+                productoActivoId: item.productoActivo.id,
+                ventaId: venta.id
+            }))
+        });
+        const ventaConDetalles = yield queries_1.default.venta.findUnique({
+            where: {
+                id: venta.id
+            },
+            include: {
+                detalles: {
+                    include: {
+                        productoActivo: {
+                            include: {
+                                producto: {
+                                    include: {
+                                        usuario: true
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    });
-    const response = {
-        message: "Se pidieron los productos correctamente",
-        data: ventaConDetalles
-    };
-    res.json(response);
+        });
+        const response = {
+            message: "Se pidieron los productos correctamente",
+            data: ventaConDetalles
+        };
+        res.json(response);
+    }
+    else {
+        const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));
+        const response = {
+            message: "Alguno de las ofertas ya no esta disponible",
+            data: notActive
+        };
+        res.json(response);
+    }
 }));
 app.put('/liketo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
