@@ -103,6 +103,18 @@ const UserInfo = () => {
     }
   }
 
+  const alertBorrar = () => {
+    Alert.alert("¿Estás seguro?", "Se eliminará esta ubicación", [{
+      text: "Cancelar",
+      onPress: () => {
+        return;
+      }
+    }, {
+      text: "Continuar",
+      onPress: handleBorrar
+    }])
+  }
+
   if(!user) return null;
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -178,7 +190,7 @@ const UserInfo = () => {
             />
             <View style={{ gap: 4 }}>
               <Button onPress={() => router.push("ubicacion")}>Nueva</Button>
-              <Button onPress={handleBorrar}>Eliminar</Button>
+              <Button onPress={alertBorrar}>Eliminar</Button>
             </View>
           </View>
         </View>

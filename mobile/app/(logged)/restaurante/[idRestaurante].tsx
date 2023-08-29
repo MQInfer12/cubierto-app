@@ -41,10 +41,9 @@ const VerRestaurante = () => {
       method: "PUT"
     });
     if(response) {
-      console.log(response);
       if(response.message === "Se añadio un favorito correctamente") {
         addFavorito(response.data);
-      } else {
+      } else if (response.message === "Se quito un favorito correctamente") {
         removeFavorito(response.data);
       }
     }
@@ -68,7 +67,7 @@ const VerRestaurante = () => {
           <Image style={styles.foto} source={{ uri: res.data.restaurante.foto }} />
         </View>
         <View style={styles.dataContainer}>
-          <View style={[styles.iconsContainer, { flex: 2 }]}>
+          <View style={[styles.iconsContainer, { flex: 1.5 }]}>
             {
               res.data.restaurante.ubicacionActual &&
               <TouchableOpacity 

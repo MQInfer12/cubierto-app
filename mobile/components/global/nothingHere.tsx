@@ -5,12 +5,18 @@ import FontedText from './fontedText'
 
 interface Props {
   text: string
+  type?: "sad" | "happy"
 }
 
-const NothingHere = ({ text }: Props) => {
+const NothingHere = ({ text, type = "sad" }: Props) => {
   return (
     <View style={styles.nothingContainer}>
-      <Image source={require('../../assets/images/sadMask.png')} />
+      <Image source={
+        type === "sad" ?
+        require(`../../assets/images/sadMask.png`) :
+        type === "happy" &&
+        require(`../../assets/images/happyMask.png`)
+      } style={styles.image}/>
       <FontedText weight={600} style={styles.nothingText}>{text}</FontedText>
     </View>
   )
@@ -28,5 +34,10 @@ const styles = StyleSheet.create({
   nothingText: {
     fontSize: 16,
     color: colors.primary500
+  },
+  image: {
+    width: 96,
+    height: 96,
+    opacity: 0.8
   }
 })
