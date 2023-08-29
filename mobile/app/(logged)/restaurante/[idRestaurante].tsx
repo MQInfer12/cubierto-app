@@ -132,15 +132,15 @@ const VerRestaurante = () => {
               seleccionarCategoria={seleccionarCategoria}
             />
           </View>
-          <FontedText weight={700} style={styles.ofertasText}>Ofertas promocionales</FontedText>
+          <FontedText weight={700} style={styles.ofertasText}>Todos los productos</FontedText>
+          <ProductoMapper 
+            productos={res.data.restaurante.productos.filter(producto => categoriaSeleccionada ? producto.categoriaId === categoriaSeleccionada : true)}
+            ofertas={res.data.ofertasActivas}
+          />
+          <FontedText weight={700} style={styles.ofertasText}>Ofertas activas</FontedText>
           <OfertaMapper 
             ofertas={res.data.ofertasActivas.filter(oferta => categoriaSeleccionada ? oferta.producto.categoriaId === categoriaSeleccionada : true)}
             showRestaurant={false}
-          />
-          <FontedText weight={700} style={styles.ofertasText}>Todos los productos</FontedText>
-          <ProductoMapper 
-            producto={res.data.restaurante.productos.filter(producto => categoriaSeleccionada ? producto.categoriaId === categoriaSeleccionada : true)}
-            ofertas={res.data.ofertasActivas}
           />
         </ScrollView>
       </View>

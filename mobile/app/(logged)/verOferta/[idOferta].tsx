@@ -32,6 +32,37 @@ const VerOferta = () => {
     }
   });
   const [cantidad, setCantidad] = useState(1);
+  const [tiempoRestante, setTiempoRestante] = useState<null | number>(null);
+
+  useEffect(() => {
+    if(res) {
+      const ahora = new Date();
+      const fecha = new Date(res.data.fecha);
+      const diff = ahora.getTime() - fecha.getTime();
+      const seconds = diff / 1000;
+      const minutes = seconds / 60;
+      const segundosRestantes = (res.data.tiempo - minutes) * 60;
+      const redondear = Math.floor(segundosRestantes);
+      setTiempoRestante(redondear);
+    }
+  }, [res]);
+
+  useEffect(() => {
+    let interval: any;
+    if(tiempoRestante !== null) {
+      interval = setInterval(() => {
+        setTiempoRestante(old => {
+          if(old !== null) {
+            return old - 1
+          } 
+          return old;
+        });
+      }, 1000);
+    }
+    return () => {
+      clearInterval(interval);
+    }
+  }, [tiempoRestante]);
 
   const handleAddToCart = () => {
     if(!res) return; 
@@ -48,6 +79,21 @@ const VerOferta = () => {
   }, 0);
   const cantidadEnCarrito = items.find(item => item.productoActivo.id === Number(idOferta))?.cantidad;
   const maxproducts = (res?.data.cantidad || 1) - (cantidadEnCarrito || 0) - (cantidadVendida || 0);
+
+  let horas = 0;
+  let minutos = 0;
+  let segundos = 0;
+  let restanteString = "--:--:--";
+  let isActive = false;
+  if(tiempoRestante) {
+    horas = Math.floor(tiempoRestante / 3600);
+    minutos = Math.floor((tiempoRestante / 60) % 60);
+    const minutosConCero = minutos < 10 ? "0" + minutos : minutos;
+    segundos = tiempoRestante % 60;
+    const segundosConCero = segundos < 10 ? "0" + segundos : segundos;
+    restanteString = horas + ":" + minutosConCero + ":" + segundosConCero;
+    isActive = tiempoRestante > 0;
+  }
 
   return (
     res &&
@@ -68,10 +114,13 @@ const VerOferta = () => {
       </TouchableOpacity>
       <View style={styles.buttonsContainer}>
         {
-          !cola ?
-          <Button onPress={() => hacerCola(res.data.producto.usuario.id)}>Entrar a la cola</Button>
-          : 
-          !!maxproducts ?
+          !isActive ?
+            <View style={styles.noStockContainer}>
+              <FontedText weight={700} style={styles.noStockText}>Esta oferta ya no está activa</FontedText>
+            </View> 
+          : !cola ?
+            <Button onPress={() => hacerCola(res.data.producto.usuario.id)}>Entrar a la cola</Button>
+          : !!maxproducts ?
             loadingSalir ?
             <View style={styles.noStockContainer}>
               <FontedText weight={700} style={styles.noStockText}>Saliendo de la cola...</FontedText>
@@ -105,7 +154,11 @@ const VerOferta = () => {
       </View>
       <ScrollView contentContainerStyle={styles.scroll}>
         <FontedText style={styles.nameText} weight={700}>{res.data.producto.nombre}</FontedText>
-        <FontedText style={styles.priceText} weight={600}>Bs. {res.data.precioDescontado}</FontedText>
+        <View style={styles.priceContainer}>
+          <FontedText style={styles.priceText} weight={600}>Bs. {res.data.precioDescontado}</FontedText>
+          <FontedText style={styles.realPriceText}>Bs. {res.data.producto.precio}</FontedText>
+        </View>
+        {isActive && <FontedText style={styles.restanteText}>Oferta disponible durante: {restanteString}</FontedText>}
         <FontedText style={styles.descriptionText}>{res.data.producto.descripcion}</FontedText>
       </ScrollView>
     </View>
@@ -162,16 +215,30 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   nameText: {
-    fontSize: 20,
+    fontSize: 24,
     color: colors.gray900,
     marginBottom: 10
   },
+  priceContainer: {
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 8
+  },
   priceText: {
-    fontSize: 16,
+    fontSize: 24,
     color: colors.primary500,
-    marginBottom: 32
+  },
+  realPriceText: {
+    fontSize: 14,
+    color: colors.gray500,
+    textDecorationLine: "line-through",
+    textDecorationColor: colors.gray500
+  },
+  restanteText: {
+    color: colors.gray500,
   },
   descriptionText: {
+    marginTop: 24,
     textAlign: 'justify',
     fontSize: 14,
     color: colors.gray500,

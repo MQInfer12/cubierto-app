@@ -9,21 +9,22 @@ import { Producto } from '../../interfaces/producto'
 import ProductoCard from './productoCard'
 
 interface Props {
-  producto: Producto[]
+  productos: Producto[]
   ofertas: ProductoActivo[]
 }
 
-const ProductoMapper = ({ producto, ofertas }: Props) => {
+const ProductoMapper = ({ productos, ofertas }: Props) => {
   return (
     <ScrollView horizontal={true} contentContainerStyle={styles.cardsContainer} showsHorizontalScrollIndicator={false}>
       {
-        ofertas?.length === 0 ?
+        productos.length === 0 ?
         <View style={styles.nothingContainer}>
           <FontedText style={styles.nothingText} weight={600}>No encontramos productos aquí...</FontedText>
         </View>
         :
-        producto.map((producto) => {
+        productos.map((producto) => {
           const oferta = ofertas.find(oferta => oferta.productoId === producto.id);
+          console.log(oferta);
           return (
             oferta ?
             <OfertaCard key={oferta.producto.id} oferta={oferta} showRestaurant={false} /> :

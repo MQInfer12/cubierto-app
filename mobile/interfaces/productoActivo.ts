@@ -6,6 +6,7 @@ export interface ProductoActivo {
   cantidad: number;
   precioDescontado: number;
   fecha: Date;
+  tiempo: number;
   productoId: number;
   eliminado: boolean;
   producto: Producto;
