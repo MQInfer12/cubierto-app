@@ -15,7 +15,11 @@ const xprisma = prisma.$extends({
         usuario: {
             $allOperations({ args, query }) {
                 const newArgs = args;
-                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { productos: true, cola: true, ubicaciones: true, ubicacionActual: true, favoritos: true, ventas: {
+                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { productos: true, cola: true, ubicaciones: true, ubicacionActual: true, favoritos: {
+                        include: {
+                            restaurante: true
+                        }
+                    }, ventas: {
                         include: {
                             detalles: {
                                 include: {
@@ -42,6 +46,13 @@ const xprisma = prisma.$extends({
                 args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
                 return query(args);
             },
+        },
+        favorito: {
+            $allOperations({ args, query }) {
+                const newArgs = args;
+                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { restaurante: true });
+                return query(newArgs);
+            }
         },
         producto: {
             $allOperations({ args, query }) {

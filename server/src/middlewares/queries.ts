@@ -21,7 +21,11 @@ const xprisma = prisma.$extends({
           cola: true,
           ubicaciones: true,
           ubicacionActual: true,
-          favoritos: true,
+          favoritos: {
+            include: {
+              restaurante: true
+            }
+          },
           ventas: {
             include: {
               detalles: {
@@ -56,6 +60,16 @@ const xprisma = prisma.$extends({
         };
         return query(args);
       },
+    },
+    favorito: {
+      $allOperations({ args, query }) {
+        const newArgs = args as any;
+        newArgs.include = {
+          ...newArgs.include, 
+          restaurante: true
+        }
+        return query(newArgs);
+      }
     },
     producto: {
       $allOperations({ args, query}) {
