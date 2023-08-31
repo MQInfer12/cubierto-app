@@ -38,6 +38,15 @@ const Home = () => {
           </View>
           <FontedText style={styles.bottomButtonText} weight={600}>Información personal</FontedText>
         </TouchableOpacity>
+        {
+          user.rol === "restaurante" &&
+          <TouchableOpacity onPress={() => router.push(`productHome`)} style={styles.bottomButton}>
+            <View style={styles.bottomIconContainer}>
+              <Icon name='book-outline' size={16} color={colors.gray900} />
+            </View>
+            <FontedText style={styles.bottomButtonText} weight={600}>Productos</FontedText>
+          </TouchableOpacity>
+        }
         <TouchableOpacity style={styles.bottomButton}>
           <View style={styles.bottomIconContainer}>
             <Icon name='notifications-outline' size={16} color={colors.gray900} />
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopEndRadius: 24,
     borderTopLeftRadius: 24,
-    paddingBottom: 64
+    paddingBottom: 16
   },
   bottomTitle: {
     fontSize: 16,

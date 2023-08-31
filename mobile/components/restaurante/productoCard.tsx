@@ -1,9 +1,8 @@
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Image } from 'react-native'
 import React from 'react'
 import FontedText from '../global/fontedText'
 import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
-import { router } from 'expo-router'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Producto } from '../../interfaces/producto'
 

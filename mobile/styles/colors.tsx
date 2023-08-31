@@ -10,5 +10,5 @@ export const colors = {
   navTextColor: "#000000",
   primary700: "rgb(109, 55, 31)",
   primary600: "rgb(195, 59, 11)",
-  primary500: "rgb(255, 54, 26)",
+  primary500: "rgb(255, 54, 26)"
 }

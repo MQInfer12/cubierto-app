@@ -1,35 +1,30 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
-import NothingHere from '../../components/global/nothingHere'
 import { useSetRouteName } from '../../context/routeName'
-import { useCart } from '../../context/cart'
-import FontedText from '../../components/global/fontedText'
 import ItemMapper from '../../components/cart/itemMapper'
 import PedidosMapper from '../../components/cart/pedidosMapper'
-import { colors } from '../../styles/colors'
+import Tabs from '../../components/global/tabs'
 
-type Pages = "carrito" | "misPedidos";
+type Page = "Mi carrito" | "Mis pedidos";
 
 const Cart = () => {
   useSetRouteName('Mis pedidos');
-  const [page, setPage] = useState<Pages>("carrito");
+  const [page, setPage] = useState<Page>("Mi carrito");
+  const data: Page[] = ["Mi carrito", "Mis pedidos"];
   
   return (
     <View style={styles.container}>
-      <View style={styles.tabContainer}>
-        <TouchableOpacity style={styles.tabIndex(page === "carrito")} onPress={() => setPage("carrito")}>
-          <FontedText weight={600} style={styles.tabIndexText(page === "carrito")}>Mi carrito</FontedText>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabIndex(page === "misPedidos")} onPress={() => setPage('misPedidos')}>
-          <FontedText weight={600} style={styles.tabIndexText(page === "misPedidos")}>Mis pedidos</FontedText>
-        </TouchableOpacity>
-      </View>
+      <Tabs 
+        page={page}
+        setPage={setPage}
+        data={data}
+      />
       {
-        page === "carrito" ? 
-        <ItemMapper 
-          irAMisVentas={() => setPage("misPedidos")} 
-        /> :
-        page === "misPedidos" && <PedidosMapper />
+        page === "Mi carrito" ? 
+          <ItemMapper 
+            irAMisVentas={() => setPage("Mis pedidos")} 
+          /> 
+        : page === "Mis pedidos" && <PedidosMapper />
       }
     </View>
   )
@@ -42,17 +37,4 @@ const styles = StyleSheet.create<any>({
     paddingHorizontal: 20,
     flex: 1
   },
-  tabContainer: { 
-    flexDirection: "row"
-  },
-  tabIndex: (active: boolean) => ({
-    flex: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: active ? colors.primary500 : colors.gray500,
-    paddingVertical: 8,
-  }),
-  tabIndexText: (active: boolean) => ({
-    textAlign: "center",
-    color: active ? colors.primary500 : colors.gray500
-  })
 })
