@@ -10,8 +10,10 @@ const PedidosMapper = () => {
 
   if(!user?.ventas.length) return <NothingHere text='¡Ups... no tienes pedidos!' />
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <FontedText>Ahora mismo</FontedText>
+    <ScrollView 
+      showsVerticalScrollIndicator={false} 
+      contentContainerStyle={styles.container}
+    >
       {user.ventas.filter(venta => venta.estado === "pendiente").map(venta => (
         <PedidoActualCard key={venta.id} venta={venta} />
       ))}

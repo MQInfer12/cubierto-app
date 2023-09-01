@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { Venta } from "../interfaces/venta";
 import { Ubicacion } from "../interfaces/ubicacion";
 import { Favorito } from "../interfaces/favorito";
+import { Producto } from "../interfaces/producto";
 
 interface Properties {
   user: Usuario | null
@@ -18,6 +19,9 @@ interface Functions {
   removeUbicacion: (ubicacion: Ubicacion) => void
   addFavorito: (favorito: Favorito) => void
   removeFavorito: (favorito: Favorito) => void
+  addProducto: (producto: Producto) => void
+  editProducto: (producto: Producto) => void
+  removeProducto: (producto: Producto) => void
 }
 
 export const useUser = create<Properties & Functions>((set) => {
@@ -72,7 +76,7 @@ export const useUser = create<Properties & Functions>((set) => {
           }
         }
         return old;
-      })
+      });
     },
     addFavorito: (favorito) => {
       set(old => {
@@ -100,7 +104,54 @@ export const useUser = create<Properties & Functions>((set) => {
           }
         }
         return old;
+      });
+    },
+    addProducto: (producto) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              productos: [...old.user.productos, producto]
+            }
+          }
+        }
+        return old;
+      });
+    },
+    editProducto: (producto) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              productos: old.user.productos.map(p => {
+                if(p.id === producto.id) {
+                  return producto;
+                }
+                return p;
+              })
+            }
+          }
+        }
+        return old;
       })
+    },
+    removeProducto: (producto) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              productos: old.user.productos.filter(p => p.id !== producto.id)
+            }
+          }
+        }
+        return old;
+      });
     }
   }
 })

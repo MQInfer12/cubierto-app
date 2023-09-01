@@ -173,7 +173,7 @@ const UserInfo = () => {
           />
         </View>
         <View style={styles.inputContainer}>
-        <FontedText style={styles.inputTitle} weight={600}>Ubicación</FontedText>
+          <FontedText style={styles.inputTitle} weight={600}>Ubicación</FontedText>
           <View style={{flexDirection: "row", gap: 16, alignItems: "center" }}>
             <Dropdown 
               data={user.ubicaciones.map(ubicacion => ({

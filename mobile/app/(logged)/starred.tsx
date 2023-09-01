@@ -32,6 +32,7 @@ export default Starred
 const styles = StyleSheet.create<any>({
   container: (fullscreen: boolean) => ({
     paddingHorizontal: 20,
+    paddingBottom: 24,
     gap: 20,
     flex: fullscreen ? 1 : undefined
   }),

@@ -60,5 +60,19 @@ app.get('/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, v
     };
     res.json(response);
 }));
+app.get('/ofertas/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ofertasActivas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
+        where: {
+            producto: {
+                usuarioId: req.params.idRestaurante
+            }
+        }
+    }));
+    const response = {
+        message: "Se encontraron las ofertas activas",
+        data: ofertasActivas
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map

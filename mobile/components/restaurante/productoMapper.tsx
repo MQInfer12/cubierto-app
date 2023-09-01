@@ -1,12 +1,11 @@
 import { StyleSheet, ScrollView, View } from 'react-native'
 import React from 'react'
 import { ProductoActivo } from '../../interfaces/productoActivo'
-import OfertaCard from '../home/ofertaCard'
-import OfertaSkeleton from '../home/ofertaSkeleton'
 import FontedText from '../global/fontedText'
 import { colors } from '../../styles/colors'
 import { Producto } from '../../interfaces/producto'
 import ProductoCard from './productoCard'
+import OfertaCard from '../home/ofertaCard'
 
 interface Props {
   productos: Producto[]
@@ -24,7 +23,6 @@ const ProductoMapper = ({ productos, ofertas }: Props) => {
         :
         productos.map((producto) => {
           const oferta = ofertas.find(oferta => oferta.productoId === producto.id);
-          console.log(oferta);
           return (
             oferta ?
             <OfertaCard key={oferta.producto.id} oferta={oferta} showRestaurant={false} /> :

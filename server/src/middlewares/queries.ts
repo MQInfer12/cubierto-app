@@ -17,7 +17,11 @@ const xprisma = prisma.$extends({
         const newArgs = args as any;
         newArgs.include = {
           ...newArgs.include, 
-          productos: true,
+          productos: {
+            where: {
+              eliminado: false
+            }
+          },
           cola: true,
           ubicaciones: true,
           ubicacionActual: true,
