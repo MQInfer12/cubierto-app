@@ -1,10 +1,11 @@
 
 const QuienesSomos = () => {
-  return (
-    <div>
-      QuienesSomos
-    </div>
-  )
-}
-
-export default QuienesSomos
+    return (
+      <div>
+        QuienesSomos
+      </div>
+    )
+  }
+  
+  export default QuienesSomos
+  

@@ -20,10 +20,9 @@ const Register = () => {
     )
     if (response.ok) {
       const user = await response.json();
-      setUser(user);
+      setUser(user.data);
       navigate('/dashboard');
     }
-
   }
   return (
     <>

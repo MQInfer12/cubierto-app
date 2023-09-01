@@ -6,16 +6,17 @@ import perfil from "../../../assets/dash/perfil.svg";
 import secion from "../../../assets/dash/secion.svg";
 import { Outlet } from "react-router-dom";
 import { useUser } from "../../../context/useUser";
+import Rolecomponent from "../../../components/rolecomponent";
 const Dashnav = ({ children }) => {
 
-const {logout}= useUser();
+  const { logout } = useUser();
 
   return (
     <Dash>
       <NavDash>
         {children}
         <section>
-        <Linkdash to="/dashboard">
+          <Linkdash to="/dashboard">
             <img src={prom} alt="icon-promociones" /> Dashboard
           </Linkdash>
           <Linkdash to="/dashboard/Promociones">
@@ -33,7 +34,16 @@ const {logout}= useUser();
             <img src={perfil} alt="icon-perfil" />
             Perfil
           </Linkdash>
-          <Linkdash to="/"  onClick={logout}>
+          <Rolecomponent roles={['admin']}>
+
+            <Linkdash to="/dashboard/usuario">
+              <img src={perfil} alt="icon-perfil" />
+              Usuario
+            </Linkdash>
+
+          </Rolecomponent>
+
+          <Linkdash to="/" onClick={logout}>
             <img src={secion} alt="icon-secion" />
             Cerrar seción
           </Linkdash>
