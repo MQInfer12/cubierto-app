@@ -81,7 +81,7 @@ app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, vo
                 every: {
                     productoActivo: {
                         producto: {
-                            usuarioId: req.params.idRestaurante
+                            usuarioId: "117585476927134335712"
                         }
                     }
                 }

@@ -76,7 +76,7 @@ app.get('/pendientes/:idRestaurante', async (req, res) => {
         every: {
           productoActivo: {
             producto: {
-              usuarioId: req.params.idRestaurante
+              usuarioId: "117585476927134335712"
             }
           }
         }
