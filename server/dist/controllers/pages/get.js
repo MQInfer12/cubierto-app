@@ -74,5 +74,21 @@ app.get('/ofertas/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 
     };
     res.json(response);
 }));
+app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ventas = yield queries_1.default.venta.findMany({
+        where: {
+            detalles: {
+                every: {
+                    productoActivo: {
+                        producto: {
+                            usuarioId: req.params.idRestaurante
+                        }
+                    }
+                }
+            }
+        }
+    });
+    res.json(ventas);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map

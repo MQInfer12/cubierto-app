@@ -69,4 +69,21 @@ app.get('/ofertas/:idRestaurante', async (req, res) => {
   res.json(response);
 });
 
+app.get('/pendientes/:idRestaurante', async (req, res) => {
+  const ventas = await xprisma.venta.findMany({
+    where: {
+      detalles: {
+        every: {
+          productoActivo: {
+            producto: {
+              usuarioId: req.params.idRestaurante
+            }
+          }
+        }
+      }
+    }
+  })
+  res.json(ventas);
+});
+
 export default app;
