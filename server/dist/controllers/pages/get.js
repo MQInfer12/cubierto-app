@@ -75,7 +75,7 @@ app.get('/ofertas/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 
     res.json(response);
 }));
 app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const ventas = yield queries_1.default.venta.findMany({
+    const ventas = (0, filterOfertas_1.filterVentas)(yield queries_1.default.venta.findMany({
         where: {
             detalles: {
                 every: {
@@ -87,8 +87,12 @@ app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, vo
                 }
             }
         }
-    });
-    res.json(ventas);
+    }), 20);
+    const response = {
+        message: "Ventas encontradas correctamente",
+        data: ventas
+    };
+    res.json(response);
 }));
 exports.default = app;
 //# sourceMappingURL=get.js.map
