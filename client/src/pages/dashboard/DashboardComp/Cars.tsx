@@ -3,19 +3,20 @@ import { CasrStyle } from "../../../styles/compStyleDash";
 import img from "../../..//assets/dash/img.jpg";
 import strella from "../../..//assets/dash/strella.svg";
 import { carsDataDash } from "../../../data/carsdata";
-const Cars = () => {
+import { ProductoActivo } from "../../../interfaces/productoActivo";
+
+interface Props{
+  ofertas:ProductoActivo[] | undefined
+}
+const Cars = ({ofertas}:Props) => {
   return (
     <CasrStyle>
-      {carsDataDash.map((car) => (
+      {ofertas?.map((car) => (
         <div key={car.id}>
-          <img src={car.img} alt="" />
+          <img src={car.producto.foto} alt="" />
           <article>
-            <p>{car.description}</p>
-            <em>{car.price}</em>
-            <strong>
-              <img src={strella} alt="" />
-              {car.valoracion}
-            </strong>
+            <p>{car.producto.nombre}</p>
+            <em>Bs.{car.precioDescontado}</em>
           </article>
         </div>
       ))}

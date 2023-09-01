@@ -1,9 +1,10 @@
 const Promociones = () => {
-  return (
-    <>
-    
-    </>
-  )
-}
-
-export default Promociones
+    return (
+      <>
+      
+      </>
+    )
+  }
+  
+  export default Promociones
+  

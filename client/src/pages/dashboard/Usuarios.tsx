@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useGet } from "../../hook/useGet";
 import Usuario from "../../interfaces/usuario";
 
@@ -5,10 +6,17 @@ import { sendRequest } from "../../utilities/sendRequest";
 
 const Usuarios = () => {
     const { res } = useGet<Usuario[]>('usuario');
+    const [usuarios, setUsuarios] = useState<Usuario[] | undefined>(undefined);
+    useEffect(() => {
+        setUsuarios(res?.data);
+    }, [res])
     const handlenDelete = async (id: string) => {
-        const res = await sendRequest(`usuario/${id}`, null, {
+        const res = await sendRequest<Usuario>(`usuario/${id}`, null, {
             method: "DELETE"
         })
+        setUsuarios(anterior => (
+            anterior?.filter(usuario => usuario.id !== res?.data.id)
+        ));
         alert(res?.message)
     }
     const handlenchangeRol = async (e: React.ChangeEvent<HTMLSelectElement>, id: string) => {
@@ -18,7 +26,7 @@ const Usuarios = () => {
         alert(res?.message);
     }
     return (
-        <>
+        <div style={{ paddingLeft: "calc(210px + 3rem)" }}>
             <table>
                 <thead>
                     <tr>
@@ -28,7 +36,7 @@ const Usuarios = () => {
                 </thead>
                 <tbody>
                     {
-                        res?.data.map((user) => (
+                        usuarios?.map((user) => (
                             <>
                                 <tr key={user.id}>
                                     <th> {user.nombre}</th>
@@ -46,7 +54,7 @@ const Usuarios = () => {
                     }
                 </tbody>
             </table>
-        </>
+        </div>
     )
 }
 

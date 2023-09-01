@@ -18,6 +18,7 @@ export const NavDash = styled.nav`
   text-align: center;
   padding: 40px;
   gap: 6em;
+  position: fixed;
   & img {
     margin: 0 auto;
     width: 80px;
@@ -68,6 +69,7 @@ export const Linkdash = styled(Link)`
 export const Dashbo = styled.section`
   display: flex;
   padding: 3em;
+  padding-left:calc(210px + 3rem) ;
   width: 100%;
   height: 100%;
   flex-direction: column;
