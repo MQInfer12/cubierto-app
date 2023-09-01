@@ -40,7 +40,7 @@ const Home = () => {
         </TouchableOpacity>
         {
           user.rol === "restaurante" &&
-          <TouchableOpacity onPress={() => router.push(`productHome`)} style={styles.bottomButton}>
+          <TouchableOpacity onPress={() => router.push(`productos`)} style={styles.bottomButton}>
             <View style={styles.bottomIconContainer}>
               <Icon name='book-outline' size={16} color={colors.gray900} />
             </View>

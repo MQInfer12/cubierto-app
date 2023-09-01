@@ -64,7 +64,7 @@ const ProductForm = () => {
     });
     if(res) {
       addProducto(res.data);
-      router.push("productHome");
+      router.push("productos");
       Alert.alert("Se añadió tu producto con éxito");
     }
   }

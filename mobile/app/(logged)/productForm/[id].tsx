@@ -77,7 +77,7 @@ const ProductForm = () => {
     });
     if(res) {
       editProducto(res.data);
-      router.push("productHome");
+      router.push("productos");
       Alert.alert("Se modificó tu producto con éxito");
     }
   }

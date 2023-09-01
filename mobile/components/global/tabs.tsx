@@ -5,7 +5,7 @@ import FontedText from './fontedText'
 
 interface Props<T> {
   page: T
-  setPage: React.Dispatch<React.SetStateAction<T>>
+  setPage: (item: T) => any
   data: T[]
 }
 
@@ -14,7 +14,7 @@ const Tabs = <T,>({ page, setPage, data }: Props<T>) => {
     <View style={styles.tabContainer}>
       {data.map((item, index) => (
         <TouchableOpacity key={index} style={styles.tabIndex(page === item)} onPress={() => setPage(item)}>
-          <FontedText weight={600} style={styles.tabIndexText(page === item)}>{item as string}</FontedText>
+          <FontedText weight={600} style={styles.tabIndexText(page === item)}>{(item as string).charAt(0).toUpperCase() + (item as string).slice(1)}</FontedText>
         </TouchableOpacity>
       ))}
     </View>
