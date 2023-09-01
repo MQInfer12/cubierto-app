@@ -14,11 +14,13 @@ const Cart = () => {
   
   return (
     <View style={styles.container}>
-      <Tabs 
-        page={page}
-        setPage={setPage}
-        data={data}
-      />
+      <View style={styles.tabsContainer}>
+        <Tabs 
+          page={page}
+          setPage={setPage}
+          data={data}
+        />
+      </View>
       {
         page === "Mi carrito" ? 
           <ItemMapper 
@@ -34,7 +36,9 @@ export default Cart
 
 const styles = StyleSheet.create<any>({
   container: {
-    paddingHorizontal: 20,
     flex: 1
   },
+  tabsContainer: {
+    paddingHorizontal: 20
+  }
 })

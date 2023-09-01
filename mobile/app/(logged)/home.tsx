@@ -34,6 +34,15 @@ const Home = () => {
     }
   }, []);
   
+  const ofertas = res?.data.ofertas.filter(oferta => {
+    const cantidadVendida = oferta.detalleVentas.reduce((suma, detalle) => {
+      suma += detalle.cantidad;
+      return suma;
+    }, 0);
+    const maxproducts = oferta.cantidad - cantidadVendida;
+    return maxproducts > 0;
+  })
+
   if(cola) return null;
   return (
     <ScrollView>
@@ -58,7 +67,7 @@ const Home = () => {
       />
       <FontedText style={styles.ofertasText} weight={700}>Ofertas promocionales</FontedText>
       <OfertaMapper 
-        ofertas={res?.data.ofertas.filter(oferta => 
+        ofertas={ofertas?.filter(oferta => 
           categoriaSeleccionada ? oferta.producto.categoriaId === categoriaSeleccionada : true
         )}
       />

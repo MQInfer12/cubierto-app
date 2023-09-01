@@ -4,6 +4,7 @@ import { CartItem, useCart } from '../../context/cart'
 import { colors } from '../../styles/colors'
 import FontedText from '../global/fontedText'
 import NumberInput from '../global/numberInput'
+import { shadows } from '../../styles/shadows'
 
 interface Props {
   item: CartItem
@@ -58,7 +59,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 16,
     gap: 12,
-    flexDirection: "row"
+    flexDirection: "row",
+    ...shadows.shadow400
   },
   image: {
     width: 80,

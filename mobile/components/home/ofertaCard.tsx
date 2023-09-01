@@ -19,7 +19,6 @@ const OfertaCard = ({ oferta, showRestaurant = true }: Props) => {
   }, 0);
   const maxproducts = oferta.cantidad - cantidadVendida;
 
-  if(maxproducts <= 0) return null; 
   return (
     <TouchableOpacity onPress={() => router.push(`verOferta/${oferta.id}`)} style={styles.cardContainer}>
       <View>
@@ -39,6 +38,12 @@ const OfertaCard = ({ oferta, showRestaurant = true }: Props) => {
               <FontedText numberOfLines={1} style={styles.profileText} weight={600}>{oferta.producto.usuario.nombre}</FontedText>
             </View>
           </TouchableOpacity>
+        }
+        {
+          (maxproducts <= 0 && !showRestaurant) &&
+          <View style={styles.noStockContainer}>
+            <FontedText numberOfLines={1} style={styles.noStockText} weight={600}>¡Ya no hay stock!</FontedText>
+          </View>
         }
         <FontedText weight={700} style={styles.cardName} numberOfLines={1}>{oferta.producto.nombre}</FontedText>
         <View style={styles.pricesContainer}>
@@ -111,5 +116,14 @@ const styles = StyleSheet.create({
   profileText: {
     color: colors.white,
     fontSize: 12
+  },
+  noStockContainer: {
+    position: "absolute",
+    left: 16,
+    top: -32
+  },
+  noStockText: {
+    color: colors.white,
+    fontSize: 14
   }
 })
