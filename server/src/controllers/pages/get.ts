@@ -4,6 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
 import { filterOfertas } from "../../utilities/filterOfertas";
+import { ProductoActivo } from "@prisma/client";
 
 const app = Router();
 
@@ -50,6 +51,21 @@ app.get('/restaurante/:idRestaurante', async (req, res) => {
       categorias
     }
   }
+  res.json(response);
+});
+
+app.get('/ofertas/:idRestaurante', async (req, res) => {
+  const ofertasActivas = filterOfertas(await xprisma.productoActivo.findMany({
+    where: {
+      producto: {
+        usuarioId: req.params.idRestaurante
+      }
+    }
+  }));
+  const response: ApiResponse<ProductoActivo[]> = {
+    message: "Se encontraron las ofertas activas",
+    data: ofertasActivas
+  };
   res.json(response);
 });
 
