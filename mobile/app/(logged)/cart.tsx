@@ -5,12 +5,12 @@ import ItemMapper from '../../components/cart/itemMapper'
 import PedidosMapper from '../../components/cart/pedidosMapper'
 import Tabs from '../../components/global/tabs'
 
-type Page = "Mi carrito" | "Mis pedidos";
+type Page = "Mi carrito" | "Mis pedidos" | "Pendientes";
 
 const Cart = () => {
   useSetRouteName('Mis pedidos');
   const [page, setPage] = useState<Page>("Mi carrito");
-  const data: Page[] = ["Mi carrito", "Mis pedidos"];
+  const data: Page[] = ["Mi carrito", "Mis pedidos", "Pendientes"];
   
   return (
     <View style={styles.container}>

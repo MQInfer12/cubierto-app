@@ -5,6 +5,7 @@ import FontedText from '../global/fontedText'
 import { colors } from '../../styles/colors'
 import Icon from '../global/icon'
 import { shadows } from '../../styles/shadows'
+import { useCronometer } from '../../hooks/useCronometer'
 
 interface Props {
   venta: Venta
@@ -12,15 +13,20 @@ interface Props {
 
 const PedidoActualCard = ({ venta }: Props) => {
   const [open, setOpen] = useState(false);
-  let hours = new Date().getTime() - new Date(venta.fecha).getTime();
-  hours /= 1000;
-  hours /= 60;
-  hours /= 60;
-  const { nombre, foto } = venta.detalles[0].productoActivo.producto.usuario;
+  
+  const { restanteString, isActive } = useCronometer(venta.fecha, 20);
+
   const total = venta.detalles.reduce((suma, detalle) => {
     suma += detalle.cantidad * detalle.precioUnitario;
     return suma;
   }, 0);
+  const { nombre, foto } = venta.detalles[0].productoActivo.producto.usuario;
+  let hours = new Date().getTime() - new Date(venta.fecha).getTime();
+  hours /= (1000 * 60 * 60);
+
+  let estado = venta.estado;
+  estado = !isActive && estado === "pendiente" ? "sin respuesta" : estado
+  const showEstado = estado.charAt(0).toUpperCase() + estado.slice(1)
 
   return (
     <View style={styles.container} key={venta.id}>
@@ -30,16 +36,23 @@ const PedidoActualCard = ({ venta }: Props) => {
           <View style={styles.textsContainer}>
             <FontedText numberOfLines={1} weight={700} style={styles.nameText}>{nombre}</FontedText>
             <View style={styles.bottomTextContainer}>
-              <FontedText style={styles.estadoText}>{venta.estado}</FontedText>
-              <FontedText style={styles.horasText}>hace {Math.floor(hours)} horas</FontedText>
+              <FontedText style={styles.estadoText}>{showEstado}</FontedText>
+              <FontedText style={styles.horasText}>Precio total: Bs. {total}</FontedText>
             </View>
           </View>
         </View>
-        <FontedText style={styles.totalText} weight={600}>Precio total: Bs. {total}</FontedText>
+        <FontedText style={styles.totalText} weight={600}>
+          {
+            isActive ? 
+            `Gracias, atenderemos tu pedido en menos de ${restanteString}` 
+            : 
+            hours < 1 ? `Hace menos de una hora` : `Hace ${Math.floor(hours)} horas`
+          }
+        </FontedText>
       </View>
       <TouchableOpacity onPress={() => setOpen(!open)} style={styles.verDetallesContainer}>
-        <FontedText weight={600} style={styles.verDetallesText}>Ver detalles</FontedText>
-        <Icon name='chevron-down-outline' size={12} color={colors.gray900} />
+        <FontedText weight={600} style={styles.verDetallesText}>{open ? "Ocultar" : "Ver"} detalles</FontedText>
+        <Icon name={`chevron-${open ? "up" : "down"}-outline`} size={12} color={colors.gray900} />
       </TouchableOpacity>
       {
         open && 
@@ -79,7 +92,6 @@ const styles = StyleSheet.create({
   },
   allContainer: {
     padding: 16,
-    paddingBottom: 8,
     gap: 12
   },
   topContainer: {

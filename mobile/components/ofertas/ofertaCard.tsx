@@ -8,77 +8,15 @@ import Icon from '../global/icon'
 import { sendRequest } from '../../utilities/sendRequest'
 import { useUser } from '../../context/user'
 import { ProductoActivo } from '../../interfaces/productoActivo'
+import { useGet } from '../../hooks/useGet'
+import { useCronometer } from '../../hooks/useCronometer'
 
 interface Props {
   oferta: ProductoActivo
 }
 
 const OfertaCard = ({ oferta }: Props) => {
-  const { removeProducto } = useUser();
-  const [tiempoRestante, setTiempoRestante] = useState<null | number>(() => {
-    const ahora = new Date();
-    const fecha = new Date(oferta.fecha);
-    const diff = ahora.getTime() - fecha.getTime();
-    const seconds = diff / 1000;
-    const minutes = seconds / 60;
-    const segundosRestantes = (oferta.tiempo - minutes) * 60;
-    const redondear = Math.floor(segundosRestantes);
-    return redondear;
-  });
-
-  useEffect(() => {
-    let interval: any;
-    if(tiempoRestante !== null) {
-      interval = setInterval(() => {
-        setTiempoRestante(old => {
-          if(old !== null) {
-            return old - 1
-          } 
-          return old;
-        });
-      }, 1000);
-    }
-    return () => {
-      clearInterval(interval);
-    }
-  }, [tiempoRestante]);
-
-  let horas = 0;
-  let minutos = 0;
-  let segundos = 0;
-  let restanteString = "--:--:--";
-  let isActive = false;
-  if(tiempoRestante) {
-    horas = Math.floor(tiempoRestante / 3600);
-    minutos = Math.floor((tiempoRestante / 60) % 60);
-    const minutosConCero = minutos < 10 ? "0" + minutos : minutos;
-    segundos = tiempoRestante % 60;
-    const segundosConCero = segundos < 10 ? "0" + segundos : segundos;
-    restanteString = horas + ":" + minutosConCero + ":" + segundosConCero;
-    isActive = tiempoRestante > 0;
-  }
-  
-  const handleDelete = async () => {
-    const res = await sendRequest<Producto>(`productoActivo/${oferta.id}`, null, {
-      method: "DELETE"
-    });
-    if(res) {
-      removeProducto(res.data);
-      Alert.alert("Se eliminó el producto correctamente");
-    }
-  }
-
-  const handleAlertDelete = () => {
-    Alert.alert("¿Estás seguro?", "Se eliminará este producto", [{
-      text: "Cancelar",
-      onPress: () => {
-        return;
-      }
-    }, {
-      text: "Continuar",
-      onPress: handleDelete
-    }]);
-  }
+  const { restanteString } = useCronometer(oferta.fecha, oferta.tiempo);
 
   return (
     <View style={styles.ofertaCard}>
@@ -88,14 +26,6 @@ const OfertaCard = ({ oferta }: Props) => {
           <FontedText numberOfLines={1} weight={700} style={styles.name}>{oferta.producto.nombre}</FontedText>
           <FontedText style={styles.description}>{oferta.cantidad} Unidades - {restanteString}</FontedText>
         </View>
-      </View>
-      <View style={styles.buttons}>
-        {/* <TouchableOpacity onPress={() => router.push(`productForm/${producto.id}`)}>
-          <Icon name='pencil-outline' color={colors.gray500} size={18} />
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity onPress={() => {}}>
-          <Icon name='trash-outline' color={colors.primary500} size={18} />
-        </TouchableOpacity> */}
       </View>
     </View>
   )
@@ -136,9 +66,5 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.gray600
-  },
-  buttons: {
-    flexDirection: "row",
-    gap: 12
   }
 })
