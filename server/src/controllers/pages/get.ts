@@ -3,7 +3,7 @@ import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
-import { filterOfertas } from "../../utilities/filterOfertas";
+import { filterDonaciones, filterOfertas } from "../../utilities/filterOfertas";
 import { ProductoActivo, Venta } from "@prisma/client";
 
 const app = Router();
@@ -134,6 +134,49 @@ app.get('/venta/completado/:idRestaurante', async (req, res) => {
   const response: ApiResponse<Venta[]> = {
     message: "Ventas obtenidas correctamente",
     data: ventas
+  }
+  res.json(response);
+});
+
+app.get('/donaciones', async (req, res) => {
+  const ofertas = await xprisma.productoActivo.findMany({
+    include: {
+      detalleVentas: {
+        include: {
+          venta: {
+            select: {
+              estado: true,
+              fecha: true
+            }
+          }
+        }
+      }
+    }
+  });
+  const ofertasRes = ofertas.map(oferta => {
+    const stock = oferta.cantidad;
+    const stockADescontar = oferta.detalleVentas.reduce((suma, detalle) => {
+      if(detalle.venta.estado === "pendiente") {
+        const ahora = new Date();
+        const publicado = new Date(detalle.venta.fecha);
+        const milliseconds = ahora.getTime() - publicado.getTime();
+        const seconds = milliseconds / 1000;
+        const minutes = seconds / 60;
+        if (minutes < 20) {
+          suma += detalle.cantidad;
+        }
+      } else {
+        suma += detalle.cantidad;
+      }
+      return suma;
+    }, 0);
+    oferta.cantidad = stock - stockADescontar;
+    return oferta;
+  });
+
+  const response: ApiResponse<ProductoActivo[]> = {
+    message: "Donaciones obtenidas correctamente",
+    data: ofertasRes
   }
   res.json(response);
 });

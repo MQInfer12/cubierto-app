@@ -140,5 +140,47 @@ app.get('/venta/completado/:idRestaurante', (req, res) => __awaiter(void 0, void
     };
     res.json(response);
 }));
+app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ofertas = yield queries_1.default.productoActivo.findMany({
+        include: {
+            detalleVentas: {
+                include: {
+                    venta: {
+                        select: {
+                            estado: true,
+                            fecha: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+    const ofertasRes = ofertas.map(oferta => {
+        const stock = oferta.cantidad;
+        const stockADescontar = oferta.detalleVentas.reduce((suma, detalle) => {
+            if (detalle.venta.estado === "pendiente") {
+                const ahora = new Date();
+                const publicado = new Date(detalle.venta.fecha);
+                const milliseconds = ahora.getTime() - publicado.getTime();
+                const seconds = milliseconds / 1000;
+                const minutes = seconds / 60;
+                if (minutes < 20) {
+                    suma += detalle.cantidad;
+                }
+            }
+            else {
+                suma += detalle.cantidad;
+            }
+            return suma;
+        }, 0);
+        oferta.cantidad = stock - stockADescontar;
+        return oferta;
+    });
+    const response = {
+        message: "Donaciones obtenidas correctamente",
+        data: ofertasRes
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map

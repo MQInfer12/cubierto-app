@@ -90,6 +90,14 @@ const xprisma = prisma.$extends({
                                     not: "rechazado"
                                 }
                             }
+                        },
+                        include: {
+                            venta: {
+                                select: {
+                                    estado: true,
+                                    fecha: true
+                                }
+                            }
                         }
                     } });
                 return query(newArgs);
