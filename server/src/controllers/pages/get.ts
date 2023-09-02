@@ -55,13 +55,13 @@ app.get('/restaurante/:idRestaurante', async (req, res) => {
 });
 
 app.get('/ofertas/:idRestaurante', async (req, res) => {
-  const ofertasActivas = filterOfertas(await xprisma.productoActivo.findMany({
+  const ofertasActivas = await xprisma.productoActivo.findMany({
     where: {
       producto: {
         usuarioId: req.params.idRestaurante
       }
     }
-  }));
+  });
   const response: ApiResponse<ProductoActivo[]> = {
     message: "Se encontraron las ofertas activas",
     data: ofertasActivas
