@@ -76,7 +76,7 @@ app.get('/pendientes/:idRestaurante', async (req, res) => {
         every: {
           productoActivo: {
             producto: {
-              usuarioId: "117585476927134335712"
+              usuarioId: req.params.idRestaurante
             }
           }
         }
@@ -109,6 +109,30 @@ app.get('/pedidos/:idUsuario', async (req, res) => {
   });
   const response: ApiResponse<Venta[]> = {
     message: "Pedidos obtenidos correctamente",
+    data: ventas
+  }
+  res.json(response);
+});
+
+app.get('/venta/completado/:idRestaurante', async (req, res) => {
+  let ventas = await xprisma.venta.findMany({
+    where: {
+      detalles: {
+        every: {
+          productoActivo: {
+            producto: {
+              usuarioId: req.params.idRestaurante
+            }
+          }
+        }
+      },
+      AND: {
+        estado: "recogido"
+      }
+    }
+  });
+  const response: ApiResponse<Venta[]> = {
+    message: "Ventas obtenidas correctamente",
     data: ventas
   }
   res.json(response);

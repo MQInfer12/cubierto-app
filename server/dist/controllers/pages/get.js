@@ -81,7 +81,7 @@ app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, vo
                 every: {
                     productoActivo: {
                         producto: {
-                            usuarioId: "117585476927134335712"
+                            usuarioId: req.params.idRestaurante
                         }
                     }
                 }
@@ -113,6 +113,29 @@ app.get('/pedidos/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, f
     });
     const response = {
         message: "Pedidos obtenidos correctamente",
+        data: ventas
+    };
+    res.json(response);
+}));
+app.get('/venta/completado/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let ventas = yield queries_1.default.venta.findMany({
+        where: {
+            detalles: {
+                every: {
+                    productoActivo: {
+                        producto: {
+                            usuarioId: req.params.idRestaurante
+                        }
+                    }
+                }
+            },
+            AND: {
+                estado: "recogido"
+            }
+        }
+    });
+    const response = {
+        message: "Ventas obtenidas correctamente",
         data: ventas
     };
     res.json(response);
