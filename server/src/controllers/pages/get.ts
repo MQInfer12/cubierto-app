@@ -101,4 +101,17 @@ app.get('/pendientes/:idRestaurante', async (req, res) => {
   res.json(response);
 });
 
+app.get('/pedidos/:idUsuario', async (req, res) => {
+  const ventas = await xprisma.venta.findMany({
+    where: {
+      usuarioId: req.params.idUsuario
+    }
+  });
+  const response: ApiResponse<Venta[]> = {
+    message: "Pedidos obtenidos correctamente",
+    data: ventas
+  }
+  res.json(response);
+});
+
 export default app;

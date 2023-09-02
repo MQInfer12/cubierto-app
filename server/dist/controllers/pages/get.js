@@ -105,5 +105,17 @@ app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, vo
     };
     res.json(response);
 }));
+app.get('/pedidos/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ventas = yield queries_1.default.venta.findMany({
+        where: {
+            usuarioId: req.params.idUsuario
+        }
+    });
+    const response = {
+        message: "Pedidos obtenidos correctamente",
+        data: ventas
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map
