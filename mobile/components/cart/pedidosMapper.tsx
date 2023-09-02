@@ -7,9 +7,11 @@ import FontedText from '../global/fontedText';
 import { colors } from '../../styles/colors';
 import { Venta } from '../../interfaces/venta';
 import Button from '../global/button';
+import { useGet } from '../../hooks/useGet';
 
 const PedidosMapper = () => {
   const { user } = useUser();
+  const { res } = useGet<Venta[]>(`pedidos/${user?.id}`);
   const [showOlds, setShowOlds] = useState(false);
 
   const getMinutesPast = (venta: Venta) => {
@@ -23,25 +25,35 @@ const PedidosMapper = () => {
 
   const filterVentasActuales = (ventas: Venta[]) => {
     return ventas.filter(venta => {
-      return getMinutesPast(venta) < 20;
+      if(venta.estado === "pendiente") {
+        return getMinutesPast(venta) < 20;
+      } else {
+        return getMinutesPast(venta) < 120;
+      }
     })
   }
 
   const filterVentasAnteriores = (ventas: Venta[]) => {
     return ventas.filter(venta => {
-      return getMinutesPast(venta) > 20;
+      if(venta.estado === "pendiente") {
+        return getMinutesPast(venta) > 20;
+      } else {
+        return getMinutesPast(venta) > 120;
+      }
     })
   }
 
+  if(!res) return null;
+
   let ventas: Venta[] = [];
-  if(user) {
-    ventas = [...user.ventas];
-    ventas.reverse();
-  }
-  if(!user?.ventas.length) return <NothingHere text='¡Ups... no tienes pedidos!' />
+  ventas = [...res.data];
+  ventas.reverse();
+
+  if(!res.data.length) return <NothingHere text='¡Ups... no tienes pedidos!' />
   return (
     <ScrollView 
       contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false} 
     >
       {
         filterVentasActuales(ventas).length !== 0 &&
@@ -73,6 +85,7 @@ const PedidosMapper = () => {
             />
           )}
           initialNumToRender={4}
+          nestedScrollEnabled={true}
         />
       }
     </ScrollView>

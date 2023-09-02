@@ -16,13 +16,12 @@ interface Props {
 
 const ItemMapper = ({ irAMisVentas }: Props) => {
   const { items } = useCart();
-  const { user, addVenta } = useUser();
+  const { user } = useUser();
   const { salirDeCola } = useHandleCola();
 
   const pedir = async () => {
     const res = await sendRequest<Venta>(`carrito/enviar/${user?.id}`, items);
     if(res) {
-      addVenta(res.data);
       Alert.alert("Se envió tu pedido correctamente");
       irAMisVentas();
       salirDeCola();

@@ -16,7 +16,6 @@ type Usuario = {
   descripcion: string;
   ubicacionActualId: number;
   productos: Producto[];
-  ventas: Venta[];
   cola: Cola;
   ubicaciones: Ubicacion[];
   ubicacionActual: Ubicacion;
