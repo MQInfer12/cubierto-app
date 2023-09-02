@@ -1,8 +1,8 @@
 import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import { ItemCarrito } from "../../interfaces/pages/post";
-import { Favorito, ProductoActivo, Venta } from "@prisma/client";
+import { CarritoBeneficiario, ItemCarrito } from "../../interfaces/pages/post";
+import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
 
 const app = Router();
@@ -110,5 +110,27 @@ app.patch('/venta/estado/:idVenta', async (req, res) => {
   }
   res.json(response);
 })
+
+app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
+  const data: CarritoBeneficiario = req.body;
+  const donacion = await xprisma.donacion.create({
+    data: {
+      beneficiarioId: req.params.idBeneficiario,
+      donadorId: data.donadorId,
+    }
+  });
+  await xprisma.detalleDonacion.createMany({
+    data: data.items.map(item => ({
+      donacionId: donacion.id,
+      cantidad: item.cantidad,
+      productoId: item.productoActivo.id
+    }))
+  })
+  const response: ApiResponse<Donacion> = {
+    message: "Se pidieron los productos correctamente",
+    data: donacion
+  }
+  res.json(response);
+});
 
 export default app;

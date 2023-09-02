@@ -111,5 +111,26 @@ app.patch('/venta/estado/:idVenta', (req, res) => __awaiter(void 0, void 0, void
     };
     res.json(response);
 }));
+app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const donacion = yield queries_1.default.donacion.create({
+        data: {
+            beneficiarioId: req.params.idBeneficiario,
+            donadorId: data.donadorId,
+        }
+    });
+    yield queries_1.default.detalleDonacion.createMany({
+        data: data.items.map(item => ({
+            donacionId: donacion.id,
+            cantidad: item.cantidad,
+            productoId: item.productoActivo.id
+        }))
+    });
+    const response = {
+        message: "Se pidieron los productos correctamente",
+        data: donacion
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=post.js.map
