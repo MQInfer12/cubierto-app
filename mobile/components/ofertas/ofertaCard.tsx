@@ -10,23 +10,56 @@ import { useUser } from '../../context/user'
 import { ProductoActivo } from '../../interfaces/productoActivo'
 import { useGet } from '../../hooks/useGet'
 import { useCronometer } from '../../hooks/useCronometer'
+import { formatFecha } from '../../utilities/formatDate'
 
 interface Props {
   oferta: ProductoActivo
+  getData: () => void
 }
 
-const OfertaCard = ({ oferta }: Props) => {
-  const { restanteString } = useCronometer(oferta.fecha, oferta.tiempo);
+const OfertaCard = ({ oferta, getData }: Props) => {
+  const { restanteString, isActive } = useCronometer(oferta.fecha, oferta.tiempo);
+
+  const handleDelete = async () => {
+    const res = await sendRequest<Producto>(`productoActivo/${oferta.id}`, null, {
+      method: "DELETE"
+    });
+    if(res) {
+      getData();
+      Alert.alert("Se eliminó el producto correctamente");
+    }
+  }
+
+  const handleAlertDelete = () => {
+    Alert.alert("¿Estás seguro?", "Se eliminará esta oferta de las donaciones", [{
+      text: "Cancelar",
+      onPress: () => {
+        return;
+      }
+    }, {
+      text: "Continuar",
+      onPress: handleDelete
+    }]);
+  }
 
   return (
     <View style={styles.ofertaCard}>
       <View style={styles.productData}>
         <Image style={styles.productFoto} source={{ uri: oferta.producto.foto }} />
         <View style={styles.productTexts}>
+          <FontedText style={styles.fecha}>{formatFecha(oferta.fecha)}</FontedText>
           <FontedText numberOfLines={1} weight={700} style={styles.name}>{oferta.producto.nombre}</FontedText>
-          <FontedText style={styles.description}>{oferta.cantidad} Unidades - {restanteString}</FontedText>
+          <FontedText style={styles.description}>{oferta.cantidad} Unidades - {isActive ? restanteString : "En donaciones..."}</FontedText>
         </View>
       </View>
+      {
+        !isActive &&
+        <View style={styles.buttons}>
+          <TouchableOpacity onPress={handleAlertDelete}>
+            <Icon name='trash-outline' color={colors.primary500} size={18} />
+          </TouchableOpacity>
+        </View>
+      }
     </View>
   )
 }
@@ -57,7 +90,7 @@ const styles = StyleSheet.create({
   },
   productTexts: {
     height: "100%",
-    justifyContent: "space-evenly"
+    justifyContent: "space-between"
   },
   name: {
     color: colors.gray900,
@@ -66,5 +99,13 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.gray600
+  },
+  fecha: {
+    color: colors.gray600,
+    fontSize: 10
+  },
+  buttons: {
+    flexDirection: "row",
+    gap: 12
   }
 })

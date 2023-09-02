@@ -36,12 +36,15 @@ const PedidoActualCard = ({ venta }: Props) => {
           <View style={styles.textsContainer}>
             <FontedText numberOfLines={1} weight={700} style={styles.nameText}>{nombre}</FontedText>
             <View style={styles.bottomTextContainer}>
-              <FontedText style={styles.estadoText}>{showEstado}</FontedText>
+              <FontedText 
+                weight={600}
+                style={styles.estadoText((venta.estado === "aceptado" || venta.estado === "recogido") ? colors.success : colors.primary500)}
+              >{showEstado}</FontedText>
               <FontedText style={styles.horasText}>Precio total: Bs. {total}</FontedText>
             </View>
           </View>
         </View>
-        <FontedText style={styles.totalText} weight={600}>
+        <FontedText style={styles.totalText}>
           {
             isActive ? 
               venta.estado === "recogido" ?
@@ -89,7 +92,7 @@ const PedidoActualCard = ({ venta }: Props) => {
 
 export default PedidoActualCard
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<any>({
   container: {
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
@@ -121,9 +124,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  estadoText: {
-    color: colors.primary500
-  },
+  estadoText: (color: string) => ({
+    color: color
+  }),
   horasText: {
     color: colors.gray500
   },

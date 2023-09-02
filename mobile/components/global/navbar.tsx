@@ -15,6 +15,9 @@ const Navbar = () => {
         <Icon name='home' color={currentRoute === "/home" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/cart')} style={styles.button}>
+        <Icon name='fitness-outline' color={currentRoute === "/cart" ? colors.primary500 : colors.gray500} size={24} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push('/cart')} style={styles.button}>
         <Icon name='cart' color={currentRoute === "/cart" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push('/starred')} style={styles.button}>
