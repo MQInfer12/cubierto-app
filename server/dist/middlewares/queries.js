@@ -23,22 +23,6 @@ const xprisma = prisma.$extends({
                         include: {
                             restaurante: true
                         }
-                    }, ventas: {
-                        include: {
-                            detalles: {
-                                include: {
-                                    productoActivo: {
-                                        include: {
-                                            producto: {
-                                                include: {
-                                                    usuario: true
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     } });
                 return query(newArgs);
             },
@@ -99,7 +83,15 @@ const xprisma = prisma.$extends({
                         include: {
                             usuario: true
                         }
-                    }, detalleVentas: true });
+                    }, detalleVentas: {
+                        where: {
+                            venta: {
+                                estado: {
+                                    not: "rechazado"
+                                }
+                            }
+                        }
+                    } });
                 return query(newArgs);
             },
             findMany({ args, query }) {
