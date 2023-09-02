@@ -63,7 +63,6 @@ app.delete('/cola/salir/:id', async (req, res) => {
       }
     }
   });
-
   const response: ApiResponse<SalirColaResponse> = {
     message: salio.usuario.nombre + " salió de la cola",
     data: {
