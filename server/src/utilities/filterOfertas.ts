@@ -10,14 +10,3 @@ export const filterOfertas = (ofertas: ProductoActivo[]) => {
     return minutes < oferta.tiempo;
   });
 }
-
-export const filterVentas = (ventas: Venta[], maxTime: number) => {
-  const ahora = new Date();
-  return ventas.filter(venta => {
-    const fecha = new Date(venta.fecha);
-    const milliseconds = ahora.getTime() - fecha.getTime();
-    const seconds = milliseconds / 1000;
-    const minutes = seconds / 60;
-    return minutes < maxTime;
-  })
-} 

@@ -3,7 +3,7 @@ import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
-import { filterOfertas, filterVentas } from "../../utilities/filterOfertas";
+import { filterOfertas } from "../../utilities/filterOfertas";
 import { ProductoActivo, Venta } from "@prisma/client";
 
 const app = Router();
@@ -70,7 +70,7 @@ app.get('/ofertas/:idRestaurante', async (req, res) => {
 });
 
 app.get('/pendientes/:idRestaurante', async (req, res) => {
-  const ventas = filterVentas(await xprisma.venta.findMany({
+  let ventas = await xprisma.venta.findMany({
     where: {
       detalles: {
         every: {
@@ -82,7 +82,18 @@ app.get('/pendientes/:idRestaurante', async (req, res) => {
         }
       }
     }
-  }), 20);
+  });
+  const ahora = new Date();
+  ventas = ventas.filter(venta => {
+    if(venta.estado === "pendiente") {
+      const fecha = new Date(venta.fecha);
+      const milliseconds = ahora.getTime() - fecha.getTime();
+      const seconds = milliseconds / 1000;
+      const minutes = seconds / 60;
+      return minutes < 20;
+    }
+    return venta.estado === "aceptado";
+  });
   const response: ApiResponse<Venta[]> = {
     message: "Ventas encontradas correctamente",
     data: ventas

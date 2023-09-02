@@ -96,5 +96,20 @@ app.put('/liketo', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     };
     res.json(response);
 }));
+app.patch('/venta/estado/:idVenta', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const venta = yield queries_1.default.venta.update({
+        where: {
+            id: Number(req.params.idVenta)
+        },
+        data: {
+            estado: req.body.estado
+        }
+    });
+    const response = {
+        message: "Estado de venta cambiado correctamente",
+        data: venta
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=post.js.map

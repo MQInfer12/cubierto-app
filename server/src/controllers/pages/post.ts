@@ -95,4 +95,20 @@ app.put('/liketo', async (req, res) => {
   res.json(response);
 });
 
+app.patch('/venta/estado/:idVenta', async (req, res) => {
+  const venta = await xprisma.venta.update({
+    where: {
+      id: Number(req.params.idVenta)
+    },
+    data: {
+      estado: req.body.estado
+    }
+  });
+  const response: ApiResponse<Venta> = {
+    message: "Estado de venta cambiado correctamente",
+    data: venta
+  }
+  res.json(response);
+})
+
 export default app;
