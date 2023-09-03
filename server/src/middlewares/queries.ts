@@ -86,7 +86,13 @@ const xprisma = prisma.$extends({
         const newArgs = args as any;
         newArgs.include = {
           ...newArgs.include, 
-          detalles: true
+          detalles: {
+            include:{
+              producto: true
+            }
+          },
+          beneficiario: true,
+          donador: true
         }
         return query(newArgs);
       }

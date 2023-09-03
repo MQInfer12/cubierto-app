@@ -64,7 +64,11 @@ const xprisma = prisma.$extends({
         donacion: {
             $allOperations({ args, query }) {
                 const newArgs = args;
-                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { detalles: true });
+                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { detalles: {
+                        include: {
+                            producto: true
+                        }
+                    }, beneficiario: true, donador: true });
                 return query(newArgs);
             }
         },
