@@ -119,11 +119,16 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
       donadorId: data.donadorId,
     }
   });
+  console.log(data.items.map(item => ({
+    donacionId: donacion.id,
+    cantidad: item.cantidad,
+    productoId: item.productoActivo.productoId
+  })));
   await xprisma.detalleDonacion.createMany({
     data: data.items.map(item => ({
       donacionId: donacion.id,
       cantidad: item.cantidad,
-      productoId: item.productoActivo.id
+      productoId: item.productoActivo.producto.id
     }))
   })
   const response: ApiResponse<Donacion> = {
