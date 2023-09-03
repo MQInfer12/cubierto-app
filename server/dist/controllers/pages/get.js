@@ -195,5 +195,17 @@ app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void
     };
     res.json(response);
 }));
+app.get('/donaciones/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            donadorId: req.params.idRestaurante
+        }
+    });
+    const response = {
+        message: "Mis donaciones obtenidas correctamente",
+        data: donaciones
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map

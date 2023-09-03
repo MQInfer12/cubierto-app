@@ -117,7 +117,7 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
         data: {
             beneficiarioId: req.params.idBeneficiario,
             donadorId: data.donadorId,
-            estadoDonador: "aceptado"
+            estadoBeneficiario: "aceptado"
         }
     });
     yield queries_1.default.detalleDonacion.createMany({
@@ -129,6 +129,36 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
     });
     const response = {
         message: "Se pidieron los productos correctamente",
+        data: donacion
+    };
+    res.json(response);
+}));
+app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donacion = yield queries_1.default.donacion.update({
+        where: {
+            id: Number(req.params.idDonacion)
+        },
+        data: {
+            estadoBeneficiario: "aceptado"
+        }
+    });
+    const response = {
+        message: "Se acepto la donacion por parte del beneficiario",
+        data: donacion
+    };
+    res.json(response);
+}));
+app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donacion = yield queries_1.default.donacion.update({
+        where: {
+            id: Number(req.params.idDonacion)
+        },
+        data: {
+            estadoDonador: "aceptado"
+        }
+    });
+    const response = {
+        message: "Se acepto la donacion por parte del restaurante",
         data: donacion
     };
     res.json(response);

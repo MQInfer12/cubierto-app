@@ -117,7 +117,7 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
     data: {
       beneficiarioId: req.params.idBeneficiario,
       donadorId: data.donadorId,
-      estadoDonador: "aceptado"
+      estadoBeneficiario: "aceptado"
     }
   });
   await xprisma.detalleDonacion.createMany({
@@ -133,5 +133,37 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
   }
   res.json(response);
 });
+
+app.patch('/donacion/beneficiario/:idDonacion', async (req, res) => {
+  const donacion = await xprisma.donacion.update({
+    where: {
+      id: Number(req.params.idDonacion)
+    },
+    data: {
+      estadoBeneficiario: "aceptado"
+    }
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Se acepto la donacion por parte del beneficiario",
+    data: donacion
+  }
+  res.json(response);
+})
+
+app.patch('/donacion/restaurante/:idDonacion', async (req, res) => {
+  const donacion = await xprisma.donacion.update({
+    where: {
+      id: Number(req.params.idDonacion)
+    },
+    data: {
+      estadoDonador: "aceptado"
+    }
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Se acepto la donacion por parte del restaurante",
+    data: donacion
+  }
+  res.json(response);
+})
 
 export default app;

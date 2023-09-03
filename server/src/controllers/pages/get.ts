@@ -195,4 +195,17 @@ app.get('/donaciones/beneficiario/:idBeneficiario', async (req, res) => {
   res.json(response);
 })
 
+app.get('/donaciones/restaurante/:idRestaurante', async (req, res) => {
+  const donaciones = await xprisma.donacion.findMany({
+    where: {
+      donadorId: req.params.idRestaurante
+    }
+  });
+  const response: ApiResponse<Donacion[]> = {
+    message: "Mis donaciones obtenidas correctamente",
+    data: donaciones
+  }
+  res.json(response);
+})
+
 export default app;
