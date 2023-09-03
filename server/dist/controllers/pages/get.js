@@ -176,9 +176,22 @@ app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function*
         oferta.cantidad = stock - stockADescontar;
         return oferta;
     });
+    const ofertasFinal = (0, filterOfertas_1.filterDonaciones)(ofertasRes);
     const response = {
         message: "Donaciones obtenidas correctamente",
-        data: ofertasRes
+        data: ofertasFinal
+    };
+    res.json(response);
+}));
+app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            beneficiarioId: req.params.idBeneficiario
+        }
+    });
+    const response = {
+        message: "Mis donaciones obtenidas correctamente",
+        data: donaciones
     };
     res.json(response);
 }));

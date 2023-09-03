@@ -117,13 +117,9 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
         data: {
             beneficiarioId: req.params.idBeneficiario,
             donadorId: data.donadorId,
+            estadoDonador: "aceptado"
         }
     });
-    console.log(data.items.map(item => ({
-        donacionId: donacion.id,
-        cantidad: item.cantidad,
-        productoId: item.productoActivo.productoId
-    })));
     yield queries_1.default.detalleDonacion.createMany({
         data: data.items.map(item => ({
             donacionId: donacion.id,

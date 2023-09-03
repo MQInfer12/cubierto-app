@@ -4,7 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
 import { filterDonaciones, filterOfertas } from "../../utilities/filterOfertas";
-import { ProductoActivo, Venta } from "@prisma/client";
+import { Donacion, ProductoActivo, Venta } from "@prisma/client";
 
 const app = Router();
 
@@ -173,12 +173,26 @@ app.get('/donaciones', async (req, res) => {
     oferta.cantidad = stock - stockADescontar;
     return oferta;
   });
+  const ofertasFinal = filterDonaciones(ofertasRes);
 
   const response: ApiResponse<ProductoActivo[]> = {
     message: "Donaciones obtenidas correctamente",
-    data: ofertasRes
+    data: ofertasFinal
   }
   res.json(response);
 });
+
+app.get('/donaciones/beneficiario/:idBeneficiario', async (req, res) => {
+  const donaciones = await xprisma.donacion.findMany({
+    where: {
+      beneficiarioId: req.params.idBeneficiario
+    }
+  });
+  const response: ApiResponse<Donacion[]> = {
+    message: "Mis donaciones obtenidas correctamente",
+    data: donaciones
+  }
+  res.json(response);
+})
 
 export default app;

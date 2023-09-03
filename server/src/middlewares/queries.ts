@@ -81,6 +81,16 @@ const xprisma = prisma.$extends({
         return query(newArgs);
       }
     },
+    donacion: {
+      $allOperations({ args, query }) {
+        const newArgs = args as any;
+        newArgs.include = {
+          ...newArgs.include, 
+          detalles: true
+        }
+        return query(newArgs);
+      }
+    },
     producto: {
       $allOperations({ args, query}) {
         const newArgs = args as any;
