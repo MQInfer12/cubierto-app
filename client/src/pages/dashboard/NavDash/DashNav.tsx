@@ -16,33 +16,20 @@ const Dashnav = ({ children }) => {
       <NavDash>
         {children}
         <section>
-          <Linkdash to="/dashboard">
-            <img src={prom} alt="icon-promociones" /> Dashboard
-          </Linkdash>
-          <Linkdash to="/dashboard/Promociones">
-            <img src={prom} alt="icon-promociones" /> Promociones
-          </Linkdash>
-          <Linkdash to="/dashboard/Favoritos">
-            <img src={fav} alt="icon-favoritos" />
-            Favoritos
-          </Linkdash>
-          <Linkdash to="/dashboard/Pedidos">
+          <Linkdash to="/dashboard/ventas">
             <img src={pedidos} alt="icon-pedidos" />
-            Pedidos
+            Ventas 
           </Linkdash>
-          <Linkdash to="/dashboard/Perfil">
+          <Linkdash to="/dashboard/perfil">
             <img src={perfil} alt="icon-perfil" />
             Perfil
           </Linkdash>
           <Rolecomponent roles={['admin']}>
-
             <Linkdash to="/dashboard/usuario">
               <img src={perfil} alt="icon-perfil" />
               Usuario
             </Linkdash>
-
           </Rolecomponent>
-
           <Linkdash to="/" onClick={logout}>
             <img src={secion} alt="icon-secion" />
             Cerrar seción

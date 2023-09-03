@@ -18,6 +18,7 @@ import Perfil from "./pages/dashboard/perfil";
 import Dashboard from "./pages/dashboard/dashboard";
 import Rolecomponent from "./components/rolecomponent";
 import RoleRoute from "./components/roleRoute";
+import Ventas from "./pages/dashboard/ventas";
 
 function App() {
   return (
@@ -54,9 +55,8 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dashboard/Promociones" element={<Promociones />} />
               <Route path="/dashboard/Favoritos" element={<Favoritos />} />
-              <Route path="/dashboard/Pedidos" element={<Pedidos />} />
+              <Route path="/dashboard/ventas" element={<Ventas />} />
               <Route path="/dashboard/Perfil" element={<Perfil />} />
-
               <Route path="/dashboard/usuario" element={
                 <RoleRoute roles={['admin']}>
                   <Usuarios />
