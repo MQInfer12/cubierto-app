@@ -1,5 +1,7 @@
 const Pedidos = () => {
-    return <>pedidos</>;
+    return <>
+    
+    </>;
   };
   
   export default Pedidos;

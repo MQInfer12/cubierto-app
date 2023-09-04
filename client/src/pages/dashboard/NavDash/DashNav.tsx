@@ -8,7 +8,6 @@ import { Outlet } from "react-router-dom";
 import { useUser } from "../../../context/useUser";
 import Rolecomponent from "../../../components/rolecomponent";
 const Dashnav = ({ children }) => {
-
   const { logout } = useUser();
 
   return (
@@ -18,6 +17,9 @@ const Dashnav = ({ children }) => {
         <section>
           <Linkdash to="/dashboard">
             <img src={prom} alt="icon-promociones" /> Dashboard
+          </Linkdash>
+          <Linkdash to="/dashboard/Usuarios">
+            <img src={prom} alt="icon-promociones" /> Usuarios
           </Linkdash>
           <Linkdash to="/dashboard/Promociones">
             <img src={prom} alt="icon-promociones" /> Promociones
@@ -34,15 +36,12 @@ const Dashnav = ({ children }) => {
             <img src={perfil} alt="icon-perfil" />
             Perfil
           </Linkdash>
-          <Rolecomponent roles={['admin']}>
-
+          <Rolecomponent roles={["admin"]}>
             <Linkdash to="/dashboard/usuario">
               <img src={perfil} alt="icon-perfil" />
               Usuario
             </Linkdash>
-
           </Rolecomponent>
-
           <Linkdash to="/" onClick={logout}>
             <img src={secion} alt="icon-secion" />
             Cerrar seción

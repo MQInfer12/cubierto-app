@@ -1,9 +1,11 @@
 import { useState } from "react";
-import Busqueda from "./dashboardComp/busqueda";
+
 import { Dashbo } from "../../styles/compStyleDash";
-import Cars from "./dashboardComp/cars";
+
 import { useGet } from "../../hook/useGet";
 import { PedirResponse } from "../../interfaces/pages/pedir";
+import Cars from "./DashboardComp/Cars";
+import Busqueda from "./DashboardComp/Busqueda";
 
 const Dashboard = () => {
   const { res } = useGet<PedirResponse>('pedir');

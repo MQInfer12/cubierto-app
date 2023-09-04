@@ -1,23 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
-import Home from "./pages/home";
-import QuienesSomos from "./pages/quienesSomos";
-import Organizacion from "./pages/organizacion";
-import Estadisticas from "./pages/estadisticas";
-import Ofertas from "./pages/ofertas";
-import Register from "./pages/login/register";
+
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import ProtectRoute from "./components/protectRoute";
-import Usuarios from "./pages/dashboard/usuarios";
-import Dashnav from "./pages/dashboard/navDash/dashNav";
-import DatosNavDash from "./pages/dashboard/navDash/datosNavDash";
-import Promociones from "./pages/dashboard/promociones";
-import Favoritos from "./pages/dashboard/favoritos";
-import Pedidos from "./pages/dashboard/pedidos";
-import Perfil from "./pages/dashboard/perfil";
-import Dashboard from "./pages/dashboard/dashboard";
-import Rolecomponent from "./components/rolecomponent";
+
 import RoleRoute from "./components/roleRoute";
+import Home from "./pages/Home";
+import Ofertas from "./pages/Ofertas";
+import QuienesSomos from "./pages/QuienesSomos";
+import Estadisticas from "./pages/Estadisticas";
+import Organizacion from "./pages/Organizacion";
+import Register from "./pages/Login/Register";
+import ProtectRoute from "./components/ProtectRoute";
+import Usuarios from "./pages/dashboard/Usuarios";
+import Dashnav from "./pages/dashboard/NavDash/DashNav";
+import DatosNavDash from "./pages/dashboard/NavDash/DatosNavDash";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Promociones from "./pages/dashboard/Promociones";
+import Favoritos from "./pages/dashboard/Favoritos";
+import Pedidos from "./pages/dashboard/Pedidos";
+import Perfil from "./pages/dashboard/Perfil";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
               <Route path="/dashboard/Favoritos" element={<Favoritos />} />
               <Route path="/dashboard/Pedidos" element={<Pedidos />} />
               <Route path="/dashboard/Perfil" element={<Perfil />} />
+              <Route path="/dashboard/Usuarios" element={<Usuarios />} />
 
               <Route path="/dashboard/usuario" element={
                 <RoleRoute roles={['admin']}>
