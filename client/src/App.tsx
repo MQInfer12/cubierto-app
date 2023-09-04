@@ -19,6 +19,7 @@ import Dashboard from "./pages/dashboard/dashboard";
 import Rolecomponent from "./components/rolecomponent";
 import RoleRoute from "./components/roleRoute";
 import Ventas from "./pages/dashboard/ventas";
+import Ubicaciones from "./components/ubicaciones";
 
 function App() {
   return (
@@ -34,22 +35,19 @@ function App() {
               <Route path="/organizacion" element={<Organizacion />} />
               <Route path="/login" element={<Register />} />
             </Route>
-            <Route
-              path="/pedir"
-              element={
-                <ProtectRoute>
-                  <Usuarios />
-                </ProtectRoute>
-              }
-            />
+
           </Routes>
+
           <Routes>
+
             <Route
               path="/dashboard"
               element={
-                <Dashnav>
-                  <DatosNavDash />
-                </Dashnav>
+                <ProtectRoute>
+                  <Dashnav>
+                    <DatosNavDash />
+                  </Dashnav>
+                </ProtectRoute>
               }
             >
               <Route path="/dashboard" element={<Dashboard />} />
@@ -57,10 +55,12 @@ function App() {
               <Route path="/dashboard/Favoritos" element={<Favoritos />} />
               <Route path="/dashboard/ventas" element={<Ventas />} />
               <Route path="/dashboard/Perfil" element={<Perfil />} />
+              <Route path="/dashboard/ubicaciones" element={<Ubicaciones />} />
               <Route path="/dashboard/usuario" element={
                 <RoleRoute roles={['admin']}>
                   <Usuarios />
                 </RoleRoute>} />
+
             </Route>
           </Routes>
         </BrowserRouter>
