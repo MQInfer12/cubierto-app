@@ -10,11 +10,12 @@ import Button from '../global/button'
 import { formatFecha } from '../../utilities/formatDate'
 
 interface Props {
+  cart: ProductoActivo[]
   oferta: ProductoActivo
   addToCart: (productoActivo: ProductoActivo) => any
 }
 
-const DonacionCard = ({ oferta, addToCart }: Props) => {
+const DonacionCard = ({ cart, oferta, addToCart }: Props) => {
   const maxproducts = oferta.cantidad;
 
   if(maxproducts <= 0) return null;
@@ -40,7 +41,7 @@ const DonacionCard = ({ oferta, addToCart }: Props) => {
           <FontedText weight={600} style={styles.cardPrice}>Cantidad disponible: {maxproducts}</FontedText>
           <FontedText weight={600} style={styles.cardPrice}>Fecha: {formatFecha(oferta.fecha)}</FontedText>
         </View>
-        <Button onPress={() => addToCart(oferta)}>Agregar</Button>
+        <Button disabled={!!cart.find(item => item.id === oferta.id)} onPress={() => addToCart(oferta)}>Agregar</Button>
       </View>
     </View>
   )

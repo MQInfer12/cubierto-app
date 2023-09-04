@@ -33,6 +33,7 @@ const DonationMapper = ({ cart, addToCart }: Props) => {
             key={oferta.id}
             oferta={oferta}
             addToCart={addToCart}
+            cart={cart}
           />
         ))
       }

@@ -7,11 +7,12 @@ interface Props {
   onPress: () => any
   children: string
   type?: "primary" | "secondary"
+  disabled?: boolean
 }
 
-const Button = ({ onPress, children, type = "primary" }: Props) => {
+const Button = ({ onPress, children, type = "primary", disabled = false }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button(type)}>
+    <TouchableOpacity disabled={disabled} onPress={onPress} style={styles.button(type, disabled)}>
       <FontedText weight={700} style={styles.buttonText(type)}>{children}</FontedText>
     </TouchableOpacity>
   )
@@ -20,8 +21,8 @@ const Button = ({ onPress, children, type = "primary" }: Props) => {
 export default Button
 
 const styles = StyleSheet.create<any>({
-  button: (type: "primary" | "secondary") => ({
-    backgroundColor: type === "primary" ? colors.primary500 : colors.white,
+  button: (type: "primary" | "secondary", disabled: boolean) => ({
+    backgroundColor: disabled ? colors.gray400 : type === "primary" ? colors.primary500 : colors.white,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 8,
