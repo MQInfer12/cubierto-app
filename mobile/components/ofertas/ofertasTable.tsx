@@ -11,7 +11,7 @@ import OfertaCard from './ofertaCard'
 
 const ProductTable = () => {
   const { user } = useUser();
-  const { res } = useGet<ProductoActivo[]>(`ofertas/${user?.id}`);
+  const { res, getData } = useGet<ProductoActivo[]>(`ofertas/${user?.id}`);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -22,7 +22,7 @@ const ProductTable = () => {
           {
             res.data.length ?
             res.data.map((oferta) => (
-              <OfertaCard key={oferta.id} oferta={oferta} />
+              <OfertaCard key={oferta.id} oferta={oferta} getData={getData} />
             )) :
             <FontedText style={styles.nothingText} weight={700}>No existen ofertas activas ahora mismo</FontedText>
           }

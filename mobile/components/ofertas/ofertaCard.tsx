@@ -8,68 +8,30 @@ import Icon from '../global/icon'
 import { sendRequest } from '../../utilities/sendRequest'
 import { useUser } from '../../context/user'
 import { ProductoActivo } from '../../interfaces/productoActivo'
+import { useGet } from '../../hooks/useGet'
+import { useCronometer } from '../../hooks/useCronometer'
+import { formatFecha } from '../../utilities/formatDate'
 
 interface Props {
   oferta: ProductoActivo
+  getData: () => void
 }
 
-const OfertaCard = ({ oferta }: Props) => {
-  const { removeProducto } = useUser();
-  const [tiempoRestante, setTiempoRestante] = useState<null | number>(() => {
-    const ahora = new Date();
-    const fecha = new Date(oferta.fecha);
-    const diff = ahora.getTime() - fecha.getTime();
-    const seconds = diff / 1000;
-    const minutes = seconds / 60;
-    const segundosRestantes = (oferta.tiempo - minutes) * 60;
-    const redondear = Math.floor(segundosRestantes);
-    return redondear;
-  });
+const OfertaCard = ({ oferta, getData }: Props) => {
+  const { restanteString, isActive } = useCronometer(oferta.fecha, oferta.tiempo);
 
-  useEffect(() => {
-    let interval: any;
-    if(tiempoRestante !== null) {
-      interval = setInterval(() => {
-        setTiempoRestante(old => {
-          if(old !== null) {
-            return old - 1
-          } 
-          return old;
-        });
-      }, 1000);
-    }
-    return () => {
-      clearInterval(interval);
-    }
-  }, [tiempoRestante]);
-
-  let horas = 0;
-  let minutos = 0;
-  let segundos = 0;
-  let restanteString = "--:--:--";
-  let isActive = false;
-  if(tiempoRestante) {
-    horas = Math.floor(tiempoRestante / 3600);
-    minutos = Math.floor((tiempoRestante / 60) % 60);
-    const minutosConCero = minutos < 10 ? "0" + minutos : minutos;
-    segundos = tiempoRestante % 60;
-    const segundosConCero = segundos < 10 ? "0" + segundos : segundos;
-    restanteString = horas + ":" + minutosConCero + ":" + segundosConCero;
-    isActive = tiempoRestante > 0;
-  }
-  
   const handleDelete = async () => {
     const res = await sendRequest<Producto>(`productoActivo/${oferta.id}`, null, {
       method: "DELETE"
     });
     if(res) {
-      removeProducto(res.data);
+      getData();
       Alert.alert("Se eliminó el producto correctamente");
     }
   }
 
   const handleAlertDelete = () => {
-    Alert.alert("¿Estás seguro?", "Se eliminará este producto", [{
+    Alert.alert("¿Estás seguro?", "Se eliminará esta oferta de las donaciones", [{
       text: "Cancelar",
       onPress: () => {
         return;
@@ -85,18 +47,19 @@ const OfertaCard = ({ oferta }: Props) => {
       <View style={styles.productData}>
         <Image style={styles.productFoto} source={{ uri: oferta.producto.foto }} />
         <View style={styles.productTexts}>
+          <FontedText style={styles.fecha}>{formatFecha(oferta.fecha)}</FontedText>
           <FontedText numberOfLines={1} weight={700} style={styles.name}>{oferta.producto.nombre}</FontedText>
-          <FontedText style={styles.description}>{oferta.cantidad} Unidades - {restanteString}</FontedText>
+          <FontedText style={styles.description}>{oferta.cantidad} Unidades - {isActive ? restanteString : "En donaciones..."}</FontedText>
         </View>
       </View>
-      <View style={styles.buttons}>
-        {/* <TouchableOpacity onPress={() => router.push(`productForm/${producto.id}`)}>
-          <Icon name='pencil-outline' color={colors.gray500} size={18} />
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity onPress={() => {}}>
-          <Icon name='trash-outline' color={colors.primary500} size={18} />
-        </TouchableOpacity> */}
-      </View>
+      {
+        !isActive &&
+        <View style={styles.buttons}>
+          <TouchableOpacity onPress={handleAlertDelete}>
+            <Icon name='trash-outline' color={colors.primary500} size={18} />
+          </TouchableOpacity>
+        </View>
+      }
     </View>
   )
 }
@@ -127,7 +90,7 @@ const styles = StyleSheet.create({
   },
   productTexts: {
     height: "100%",
-    justifyContent: "space-evenly"
+    justifyContent: "space-between"
   },
   name: {
     color: colors.gray900,
@@ -136,6 +99,10 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.gray600
+  },
+  fecha: {
+    color: colors.gray600,
+    fontSize: 10
   },
   buttons: {
     flexDirection: "row",

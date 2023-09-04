@@ -14,7 +14,6 @@ interface Properties {
 interface Functions {
   setUser: (user: Usuario | null) => void
   logout: () => any
-  addVenta: (newVenta: Venta) => void
   addUbicacion: (ubicacion: Ubicacion) => void
   removeUbicacion: (ubicacion: Ubicacion) => void
   addFavorito: (favorito: Favorito) => void
@@ -34,21 +33,6 @@ export const useUser = create<Properties & Functions>((set) => {
       await AsyncStorage.removeItem("user");
       router.replace("/login");
       set(old => ({...old, user: null }));
-    },
-    addVenta: (newVenta) => {
-      set(old => {
-        const user = old.user;
-        if(user) {
-          return {
-            ...old,
-            user: {
-              ...user,
-              ventas: [...user.ventas, newVenta]
-            }
-          }
-        }
-        return old;
-      })
     },
     addUbicacion: (ubicacion) => {
       set(old => {

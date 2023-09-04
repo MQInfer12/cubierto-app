@@ -61,16 +61,149 @@ app.get('/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, v
     res.json(response);
 }));
 app.get('/ofertas/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const ofertasActivas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
+    const ofertasActivas = yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
                 usuarioId: req.params.idRestaurante
             }
         }
-    }));
+    });
     const response = {
         message: "Se encontraron las ofertas activas",
         data: ofertasActivas
+    };
+    res.json(response);
+}));
+app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let ventas = yield queries_1.default.venta.findMany({
+        where: {
+            detalles: {
+                every: {
+                    productoActivo: {
+                        producto: {
+                            usuarioId: req.params.idRestaurante
+                        }
+                    }
+                }
+            }
+        }
+    });
+    const ahora = new Date();
+    ventas = ventas.filter(venta => {
+        if (venta.estado === "pendiente") {
+            const fecha = new Date(venta.fecha);
+            const milliseconds = ahora.getTime() - fecha.getTime();
+            const seconds = milliseconds / 1000;
+            const minutes = seconds / 60;
+            return minutes < 20;
+        }
+        return venta.estado === "aceptado";
+    });
+    const response = {
+        message: "Ventas encontradas correctamente",
+        data: ventas
+    };
+    res.json(response);
+}));
+app.get('/pedidos/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ventas = yield queries_1.default.venta.findMany({
+        where: {
+            usuarioId: req.params.idUsuario
+        }
+    });
+    const response = {
+        message: "Pedidos obtenidos correctamente",
+        data: ventas
+    };
+    res.json(response);
+}));
+app.get('/venta/completado/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let ventas = yield queries_1.default.venta.findMany({
+        where: {
+            detalles: {
+                every: {
+                    productoActivo: {
+                        producto: {
+                            usuarioId: req.params.idRestaurante
+                        }
+                    }
+                }
+            },
+            AND: {
+                estado: "recogido"
+            }
+        }
+    });
+    const response = {
+        message: "Ventas obtenidas correctamente",
+        data: ventas
+    };
+    res.json(response);
+}));
+app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ofertas = yield queries_1.default.productoActivo.findMany({
+        include: {
+            detalleVentas: {
+                include: {
+                    venta: {
+                        select: {
+                            estado: true,
+                            fecha: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+    const ofertasRes = ofertas.map(oferta => {
+        const stock = oferta.cantidad;
+        const stockADescontar = oferta.detalleVentas.reduce((suma, detalle) => {
+            if (detalle.venta.estado === "pendiente") {
+                const ahora = new Date();
+                const publicado = new Date(detalle.venta.fecha);
+                const milliseconds = ahora.getTime() - publicado.getTime();
+                const seconds = milliseconds / 1000;
+                const minutes = seconds / 60;
+                if (minutes < 20) {
+                    suma += detalle.cantidad;
+                }
+            }
+            else {
+                suma += detalle.cantidad;
+            }
+            return suma;
+        }, 0);
+        oferta.cantidad = stock - stockADescontar;
+        return oferta;
+    });
+    const ofertasFinal = (0, filterOfertas_1.filterDonaciones)(ofertasRes);
+    const response = {
+        message: "Donaciones obtenidas correctamente",
+        data: ofertasFinal
+    };
+    res.json(response);
+}));
+app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            beneficiarioId: req.params.idBeneficiario
+        }
+    });
+    const response = {
+        message: "Mis donaciones obtenidas correctamente",
+        data: donaciones
+    };
+    res.json(response);
+}));
+app.get('/donaciones/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            donadorId: req.params.idRestaurante
+        }
+    });
+    const response = {
+        message: "Mis donaciones obtenidas correctamente",
+        data: donaciones
     };
     res.json(response);
 }));

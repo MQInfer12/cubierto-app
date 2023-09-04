@@ -4,6 +4,7 @@ import { CreateColaInput } from "../../interfaces/models/cola";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { Cola, ProductoActivo } from "@prisma/client";
 import pusher from "../../utilities/pusher";
+import { filterOfertas } from "../../utilities/filterOfertas";
 
 const app = Router();
 
@@ -56,14 +57,13 @@ app.delete('/cola/salir/:id', async (req, res) => {
       restauranteId: restauranteId
     }
   });
-  const productoActivos = await xprisma.productoActivo.findMany({
+  const productoActivos = filterOfertas(await xprisma.productoActivo.findMany({
     where: {
       producto: {
         usuarioId: restauranteId
       }
     }
-  });
-
+  }));
   const response: ApiResponse<SalirColaResponse> = {
     message: salio.usuario.nombre + " salió de la cola",
     data: {

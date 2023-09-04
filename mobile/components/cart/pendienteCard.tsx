@@ -1,63 +1,114 @@
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { Venta } from '../../interfaces/venta'
+import { Venta, VentaEstado } from '../../interfaces/venta'
 import FontedText from '../global/fontedText'
 import { colors } from '../../styles/colors'
 import Icon from '../global/icon'
 import { shadows } from '../../styles/shadows'
 import { useCronometer } from '../../hooks/useCronometer'
+import { Dropdown } from 'react-native-element-dropdown'
+import { sendRequest } from '../../utilities/sendRequest'
 
 interface Props {
   venta: Venta
 }
 
-const PedidoActualCard = ({ venta }: Props) => {
+interface Data {
+  label: string,
+  value: VentaEstado
+}
+
+const PendienteCard = ({ venta }: Props) => {
   const [open, setOpen] = useState(false);
-  
-  const { restanteString, isActive } = useCronometer(venta.fecha, venta.estado === "pendiente" ? 20 : 120);
+  const { restanteString, isActive } = useCronometer(venta.fecha, 20);
+  const [estado, setEstado] = useState<VentaEstado>(venta.estado);
 
   const total = venta.detalles.reduce((suma, detalle) => {
     suma += detalle.cantidad * detalle.precioUnitario;
     return suma;
   }, 0);
-  const { nombre, foto } = venta.detalles[0].productoActivo.producto.usuario;
   let hours = new Date().getTime() - new Date(venta.fecha).getTime();
   hours /= (1000 * 60 * 60);
 
-  let estado = venta.estado;
-  estado = !isActive && estado === "pendiente" ? "sin respuesta" : estado
-  const showEstado = estado.charAt(0).toUpperCase() + estado.slice(1)
+  const cambiarEstado = async (nuevoEstado: VentaEstado) => {
+    const res = await sendRequest(`venta/estado/${venta.id}`, {
+      estado: nuevoEstado
+    }, {
+      method: "PATCH"
+    });
+    if(res) {
+      setEstado(nuevoEstado);
+    }
+  }
+
+  const handleChangeState = (value: VentaEstado) => {
+    Alert.alert("¿Estás seguro?", `No podrás cambiar tu decisión (${value})`, [{
+      text: "Cancelar",
+      onPress: () => {
+        return;
+      }
+    }, {
+      text: "Continuar",
+      onPress: () => {
+        cambiarEstado(value);
+      }
+    }]);
+  }
+
+  let data: Data[] = [];
+  if(estado === "pendiente") {
+    data = [{
+      label: "Aceptado",
+      value: "aceptado"
+    },{
+      label: "Rechazado",
+      value: "rechazado"
+    }]
+  } else if (estado === "aceptado") {
+    data = [{
+      label: "Recogido",
+      value: "recogido"
+    }]
+  }
 
   return (
     <View style={styles.container} key={venta.id}>
       <View style={styles.allContainer}>
         <View style={styles.topContainer}>
-          <Image style={styles.foto} source={{ uri: foto }} />
+          <Image style={styles.foto} source={{ uri: venta.usuario.foto }} />
           <View style={styles.textsContainer}>
-            <FontedText numberOfLines={1} weight={700} style={styles.nameText}>{nombre}</FontedText>
+            <FontedText numberOfLines={1} weight={700} style={styles.nameText}>Para: {venta.usuario.nombre}</FontedText>
             <View style={styles.bottomTextContainer}>
-              <FontedText 
-                weight={600}
-                style={styles.estadoText((venta.estado === "aceptado" || venta.estado === "recogido") ? colors.success : colors.primary500)}
-              >{showEstado}</FontedText>
               <FontedText style={styles.horasText}>Precio total: Bs. {total}</FontedText>
             </View>
           </View>
         </View>
-        <FontedText style={styles.totalText}>
+        <FontedText style={styles.totalText} weight={600}>
           {
-            isActive ? 
-              venta.estado === "recogido" ?
-              `¡Muchas gracias, disfruta tu pedido!`
-              : venta.estado === "aceptado" ?
-              `¡Pedido aceptado, pasa a recogerlo al restaurante!`
-              : venta.estado === "rechazado" ?
-              `Lo lamentamos, el restaurante rechazó tu pedido...`
-              : 
-              `Gracias, atenderemos tu pedido en menos de ${restanteString}` 
-            : hours < 1 ? `Hace menos de una hora` : `Hace ${Math.floor(hours)} horas`
+            estado === "aceptado" ?
+            `¡Pedido aceptado! espera contento a tu cliente, pronto llegará`
+            : estado === "recogido" ?
+            `¡Pedido recogido! mira tus detalles en nuestra aplicación web`
+            : estado === "rechazado" ?
+            `Pedido rechazado, se borrará de la lista`
+            : isActive ? 
+            `Tienes ${restanteString} para atender este pedido` 
+            : 
+            `Pedido sin responder, se borrará de la lista`
           }
         </FontedText>
+        {
+          (isActive && (estado !== "rechazado" && estado !== "recogido")) &&
+          <Dropdown
+            data={data}
+            style={styles.dropdown}
+            labelField="label"
+            valueField="value"
+            onChange={item => handleChangeState(item.value)}
+            placeholder={estado.charAt(0).toUpperCase() + estado.slice(1)}
+            fontFamily='Biko400'
+          />
+        }
       </View>
       <TouchableOpacity onPress={() => setOpen(!open)} style={styles.verDetallesContainer}>
         <FontedText weight={600} style={styles.verDetallesText}>{open ? "Ocultar" : "Ver"} detalles {!open && `(${venta.detalles.length})`}</FontedText>
@@ -90,9 +141,9 @@ const PedidoActualCard = ({ venta }: Props) => {
   )
 }
 
-export default PedidoActualCard
+export default PendienteCard
 
-const styles = StyleSheet.create<any>({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
@@ -124,9 +175,9 @@ const styles = StyleSheet.create<any>({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  estadoText: (color: string) => ({
-    color: color
-  }),
+  estadoText: {
+    color: colors.primary500
+  },
   horasText: {
     color: colors.gray500
   },
@@ -149,5 +200,14 @@ const styles = StyleSheet.create<any>({
     borderTopColor: colors.gray400,
     borderTopWidth: 1,
     maxHeight: 120
+  },
+  dropdown: {
+    flex: 1,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    color: colors.gray900,
+    borderColor: colors.gray500,
+    borderRadius: 8,
+    height: 46
   }
 })

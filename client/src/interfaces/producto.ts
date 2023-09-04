@@ -1,3 +1,5 @@
+import Usuario from "./usuario";
+
 export interface Producto {
   id: number;
   nombre: string;
@@ -6,4 +8,5 @@ export interface Producto {
   precio: number;
   usuarioId: string;
   categoriaId: number;
+  usuario: Usuario;
 }

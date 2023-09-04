@@ -2,12 +2,13 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Icon from './icon'
 import { colors } from '../../styles/colors'
-import { useNavigation, usePathname } from 'expo-router'
+import { usePathname } from 'expo-router'
 import { router } from 'expo-router'
+import { useUser } from '../../context/user'
 
 const Navbar = () => {
+  const { user } = useUser();
   const currentRoute = usePathname();
-  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -17,6 +18,12 @@ const Navbar = () => {
       <TouchableOpacity onPress={() => router.push('/cart')} style={styles.button}>
         <Icon name='cart' color={currentRoute === "/cart" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
+      {
+        user?.rol !== "usuario" &&
+        <TouchableOpacity onPress={() => router.push('/donations')} style={styles.button}>
+          <Icon name='fitness-outline' color={currentRoute === "/donations" ? colors.primary500 : colors.gray500} size={24} />
+        </TouchableOpacity>
+      }
       <TouchableOpacity onPress={() => router.push('/starred')} style={styles.button}>
         <Icon name='heart' color={currentRoute === "/starred" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>

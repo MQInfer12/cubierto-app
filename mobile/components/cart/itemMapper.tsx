@@ -9,6 +9,7 @@ import { sendRequest } from '../../utilities/sendRequest';
 import { useUser } from '../../context/user';
 import { Venta } from '../../interfaces/venta';
 import { useHandleCola } from '../../hooks/useHandleCola';
+import { ProductoActivo } from '../../interfaces/productoActivo';
 
 interface Props {
   irAMisVentas: () => any
@@ -16,16 +17,21 @@ interface Props {
 
 const ItemMapper = ({ irAMisVentas }: Props) => {
   const { items } = useCart();
-  const { user, addVenta } = useUser();
+  const { user } = useUser();
   const { salirDeCola } = useHandleCola();
 
   const pedir = async () => {
-    const res = await sendRequest<Venta>(`carrito/enviar/${user?.id}`, items);
+    const res = await sendRequest<Venta | ProductoActivo[]>(`carrito/enviar/${user?.id}`, items);
     if(res) {
-      addVenta(res.data);
-      Alert.alert("Se envió tu pedido correctamente");
-      irAMisVentas();
-      salirDeCola();
+      if(res.message === "Alguno de las ofertas ya no esta disponible") {
+        const data = res.data as ProductoActivo[];
+        const names = data.map(oferta => oferta.producto.nombre);
+        Alert.alert("Ocurrió un error", `Alguna de las ofertas ya no está disponible... (${names.join(", ")})`);
+      } else {
+        Alert.alert("Se envió tu pedido correctamente");
+        irAMisVentas();
+        salirDeCola();
+      }
     }
   }
 

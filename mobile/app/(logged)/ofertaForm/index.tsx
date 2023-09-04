@@ -68,7 +68,7 @@ const OfertaForm = () => {
           style={styles.dropdown}
           labelField="label"
           valueField="value"
-          placeholder="Selecciona categoría"
+          placeholder="Selecciona producto"
           fontFamily='Biko400'
         />
       </View>

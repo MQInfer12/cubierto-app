@@ -29,23 +29,6 @@ const xprisma = prisma.$extends({
             include: {
               restaurante: true
             }
-          },
-          ventas: {
-            include: {
-              detalles: {
-                include: {
-                  productoActivo: {
-                    include: {
-                      producto: {
-                        include: {
-                          usuario: true
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
         }
         return query(newArgs);
@@ -65,12 +48,51 @@ const xprisma = prisma.$extends({
         return query(args);
       },
     },
+    venta: {
+      $allOperations({ args, query}) {
+        const newArgs = args as any;
+        newArgs.include = {
+          ...newArgs.include,
+          detalles: {
+            include: {
+              productoActivo: {
+                include: {
+                  producto: {
+                    include: {
+                      usuario: true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          usuario: true
+        }
+        return query(newArgs);
+      }
+    },
     favorito: {
       $allOperations({ args, query }) {
         const newArgs = args as any;
         newArgs.include = {
           ...newArgs.include, 
           restaurante: true
+        }
+        return query(newArgs);
+      }
+    },
+    donacion: {
+      $allOperations({ args, query }) {
+        const newArgs = args as any;
+        newArgs.include = {
+          ...newArgs.include, 
+          detalles: {
+            include:{
+              producto: true
+            }
+          },
+          beneficiario: true,
+          donador: true
         }
         return query(newArgs);
       }
@@ -109,7 +131,23 @@ const xprisma = prisma.$extends({
               usuario: true
             }
           },
-          detalleVentas: true
+          detalleVentas: {
+            where: {
+              venta: {
+                estado: {
+                  not: "rechazado"
+                }
+              }
+            },
+            include: {
+              venta: {
+                select: {
+                  estado: true,
+                  fecha: true
+                }
+              }
+            }
+          }
         }
         return query(newArgs);
       },

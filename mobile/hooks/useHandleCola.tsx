@@ -33,6 +33,10 @@ export const useHandleCola = (actualizarProducto?: (productos: ProductoActivo[])
       channel.bind(restauranteId, (res: ApiResponse<SalirColaResponse>) => {
         cargarCola(res.data.cola);
         if(actualizarProducto) {
+          //FIXME: Ahora mismo estamos trayendo todos los productos activos del restaurante con sus respectivas ventas (esto se hace para calcular el total
+          //de stock restante para cada producto y notificar cuando se acabe uno), estaba dando error en el maximo tamaño de petición en el pusher, 
+          //es posible que vuelva a fallar si el restaurante tiene muchos productos activos y muchos usuarios comprando al mismo tiempo, 
+          //para solucionarlo se necesitará calcular el máximo de productos a comprar de alguna otra manera
           actualizarProducto(res.data.productoActivos);
         }
       });

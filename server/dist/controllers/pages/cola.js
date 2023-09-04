@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
 const pusher_1 = __importDefault(require("../../utilities/pusher"));
+const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
 app.post('/cola/entrar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
@@ -58,13 +59,13 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
             restauranteId: restauranteId
         }
     });
-    const productoActivos = yield queries_1.default.productoActivo.findMany({
+    const productoActivos = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
                 usuarioId: restauranteId
             }
         }
-    });
+    }));
     const response = {
         message: salio.usuario.nombre + " salió de la cola",
         data: {

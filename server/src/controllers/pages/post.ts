@@ -1,8 +1,8 @@
 import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import { ItemCarrito } from "../../interfaces/pages/post";
-import { Favorito, ProductoActivo, Venta } from "@prisma/client";
+import { CarritoBeneficiario, ItemCarrito } from "../../interfaces/pages/post";
+import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
 
 const app = Router();
@@ -94,5 +94,76 @@ app.put('/liketo', async (req, res) => {
   }
   res.json(response);
 });
+
+app.patch('/venta/estado/:idVenta', async (req, res) => {
+  const venta = await xprisma.venta.update({
+    where: {
+      id: Number(req.params.idVenta)
+    },
+    data: {
+      estado: req.body.estado
+    }
+  });
+  const response: ApiResponse<Venta> = {
+    message: "Estado de venta cambiado correctamente",
+    data: venta
+  }
+  res.json(response);
+})
+
+app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
+  const data: CarritoBeneficiario = req.body;
+  const donacion = await xprisma.donacion.create({
+    data: {
+      beneficiarioId: req.params.idBeneficiario,
+      donadorId: data.donadorId,
+      estadoBeneficiario: "aceptado"
+    }
+  });
+  await xprisma.detalleDonacion.createMany({
+    data: data.items.map(item => ({
+      donacionId: donacion.id,
+      cantidad: item.cantidad,
+      productoId: item.productoActivo.producto.id
+    }))
+  })
+  const response: ApiResponse<Donacion> = {
+    message: "Se pidieron los productos correctamente",
+    data: donacion
+  }
+  res.json(response);
+});
+
+app.patch('/donacion/beneficiario/:idDonacion', async (req, res) => {
+  const donacion = await xprisma.donacion.update({
+    where: {
+      id: Number(req.params.idDonacion)
+    },
+    data: {
+      estadoBeneficiario: "aceptado"
+    }
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Se acepto la donacion por parte del beneficiario",
+    data: donacion
+  }
+  res.json(response);
+})
+
+app.patch('/donacion/restaurante/:idDonacion', async (req, res) => {
+  const donacion = await xprisma.donacion.update({
+    where: {
+      id: Number(req.params.idDonacion)
+    },
+    data: {
+      estadoDonador: "aceptado"
+    }
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Se acepto la donacion por parte del restaurante",
+    data: donacion
+  }
+  res.json(response);
+})
 
 export default app;

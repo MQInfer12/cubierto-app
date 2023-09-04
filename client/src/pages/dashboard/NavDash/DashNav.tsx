@@ -15,6 +15,7 @@ const Dashnav = ({ children }) => {
       <NavDash>
         {children}
         <section>
+<<<<<<< HEAD
           <Linkdash to="/dashboard">
             <img src={prom} alt="icon-promociones" /> Dashboard
           </Linkdash>
@@ -29,14 +30,21 @@ const Dashnav = ({ children }) => {
             Favoritos
           </Linkdash>
           <Linkdash to="/dashboard/Pedidos">
+=======
+          <Linkdash to="/dashboard/ventas">
+>>>>>>> a1b2bb95c5b549fc548f387d612c661e74a4feb0
             <img src={pedidos} alt="icon-pedidos" />
-            Pedidos
+            Ventas 
           </Linkdash>
-          <Linkdash to="/dashboard/Perfil">
+          <Linkdash to="/dashboard/perfil">
             <img src={perfil} alt="icon-perfil" />
             Perfil
           </Linkdash>
+<<<<<<< HEAD
           <Rolecomponent roles={["admin"]}>
+=======
+          <Rolecomponent roles={['admin']}>
+>>>>>>> a1b2bb95c5b549fc548f387d612c661e74a4feb0
             <Linkdash to="/dashboard/usuario">
               <img src={perfil} alt="icon-perfil" />
               Usuario

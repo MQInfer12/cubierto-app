@@ -4,13 +4,14 @@ import { useSetRouteName } from '../../context/routeName'
 import ItemMapper from '../../components/cart/itemMapper'
 import PedidosMapper from '../../components/cart/pedidosMapper'
 import Tabs from '../../components/global/tabs'
+import PendientesMapper from '../../components/cart/pendientesMapper'
 
-type Page = "Mi carrito" | "Mis pedidos";
+type Page = "Mi carrito" | "Mis pedidos" | "Pendientes";
 
 const Cart = () => {
   useSetRouteName('Mis pedidos');
   const [page, setPage] = useState<Page>("Mi carrito");
-  const data: Page[] = ["Mi carrito", "Mis pedidos"];
+  const data: Page[] = ["Mi carrito", "Mis pedidos", "Pendientes"];
   
   return (
     <View style={styles.container}>
@@ -26,7 +27,8 @@ const Cart = () => {
           <ItemMapper 
             irAMisVentas={() => setPage("Mis pedidos")} 
           /> 
-        : page === "Mis pedidos" && <PedidosMapper />
+        : page === "Mis pedidos" ? <PedidosMapper /> :
+        <PendientesMapper />
       }
     </View>
   )
