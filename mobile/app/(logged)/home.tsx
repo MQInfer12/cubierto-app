@@ -1,4 +1,4 @@
-import { Image, Platform, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, RefreshControl, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Icon from '../../components/global/icon'
 import { colors } from '../../styles/colors'
@@ -15,7 +15,7 @@ import { useUser } from '../../context/user'
 
 const Home = () => {
   useSetRouteName('Home');
-  const { res } = useGet<PedirResponse>('pedir');
+  const { res, loading, getData, firstRender } = useGet<PedirResponse>('pedir');
   const { cola } = useCola();
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
 
@@ -41,11 +41,19 @@ const Home = () => {
     }, 0);
     const maxproducts = oferta.cantidad - cantidadVendida;
     return maxproducts > 0;
-  })
+  });
 
   if(cola) return null;
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl 
+          refreshing={loading && !firstRender}
+          onRefresh={getData}
+        />
+      }
+    >
+      <Image style={styles.image} source={require('../../assets/images/homeImage.png')} />
       <View style={styles.controlsContainer}>
         <View style={styles.textInputContainer}>
           <Icon color={colors.primary500} size={16} name='search' />
@@ -59,7 +67,6 @@ const Home = () => {
           <Icon color={colors.primary500} size={20} name="notifications-outline" />
         </TouchableOpacity>
       </View>
-      <Image style={styles.image} source={require('../../assets/images/homeImage.png')} />
       <CategoriaMapper 
         categorias={res?.data.categorias} 
         seleccionarCategoria={seleccionarCategoria}
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 16,
     paddingHorizontal: 20,
-    marginBottom: 32
+    paddingBottom: 16
   },
   textInputContainer: {
     alignItems: "center",
@@ -114,7 +121,8 @@ const styles = StyleSheet.create({
   },
   image: {
     minWidth: "100%",
-    aspectRatio: 360 / 183
+    aspectRatio: 360 / 183,
+    marginBottom: 32
   },
   ofertasText: {
     fontSize: 24,

@@ -7,21 +7,22 @@ import { useGet } from '../../hooks/useGet'
 import DonacionCard from './donacionCard'
 
 interface Props {
+  ofertas: ProductoActivo[]
   cart: ProductoActivo[]
   addToCart: (productoActivo: ProductoActivo) => any
 }
 
-const DonationMapper = ({ cart, addToCart }: Props) => {
-  const { res } = useGet<ProductoActivo[]>('donaciones');
-
-  if(!res) return null;
-
-  const thisData = cart.length ? res.data.filter(oferta => oferta.producto.usuarioId === cart[0].producto.usuarioId) : res.data;
+const DonationMapper = ({ ofertas, cart, addToCart }: Props) => {
+  const thisData = cart.length ? ofertas.filter(oferta => oferta.producto.usuarioId === cart[0].producto.usuarioId) : ofertas;
   const data = [...thisData];
   data.reverse();
 
   return (
-    <ScrollView horizontal={true} contentContainerStyle={styles.cardsContainer} showsHorizontalScrollIndicator={false}>
+    <ScrollView 
+      horizontal={true} 
+      contentContainerStyle={styles.cardsContainer} 
+      showsHorizontalScrollIndicator={false}
+    >
       {
         data.length === 0 ?
         <View style={styles.nothingContainer}>

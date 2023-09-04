@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import FontedText from '../global/fontedText'
 import DonationMapper from './donationMapper'
@@ -6,6 +6,7 @@ import { colors } from '../../styles/colors'
 import { ProductoActivo } from '../../interfaces/productoActivo'
 import Cart from './cart'
 import { Page } from '../../app/(logged)/donations'
+import { useGet } from '../../hooks/useGet'
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<Page>>
@@ -13,6 +14,7 @@ interface Props {
 
 const DonacionBeneficiario = ({ setPage }: Props) => {
   const [cart, setCart] = useState<ProductoActivo[]>([]);
+  const { res, loading, getData } = useGet<ProductoActivo[]>('donaciones');
 
   const addToCart = (productoActivo: ProductoActivo) => {
     setCart(old => [...old, productoActivo]);
@@ -22,10 +24,19 @@ const DonacionBeneficiario = ({ setPage }: Props) => {
     setCart(old => old.filter(pa => pa.id !== productoActivo.id));
   }
 
+  if(!res) return null; 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView 
+      contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl 
+          refreshing={loading}
+          onRefresh={getData}
+        />
+      }
+    >
       <FontedText style={styles.ofertasText} weight={700}>Donaciones activas</FontedText>
-      <DonationMapper cart={cart} addToCart={addToCart} />
+      <DonationMapper ofertas={res.data} cart={cart} addToCart={addToCart} />
       {
         !!cart.length &&
         <>
