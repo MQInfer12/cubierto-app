@@ -48,8 +48,7 @@ const PedidosMapper = () => {
   let ventas: Venta[] = [];
   ventas = [...res.data];
   ventas.reverse();
-
-  if(!res.data.length) return 
+  
   return (
     <ScrollView 
       contentContainerStyle={styles.container(!res.data.length)}

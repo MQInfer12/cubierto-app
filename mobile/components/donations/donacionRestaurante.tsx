@@ -9,6 +9,7 @@ import FontedText from '../global/fontedText'
 import { Producto } from '../../interfaces/producto'
 import CartRestaurante from './cartRestaurante'
 import Usuario from '../../interfaces/usuario'
+import NothingHere from '../global/nothingHere'
 
 export interface CartItem {
   cantidad: number,
@@ -32,6 +33,7 @@ const DonacionRestaurante = ({ setPage }: Props) => {
     setCart(old => old.filter(i => i.producto.id !== item.producto.id));
   }
 
+  if(!user?.productos.length) return <NothingHere text='No tienes productos para donar...' />
   return (
     <ScrollView 
       contentContainerStyle={styles.container}
