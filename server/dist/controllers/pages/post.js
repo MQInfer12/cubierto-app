@@ -127,6 +127,16 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
             productoId: item.productoActivo.producto.id
         }))
     });
+    data.items.forEach((item) => __awaiter(void 0, void 0, void 0, function* () {
+        yield queries_1.default.productoActivo.update({
+            where: {
+                id: item.productoActivo.id
+            },
+            data: {
+                donado: true
+            }
+        });
+    }));
     const response = {
         message: "Se pidieron los productos correctamente",
         data: donacion

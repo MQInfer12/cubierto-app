@@ -35,15 +35,15 @@ const xprisma = prisma.$extends({
       },
       findMany({ args, query }) {
         args.where = {
+          eliminado: false,
           ...args.where,
-          eliminado: false
         };
         return query(args);
       },
       findUnique({ args, query }) {
         args.where = {
+          eliminado: false,
           ...args.where,
-          eliminado: false
         };
         return query(args);
       },

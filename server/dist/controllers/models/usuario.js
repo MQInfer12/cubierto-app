@@ -16,7 +16,11 @@ const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
 const app = (0, express_1.Router)();
 app.get('/usuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield queries_1.default.usuario.findMany();
+    const users = yield queries_1.default.usuario.findMany({
+        where: {
+            eliminado: undefined
+        }
+    });
     const response = {
         message: "Usuarios obtenidos correctamente",
         data: users

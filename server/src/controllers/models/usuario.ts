@@ -7,7 +7,11 @@ import { Usuario } from '@prisma/client';
 const app = Router();
 
 app.get('/usuario', async (req, res) => {
-  const users = await xprisma.usuario.findMany();
+  const users = await xprisma.usuario.findMany({
+    where: {
+      eliminado: undefined
+    }
+  });
   const response: ApiResponse<Usuario[]> = {
     message: "Usuarios obtenidos correctamente",
     data: users

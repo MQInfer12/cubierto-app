@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../styles/colors'
 import FontedText from '../global/fontedText'
@@ -10,35 +10,50 @@ import MiDonacionCard from './miDonacionCard'
 
 const DonacionesCompletadas = () => {
   const { user } = useUser();
-  const { res } = useGet<Donacion[]>(`donaciones/${user?.rol}/${user?.id}`);
+  const { res, loading, getData } = useGet<Donacion[]>(`donaciones/${user?.rol}/${user?.id}`);
 
   const filterCompleted = (donaciones: Donacion[]) => {
     return donaciones.filter(donacion => donacion.estadoDonador === "aceptado" && donacion.estadoBeneficiario === "aceptado");
   }
 
   if(!res) return null;
-  if(!filterCompleted(res.data).length) return <NothingHere text='No completaste ninguna donación' />
   const data = [...filterCompleted(res.data)];
   data.reverse();
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <FontedText style={styles.ofertasText} weight={700}>Completadas</FontedText>
-      <View style={styles.donacionesContainer}>
-        {data.map(donacion => (
-          <MiDonacionCard key={donacion.id} donacion={donacion} />
-        ))}
-      </View>
+    <ScrollView 
+      contentContainerStyle={styles.container(!filterCompleted(res.data).length)}
+      refreshControl={
+        <RefreshControl 
+          refreshing={loading}
+          onRefresh={getData}
+        />
+      }
+    >
+      {
+        !filterCompleted(res.data).length ?
+        <NothingHere text='No completaste ninguna donación' />
+        :
+        <>
+        <FontedText style={styles.ofertasText} weight={700}>Completadas</FontedText>
+        <View style={styles.donacionesContainer}>
+          {data.map(donacion => (
+            <MiDonacionCard key={donacion.id} donacion={donacion} />
+          ))}
+        </View>
+        </>
+      }
     </ScrollView>
   )
 }
 
 export default DonacionesCompletadas
 
-const styles = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create<any>({
+  container: (fullscreen: boolean) => ({
     paddingVertical: 24,
     paddingHorizontal: 20,
-  },
+    flex: fullscreen ? 1 : undefined
+  }),
   ofertasText: {
     fontSize: 24,
     color: colors.gray900,
