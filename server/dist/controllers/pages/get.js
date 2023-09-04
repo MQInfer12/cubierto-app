@@ -142,6 +142,9 @@ app.get('/venta/completado/:idRestaurante', (req, res) => __awaiter(void 0, void
 }));
 app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ofertas = yield queries_1.default.productoActivo.findMany({
+        where: {
+            donado: false
+        },
         include: {
             detalleVentas: {
                 include: {

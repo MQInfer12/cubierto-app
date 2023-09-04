@@ -69,6 +69,7 @@ model ProductoActivo {
   detalleVentas    DetalleVenta[]
   tiempo           Int            @default(60)
   eliminado        Boolean        @default(false)
+  donado           Boolean        @default(false)
 }
 
 model Venta {

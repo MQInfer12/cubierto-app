@@ -140,6 +140,9 @@ app.get('/venta/completado/:idRestaurante', async (req, res) => {
 
 app.get('/donaciones', async (req, res) => {
   const ofertas = await xprisma.productoActivo.findMany({
+    where: {
+      donado: false
+    },
     include: {
       detalleVentas: {
         include: {

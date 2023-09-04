@@ -127,6 +127,16 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
       productoId: item.productoActivo.producto.id
     }))
   })
+  data.items.forEach(async item => {
+    await xprisma.productoActivo.update({
+      where: {
+        id: item.productoActivo.id
+      },
+      data: {
+        donado: true
+      }
+    })
+  });
   const response: ApiResponse<Donacion> = {
     message: "Se pidieron los productos correctamente",
     data: donacion
