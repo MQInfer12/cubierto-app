@@ -1,14 +1,14 @@
 import { Dash, Linkdash, NavDash } from "../../../styles/compStyleDash";
-import prom from "../../../assets/dash/promociones.svg";
-import fav from "../../../assets/dash/favoritos.svg";
 import pedidos from "../../../assets/dash/pedidos.svg";
 import perfil from "../../../assets/dash/perfil.svg";
 import secion from "../../../assets/dash/secion.svg";
 import { Outlet } from "react-router-dom";
 import { useUser } from "../../../context/useUser";
 import Rolecomponent from "../../../components/rolecomponent";
-const Dashnav = ({ children }) => {
-
+interface props {
+  children: JSX.Element | JSX.Element[] | string
+}
+const Dashnav = ({children}:props) => {
   const { logout } = useUser();
 
   return (
@@ -18,7 +18,7 @@ const Dashnav = ({ children }) => {
         <section>
           <Linkdash to="/dashboard/ventas">
             <img src={pedidos} alt="icon-pedidos" />
-            Ventas 
+            Ventas
           </Linkdash>
           <Linkdash to="/dashboard/perfil">
             <img src={perfil} alt="icon-perfil" />

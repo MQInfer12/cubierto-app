@@ -33,3 +33,10 @@ margin:auto;
 color:${colors.light};
 
 ` ;
+export const buttonStyle = css`
+background-color:${colors.primary};
+border:none;
+padding:.5em 3em;
+border-radius:.8em;
+color:${colors.light};
+` ;

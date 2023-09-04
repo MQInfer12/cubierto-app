@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
-import { ComunStyles, colors } from "./styleGlobal";
+import { ComunStyles, buttonStyle, colors } from "./styleGlobal";
 import { Link } from "react-router-dom";
 
 export const Dash = styled.section`
   display: flex;
   flex-direction: row;
+  width:98vw;
 `;
 
 export const NavDash = styled.nav`
@@ -14,11 +15,10 @@ export const NavDash = styled.nav`
   box-shadow: 0px 5px 5px #0005;
   flex-direction: column;
   display: flex;
-  justify-content: flex-start;
+  
   text-align: center;
   padding: 40px;
-  gap: 6em;
-  position: fixed;
+  gap: 8em;
   & img {
     margin: 0 auto;
     width: 80px;
@@ -49,8 +49,9 @@ export const NavDash = styled.nav`
 `;
 export const Linkdash = styled(Link)`
   text-decoration: none;
-  ${ComunStyles}
+  display: flex;
   flex-direction:row;
+  justify-content: flex-start;
   color: ${colors.dark};
   width: 100%;
   font-size: 15px;
@@ -63,6 +64,7 @@ export const Linkdash = styled(Link)`
   & img {
     width: 16px;
     height: 16px;
+    
   }
 `;
 // del lado de el dashbard
@@ -202,4 +204,107 @@ font-weight: 500;
 font-weight: 500;
 }
 } */
+`;
+
+
+export const Section = styled.section`
+  margin: 0 auto;
+  padding: 2em;
+  width: 80%;
+  display: flex;
+  gap: 3em;
+  flex-direction: column;
+  & article {
+    ${ComunStyles}
+    flex-direction:row;
+    justify-content: space-between;
+    & p {
+      font-size: 2em;
+      font-weight: bold;
+    }
+    & > button {
+      ${buttonStyle}
+    }
+  }
+  & > table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+
+    & > thead {
+      & > tr {
+        background-color: #e4e4e453;
+
+        & > th {
+
+          font-size:12px;
+          font-weight: 100;
+          padding: 0.7em 1em;
+          text-align: start;
+          text-transform:uppercase;
+          color:#0008;
+        }
+      }
+    }
+    & tbody {
+      /* width:100%;
+      display: block; /* Cambia a block o inline-block */
+  /* padding: 10px; */ 
+      & > tr {
+        & > td {
+          padding:0 0.5em;
+          & >article{
+            ${ComunStyles}
+            justify-content:flex-start;
+            gap:1em;
+            
+            & > img{
+            width:18px;
+            height:18px;
+            filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(100deg);
+            }
+          }
+          & > button {
+            background-color: ${colors.primary};
+            border: none;
+            padding: 0 1em;
+            border-radius: 1em;
+            color: #fff;
+            font-weight: 100;
+            cursor: pointer;
+          }
+          & > select {
+            width: 15em;
+            outline: none;
+            border: none;
+          }
+          & > div {
+            width: 10em;
+            display: flex;
+            flex-direction: column;
+            white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+            overflow: hidden; /* Oculta el texto que excede el ancho del contenedor */
+            text-overflow: ellipsis;
+          }
+          & > section {
+            display: flex;
+            gap: 1em;
+            padding: 0.2em 1em;
+            & > img {
+              width: 30px;
+              height: 30px;
+              border-radius: 30%;
+              cursor: pointer;
+            }
+            & > div {
+              & > p:nth-child(2) {
+                color: #0005;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 `;

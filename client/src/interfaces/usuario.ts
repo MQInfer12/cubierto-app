@@ -20,6 +20,7 @@ type Usuario = {
   ubicaciones: Ubicacion[];
   ubicacionActual: Ubicacion;
   favoritos: Favorito[];
+  eliminado:boolean;
 }
 
 export default Usuario;
