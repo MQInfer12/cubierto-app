@@ -12,9 +12,10 @@ type Props = {
   handleRemove?: () => any
   handleAdd?: () => any
   handleSubstract?: () => any
+  disabled?: boolean
 }
 
-const NumberInput = ({ setValue, value, max, min, handleRemove, handleAdd, handleSubstract }: Props) => {
+const NumberInput = ({ setValue, value, max, min, handleRemove, handleAdd, handleSubstract, disabled = false }: Props) => {
   return (
     <View style={styles.inputNumberContainer}>
       <TouchableOpacity 
@@ -31,9 +32,10 @@ const NumberInput = ({ setValue, value, max, min, handleRemove, handleAdd, handl
             }
           }
         }} 
+        disabled={disabled}
         style={styles.sideIconContainer}
       >
-        <Icon name={handleRemove && value === min ? "trash-outline" : "remove-outline"} size={18} color={colors.primary500} />
+        <Icon name={handleRemove && value === min ? "trash-outline" : "remove-outline"} size={18} color={disabled ? colors.gray400 : colors.primary500} />
       </TouchableOpacity>
       <FontedText style={styles.inputText}>{value}</FontedText>
       <TouchableOpacity 
@@ -47,8 +49,9 @@ const NumberInput = ({ setValue, value, max, min, handleRemove, handleAdd, handl
           }
         }} 
         style={styles.sideIconContainer}
+        disabled={disabled}
       >
-        <Icon name="add" size={18} color={colors.primary500} />
+        <Icon name="add" size={18} color={disabled ? colors.gray400 : colors.primary500} />
       </TouchableOpacity>
     </View>
   )

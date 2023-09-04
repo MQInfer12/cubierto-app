@@ -6,6 +6,7 @@ import DonacionBeneficiario from '../../components/donations/donacionBeneficiari
 import MisDonaciones from '../../components/donations/misDonaciones';
 import DonacionesCompletadas from '../../components/donations/donacionesCompletadas';
 import { useUser } from '../../context/user';
+import DonacionRestaurante from '../../components/donations/donacionRestaurante';
 
 export type Page = "Donaciones" | "Pendientes" | "Completadas";
 
@@ -26,6 +27,7 @@ const Donations = () => {
     </View>
     {
       (page === "Donaciones" && user?.rol === "beneficiario") ? <DonacionBeneficiario setPage={setPage} /> :
+      (page === "Donaciones" && user?.rol === "restaurante") ? <DonacionRestaurante setPage={setPage} /> :
       page === "Pendientes" ? <MisDonaciones /> :
       page === "Completadas" && <DonacionesCompletadas />
     }
