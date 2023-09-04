@@ -4,7 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
 import { filterDonaciones, filterOfertas } from "../../utilities/filterOfertas";
-import { Donacion, ProductoActivo, Venta } from "@prisma/client";
+import { Donacion, ProductoActivo, Usuario, Venta } from "@prisma/client";
 
 const app = Router();
 
@@ -181,6 +181,19 @@ app.get('/donaciones', async (req, res) => {
   const response: ApiResponse<ProductoActivo[]> = {
     message: "Donaciones obtenidas correctamente",
     data: ofertasFinal
+  }
+  res.json(response);
+});
+
+app.get('/beneficiarios', async (req, res) => {
+  const beneficiarios = await xprisma.usuario.findMany({
+    where: {
+      rol: "beneficiario"
+    }
+  });
+  const response: ApiResponse<Usuario[]> = {
+    message: "Beneficiarios obtenidos correctamente",
+    data: beneficiarios
   }
   res.json(response);
 });

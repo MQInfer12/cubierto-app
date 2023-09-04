@@ -186,6 +186,18 @@ app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function*
     };
     res.json(response);
 }));
+app.get('/beneficiarios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const beneficiarios = yield queries_1.default.usuario.findMany({
+        where: {
+            rol: "beneficiario"
+        }
+    });
+    const response = {
+        message: "Beneficiarios obtenidos correctamente",
+        data: beneficiarios
+    };
+    res.json(response);
+}));
 app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
