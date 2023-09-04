@@ -143,6 +143,28 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
     };
     res.json(response);
 }));
+app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const donacion = yield queries_1.default.donacion.create({
+        data: {
+            donadorId: req.params.idRestaurante,
+            beneficiarioId: data.beneficiarioId,
+            estadoDonador: "aceptado"
+        }
+    });
+    yield queries_1.default.detalleDonacion.createMany({
+        data: data.items.map(item => ({
+            donacionId: donacion.id,
+            cantidad: item.cantidad,
+            productoId: item.producto.id
+        }))
+    });
+    const response = {
+        message: "Donacion ofrecida correctamente",
+        data: donacion
+    };
+    res.json(response);
+}));
 app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donacion = yield queries_1.default.donacion.update({
         where: {
