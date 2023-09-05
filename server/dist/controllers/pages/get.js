@@ -17,11 +17,25 @@ const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
 app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            estadoBeneficiario: "aceptado",
+            AND: {
+                estadoDonador: "aceptado"
+            }
+        },
+        orderBy: {
+            id: "desc"
+        },
+        take: 3
+    });
+    const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     const categorias = yield queries_1.default.categoria.findMany();
     const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany());
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
+            donacion: randomDonacion,
             categorias,
             ofertas
         }
