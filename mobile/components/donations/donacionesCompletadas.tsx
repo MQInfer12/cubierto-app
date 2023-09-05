@@ -16,7 +16,7 @@ const DonacionesCompletadas = () => {
     return donaciones.filter(donacion => donacion.estadoDonador === "aceptado" && donacion.estadoBeneficiario === "aceptado");
   }
 
-  if(!res) return null;
+  if(!res) return <NothingHere type='loading' text='Cargando donaciones completadas...' />;
   const data = [...filterCompleted(res.data)];
   data.reverse();
   return (

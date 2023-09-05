@@ -10,7 +10,7 @@ const PendientesMapper = () => {
   const { user } = useUser();
   const { res, getData, loading } = useGet<Venta[]>(`pendientes/${user?.id}`);
   
-  if(!res) return null;
+  if(!res) return <NothingHere type='loading' text='Cargando pendientes...' />;
   return (
     <ScrollView 
       contentContainerStyle={styles.container(!res.data.length)}

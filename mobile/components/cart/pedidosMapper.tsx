@@ -43,7 +43,7 @@ const PedidosMapper = () => {
     })
   }
 
-  if(!res) return null;
+  if(!res) return <NothingHere type='loading' text='Cargando pedidos...' />;
 
   let ventas: Venta[] = [];
   ventas = [...res.data];

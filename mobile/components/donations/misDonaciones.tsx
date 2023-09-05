@@ -16,7 +16,7 @@ const MisDonaciones = () => {
     return donaciones.filter(donacion => donacion.estadoDonador !== "aceptado" || donacion.estadoBeneficiario !== "aceptado");
   }
 
-  if(!res) return null;
+  if(!res) return <NothingHere type='loading' text='Cargando pendientes...' />;
   const data = [...filterNoCompleted(res.data)];
   data.reverse();
   return (

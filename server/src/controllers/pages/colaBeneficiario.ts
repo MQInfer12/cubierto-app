@@ -32,7 +32,7 @@ app.put('/cola/beneficiario/salir/:usuarioId', async (req, res) => {
   cola.updatedAt = new Date();
   await pusher.trigger("cola-channel", "beneficiario", cola);
   const response: ApiResponse<Cola> = {
-    message: "Un usuario salio de la cola",
+    message: `Un usuario salio de la cola`,
     data: cola
   }
   res.json(response);

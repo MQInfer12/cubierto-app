@@ -35,7 +35,7 @@ app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, v
     cola.updatedAt = new Date();
     yield pusher_1.default.trigger("cola-channel", "beneficiario", cola);
     const response = {
-        message: "Un usuario salio de la cola",
+        message: `Un usuario salio de la cola`,
         data: cola
     };
     res.json(response);

@@ -14,9 +14,10 @@ interface Props {
   cart: ProductoActivo[]
   removeFromCart: (productoActivo: ProductoActivo) => void
   setPage: React.Dispatch<React.SetStateAction<Page>>
+  salirCola: () => Promise<void>
 }
 
-const Cart = ({ cart, removeFromCart, setPage }: Props) => {
+const Cart = ({ cart, removeFromCart, setPage, salirCola }: Props) => {
   const { user } = useUser();
 
   const handlePedirDonacion = async () => {
@@ -31,6 +32,7 @@ const Cart = ({ cart, removeFromCart, setPage }: Props) => {
     if(res) {
       alert("Se pidió la donación correctamente");
       setPage("Pendientes");
+      salirCola();
     }
   }
 

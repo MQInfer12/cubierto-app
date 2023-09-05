@@ -1,23 +1,39 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../styles/colors'
 import FontedText from './fontedText'
 
 interface Props {
   text: string
-  type?: "sad" | "happy"
+  subtext?: string
+  type?: "sad" | "happy" | "loading"
 }
 
-const NothingHere = ({ text, type = "sad" }: Props) => {
+const NothingHere = ({ text, subtext, type = "sad" }: Props) => {
   return (
     <View style={styles.nothingContainer}>
-      <Image source={
-        type === "sad" ?
-        require(`../../assets/images/sadMask.png`) :
-        type === "happy" &&
-        require(`../../assets/images/happyMask.png`)
-      } style={styles.image}/>
-      <FontedText weight={600} style={styles.nothingText}>{text}</FontedText>
+      {type === "loading" ?
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator 
+            size="large"
+            color={colors.primary500}
+          />
+        </View>
+      : 
+        <Image 
+          source={
+            type === "sad" ?
+            require(`../../assets/images/sadMask.png`) :
+            type === "happy" &&
+            require(`../../assets/images/happyMask.png`)
+          } 
+          style={styles.image}
+        />
+      }
+      <View style={styles.textContainer}>
+        <FontedText weight={600} style={styles.nothingText}>{text}</FontedText>
+        {subtext && <FontedText weight={400} style={styles.subtitle}>{subtext}</FontedText>}
+      </View>
     </View>
   )
 }
@@ -35,9 +51,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.primary500
   },
+  subtitle: {
+    fontSize: 16,
+    color: colors.gray600
+  },
   image: {
     width: 96,
     height: 96,
     opacity: 0.8
+  },
+  loadingContainer: {
+    height: 96,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  textContainer: {
+    alignItems: "center",
+    gap: 8
   }
 })
