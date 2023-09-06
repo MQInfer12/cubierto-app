@@ -11,7 +11,8 @@ import OfertaMapper from '../../components/home/ofertaMapper'
 import { useSetRouteName } from '../../context/routeName'
 import { router } from 'expo-router'
 import { useCola } from '../../context/cola'
-import { useUser } from '../../context/user'
+import DonationCard from '../../components/home/donationCard'
+import { Donacion } from '../../interfaces/donacion'
 
 const Home = () => {
   useSetRouteName('Home');
@@ -53,7 +54,7 @@ const Home = () => {
         />
       }
     >
-      <Image style={styles.image} source={require('../../assets/images/homeImage.png')} />
+      <DonationCard donation={res?.data.donacion} />
       <View style={styles.controlsContainer}>
         <View style={styles.textInputContainer}>
           <Icon color={colors.primary500} size={16} name='search' />
@@ -118,11 +119,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     ...shadows.shadow400,
-  },
-  image: {
-    minWidth: "100%",
-    aspectRatio: 360 / 183,
-    marginBottom: 32
   },
   ofertasText: {
     fontSize: 24,
