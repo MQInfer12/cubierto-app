@@ -212,7 +212,7 @@ app.get('/beneficiarios', async (req, res) => {
   res.json(response);
 });
 
-app.get('/beneficiarios', async (req, res) => {
+app.get('/restaurantes', async (req, res) => {
   const beneficiarios = await xprisma.usuario.findMany({
     where: {
       rol: "restaurante"
