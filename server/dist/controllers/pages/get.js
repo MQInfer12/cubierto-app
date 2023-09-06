@@ -213,14 +213,23 @@ app.get('/beneficiarios', (req, res) => __awaiter(void 0, void 0, void 0, functi
     res.json(response);
 }));
 app.get('/restaurantes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const beneficiarios = yield queries_1.default.usuario.findMany({
+    const restaurantes = yield queries_1.default.usuario.findMany({
         where: {
             rol: "restaurante"
         }
     });
+    restaurantes.sort((x, y) => {
+        if (x.nombre < y.nombre) {
+            return -1;
+        }
+        if (x.nombre > y.nombre) {
+            return 1;
+        }
+        return x.id < y.id && -1;
+    });
     const response = {
         message: "Restaurantes obtenidos correctamente",
-        data: beneficiarios
+        data: restaurantes
     };
     res.json(response);
 }));

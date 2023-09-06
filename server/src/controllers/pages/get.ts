@@ -213,14 +213,27 @@ app.get('/beneficiarios', async (req, res) => {
 });
 
 app.get('/restaurantes', async (req, res) => {
-  const beneficiarios = await xprisma.usuario.findMany({
+  const restaurantes = await xprisma.usuario.findMany({
     where: {
       rol: "restaurante"
     }
   });
+
+  restaurantes.sort((x, y) => {
+    if (x.nombre < y.nombre) {
+      return -1;
+    }
+
+    if (x.nombre > y.nombre) {
+      return 1;
+    }
+
+    return x.id < y.id && -1;
+  });
+
   const response: ApiResponse<Usuario[]> = {
     message: "Restaurantes obtenidos correctamente",
-    data: beneficiarios
+    data: restaurantes
   }
   res.json(response);
 });
