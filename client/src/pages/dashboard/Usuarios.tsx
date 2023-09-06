@@ -17,7 +17,6 @@ const Usuarios = () => {
       <Toaster position="top-center" reverseOrder={false} />
       <article>
         <p>Usuarios</p>
-
       </article>
       <table>
         <thead>

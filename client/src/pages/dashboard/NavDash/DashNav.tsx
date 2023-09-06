@@ -15,9 +15,9 @@ const Dashnav = ({children}:props) => {
     <Dash>
       <NavDash>
         {children}
-        <section>
+        <article>
           <Linkdash to="/dashboard/ventas">
-            <img src={pedidos} alt="icon-pedidos" />
+            <img src={pedidos } alt="icon-pedidos" />
             Ventas
           </Linkdash>
           <Linkdash to="/dashboard/perfil">
@@ -34,7 +34,7 @@ const Dashnav = ({children}:props) => {
             <img src={secion} alt="icon-secion" />
             Cerrar seción
           </Linkdash>
-        </section>
+        </article>
       </NavDash>
       <Outlet />
     </Dash>

@@ -1,5 +1,3 @@
-
-import styled from "styled-components";
 import { useState } from "react";
 import { sendCloudinary } from "../../utilities/uploadImage";
 import { sendRequest } from "../../utilities/sendRequest";
@@ -15,6 +13,7 @@ interface Form {
   ubicacion: number | undefined
 }
 import { useUser } from "../../context/useUser";
+import { Container } from "../../styles/perfil";
 const Perfil = () => {
   const navigate = useNavigate();
   const { user, setUser, removeUbicacion } = useUser();
@@ -93,9 +92,9 @@ const Perfil = () => {
   }
   return (
     <Container>
-      <Portada>
+      <div>
         <img src={form.portada ? portadaPre : user?.portada} alt="" />
-      </Portada>
+      </div>
       <label htmlFor="">Foto de perfil</label>
       <input type="file" name="foto" onChange={(e) => seleccionarFoto(e)} />
       <img src={form.foto ? fotoPre : user?.foto} alt="" />
@@ -120,7 +119,7 @@ const Perfil = () => {
           ))
         }
       </select>
-      <button onClick={() => navigate('/dashboard/ubicaciones')}>Agregar</button>
+      <button onClick={() => navigate('/dashboard/ubicaciones')}>Agregar UBICACION</button>
       <button onClick={handleBorrar} >Eliminar</button>
       <button onClick={handleSave}>Guardar</button>
     </Container>
@@ -128,20 +127,3 @@ const Perfil = () => {
 }
 
 export default Perfil
-const Container = styled.div`
-width: 100vw;
-height: 100hw;
-  padding-left:calc(210px + 3rem) ;
-  
-  &>img{
-    width: 80px;
-    height: 80px;
-  }
-`;
-const Portada = styled.div`
-width: 100vw;
-height: 200px;
-&>img{
-
-}
-`;
