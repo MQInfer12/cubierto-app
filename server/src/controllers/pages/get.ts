@@ -9,11 +9,25 @@ import { Donacion, ProductoActivo, Usuario, Venta } from "@prisma/client";
 const app = Router();
 
 app.get('/pedir', async (req, res) => {
+  const donaciones = await xprisma.donacion.findMany({
+    where: {
+      estadoBeneficiario: "aceptado",
+      AND: {
+        estadoDonador: "aceptado"
+      }
+    },
+    orderBy: {
+      id: "desc"
+    },
+    take: 3
+  });
+  const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
   const categorias = await xprisma.categoria.findMany();
   const ofertas = filterOfertas(await xprisma.productoActivo.findMany());
   const response: ApiResponse<PedirResponse> = {
     message: "Datos obtenidos correctamente",
     data: {
+      donacion: randomDonacion,
       categorias,
       ofertas
     }
@@ -194,6 +208,32 @@ app.get('/beneficiarios', async (req, res) => {
   const response: ApiResponse<Usuario[]> = {
     message: "Beneficiarios obtenidos correctamente",
     data: beneficiarios
+  }
+  res.json(response);
+});
+
+app.get('/restaurantes', async (req, res) => {
+  const restaurantes = await xprisma.usuario.findMany({
+    where: {
+      rol: "restaurante"
+    }
+  });
+
+  restaurantes.sort((x, y) => {
+    if (x.nombre < y.nombre) {
+      return -1;
+    }
+
+    if (x.nombre > y.nombre) {
+      return 1;
+    }
+
+    return x.id < y.id && -1;
+  });
+
+  const response: ApiResponse<Usuario[]> = {
+    message: "Restaurantes obtenidos correctamente",
+    data: restaurantes
   }
   res.json(response);
 });

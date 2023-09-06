@@ -17,11 +17,25 @@ const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
 app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            estadoBeneficiario: "aceptado",
+            AND: {
+                estadoDonador: "aceptado"
+            }
+        },
+        orderBy: {
+            id: "desc"
+        },
+        take: 3
+    });
+    const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     const categorias = yield queries_1.default.categoria.findMany();
     const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany());
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
+            donacion: randomDonacion,
             categorias,
             ofertas
         }
@@ -195,6 +209,27 @@ app.get('/beneficiarios', (req, res) => __awaiter(void 0, void 0, void 0, functi
     const response = {
         message: "Beneficiarios obtenidos correctamente",
         data: beneficiarios
+    };
+    res.json(response);
+}));
+app.get('/restaurantes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const restaurantes = yield queries_1.default.usuario.findMany({
+        where: {
+            rol: "restaurante"
+        }
+    });
+    restaurantes.sort((x, y) => {
+        if (x.nombre < y.nombre) {
+            return -1;
+        }
+        if (x.nombre > y.nombre) {
+            return 1;
+        }
+        return x.id < y.id && -1;
+    });
+    const response = {
+        message: "Restaurantes obtenidos correctamente",
+        data: restaurantes
     };
     res.json(response);
 }));
