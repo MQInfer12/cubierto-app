@@ -58,7 +58,7 @@ const CartRestaurante = ({ cart, removeFromCart, setPage, beneficiarios = [] }: 
           </TouchableOpacity>
         </View>
       ))}
-      <Button onPress={handlePedirDonacion}>Pedir</Button>
+      <Button onPress={handlePedirDonacion}>Donar</Button>
     </View>
   )
 }

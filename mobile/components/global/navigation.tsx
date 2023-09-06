@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router'
 import Icon from './icon'
@@ -25,7 +25,7 @@ const Navigation = () => {
         <FontedText weight={700} style={styles.backText}>{ route }</FontedText>
       </View>
       {
-        cola && 
+        cola ?
         <View style={styles.buttonContainer}>
           <FontedText weight={700} style={styles.colaColor}>
             {
@@ -39,6 +39,10 @@ const Navigation = () => {
           <TouchableOpacity onPress={handleSalirDeCola}>
             <Icon name='close-outline' size={24} color={colors.primary500} />
           </TouchableOpacity> 
+        </View> :
+        <View style={styles.logoContainer}>
+          <FontedText weight={600} style={styles.logoText}>Cubierto</FontedText>
+          <Image style={styles.logo} source={require('../../assets/images/CubiertoIsotipo.png')} />
         </View>
       }
     </View>
@@ -57,6 +61,20 @@ const styles = StyleSheet.create({
     zIndex: 5,
     backgroundColor: colors.bgTransparent,
     justifyContent: "space-between"
+  },
+  logoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    height: "100%",
+    paddingVertical: 12
+  },
+  logoText: {
+    color: colors.gray600
+  },
+  logo: {
+    height: "100%",
+    width: 24
   },
   buttonContainer: {
     flexDirection: "row",

@@ -1,4 +1,4 @@
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { colors } from '../../styles/colors'
 import FontedText from '../global/fontedText'
