@@ -13,12 +13,15 @@ import { router } from 'expo-router'
 import { useCola } from '../../context/cola'
 import DonationCard from '../../components/home/donationCard'
 import { Donacion } from '../../interfaces/donacion'
+import Button from '../../components/global/button'
+import { useProtectCola } from '../../hooks/useProtectCola'
 
 const Home = () => {
   useSetRouteName('Home');
   const { res, loading, getData, firstRender } = useGet<PedirResponse>('pedir');
   const { cola } = useCola();
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
+  useProtectCola();
 
   const seleccionarCategoria = (id: number) => {
     if(categoriaSeleccionada === id) {
@@ -27,13 +30,6 @@ const Home = () => {
       setCategoriaSeleccionada(id);
     }
   }
-
-  useEffect(() => {
-    if(cola) {
-      const idRestaurante = cola[0].restauranteId;
-      router.push(`/restaurante/${idRestaurante}`)
-    }
-  }, []);
   
   const ofertas = res?.data.ofertas.filter(oferta => {
     const cantidadVendida = oferta.detalleVentas.reduce((suma, detalle) => {
@@ -56,13 +52,8 @@ const Home = () => {
     >
       <DonationCard donation={res?.data.donacion} />
       <View style={styles.controlsContainer}>
-        <View style={styles.textInputContainer}>
-          <Icon color={colors.primary500} size={16} name='search' />
-          <TextInput 
-            style={styles.textInput} 
-            placeholder='Buscar' 
-            placeholderTextColor={colors.gray400} 
-          />
+        <View style={{ flex: 1 }}>
+          <Button onPress={() => router.push('restaurantes')}>Ver restaurantes afiliados</Button>
         </View>
         <TouchableOpacity style={styles.notificationsContainer}>
           <Icon color={colors.primary500} size={20} name="notifications-outline" />
