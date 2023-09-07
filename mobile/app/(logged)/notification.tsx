@@ -1,41 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useRef, useEffect } from 'react'
+import { View } from 'react-native'
+import React from 'react'
 import Button from '../../components/global/button'
-import { registerForPushNotificationsAsync, sendPushNotification } from '../../utilities/notifications';
-import * as Notifications from 'expo-notifications'
+import { sendPushNotification } from '../../utilities/notifications';
 import FontedText from '../../components/global/fontedText';
-import { router } from 'expo-router';
+import { usePushToken } from '../../context/pushToken';
 
 const Notification = () => {
-  const [expoPushToken, setExpoPushToken] = useState<any>('');
-  const responseListener = useRef<any>();
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token?.data));
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      const data = response.notification.request.content.data;
-      const route = data.route;
-      router.push(route);
-    });
-
-    return () => {
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
+  const { pushToken } = usePushToken();
 
   const handleEnviarNotificacion = async () => {
-    await sendPushNotification(expoPushToken);
+    await sendPushNotification(pushToken);
   }
-    
+
   return (
     <View>
-      <FontedText>Your expo push token: {JSON.stringify(expoPushToken)}</FontedText>
+      <FontedText>Your expo push token: {JSON.stringify(pushToken)}</FontedText>
       <Button onPress={handleEnviarNotificacion}>Enviar notificacion</Button>
     </View>
   )
 }
 
 export default Notification
-
-const styles = StyleSheet.create({})
