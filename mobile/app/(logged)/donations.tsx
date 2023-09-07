@@ -27,7 +27,7 @@ const Donations = () => {
     </View>
     {
       (page === "Donaciones" && user?.rol === "beneficiario") ? <DonacionBeneficiario setPage={setPage} /> :
-      (page === "Donaciones" && user?.rol === "restaurante") ? <DonacionRestaurante setPage={setPage} /> :
+      (page === "Donaciones" && (user?.rol === "restaurante" || user?.rol === "proveedor")) ? <DonacionRestaurante setPage={setPage} /> :
       page === "Pendientes" ? <MisDonaciones /> :
       page === "Completadas" && <DonacionesCompletadas />
     }

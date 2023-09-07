@@ -2,14 +2,15 @@ import { Cola } from "./cola";
 import { Favorito } from "./favorito";
 import { Producto } from "./producto";
 import { Ubicacion } from "./ubicacion";
-import { Venta } from "./venta";
+
+export type UserRol = "usuario" | "restaurante" | "proveedor" | "beneficiario" | "admin";
 
 type Usuario = {
   id: string;
   nombre: string;
   email: string;
   foto: string;
-  rol: "usuario" | "restaurante" | "proveedor" | "beneficiario" | "admin";
+  rol: UserRol;
   notificaciones: "todas" | "favoritos";
   telefono: number;
   portada: string;

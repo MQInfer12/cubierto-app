@@ -116,6 +116,8 @@ const UserInfo = () => {
   }
 
   if(!user) return null;
+
+  const otherData = user.rol === "restaurante" || user.rol === "proveedor"
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.fotoContainer}>
@@ -126,7 +128,7 @@ const UserInfo = () => {
           </TouchableOpacity>
         </View>
         {
-          user.rol === "restaurante" &&
+          otherData &&
           <View style={styles.unaFotoContainer}>
             <FontedText style={styles.inputTitle} weight={600}>Foto de portada</FontedText>
             <TouchableOpacity onPress={SeleccionarPortada}>
@@ -153,7 +155,7 @@ const UserInfo = () => {
         />
       </View>
       {
-        user.rol === "restaurante" &&
+        otherData &&
         <>
         <View style={styles.inputContainer}>
           <FontedText style={styles.inputTitle} weight={600}>Descripción</FontedText>

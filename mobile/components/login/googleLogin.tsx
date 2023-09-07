@@ -1,4 +1,4 @@
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { Alert, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { useUser } from '../../context/user'
 import * as WebBrowser from 'expo-web-browser'
@@ -22,8 +22,12 @@ const GoogleLogin = () => {
       const res = await fetch(`${process.env.EXPO_PUBLIC_BACKEND}usuario/${userId}`);
       if(res.ok) {
         const json = await res.json();
-        setUser(json.data);
-        router.replace("/home");
+        if(json.data === null) {
+          Alert.alert("Está cuenta no está disponible");
+        } else {
+          setUser(json.data);
+          router.replace("/home");
+        }
       }
     }
   }

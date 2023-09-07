@@ -39,7 +39,7 @@ const Home = () => {
           <FontedText style={styles.bottomButtonText} weight={600}>Información personal</FontedText>
         </TouchableOpacity>
         {
-          user.rol === "restaurante" &&
+          (user.rol === "restaurante" || user.rol === "proveedor") &&
           <TouchableOpacity onPress={() => router.push(`productos`)} style={styles.bottomButton}>
             <View style={styles.bottomIconContainer}>
               <Icon name='book-outline' size={16} color={colors.gray900} />
@@ -53,12 +53,12 @@ const Home = () => {
           </View>
           <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones</FontedText>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton}>
+        {/* <TouchableOpacity style={styles.bottomButton}>
           <View style={styles.bottomIconContainer}>
             <Icon name='information-circle-outline' size={16} color={colors.gray900} />
           </View>
           <FontedText style={styles.bottomButtonText} weight={600}>Información legal</FontedText>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
           <View style={styles.bottomIconContainer}>
             <Icon name='log-out-outline' size={16} color={colors.gray900} />

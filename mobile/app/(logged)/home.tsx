@@ -15,10 +15,12 @@ import DonationCard from '../../components/home/donationCard'
 import { Donacion } from '../../interfaces/donacion'
 import Button from '../../components/global/button'
 import { useProtectCola } from '../../hooks/useProtectCola'
+import { useUser } from '../../context/user'
 
 const Home = () => {
   useSetRouteName('Home');
-  const { res, loading, getData, firstRender } = useGet<PedirResponse>('pedir');
+  const { user } = useUser();
+  const { res, loading, getData, firstRender } = useGet<PedirResponse>(user?.rol === "usuario" ? 'pedir/user' : 'pedir');
   const { cola } = useCola();
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
   useProtectCola();

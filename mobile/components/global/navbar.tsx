@@ -5,11 +5,13 @@ import { colors } from '../../styles/colors'
 import { usePathname } from 'expo-router'
 import { router } from 'expo-router'
 import { useUser } from '../../context/user'
+import { UserRol } from '../../interfaces/usuario'
 
 const Navbar = () => {
   const { user } = useUser();
   const currentRoute = usePathname();
 
+  const donationRoles: UserRol[] = ["beneficiario", 'restaurante', 'proveedor'];
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => router.push('/home')} style={styles.button}>
@@ -19,7 +21,7 @@ const Navbar = () => {
         <Icon name='cart' color={currentRoute === "/cart" ? colors.primary500 : colors.gray500} size={24} />
       </TouchableOpacity>
       {
-        user?.rol !== "usuario" &&
+        (user && donationRoles.includes(user?.rol)) &&
         <TouchableOpacity onPress={() => router.push('/donations')} style={styles.button}>
           <Icon name='fitness-outline' color={currentRoute === "/donations" ? colors.primary500 : colors.gray500} size={24} />
         </TouchableOpacity>

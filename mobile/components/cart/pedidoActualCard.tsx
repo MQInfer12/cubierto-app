@@ -20,7 +20,7 @@ const PedidoActualCard = ({ venta }: Props) => {
     suma += detalle.cantidad * detalle.precioUnitario;
     return suma;
   }, 0);
-  const { nombre, foto } = venta.detalles[0].productoActivo.producto.usuario;
+  const { nombre, foto, rol } = venta.detalles[0].productoActivo.producto.usuario;
   let hours = new Date().getTime() - new Date(venta.fecha).getTime();
   hours /= (1000 * 60 * 60);
 
@@ -50,7 +50,7 @@ const PedidoActualCard = ({ venta }: Props) => {
               venta.estado === "recogido" ?
               `¡Muchas gracias, disfruta tu pedido!`
               : venta.estado === "aceptado" ?
-              `¡Pedido aceptado, pasa a recogerlo al restaurante!`
+              rol === "restaurante" ? `¡Pedido aceptado, pasa a recogerlo al restaurante!` : `¡El proveedor aceptó tu pedido correctamente!`
               : venta.estado === "rechazado" ?
               `Lo lamentamos, el restaurante rechazó tu pedido...`
               : 

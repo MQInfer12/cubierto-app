@@ -5,13 +5,18 @@ import ItemMapper from '../../components/cart/itemMapper'
 import PedidosMapper from '../../components/cart/pedidosMapper'
 import Tabs from '../../components/global/tabs'
 import PendientesMapper from '../../components/cart/pendientesMapper'
+import { useUser } from '../../context/user'
 
 type Page = "Mi carrito" | "Mis pedidos" | "Pendientes";
 
 const Cart = () => {
   useSetRouteName('Mis pedidos');
+  const { user } = useUser();
   const [page, setPage] = useState<Page>("Mi carrito");
-  const data: Page[] = ["Mi carrito", "Mis pedidos", "Pendientes"];
+  const data: Page[] = ["Mi carrito", "Mis pedidos"];
+  if(user?.rol === "restaurante" || user?.rol === "proveedor") {
+    data.push("Pendientes");
+  }
   
   return (
     <View style={styles.container}>
