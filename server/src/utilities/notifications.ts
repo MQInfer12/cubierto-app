@@ -1,3 +1,6 @@
+import { Producto, ProductoActivo, Usuario } from "@prisma/client";
+import xprisma from "../middlewares/queries";
+
 interface Message {
   to: string,
   sound: string,
@@ -8,9 +11,7 @@ interface Message {
   }
 }
 
-// Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
 export async function sendPushNotification(body: Message | Message[]) {
-  console.log(body);
   await fetch('https://exp.host/--/api/v2/push/send', {
     method: 'POST',
     headers: {
@@ -20,4 +21,28 @@ export async function sendPushNotification(body: Message | Message[]) {
     },
     body: JSON.stringify(body),
   });
+}
+
+export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
+  producto: Producto & {
+    usuario: Usuario
+  }
+}) {
+  const usersToNotify = await xprisma.usuario.findMany({
+    where: {
+      pushToken: {
+        not: null
+      },
+    },
+    distinct: ['pushToken']
+  });
+  await sendPushNotification(usersToNotify.map(user => ({
+    to: user.pushToken,
+    sound: "default",
+    title: `¡Nueva oferta de ${productoActivo.producto.usuario.nombre}!`,
+    body: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
+    data: {
+      route: `verOferta/${productoActivo.id}`
+    }
+  })));
 }

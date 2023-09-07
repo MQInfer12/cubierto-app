@@ -8,12 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendPushNotification = void 0;
-// Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
+exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
+const queries_1 = __importDefault(require("../middlewares/queries"));
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(body);
         yield fetch('https://exp.host/--/api/v2/push/send', {
             method: 'POST',
             headers: {
@@ -26,4 +28,26 @@ function sendPushNotification(body) {
     });
 }
 exports.sendPushNotification = sendPushNotification;
+function notifyNuevaOferta(productoActivo) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const usersToNotify = yield queries_1.default.usuario.findMany({
+            where: {
+                pushToken: {
+                    not: null
+                },
+            },
+            distinct: ['pushToken']
+        });
+        yield sendPushNotification(usersToNotify.map(user => ({
+            to: user.pushToken,
+            sound: "default",
+            title: `¡Nueva oferta de ${productoActivo.producto.usuario.nombre}!`,
+            body: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
+            data: {
+                route: `verOferta/${productoActivo.id}`
+            }
+        })));
+    });
+}
+exports.notifyNuevaOferta = notifyNuevaOferta;
 //# sourceMappingURL=notifications.js.map

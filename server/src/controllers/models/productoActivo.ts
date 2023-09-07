@@ -3,7 +3,7 @@ import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { ProductoActivo } from "@prisma/client";
 import { CreateProductoActivoInput, UpdateProductoActivoInput } from "../../interfaces/models/productoActivo";
-import { sendPushNotification } from "../../utilities/notifications";
+import { notifyNuevaOferta, sendPushNotification } from "../../utilities/notifications";
 
 const app = Router();
 
@@ -41,30 +41,12 @@ app.post('/productoActivo', async (req, res) => {
       }
     }
   });
-
-  const usersToNotify = await xprisma.usuario.findMany({
-    where: {
-      pushToken: {
-        not: null
-      }
-    }
-  });
-  console.log(usersToNotify);
-  await sendPushNotification(usersToNotify.map(user => ({
-    to: user.pushToken,
-    sound: "default",
-    title: `¡Nueva oferta de ${productoActivo.producto.usuario.nombre}!`,
-    body: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
-    data: {
-      route: `verOferta/${productoActivo.id}`
-    }
-  })));
-
   const response: ApiResponse<ProductoActivo> = {
     message: "Producto Activo creado correctamente",
     data: productoActivo
   };
   res.json(response);
+  notifyNuevaOferta(productoActivo);
 });
 
 app.put('/productoActivo/:id', async (req, res) => {
