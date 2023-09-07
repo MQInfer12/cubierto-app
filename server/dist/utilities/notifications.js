@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,11 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const endpoint = 'https://exp.host/--/api/v2/push/send';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendPushNotification = void 0;
 // Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield fetch(endpoint, {
+        console.log(body);
+        yield fetch('https://exp.host/--/api/v2/push/send', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -22,4 +25,5 @@ function sendPushNotification(body) {
         });
     });
 }
+exports.sendPushNotification = sendPushNotification;
 //# sourceMappingURL=notifications.js.map

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
+const notifications_1 = require("../../utilities/notifications");
 const app = (0, express_1.Router)();
 app.get('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productoActivos = yield queries_1.default.productoActivo.findMany();
@@ -47,11 +48,6 @@ app.post('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, func
             }
         }
     });
-    const response = {
-        message: "Producto Activo creado correctamente",
-        data: productoActivo
-    };
-    res.json(response);
     const usersToNotify = yield queries_1.default.usuario.findMany({
         where: {
             pushToken: {
@@ -59,15 +55,21 @@ app.post('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, func
             }
         }
     });
-    yield sendPushNotification(usersToNotify.map(user => ({
+    console.log(usersToNotify);
+    yield (0, notifications_1.sendPushNotification)(usersToNotify.map(user => ({
         to: user.pushToken,
         sound: "default",
         title: `¡Nueva oferta de ${productoActivo.producto.usuario.nombre}!`,
-        body: `${productoActivo.producto.nombre} a tan solo ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
+        body: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
         data: {
             route: `verOferta/${productoActivo.id}`
         }
     })));
+    const response = {
+        message: "Producto Activo creado correctamente",
+        data: productoActivo
+    };
+    res.json(response);
 }));
 app.put('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;

@@ -1,5 +1,3 @@
-const endpoint = 'https://exp.host/--/api/v2/push/send';
-
 interface Message {
   to: string,
   sound: string,
@@ -11,8 +9,9 @@ interface Message {
 }
 
 // Can use this function below or use Expo's Push Notification Tool from: https://expo.dev/notifications
-async function sendPushNotification(body: Message | Message[]) {
-  await fetch(endpoint, {
+export async function sendPushNotification(body: Message | Message[]) {
+  console.log(body);
+  await fetch('https://exp.host/--/api/v2/push/send', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
