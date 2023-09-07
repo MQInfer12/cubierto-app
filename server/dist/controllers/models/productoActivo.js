@@ -38,13 +38,36 @@ app.get('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
 app.post('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const productoActivo = yield queries_1.default.productoActivo.create({
-        data: data
+        data: data,
+        include: {
+            producto: {
+                include: {
+                    usuario: true
+                }
+            }
+        }
     });
     const response = {
         message: "Producto Activo creado correctamente",
         data: productoActivo
     };
     res.json(response);
+    const usersToNotify = yield queries_1.default.usuario.findMany({
+        where: {
+            pushToken: {
+                not: null
+            }
+        }
+    });
+    yield sendPushNotification(usersToNotify.map(user => ({
+        to: user.pushToken,
+        sound: "default",
+        title: `¡Nueva oferta de ${productoActivo.producto.usuario.nombre}!`,
+        body: `${productoActivo.producto.nombre} a tan solo ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
+        data: {
+            route: `verOferta/${productoActivo.id}`
+        }
+    })));
 }));
 app.put('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;

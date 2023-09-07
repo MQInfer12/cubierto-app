@@ -31,13 +31,36 @@ app.get('/productoActivo/:id', async (req, res) => {
 app.post('/productoActivo', async (req, res) => {
   const data: CreateProductoActivoInput = req.body;
   const productoActivo = await xprisma.productoActivo.create({
-    data: data
+    data: data,
+    include: {
+      producto: {
+        include: {
+          usuario: true
+        }
+      }
+    }
   });
   const response: ApiResponse<ProductoActivo> = {
     message: "Producto Activo creado correctamente",
     data: productoActivo
   };
   res.json(response);
+  const usersToNotify = await xprisma.usuario.findMany({
+    where: {
+      pushToken: {
+        not: null
+      }
+    }
+  });
+  await sendPushNotification(usersToNotify.map(user => ({
+    to: user.pushToken,
+    sound: "default",
+    title: `¡Nueva oferta de ${productoActivo.producto.usuario.nombre}!`,
+    body: `${productoActivo.producto.nombre} a tan solo ${productoActivo.precioDescontado}, ¡Aprovecha ahora mismo!`,
+    data: {
+      route: `verOferta/${productoActivo.id}`
+    }
+  })))
 });
 
 app.put('/productoActivo/:id', async (req, res) => {
