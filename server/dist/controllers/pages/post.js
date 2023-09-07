@@ -195,5 +195,20 @@ app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, v
     };
     res.json(response);
 }));
+app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donacion = yield queries_1.default.donacion.update({
+        where: {
+            id: Number(req.params.idDonacion)
+        },
+        data: {
+            estadoDonador: "aceptado"
+        }
+    });
+    const response = {
+        message: "Se acepto la donacion por parte del proveedor",
+        data: donacion
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=post.js.map

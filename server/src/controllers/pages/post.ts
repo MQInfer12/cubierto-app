@@ -199,4 +199,20 @@ app.patch('/donacion/restaurante/:idDonacion', async (req, res) => {
   res.json(response);
 })
 
+app.patch('/donacion/proveedor/:idDonacion', async (req, res) => {
+  const donacion = await xprisma.donacion.update({
+    where: {
+      id: Number(req.params.idDonacion)
+    },
+    data: {
+      estadoDonador: "aceptado"
+    }
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Se acepto la donacion por parte del proveedor",
+    data: donacion
+  }
+  res.json(response);
+})
+
 export default app;
