@@ -8,7 +8,7 @@ import { filterOfertas } from "../../utilities/filterOfertas";
 const app = Router();
 
 app.patch('/usuario/pushToken/:idUsuario', async (req, res) => {
-  xprisma.usuario.update({
+  await xprisma.usuario.update({
     where: {
       id: req.params.idUsuario
     },

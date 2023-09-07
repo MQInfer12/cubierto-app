@@ -17,7 +17,7 @@ const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
 app.patch('/usuario/pushToken/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    queries_1.default.usuario.update({
+    yield queries_1.default.usuario.update({
         where: {
             id: req.params.idUsuario
         },
