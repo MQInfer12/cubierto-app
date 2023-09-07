@@ -279,10 +279,10 @@ app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void
     };
     res.json(response);
 }));
-app.get('/donaciones/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getDonations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
-            donadorId: req.params.idRestaurante
+            donadorId: req.params.id
         }
     });
     const response = {
@@ -290,6 +290,12 @@ app.get('/donaciones/restaurante/:idRestaurante', (req, res) => __awaiter(void 0
         data: donaciones
     };
     res.json(response);
+});
+app.get('/donaciones/restaurante/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    getDonations(req, res);
+}));
+app.get('/donaciones/proveedor/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    getDonations(req, res);
 }));
 exports.default = app;
 //# sourceMappingURL=get.js.map

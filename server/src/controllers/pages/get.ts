@@ -286,10 +286,10 @@ app.get('/donaciones/beneficiario/:idBeneficiario', async (req, res) => {
   res.json(response);
 })
 
-app.get('/donaciones/restaurante/:idRestaurante', async (req, res) => {
+const getDonations = async (req: any, res: any) => {
   const donaciones = await xprisma.donacion.findMany({
     where: {
-      donadorId: req.params.idRestaurante
+      donadorId: req.params.id
     }
   });
   const response: ApiResponse<Donacion[]> = {
@@ -297,6 +297,14 @@ app.get('/donaciones/restaurante/:idRestaurante', async (req, res) => {
     data: donaciones
   }
   res.json(response);
-})
+}
+
+app.get('/donaciones/restaurante/:id', async (req, res) => {
+  getDonations(req, res);
+});
+
+app.get('/donaciones/proveedor/:id', async (req, res) => {
+  getDonations(req, res);
+});
 
 export default app;
