@@ -16,7 +16,7 @@ import Favoritos from "./pages/dashboard/favoritos";
 import Pedidos from "./pages/dashboard/pedidos";
 import Perfil from "./pages/dashboard/perfil";
 import Dashboard from "./pages/dashboard/dashboard";
-import Rolecomponent from "./components/rolecomponent";
+
 import RoleRoute from "./components/roleRoute";
 import Ventas from "./pages/dashboard/ventas";
 import Ubicaciones from "./components/ubicaciones";

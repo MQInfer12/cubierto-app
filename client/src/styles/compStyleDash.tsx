@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const Dash = styled.section`
   display: flex;
   flex-direction: row;
-  width:98vw;
+  width: 98vw;
 `;
 
 export const NavDash = styled.nav`
@@ -13,18 +13,28 @@ export const NavDash = styled.nav`
   width: 210px;
   height: 100vh;
   box-shadow: 0px 5px 5px #0005;
-  flex-direction: column;
-  display: flex;
-  
-  text-align: center;
   padding: 40px;
-  gap: 8em;
+  gap: 2em;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  & > section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > p > img {
+      width: 100px;
+      object-fit: cover;
+      height: auto;
+      border-radius: 0;
+      background-color: transparent;
+    }
+  }
   & img {
-    margin: 0 auto;
     width: 80px;
     border-radius: 50%;
     height: 80px;
-    ${ComunStyles}
   }
   & p {
     color: ${colors.dark};
@@ -40,38 +50,42 @@ export const NavDash = styled.nav`
     font-size: 16px;
     font-weight: 900;
   }
-  & section {
+  & > section {
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
   }
+  & article{
+    display:flex;
+    flex-direction:column;
+    gap:2em;
+    
+  }
 `;
 export const Linkdash = styled(Link)`
   text-decoration: none;
-  display: flex;
-  flex-direction:row;
-  justify-content: flex-start;
-  color: ${colors.dark};
   width: 100%;
-  font-size: 15px;
+  display: flex;
+  gap: 1em;
+  font-size: 0.9em;
+  color: #000;
   &:hover {
     color: ${colors.primary};
     & img {
       filter: saturate(100);
     }
   }
-  & img {
+  & > img {
     width: 16px;
     height: 16px;
-    
   }
 `;
 // del lado de el dashbard
 export const Dashbo = styled.section`
   display: flex;
   padding: 3em;
-  padding-left:calc(210px + 3rem) ;
+  padding-left: calc(210px + 3rem);
   width: 100%;
   height: 100%;
   flex-direction: column;
@@ -125,20 +139,19 @@ export const CasrStyle = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 2em;
-margin:0 auto;
+  margin: 0 auto;
   & > div {
-    box-shadow:0 3px 10px 5px #0005;
-    transition:all .5s ease-in-out;
+    box-shadow: 0 3px 10px 5px #0005;
+    transition: all 0.5s ease-in-out;
     border-radius: 8px 8px 0px 0px;
 
-    &:hover{
-        transform:scale(1.1);
-      }
+    &:hover {
+      transform: scale(1.1);
+    }
     & > img {
       width: 300px;
       height: 168px;
       border-radius: 8px 8px 0px 0px;
-      
     }
     & > article {
       display: flex;
@@ -173,39 +186,7 @@ margin:0 auto;
       }
     }
   }
-  /* width: 310px;
-height: 328px;
-box-shadow:0px 5px 5px #0005;
-background-color:#0000;
-display:flex;
-flex-direction:column;
-font-size: 14px;
-font-weight: 500;
-line-height: normal;
-& div{
-  & article{
-  padding:1em;
-  display:flex;
-  flex-direction:column;
-  gap:.5em;
-  & > img{
-    width: 310px;
-height: 168px;
-border-radius: 8px 8px 0px 0px;
-}
-& > em{
-  color: #E75854;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-}
-& strong{
-  font-size: 14px;
-font-weight: 500;
-}
-} */
 `;
-
 
 export const Section = styled.section`
   margin: 0 auto;
@@ -230,38 +211,40 @@ export const Section = styled.section`
     border-collapse: collapse;
     width: 100%;
     font-size: 14px;
-
     & > thead {
       & > tr {
         background-color: #e4e4e453;
 
         & > th {
-
-          font-size:12px;
+          font-size: 12px;
           font-weight: 100;
           padding: 0.7em 1em;
           text-align: start;
-          text-transform:uppercase;
-          color:#0008;
+          text-transform: uppercase;
+          color: #0008;
         }
       }
     }
     & tbody {
-      /* width:100%;
-      display: block; /* Cambia a block o inline-block */
-  /* padding: 10px; */ 
       & > tr {
+        & > button {
+          color: #18c964;
+          background: rgba(24, 201, 100, 0.2);
+          border: none;
+          padding: 0.2em 2em;
+          margin: 0.5em;
+          border-radius: 2em;
+        }
         & > td {
-          padding:0 0.5em;
-          & >article{
+          padding: 0 0.5em;
+          & > article {
             ${ComunStyles}
             justify-content:flex-start;
-            gap:1em;
-            
-            & > img{
-            width:18px;
-            height:18px;
-            filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(100deg);
+            gap: 1em;
+            & > img {
+              width: 18px;
+              height: 18px;
+              filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(100deg);
             }
           }
           & > button {
@@ -282,8 +265,8 @@ export const Section = styled.section`
             width: 10em;
             display: flex;
             flex-direction: column;
-            white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
-            overflow: hidden; /* Oculta el texto que excede el ancho del contenedor */
+            white-space: nowrap;
+            overflow: hidden;
             text-overflow: ellipsis;
           }
           & > section {
@@ -307,4 +290,8 @@ export const Section = styled.section`
       }
     }
   }
+`;
+
+export const Tr = styled.tr`
+  margin: 1em;
 `;
