@@ -7,6 +7,22 @@ import { filterOfertas } from "../../utilities/filterOfertas";
 
 const app = Router();
 
+app.patch('/usuario/pushToken/:idUsuario', async (req, res) => {
+  xprisma.usuario.update({
+    where: {
+      id: req.params.idUsuario
+    },
+    data: {
+      pushToken: req.body.pushToken
+    }
+  });
+  const response: ApiResponse<string> = {
+    message: "Pushtoken del usuario cambiado correctamente",
+    data: req.body.pushToken
+  }
+  res.json(response);
+})
+
 app.post('/carrito/enviar/:idUsuario', async (req, res) => {
   const data: ItemCarrito[] = req.body;
   const productosActivos: ProductoActivo[] = data.map(item => item.productoActivo);

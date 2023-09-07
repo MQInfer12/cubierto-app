@@ -16,6 +16,21 @@ const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
+app.patch('/usuario/pushToken/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    queries_1.default.usuario.update({
+        where: {
+            id: req.params.idUsuario
+        },
+        data: {
+            pushToken: req.body.pushToken
+        }
+    });
+    const response = {
+        message: "Pushtoken del usuario cambiado correctamente",
+        data: req.body.pushToken
+    };
+    res.json(response);
+}));
 app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const productosActivos = data.map(item => item.productoActivo);
