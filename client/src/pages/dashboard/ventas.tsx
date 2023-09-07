@@ -1,12 +1,16 @@
 import styled from "styled-components"
 import { useGet } from "../../hook/useGet"
 import { Venta } from "../../interfaces/venta"
+import { Section } from "../../styles/compStyleDash"
 const Ventas = () => {
     const { res } = useGet<Venta[]>('venta/completado/117585476927134335712');
 
     return (
-        <Container>
-        <button>Excel </button>
+        <Section>
+            <article>
+                <p>Ventas</p>
+            </article>
+            <button>Excel </button>
             <table>
                 <thead>
                     <tr>
@@ -17,16 +21,16 @@ const Ventas = () => {
                 </thead>
                 <tbody>
                     {
-                        res?.data.map((venta) => {
-                            const total = venta.detalles.reduce((suma, detalle) => {
+                        res?.data.map((vent) => {
+                            const total = vent.detalles.reduce((suma, detalle) => {
                                 suma += detalle.cantidad * detalle.precioUnitario;
                                 return suma;
                             }, 0)
                             return (
-                                <tr key={venta.id}>
-                                    <th> {venta.usuario.nombre} </th>
+                                <tr key={vent.id}>
+                                    <th> {vent.usuario.nombre} </th>
                                     <th> Total:{total}</th>
-                                    <th>{venta.fecha}</th>
+                                    <th>{vent.fecha}</th>
                                     <button>Excel</button>
                                 </tr>
                             )
@@ -35,7 +39,7 @@ const Ventas = () => {
                     }
                 </tbody>
             </table>
-        </Container>
+        </Section>
     )
 }
 
