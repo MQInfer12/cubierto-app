@@ -35,6 +35,41 @@ app.get('/pedir', async (req, res) => {
   res.json(response);
 });
 
+app.get('/pedir/user', async (req, res) => {
+  const donaciones = await xprisma.donacion.findMany({
+    where: {
+      estadoBeneficiario: "aceptado",
+      AND: {
+        estadoDonador: "aceptado"
+      }
+    },
+    orderBy: {
+      id: "desc"
+    },
+    take: 3
+  });
+  const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
+  const categorias = await xprisma.categoria.findMany();
+  const ofertas = filterOfertas(await xprisma.productoActivo.findMany({
+    where: {
+      producto: {
+        usuario: {
+          rol: "restaurante"
+        }
+      }
+    }
+  }));
+  const response: ApiResponse<PedirResponse> = {
+    message: "Datos obtenidos correctamente",
+    data: {
+      donacion: randomDonacion,
+      categorias,
+      ofertas
+    }
+  }
+  res.json(response);
+})
+
 app.get('/restaurante/:idRestaurante', async (req, res) => {
   const restaurante = await xprisma.usuario.findUnique({
     where: {

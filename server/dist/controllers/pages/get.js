@@ -42,6 +42,40 @@ app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     };
     res.json(response);
 }));
+app.get('/pedir/user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            estadoBeneficiario: "aceptado",
+            AND: {
+                estadoDonador: "aceptado"
+            }
+        },
+        orderBy: {
+            id: "desc"
+        },
+        take: 3
+    });
+    const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
+    const categorias = yield queries_1.default.categoria.findMany();
+    const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
+        where: {
+            producto: {
+                usuario: {
+                    rol: "restaurante"
+                }
+            }
+        }
+    }));
+    const response = {
+        message: "Datos obtenidos correctamente",
+        data: {
+            donacion: randomDonacion,
+            categorias,
+            ofertas
+        }
+    };
+    res.json(response);
+}));
 app.get('/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const restaurante = yield queries_1.default.usuario.findUnique({
         where: {
