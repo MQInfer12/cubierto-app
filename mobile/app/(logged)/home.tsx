@@ -57,7 +57,7 @@ const Home = () => {
         <View style={{ flex: 1 }}>
           <Button onPress={() => router.push('restaurantes')}>Ver restaurantes afiliados</Button>
         </View>
-        <TouchableOpacity style={styles.notificationsContainer}>
+        <TouchableOpacity onPress={() => router.push('notification')} style={styles.notificationsContainer}>
           <Icon color={colors.primary500} size={20} name="notifications-outline" />
         </TouchableOpacity>
       </View>
