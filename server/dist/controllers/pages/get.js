@@ -27,7 +27,7 @@ app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         orderBy: {
             id: "desc"
         },
-        take: 3
+        take: 4
     });
     const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     const categorias = yield queries_1.default.categoria.findMany();
@@ -53,7 +53,7 @@ app.get('/pedir/user', (req, res) => __awaiter(void 0, void 0, void 0, function*
         orderBy: {
             id: "desc"
         },
-        take: 3
+        take: 4
     });
     const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     const categorias = yield queries_1.default.categoria.findMany();

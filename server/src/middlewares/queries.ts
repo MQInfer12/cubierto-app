@@ -7,7 +7,8 @@ const xprisma = prisma.$extends({
     $allModels: {
       findMany({ args, query }) {
         args.orderBy = {
-          id: "asc"
+          id: "asc",
+          ...args.orderBy
         }
         return query(args);
       }

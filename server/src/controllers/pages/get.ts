@@ -19,7 +19,7 @@ app.get('/pedir', async (req, res) => {
     orderBy: {
       id: "desc"
     },
-    take: 3
+    take: 4
   });
   const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
   const categorias = await xprisma.categoria.findMany();
@@ -46,7 +46,7 @@ app.get('/pedir/user', async (req, res) => {
     orderBy: {
       id: "desc"
     },
-    take: 3
+    take: 4
   });
   const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
   const categorias = await xprisma.categoria.findMany();
