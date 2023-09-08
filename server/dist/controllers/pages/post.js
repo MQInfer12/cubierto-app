@@ -75,7 +75,7 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             data: ventaConDetalles
         };
         res.json(response);
-        (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
+        yield (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
     }
     else {
         const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));

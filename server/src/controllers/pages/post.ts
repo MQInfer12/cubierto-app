@@ -69,7 +69,7 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
       data: ventaConDetalles
     }
     res.json(response);
-    notifyNuevoPedido(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
+    await notifyNuevoPedido(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
   } else {
     const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));
     const response: ApiResponse<ProductoActivo[]> = {
