@@ -236,5 +236,20 @@ app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, voi
     yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId);
     res.json(response);
 }));
+app.patch('/notificacion/usuario/ver/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield queries_1.default.usuario.update({
+        where: {
+            id: req.params.idUsuario
+        },
+        data: {
+            notificacionesPendientes: 0
+        }
+    });
+    const response = {
+        message: "Se borraron las notificaciones pendientes",
+        data: null
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=post.js.map

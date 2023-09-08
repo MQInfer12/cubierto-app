@@ -236,4 +236,20 @@ app.patch('/donacion/proveedor/:idDonacion', async (req, res) => {
   res.json(response);
 })
 
+app.patch('/notificacion/usuario/ver/:idUsuario', async (req, res) => {
+  await xprisma.usuario.update({
+    where: {
+      id: req.params.idUsuario
+    },
+    data: {
+      notificacionesPendientes: 0
+    }
+  });
+  const response: ApiResponse<null> = {
+    message: "Se borraron las notificaciones pendientes",
+    data: null
+  }
+  res.json(response);
+})
+
 export default app;
