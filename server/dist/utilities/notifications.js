@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
+exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
 const queries_1 = __importDefault(require("../middlewares/queries"));
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -69,4 +69,36 @@ function notifyNuevoPedido(idRestaurante) {
     });
 }
 exports.notifyNuevoPedido = notifyNuevoPedido;
+function notifyEstadoPedido(idUsuario, estado) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userToNotify = yield queries_1.default.usuario.findUnique({
+            where: {
+                id: idUsuario
+            }
+        });
+        if (estado === "aceptado") {
+            yield sendPushNotification({
+                to: userToNotify.pushToken,
+                sound: "default",
+                title: `¡Tu pedido ha sido aceptado!`,
+                body: `Ya puedes recogerlo del restaurante, haz click aquí para ver los detalles`,
+                data: {
+                    route: `cart/pedidos`
+                }
+            });
+        }
+        else if (estado === "rechazado") {
+            yield sendPushNotification({
+                to: userToNotify.pushToken,
+                sound: "default",
+                title: `Se rechazó tu pedido... :(`,
+                body: `Disculpa las molestias`,
+                data: {
+                    route: `cart/pedidos`
+                }
+            });
+        }
+    });
+}
+exports.notifyEstadoPedido = notifyEstadoPedido;
 //# sourceMappingURL=notifications.js.map

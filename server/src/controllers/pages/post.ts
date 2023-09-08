@@ -4,7 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito } from "../../interfaces/pages/post";
 import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
-import { notifyNuevoPedido } from "../../utilities/notifications";
+import { notifyEstadoPedido, notifyNuevoPedido } from "../../utilities/notifications";
 
 const app = Router();
 
@@ -127,6 +127,7 @@ app.patch('/venta/estado/:idVenta', async (req, res) => {
     data: venta
   }
   res.json(response);
+  await notifyEstadoPedido(venta.usuarioId, venta.estado);
 })
 
 app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {

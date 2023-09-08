@@ -127,6 +127,7 @@ app.patch('/venta/estado/:idVenta', (req, res) => __awaiter(void 0, void 0, void
         data: venta
     };
     res.json(response);
+    yield (0, notifications_1.notifyEstadoPedido)(venta.usuarioId, venta.estado);
 }));
 app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;

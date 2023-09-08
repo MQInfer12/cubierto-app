@@ -63,3 +63,32 @@ export async function notifyNuevoPedido(idRestaurante: string) {
     }
   })
 }
+
+export async function notifyEstadoPedido(idUsuario: string, estado: string) {
+  const userToNotify = await xprisma.usuario.findUnique({
+    where: {
+      id: idUsuario
+    }
+  });
+  if(estado === "aceptado") {
+    await sendPushNotification({
+      to: userToNotify.pushToken,
+      sound: "default",
+      title: `¡Tu pedido ha sido aceptado!`,
+      body: `Ya puedes recogerlo del restaurante, haz click aquí para ver los detalles`,
+      data: {
+        route: `cart/pedidos`
+      }
+    });
+  } else if (estado === "rechazado") {
+    await sendPushNotification({
+      to: userToNotify.pushToken,
+      sound: "default",
+      title: `Se rechazó tu pedido... :(`,
+      body: `Disculpa las molestias`,
+      data: {
+        route: `cart/pedidos`
+      }
+    });
+  }
+}
