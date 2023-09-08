@@ -320,6 +320,4 @@ app.get('/notificaciones/usuario/:idUsuario', async (req, res) => {
   res.json(response);
 });
 
-app.get
-
 export default app;

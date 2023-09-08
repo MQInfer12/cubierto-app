@@ -37,8 +37,9 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
     },
     distinct: ['pushToken']
   });
+  const allUsers = await xprisma.usuario.findMany();
   await xprisma.notificacion.createMany({
-    data: usersToNotify.map(user => ({
+    data: allUsers.map(user => ({
       usuarioId: user.id,
       ionicon: "pricetags-outline",
       titulo: `Nueva oferta de ${productoActivo.producto.usuario.nombre}`,

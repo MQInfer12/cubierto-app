@@ -309,6 +309,5 @@ app.get('/notificaciones/usuario/:idUsuario', (req, res) => __awaiter(void 0, vo
     };
     res.json(response);
 }));
-app.get;
 exports.default = app;
 //# sourceMappingURL=get.js.map

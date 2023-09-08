@@ -39,8 +39,9 @@ function notifyNuevaOferta(productoActivo) {
             },
             distinct: ['pushToken']
         });
+        const allUsers = yield queries_1.default.usuario.findMany();
         yield queries_1.default.notificacion.createMany({
-            data: usersToNotify.map(user => ({
+            data: allUsers.map(user => ({
                 usuarioId: user.id,
                 ionicon: "pricetags-outline",
                 titulo: `Nueva oferta de ${productoActivo.producto.usuario.nombre}`,

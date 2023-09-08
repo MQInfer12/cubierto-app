@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const xprisma = prisma.$extends({
   query: {
     $allModels: {
-      findMany({ args, query }) {
+      findMany({ args, query, operation }) {
         args.orderBy = {
           id: "asc",
           ...args.orderBy
@@ -14,21 +14,23 @@ const xprisma = prisma.$extends({
       }
     },
     usuario: {
-      $allOperations({ args, query}) {
+      $allOperations({ args, query, operation }) {
         const newArgs = args as any;
-        newArgs.include = {
-          ...newArgs.include, 
-          productos: {
-            where: {
-              eliminado: false
-            }
-          },
-          cola: true,
-          ubicaciones: true,
-          ubicacionActual: true,
-          favoritos: {
-            include: {
-              restaurante: true
+        if(operation !== "updateMany") {
+          newArgs.include = {
+            ...newArgs.include, 
+            productos: {
+              where: {
+                eliminado: false
+              }
+            },
+            cola: true,
+            ubicaciones: true,
+            ubicacionActual: true,
+            favoritos: {
+              include: {
+                restaurante: true
+              }
             }
           }
         }
