@@ -52,8 +52,8 @@ app.post('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, func
         message: "Producto Activo creado correctamente",
         data: productoActivo
     };
+    yield (0, notifications_1.notifyNuevaOferta)(productoActivo);
     res.json(response);
-    (0, notifications_1.notifyNuevaOferta)(productoActivo);
 }));
 app.put('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;

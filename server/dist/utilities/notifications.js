@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
+exports.notifyDonacionCompletada = exports.notifyDonacionParaBeneficiario = exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
 const queries_1 = __importDefault(require("../middlewares/queries"));
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -57,10 +57,12 @@ function notifyNuevoPedido(idRestaurante) {
                 id: idRestaurante
             }
         });
+        if (!userToNotify.pushToken)
+            return;
         yield sendPushNotification({
             to: userToNotify.pushToken,
             sound: "default",
-            title: `¡Tienes un nuevo pedido!`,
+            title: `¡Tienes un nuevo pedido! :D`,
             body: `Haz click aquí para ver los detalles y aceptarlo`,
             data: {
                 route: `cart/pendientes`
@@ -76,11 +78,13 @@ function notifyEstadoPedido(idUsuario, estado) {
                 id: idUsuario
             }
         });
+        if (!userToNotify.pushToken)
+            return;
         if (estado === "aceptado") {
             yield sendPushNotification({
                 to: userToNotify.pushToken,
                 sound: "default",
-                title: `¡Tu pedido ha sido aceptado!`,
+                title: `¡Tu pedido ha sido aceptado! :D`,
                 body: `Ya puedes recogerlo del restaurante, haz click aquí para ver los detalles`,
                 data: {
                     route: `cart/pedidos`
@@ -101,4 +105,46 @@ function notifyEstadoPedido(idUsuario, estado) {
     });
 }
 exports.notifyEstadoPedido = notifyEstadoPedido;
+function notifyDonacionParaBeneficiario(idBeneficiario, rol) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userToNotify = yield queries_1.default.usuario.findUnique({
+            where: {
+                id: idBeneficiario
+            }
+        });
+        if (!userToNotify.pushToken)
+            return;
+        yield sendPushNotification({
+            to: userToNotify.pushToken,
+            sound: "default",
+            title: `¡Tienes una donación pendiente! ♡`,
+            body: `Un ${rol} te quiere hacer entrega de una donación, ingresa aquí para aceptarla`,
+            data: {
+                route: `donations/pendientes`
+            }
+        });
+    });
+}
+exports.notifyDonacionParaBeneficiario = notifyDonacionParaBeneficiario;
+function notifyDonacionCompletada(idDestinatario) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userToNotify = yield queries_1.default.usuario.findUnique({
+            where: {
+                id: idDestinatario
+            }
+        });
+        if (!userToNotify.pushToken)
+            return;
+        yield sendPushNotification({
+            to: userToNotify.pushToken,
+            sound: "default",
+            title: `¡La donación se completó! ♡`,
+            body: `La donación fué aceptada por ambas partes... ¡Muchas gracias!`,
+            data: {
+                route: `donations/pendientes`
+            }
+        });
+    });
+}
+exports.notifyDonacionCompletada = notifyDonacionCompletada;
 //# sourceMappingURL=notifications.js.map

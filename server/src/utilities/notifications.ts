@@ -53,10 +53,11 @@ export async function notifyNuevoPedido(idRestaurante: string) {
       id: idRestaurante
     }
   });
+  if(!userToNotify.pushToken) return;
   await sendPushNotification({
     to: userToNotify.pushToken,
     sound: "default",
-    title: `¡Tienes un nuevo pedido!`,
+    title: `¡Tienes un nuevo pedido! :D`,
     body: `Haz click aquí para ver los detalles y aceptarlo`,
     data: {
       route: `cart/pendientes`
@@ -70,11 +71,12 @@ export async function notifyEstadoPedido(idUsuario: string, estado: string) {
       id: idUsuario
     }
   });
+  if(!userToNotify.pushToken) return;
   if(estado === "aceptado") {
     await sendPushNotification({
       to: userToNotify.pushToken,
       sound: "default",
-      title: `¡Tu pedido ha sido aceptado!`,
+      title: `¡Tu pedido ha sido aceptado! :D`,
       body: `Ya puedes recogerlo del restaurante, haz click aquí para ver los detalles`,
       data: {
         route: `cart/pedidos`
@@ -91,4 +93,40 @@ export async function notifyEstadoPedido(idUsuario: string, estado: string) {
       }
     });
   }
+}
+
+export async function notifyDonacionParaBeneficiario(idBeneficiario: string, rol: string) {
+  const userToNotify = await xprisma.usuario.findUnique({
+    where: {
+      id: idBeneficiario
+    }
+  });
+  if(!userToNotify.pushToken) return;
+  await sendPushNotification({
+    to: userToNotify.pushToken,
+    sound: "default",
+    title: `¡Tienes una donación pendiente! ♡`,
+    body: `Un ${rol} te quiere hacer entrega de una donación, ingresa aquí para aceptarla`,
+    data: {
+      route: `donations/pendientes`
+    }
+  });
+}
+
+export async function notifyDonacionCompletada(idDestinatario: string) {
+  const userToNotify = await xprisma.usuario.findUnique({
+    where: {
+      id: idDestinatario
+    }
+  });
+  if(!userToNotify.pushToken) return;
+  await sendPushNotification({
+    to: userToNotify.pushToken,
+    sound: "default",
+    title: `¡La donación se completó! ♡`,
+    body: `La donación fué aceptada por ambas partes... ¡Muchas gracias!`,
+    data: {
+      route: `donations/pendientes`
+    }
+  });
 }

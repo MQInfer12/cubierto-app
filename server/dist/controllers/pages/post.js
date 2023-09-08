@@ -74,8 +74,8 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             message: "Se pidieron los productos correctamente",
             data: ventaConDetalles
         };
-        res.json(response);
         yield (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
+        res.json(response);
     }
     else {
         const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));
@@ -126,8 +126,8 @@ app.patch('/venta/estado/:idVenta', (req, res) => __awaiter(void 0, void 0, void
         message: "Estado de venta cambiado correctamente",
         data: venta
     };
-    res.json(response);
     yield (0, notifications_1.notifyEstadoPedido)(venta.usuarioId, venta.estado);
+    res.json(response);
 }));
 app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
@@ -168,6 +168,9 @@ app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, voi
             donadorId: req.params.idRestaurante,
             beneficiarioId: data.beneficiarioId,
             estadoDonador: "aceptado"
+        },
+        include: {
+            donador: true
         }
     });
     yield queries_1.default.detalleDonacion.createMany({
@@ -181,6 +184,7 @@ app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, voi
         message: "Donacion ofrecida correctamente",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionParaBeneficiario)(data.beneficiarioId, donacion.donador.rol);
     res.json(response);
 }));
 app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -196,6 +200,7 @@ app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, 
         message: "Se acepto la donacion por parte del beneficiario",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.donadorId);
     res.json(response);
 }));
 app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -211,6 +216,7 @@ app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, v
         message: "Se acepto la donacion por parte del restaurante",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId);
     res.json(response);
 }));
 app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -226,6 +232,7 @@ app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, voi
         message: "Se acepto la donacion por parte del proveedor",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId);
     res.json(response);
 }));
 exports.default = app;

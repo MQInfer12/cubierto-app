@@ -7,6 +7,12 @@ export interface ItemCarrito {
   }
 }
 
+export interface LikeTo {
+  restauranteId: string
+  usuarioId: string
+  favoritoId: number | null
+}
+
 export interface ItemCarritoRestaurante {
   cantidad: number
   producto: Producto

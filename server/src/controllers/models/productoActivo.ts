@@ -45,8 +45,8 @@ app.post('/productoActivo', async (req, res) => {
     message: "Producto Activo creado correctamente",
     data: productoActivo
   };
+  await notifyNuevaOferta(productoActivo);
   res.json(response);
-  notifyNuevaOferta(productoActivo);
 });
 
 app.put('/productoActivo/:id', async (req, res) => {
