@@ -47,18 +47,12 @@ const Home = () => {
             <FontedText style={styles.bottomButtonText} weight={600}>Productos</FontedText>
           </TouchableOpacity>
         }
-        <TouchableOpacity style={styles.bottomButton}>
+        <TouchableOpacity style={styles.bottomButton} onPress={() => router.push('notification')}>
           <View style={styles.bottomIconContainer}>
             <Icon name='notifications-outline' size={16} color={colors.gray900} />
           </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones</FontedText>
+          <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones {!!user.notificacionesPendientes && <FontedText style={styles.redText}>({user.notificacionesPendientes})</FontedText>}</FontedText>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.bottomButton}>
-          <View style={styles.bottomIconContainer}>
-            <Icon name='information-circle-outline' size={16} color={colors.gray900} />
-          </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Información legal</FontedText>
-        </TouchableOpacity> */}
         <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
           <View style={styles.bottomIconContainer}>
             <Icon name='log-out-outline' size={16} color={colors.gray900} />
@@ -131,5 +125,8 @@ const styles = StyleSheet.create({
   },
   bottomButtonText: {
     color: colors.gray900
+  },
+  redText: {
+    color: colors.primary500
   }
 });

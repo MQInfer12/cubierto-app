@@ -108,6 +108,9 @@ app.get('/ofertas/:idRestaurante', async (req, res) => {
     where: {
       producto: {
         usuarioId: req.params.idRestaurante
+      },
+      AND: {
+        donado: false
       }
     }
   });

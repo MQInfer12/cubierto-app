@@ -11,7 +11,8 @@ type Usuario = {
   email: string;
   foto: string;
   rol: UserRol;
-  notificaciones: "todas" | "favoritos";
+  notificacionesConfiguracion: "todas" | "favoritos";
+  notificacionesPendientes: number;
   telefono: number;
   portada: string;
   descripcion: string;

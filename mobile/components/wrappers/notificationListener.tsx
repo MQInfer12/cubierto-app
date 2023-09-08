@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { usePushToken } from '../../context/pushToken';
 import { useUser } from '../../context/user';
 import { sendRequest } from '../../utilities/sendRequest';
+import { notChannel } from '../../pusher';
 
 interface Props {
   children: JSX.Element | JSX.Element[] 
@@ -11,7 +12,7 @@ interface Props {
 
 const NotificationListener = ({ children }: Props) => {
   const { pushToken } = usePushToken();
-  const { user } = useUser();
+  const { user, changeNotificacionesPendientes } = useUser();
   const responseListener = useRef<any>();
 
   useEffect(() => {
@@ -37,6 +38,15 @@ const NotificationListener = ({ children }: Props) => {
     return () => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
+  }, []);
+
+  useEffect(() => {
+    notChannel.bind("all", () => {
+      changeNotificacionesPendientes(old => old + 1);
+    });
+    return () => {
+      notChannel.unbind("all");
+    }
   }, []);
 
   return children
