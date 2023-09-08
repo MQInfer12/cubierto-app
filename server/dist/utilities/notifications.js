@@ -43,9 +43,9 @@ function notifyNuevaOferta(productoActivo) {
         yield queries_1.default.notificacion.createMany({
             data: allUsers.map(user => ({
                 usuarioId: user.id,
-                ionicon: "pricetags-outline",
-                titulo: `Nueva oferta de ${productoActivo.producto.usuario.nombre}`,
-                descripcion: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
+                ionicon: "pricetags",
+                titulo: `¡Nueva oferta!`,
+                descripcion: `${productoActivo.producto.nombre} de ${productoActivo.producto.usuario.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
                 route: `verOferta/${productoActivo.id}`
             }))
         });
