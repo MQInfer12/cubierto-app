@@ -113,6 +113,24 @@ export async function notifyDonacionParaBeneficiario(idBeneficiario: string, rol
   });
 }
 
+export async function notifyDonacionParaRestaurante(idRestaurante: string) {
+  const userToNotify = await xprisma.usuario.findUnique({
+    where: {
+      id: idRestaurante
+    }
+  });
+  if(!userToNotify.pushToken) return;
+  await sendPushNotification({
+    to: userToNotify.pushToken,
+    sound: "default",
+    title: `¡Tienes una donación pendiente! ♡`,
+    body: `Un beneficiario te pidió la donación de tu oferta, ingresa aquí para aceptarla`,
+    data: {
+      route: `donations/pendientes`
+    }
+  });
+}
+
 export async function notifyDonacionCompletada(idDestinatario: string) {
   const userToNotify = await xprisma.usuario.findUnique({
     where: {
@@ -126,7 +144,7 @@ export async function notifyDonacionCompletada(idDestinatario: string) {
     title: `¡La donación se completó! ♡`,
     body: `La donación fué aceptada por ambas partes... ¡Muchas gracias!`,
     data: {
-      route: `donations/pendientes`
+      route: `donations/completadas`
     }
   });
 }

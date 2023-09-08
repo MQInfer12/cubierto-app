@@ -159,6 +159,7 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
         message: "Se pidieron los productos correctamente",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionParaRestaurante)(donacion.donadorId);
     res.json(response);
 }));
 app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

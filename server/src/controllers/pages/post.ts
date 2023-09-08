@@ -4,7 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito, LikeTo } from "../../interfaces/pages/post";
 import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
-import { notifyDonacionCompletada, notifyDonacionParaBeneficiario, notifyEstadoPedido, notifyNuevoPedido } from "../../utilities/notifications";
+import { notifyDonacionCompletada, notifyDonacionParaBeneficiario, notifyDonacionParaRestaurante, notifyEstadoPedido, notifyNuevoPedido } from "../../utilities/notifications";
 
 const app = Router();
 
@@ -154,6 +154,7 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
     message: "Se pidieron los productos correctamente",
     data: donacion
   }
+  await notifyDonacionParaRestaurante(donacion.donadorId);
   res.json(response);
 });
 

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyDonacionCompletada = exports.notifyDonacionParaBeneficiario = exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
+exports.notifyDonacionCompletada = exports.notifyDonacionParaRestaurante = exports.notifyDonacionParaBeneficiario = exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
 const queries_1 = __importDefault(require("../middlewares/queries"));
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -126,6 +126,27 @@ function notifyDonacionParaBeneficiario(idBeneficiario, rol) {
     });
 }
 exports.notifyDonacionParaBeneficiario = notifyDonacionParaBeneficiario;
+function notifyDonacionParaRestaurante(idRestaurante) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userToNotify = yield queries_1.default.usuario.findUnique({
+            where: {
+                id: idRestaurante
+            }
+        });
+        if (!userToNotify.pushToken)
+            return;
+        yield sendPushNotification({
+            to: userToNotify.pushToken,
+            sound: "default",
+            title: `¡Tienes una donación pendiente! ♡`,
+            body: `Un beneficiario te pidió la donación de tu oferta, ingresa aquí para aceptarla`,
+            data: {
+                route: `donations/pendientes`
+            }
+        });
+    });
+}
+exports.notifyDonacionParaRestaurante = notifyDonacionParaRestaurante;
 function notifyDonacionCompletada(idDestinatario) {
     return __awaiter(this, void 0, void 0, function* () {
         const userToNotify = yield queries_1.default.usuario.findUnique({
@@ -141,7 +162,7 @@ function notifyDonacionCompletada(idDestinatario) {
             title: `¡La donación se completó! ♡`,
             body: `La donación fué aceptada por ambas partes... ¡Muchas gracias!`,
             data: {
-                route: `donations/pendientes`
+                route: `donations/completadas`
             }
         });
     });
