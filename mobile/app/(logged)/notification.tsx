@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { View } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 import Button from '../../components/global/button'
 import { registerForPushNotificationsAsync, sendPushNotification } from '../../utilities/notifications';
@@ -37,5 +37,3 @@ const Notification = () => {
 }
 
 export default Notification
-
-const styles = StyleSheet.create({})
