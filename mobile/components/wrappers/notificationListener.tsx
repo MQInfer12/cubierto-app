@@ -22,7 +22,7 @@ const NotificationListener = ({ children }: Props) => {
         method: "PATCH"
       });
     }
-    if(user?.pushToken !== pushToken) {
+    if(!!pushToken && user?.pushToken !== pushToken) {
       changePushToken();
     }
   }, [pushToken, user]);
