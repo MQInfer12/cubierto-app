@@ -17,6 +17,7 @@ model Usuario {
   foto                String      @db.VarChar(255)
   rol                 String      @default("usuario") @db.VarChar(255)
   notificaciones      String      @default("todas") @db.VarChar(255)
+  pushToken           String?     @db.VarChar(255)
   telefono            Int?
   portada             String?     @db.VarChar(255)
   descripcion         String?     @db.VarChar(255)

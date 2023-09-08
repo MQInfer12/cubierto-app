@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
+const notifications_1 = require("../../utilities/notifications");
 const app = (0, express_1.Router)();
 app.get('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productoActivos = yield queries_1.default.productoActivo.findMany();
@@ -38,12 +39,20 @@ app.get('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
 app.post('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const productoActivo = yield queries_1.default.productoActivo.create({
-        data: data
+        data: data,
+        include: {
+            producto: {
+                include: {
+                    usuario: true
+                }
+            }
+        }
     });
     const response = {
         message: "Producto Activo creado correctamente",
         data: productoActivo
     };
+    yield (0, notifications_1.notifyNuevaOferta)(productoActivo);
     res.json(response);
 }));
 app.put('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -18,7 +18,7 @@ export async function sendPushNotification(expoPushToken: string) {
     sound: 'default',
     title: 'Original Title',
     body: 'And here is the body!',
-    data: { someData: 'goes here', route: 'profile' },
+    data: { route: 'profile' },
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -48,7 +48,6 @@ export async function registerForPushNotificationsAsync() {
     token = await Notifications.getExpoPushTokenAsync({
       projectId: Constants.expoConfig?.extra?.eas.projectId,
     });
-    console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }

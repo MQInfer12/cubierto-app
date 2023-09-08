@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../../context/user";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { sendRequest } from "../../utilities/sendRequest";
 import Usuario from "../../interfaces/usuario";
 import { useGet } from "../../hooks/useGet";
 import { useHandleCola } from "../../hooks/useHandleCola";

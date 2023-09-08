@@ -1,11 +1,28 @@
 import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito } from "../../interfaces/pages/post";
+import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito, LikeTo } from "../../interfaces/pages/post";
 import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
+import { notifyDonacionCompletada, notifyDonacionParaBeneficiario, notifyDonacionParaRestaurante, notifyEstadoPedido, notifyNuevoPedido } from "../../utilities/notifications";
 
 const app = Router();
+
+app.patch('/usuario/pushToken/:idUsuario', async (req, res) => {
+  await xprisma.usuario.update({
+    where: {
+      id: req.params.idUsuario
+    },
+    data: {
+      pushToken: req.body.pushToken
+    }
+  });
+  const response: ApiResponse<string> = {
+    message: "Pushtoken del usuario cambiado correctamente",
+    data: req.body.pushToken
+  }
+  res.json(response);
+})
 
 app.post('/carrito/enviar/:idUsuario', async (req, res) => {
   const data: ItemCarrito[] = req.body;
@@ -51,6 +68,7 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
       message: "Se pidieron los productos correctamente",
       data: ventaConDetalles
     }
+    await notifyNuevoPedido(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
     res.json(response);
   } else {
     const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));
@@ -61,12 +79,6 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
     res.json(response);
   }
 });
-
-interface LikeTo {
-  restauranteId: string
-  usuarioId: string
-  favoritoId: number | null
-}
 
 app.put('/liketo', async (req, res) => {
   const data: LikeTo = req.body;
@@ -108,6 +120,7 @@ app.patch('/venta/estado/:idVenta', async (req, res) => {
     message: "Estado de venta cambiado correctamente",
     data: venta
   }
+  await notifyEstadoPedido(venta.usuarioId, venta.estado);
   res.json(response);
 })
 
@@ -141,6 +154,7 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
     message: "Se pidieron los productos correctamente",
     data: donacion
   }
+  await notifyDonacionParaRestaurante(donacion.donadorId);
   res.json(response);
 });
 
@@ -151,6 +165,9 @@ app.post('/donacion/ofrecer/:idRestaurante', async (req, res) => {
       donadorId: req.params.idRestaurante,
       beneficiarioId: data.beneficiarioId,
       estadoDonador: "aceptado"
+    },
+    include: {
+      donador: true
     }
   });
   await xprisma.detalleDonacion.createMany({
@@ -164,6 +181,7 @@ app.post('/donacion/ofrecer/:idRestaurante', async (req, res) => {
     message: "Donacion ofrecida correctamente",
     data: donacion
   }
+  await notifyDonacionParaBeneficiario(data.beneficiarioId, donacion.donador.rol);
   res.json(response);
 });
 
@@ -180,6 +198,7 @@ app.patch('/donacion/beneficiario/:idDonacion', async (req, res) => {
     message: "Se acepto la donacion por parte del beneficiario",
     data: donacion
   }
+  await notifyDonacionCompletada(donacion.donadorId);
   res.json(response);
 })
 
@@ -196,6 +215,7 @@ app.patch('/donacion/restaurante/:idDonacion', async (req, res) => {
     message: "Se acepto la donacion por parte del restaurante",
     data: donacion
   }
+  await notifyDonacionCompletada(donacion.beneficiarioId);
   res.json(response);
 })
 
@@ -212,6 +232,7 @@ app.patch('/donacion/proveedor/:idDonacion', async (req, res) => {
     message: "Se acepto la donacion por parte del proveedor",
     data: donacion
   }
+  await notifyDonacionCompletada(donacion.beneficiarioId);
   res.json(response);
 })
 

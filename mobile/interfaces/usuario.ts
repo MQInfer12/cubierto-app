@@ -16,6 +16,7 @@ type Usuario = {
   portada: string;
   descripcion: string;
   ubicacionActualId: number;
+  pushToken: string;
   productos: Producto[];
   cola: Cola;
   ubicaciones: Ubicacion[];
