@@ -114,11 +114,11 @@ const xprisma = prisma.$extends({
                 return query(newArgs);
             },
             findMany({ args, query }) {
-                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                args.where = Object.assign({ eliminado: false }, args.where);
                 return query(args);
             },
             findUnique({ args, query }) {
-                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                args.where = Object.assign({ eliminado: false }, args.where);
                 return query(args);
             },
         }

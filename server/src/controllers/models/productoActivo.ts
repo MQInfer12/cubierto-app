@@ -19,7 +19,8 @@ app.get('/productoActivo', async (req, res) => {
 app.get('/productoActivo/:id', async (req, res) => {
   const productoActivo = await xprisma.productoActivo.findUnique({
     where: {
-      id: Number(req.params.id)
+      id: Number(req.params.id),
+      eliminado: undefined
     }
   });
   const response: ApiResponse<ProductoActivo> = {

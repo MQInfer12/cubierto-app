@@ -27,7 +27,8 @@ app.get('/productoActivo', (req, res) => __awaiter(void 0, void 0, void 0, funct
 app.get('/productoActivo/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productoActivo = yield queries_1.default.productoActivo.findUnique({
         where: {
-            id: Number(req.params.id)
+            id: Number(req.params.id),
+            eliminado: undefined
         }
     });
     const response = {

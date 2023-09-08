@@ -156,15 +156,15 @@ const xprisma = prisma.$extends({
       },
       findMany({ args, query }) {
         args.where = {
-          ...args.where,
-          eliminado: false
+          eliminado: false,
+          ...args.where
         };
         return query(args);
       },
       findUnique({ args, query }) {
         args.where = {
-          ...args.where,
-          eliminado: false
+          eliminado: false,
+          ...args.where
         };
         return query(args);
       },
