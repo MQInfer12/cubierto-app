@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
+const notifications_1 = require("../../utilities/notifications");
 const app = (0, express_1.Router)();
 app.patch('/usuario/pushToken/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield queries_1.default.usuario.update({
@@ -74,6 +75,7 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             data: ventaConDetalles
         };
         res.json(response);
+        (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
     }
     else {
         const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));

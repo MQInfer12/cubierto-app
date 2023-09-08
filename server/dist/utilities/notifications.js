@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
+exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
 const queries_1 = __importDefault(require("../middlewares/queries"));
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -50,4 +50,23 @@ function notifyNuevaOferta(productoActivo) {
     });
 }
 exports.notifyNuevaOferta = notifyNuevaOferta;
+function notifyNuevoPedido(idRestaurante) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userToNotify = yield queries_1.default.usuario.findUnique({
+            where: {
+                id: idRestaurante
+            }
+        });
+        yield sendPushNotification({
+            to: userToNotify.pushToken,
+            sound: "default",
+            title: `¡Tienes un nuevo pedido!`,
+            body: `Haz click aquí para ver los detalles y aceptarlo`,
+            data: {
+                route: `cart/pendientes`
+            }
+        });
+    });
+}
+exports.notifyNuevoPedido = notifyNuevoPedido;
 //# sourceMappingURL=notifications.js.map

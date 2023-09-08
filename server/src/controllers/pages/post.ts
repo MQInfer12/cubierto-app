@@ -4,6 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito } from "../../interfaces/pages/post";
 import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
+import { notifyNuevoPedido } from "../../utilities/notifications";
 
 const app = Router();
 
@@ -68,6 +69,7 @@ app.post('/carrito/enviar/:idUsuario', async (req, res) => {
       data: ventaConDetalles
     }
     res.json(response);
+    notifyNuevoPedido(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
   } else {
     const notActive = productosActivos.filter(pa => !activos.find(a => a.id === pa.id));
     const response: ApiResponse<ProductoActivo[]> = {

@@ -46,3 +46,20 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
     }
   })));
 }
+
+export async function notifyNuevoPedido(idRestaurante: string) {
+  const userToNotify = await xprisma.usuario.findUnique({
+    where: {
+      id: idRestaurante
+    }
+  });
+  await sendPushNotification({
+    to: userToNotify.pushToken,
+    sound: "default",
+    title: `¡Tienes un nuevo pedido!`,
+    body: `Haz click aquí para ver los detalles y aceptarlo`,
+    data: {
+      route: `cart/pendientes`
+    }
+  })
+}
