@@ -11,28 +11,30 @@ datasource db {
 }
 
 model Usuario {
-  id                  String      @id
-  nombre              String      @db.VarChar(255)
-  email               String      @db.VarChar(255)
-  foto                String      @db.VarChar(255)
-  rol                 String      @default("usuario") @db.VarChar(255)
-  notificaciones      String      @default("todas") @db.VarChar(255)
-  pushToken           String?     @db.VarChar(255)
-  telefono            Int?
-  portada             String?     @db.VarChar(255)
-  descripcion         String?     @db.VarChar(255)
-  ubicacionActualId   Int?        @unique
-  ubicacionActual     Ubicacion?  @relation(fields: [ubicacionActualId], references: [id], name: "ubicacion_actual")
-  ubicaciones         Ubicacion[] @relation("ubicaciones")
-  productos           Producto[]
-  ventas              Venta[]
-  donaciones          Donacion[]  @relation("donador")
-  donacionesRecibidas Donacion[]  @relation("donaciones")
-  favoritos           Favorito[]  @relation("usuario_favorito")
-  favoritoDe          Favorito[]  @relation("restaurante_favorito")
-  cola                Cola?       @relation("cola")
-  enCola              Cola[]      @relation("enCola")
-  eliminado           Boolean     @default(false)
+  id                            String            @id
+  nombre                        String            @db.VarChar(255)
+  email                         String            @db.VarChar(255)
+  foto                          String            @db.VarChar(255)
+  rol                           String            @default("usuario") @db.VarChar(255)
+  notificacionesConfiguracion   String            @default("todas") @db.VarChar(255)
+  notificacionesPendientes      Int               @default(0)
+  pushToken                     String?           @db.VarChar(255)
+  telefono                      Int?
+  portada                       String?           @db.VarChar(255)
+  descripcion                   String?           @db.VarChar(255)
+  ubicacionActualId             Int?              @unique
+  ubicacionActual               Ubicacion?        @relation(fields: [ubicacionActualId], references: [id], name: "ubicacion_actual")
+  ubicaciones                   Ubicacion[]       @relation("ubicaciones")
+  productos                     Producto[]
+  ventas                        Venta[]
+  donaciones                    Donacion[]        @relation("donador")
+  donacionesRecibidas           Donacion[]        @relation("donaciones")
+  favoritos                     Favorito[]        @relation("usuario_favorito")
+  favoritoDe                    Favorito[]        @relation("restaurante_favorito")
+  cola                          Cola?             @relation("cola")
+  enCola                        Cola[]            @relation("enCola")
+  notificaciones                Notificacion[]
+  eliminado                     Boolean           @default(false)
 }
 
 model Ubicacion {
@@ -135,4 +137,14 @@ model Cola {
   usuario         Usuario     @relation(fields: [usuarioId], references: [id], name: "cola") 
   restauranteId   String
   restaurante     Usuario     @relation(fields: [restauranteId], references: [id], name: "enCola")
+}
+
+model Notificacion {
+  id            Int         @id @default(autoincrement())
+  ionicon       String      @db.VarChar(40)
+  titulo        String      @db.VarChar(255)
+  descripcion   String      @db.VarChar(255)
+  route         String      @db.VarChar(255)
+  usuarioId     String      
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
 }

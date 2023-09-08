@@ -1,5 +1,6 @@
 import { Producto, ProductoActivo, Usuario } from "@prisma/client";
 import xprisma from "../middlewares/queries";
+import pusher from "./pusher";
 
 interface Message {
   to: string,
@@ -36,6 +37,23 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
     },
     distinct: ['pushToken']
   });
+  await xprisma.notificacion.createMany({
+    data: usersToNotify.map(user => ({
+      usuarioId: user.id,
+      ionicon: "pricetags-outline",
+      titulo: `Nueva oferta de ${productoActivo.producto.usuario.nombre}`,
+      descripcion: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
+      route: `verOferta/${productoActivo.id}`
+    }))
+  });
+  await xprisma.usuario.updateMany({
+    data: {
+      notificacionesPendientes: {
+        increment: 1
+      }
+    }
+  });
+  pusher.trigger('notification-channel', 'all', null);
   await sendPushNotification(usersToNotify.map(user => ({
     to: user.pushToken,
     sound: "default",

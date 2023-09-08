@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.notifyDonacionCompletada = exports.notifyDonacionParaRestaurante = exports.notifyDonacionParaBeneficiario = exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
 const queries_1 = __importDefault(require("../middlewares/queries"));
+const pusher_1 = __importDefault(require("./pusher"));
 function sendPushNotification(body) {
     return __awaiter(this, void 0, void 0, function* () {
         yield fetch('https://exp.host/--/api/v2/push/send', {
@@ -38,6 +39,23 @@ function notifyNuevaOferta(productoActivo) {
             },
             distinct: ['pushToken']
         });
+        yield queries_1.default.notificacion.createMany({
+            data: usersToNotify.map(user => ({
+                usuarioId: user.id,
+                ionicon: "pricetags-outline",
+                titulo: `Nueva oferta de ${productoActivo.producto.usuario.nombre}`,
+                descripcion: `${productoActivo.producto.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
+                route: `verOferta/${productoActivo.id}`
+            }))
+        });
+        yield queries_1.default.usuario.updateMany({
+            data: {
+                notificacionesPendientes: {
+                    increment: 1
+                }
+            }
+        });
+        pusher_1.default.trigger('notification-channel', 'all', null);
         yield sendPushNotification(usersToNotify.map(user => ({
             to: user.pushToken,
             sound: "default",
