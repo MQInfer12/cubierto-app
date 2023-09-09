@@ -121,9 +121,18 @@ export async function notifyEstadoPedido(idUsuario: string, idRestaurante: strin
     data: {
       usuarioId: userToNotify.id,
       usuarioDeId: idRestaurante,
-      ionicon: estado === "aceptado" ? "thumbs-up" : "thumbs-down",
-      titulo: estado === "aceptado" ? "¡Te aceptaron el pedido!" : "Tu pedido fué rechazado...",
-      descripcion: estado === "aceptado" ? "Pasa ahora a recogerlo al restaurante" : "Lamentablemente tuvimos que rechazar tu pedido :(",
+      ionicon: 
+        estado === "aceptado" ? "thumbs-up" : 
+        estado === "rechazado" ? "thumbs-down" : 
+        estado === "recogido" && "happy-outline",
+      titulo: 
+        estado === "aceptado" ? "¡Te aceptaron el pedido!" : 
+        estado === "rechazado" ? "Tu pedido fué rechazado..." : 
+        estado === "recogido" && "¡Muchas gracias!",
+      descripcion: 
+        estado === "aceptado" ? "Pasa ahora a recogerlo al restaurante" : 
+        estado === "rechazado" ? "Lamentablemente tuvimos que rechazar tu pedido :(" :
+        estado === "recogido" && "¡Disfruta de tu pedido! ♡",
       route: 'cart/pedidos'
     }
   });
