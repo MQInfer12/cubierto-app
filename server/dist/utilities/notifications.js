@@ -258,19 +258,20 @@ function notifyDonacionCompletada(idDestinatario, idOtro) {
                 id: idDestinatario
             }
         });
-        yield queries_1.default.notificacion.create({
-            data: {
-                usuarioId: userToNotify.id,
-                usuarioDeId: idOtro,
-                ionicon: "heart",
-                titulo: "¡Donación completa!",
-                descripcion: `¡Muchas gracias por completar la donación!`,
-                route: `donations/completadas`
-            }
+        const notification = {
+            ionicon: "heart",
+            titulo: "¡Donación completa!",
+            descripcion: `¡Muchas gracias por completar la donación!`,
+            route: `donations/completadas`
+        };
+        yield queries_1.default.notificacion.createMany({
+            data: [Object.assign({ usuarioId: userToNotify.id, usuarioDeId: idOtro }, notification), Object.assign({ usuarioId: idOtro, usuarioDeId: userToNotify.id }, notification)]
         });
-        yield queries_1.default.usuario.update({
+        yield queries_1.default.usuario.updateMany({
             where: {
-                id: userToNotify.id
+                id: {
+                    in: [userToNotify.id, idOtro]
+                }
             },
             data: {
                 notificacionesPendientes: {
@@ -279,6 +280,7 @@ function notifyDonacionCompletada(idDestinatario, idOtro) {
             }
         });
         yield pusher_1.default.trigger('notification-channel', userToNotify.id, null);
+        yield pusher_1.default.trigger('notification-channel', idOtro, null);
         if (!userToNotify.pushToken)
             return;
         yield sendPushNotification({

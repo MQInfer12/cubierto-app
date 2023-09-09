@@ -252,19 +252,29 @@ export async function notifyDonacionCompletada(idDestinatario: string, idOtro: s
     }
   });
 
-  await xprisma.notificacion.create({
-    data: {
+  const notification = {
+    ionicon: "heart",
+    titulo: "¡Donación completa!",
+    descripcion: `¡Muchas gracias por completar la donación!`,
+    route: `donations/completadas`
+  }
+
+  await xprisma.notificacion.createMany({
+    data: [{
       usuarioId: userToNotify.id,
       usuarioDeId: idOtro,
-      ionicon: "heart",
-      titulo: "¡Donación completa!",
-      descripcion: `¡Muchas gracias por completar la donación!`,
-      route: `donations/completadas`
-    }
+      ...notification
+    }, {
+      usuarioId: idOtro,
+      usuarioDeId: userToNotify.id,
+      ...notification
+    }]
   });
-  await xprisma.usuario.update({
+  await xprisma.usuario.updateMany({
     where: {
-      id: userToNotify.id
+      id: {
+        in: [userToNotify.id, idOtro]
+      }
     },
     data: {
       notificacionesPendientes: {
@@ -273,6 +283,7 @@ export async function notifyDonacionCompletada(idDestinatario: string, idOtro: s
     }
   });
   await pusher.trigger('notification-channel', userToNotify.id, null);
+  await pusher.trigger('notification-channel', idOtro, null);
 
   if(!userToNotify.pushToken) return;
   await sendPushNotification({
