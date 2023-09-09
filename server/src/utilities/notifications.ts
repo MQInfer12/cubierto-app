@@ -37,14 +37,16 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
     },
     distinct: ['pushToken']
   });
+
   const allUsers = await xprisma.usuario.findMany();
   await xprisma.notificacion.createMany({
     data: allUsers.map(user => ({
       usuarioId: user.id,
+      usuarioDeId: productoActivo.producto.usuario.id,
       ionicon: "pricetags",
       titulo: `¡Nueva oferta!`,
-      descripcion: `${productoActivo.producto.nombre} de ${productoActivo.producto.usuario.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
-      route: `verOferta/${productoActivo.id}`
+      descripcion: `<b>${productoActivo.producto.nombre}</b> de <b>${productoActivo.producto.usuario.nombre}</b> a tan solo <b>Bs. ${productoActivo.precioDescontado}</b>`,
+      route: `verOferta/${productoActivo.id}`,
     }))
   });
   await xprisma.usuario.updateMany({
@@ -54,7 +56,8 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
       }
     }
   });
-  pusher.trigger('notification-channel', 'all', null);
+  await pusher.trigger('notification-channel', 'all', null);
+
   await sendPushNotification(usersToNotify.map(user => ({
     to: user.pushToken,
     sound: "default",
@@ -66,12 +69,35 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
   })));
 }
 
-export async function notifyNuevoPedido(idRestaurante: string) {
+export async function notifyNuevoPedido(idRestaurante: string, idUsuario: string) {
   const userToNotify = await xprisma.usuario.findUnique({
     where: {
       id: idRestaurante
     }
   });
+
+  await xprisma.notificacion.create({
+    data: {
+      usuarioId: userToNotify.id,
+      usuarioDeId: idUsuario,
+      ionicon: "restaurant",
+      titulo: "¡Alguien te hizo un pedido!",
+      descripcion: "Mira los detalles",
+      route: 'cart/pendientes'
+    }
+  });
+  await xprisma.usuario.update({
+    where: {
+      id: userToNotify.id
+    },
+    data: {
+      notificacionesPendientes: {
+        increment: 1
+      }
+    }
+  });
+  await pusher.trigger('notification-channel', userToNotify.id, null);
+
   if(!userToNotify.pushToken) return;
   await sendPushNotification({
     to: userToNotify.pushToken,
@@ -84,12 +110,35 @@ export async function notifyNuevoPedido(idRestaurante: string) {
   })
 }
 
-export async function notifyEstadoPedido(idUsuario: string, estado: string) {
+export async function notifyEstadoPedido(idUsuario: string, idRestaurante: string, estado: string) {
   const userToNotify = await xprisma.usuario.findUnique({
     where: {
       id: idUsuario
     }
   });
+
+  await xprisma.notificacion.create({
+    data: {
+      usuarioId: userToNotify.id,
+      usuarioDeId: idRestaurante,
+      ionicon: estado === "aceptado" ? "thumbs-up" : "thumbs-down",
+      titulo: estado === "aceptado" ? "¡Te aceptaron el pedido!" : "Tu pedido fué rechazado...",
+      descripcion: estado === "aceptado" ? "Pasa ahora a recogerlo al restaurante" : "Lamentablemente tuvimos que rechazar tu pedido :(",
+      route: 'cart/pedidos'
+    }
+  });
+  await xprisma.usuario.update({
+    where: {
+      id: userToNotify.id
+    },
+    data: {
+      notificacionesPendientes: {
+        increment: 1
+      }
+    }
+  });
+  await pusher.trigger('notification-channel', userToNotify.id, null);
+
   if(!userToNotify.pushToken) return;
   if(estado === "aceptado") {
     await sendPushNotification({
@@ -114,12 +163,35 @@ export async function notifyEstadoPedido(idUsuario: string, estado: string) {
   }
 }
 
-export async function notifyDonacionParaBeneficiario(idBeneficiario: string, rol: string) {
+export async function notifyDonacionParaBeneficiario(idBeneficiario: string, idDonador: string, rol: string) {
   const userToNotify = await xprisma.usuario.findUnique({
     where: {
       id: idBeneficiario
     }
   });
+
+  await xprisma.notificacion.create({
+    data: {
+      usuarioId: userToNotify.id,
+      usuarioDeId: idDonador,
+      ionicon: "heart-half",
+      titulo: "¡Donación pendiente!",
+      descripcion: `Un ${rol} te quiere hacer entrega de una donación`,
+      route: `donations/pendientes`
+    }
+  });
+  await xprisma.usuario.update({
+    where: {
+      id: userToNotify.id
+    },
+    data: {
+      notificacionesPendientes: {
+        increment: 1
+      }
+    }
+  });
+  await pusher.trigger('notification-channel', userToNotify.id, null);
+
   if(!userToNotify.pushToken) return;
   await sendPushNotification({
     to: userToNotify.pushToken,
@@ -132,12 +204,35 @@ export async function notifyDonacionParaBeneficiario(idBeneficiario: string, rol
   });
 }
 
-export async function notifyDonacionParaRestaurante(idRestaurante: string) {
+export async function notifyDonacionParaRestaurante(idRestaurante: string, idBeneficiario: string) {
   const userToNotify = await xprisma.usuario.findUnique({
     where: {
       id: idRestaurante
     }
   });
+  
+  await xprisma.notificacion.create({
+    data: {
+      usuarioId: userToNotify.id,
+      usuarioDeId: idBeneficiario,
+      ionicon: "heart-half",
+      titulo: "¡Donación pendiente!",
+      descripcion: `Un beneficiario te pidió la donación de tu oferta`,
+      route: `donations/pendientes`
+    }
+  });
+  await xprisma.usuario.update({
+    where: {
+      id: userToNotify.id
+    },
+    data: {
+      notificacionesPendientes: {
+        increment: 1
+      }
+    }
+  });
+  await pusher.trigger('notification-channel', userToNotify.id, null);
+
   if(!userToNotify.pushToken) return;
   await sendPushNotification({
     to: userToNotify.pushToken,
@@ -150,12 +245,35 @@ export async function notifyDonacionParaRestaurante(idRestaurante: string) {
   });
 }
 
-export async function notifyDonacionCompletada(idDestinatario: string) {
+export async function notifyDonacionCompletada(idDestinatario: string, idOtro: string) {
   const userToNotify = await xprisma.usuario.findUnique({
     where: {
       id: idDestinatario
     }
   });
+
+  await xprisma.notificacion.create({
+    data: {
+      usuarioId: userToNotify.id,
+      usuarioDeId: idOtro,
+      ionicon: "heart",
+      titulo: "¡Donación completa!",
+      descripcion: `¡Muchas gracias por completar la donación!`,
+      route: `donations/completadas`
+    }
+  });
+  await xprisma.usuario.update({
+    where: {
+      id: userToNotify.id
+    },
+    data: {
+      notificacionesPendientes: {
+        increment: 1
+      }
+    }
+  });
+  await pusher.trigger('notification-channel', userToNotify.id, null);
+
   if(!userToNotify.pushToken) return;
   await sendPushNotification({
     to: userToNotify.pushToken,

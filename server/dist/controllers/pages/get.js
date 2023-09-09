@@ -304,6 +304,9 @@ app.get('/notificaciones/usuario/:idUsuario', (req, res) => __awaiter(void 0, vo
     const notificaciones = yield queries_1.default.notificacion.findMany({
         where: {
             usuarioId: req.params.idUsuario
+        },
+        include: {
+            usuarioDe: true
         }
     });
     const response = {

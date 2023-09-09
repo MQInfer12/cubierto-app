@@ -74,7 +74,7 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             message: "Se pidieron los productos correctamente",
             data: ventaConDetalles
         };
-        yield (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId);
+        yield (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId, req.params.idUsuario);
         res.json(response);
     }
     else {
@@ -120,13 +120,24 @@ app.patch('/venta/estado/:idVenta', (req, res) => __awaiter(void 0, void 0, void
         },
         data: {
             estado: req.body.estado
+        },
+        include: {
+            detalles: {
+                select: {
+                    productoActivo: {
+                        select: {
+                            producto: true
+                        }
+                    }
+                }
+            }
         }
     });
     const response = {
         message: "Estado de venta cambiado correctamente",
         data: venta
     };
-    yield (0, notifications_1.notifyEstadoPedido)(venta.usuarioId, venta.estado);
+    yield (0, notifications_1.notifyEstadoPedido)(venta.usuarioId, venta.detalles[0].productoActivo.producto.usuarioId, venta.estado);
     res.json(response);
 }));
 app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -159,7 +170,7 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
         message: "Se pidieron los productos correctamente",
         data: donacion
     };
-    yield (0, notifications_1.notifyDonacionParaRestaurante)(donacion.donadorId);
+    yield (0, notifications_1.notifyDonacionParaRestaurante)(donacion.donadorId, donacion.beneficiarioId);
     res.json(response);
 }));
 app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -185,7 +196,7 @@ app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, voi
         message: "Donacion ofrecida correctamente",
         data: donacion
     };
-    yield (0, notifications_1.notifyDonacionParaBeneficiario)(data.beneficiarioId, donacion.donador.rol);
+    yield (0, notifications_1.notifyDonacionParaBeneficiario)(data.beneficiarioId, req.params.idRestaurante, donacion.donador.rol);
     res.json(response);
 }));
 app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -201,7 +212,7 @@ app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, 
         message: "Se acepto la donacion por parte del beneficiario",
         data: donacion
     };
-    yield (0, notifications_1.notifyDonacionCompletada)(donacion.donadorId);
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.donadorId, donacion.beneficiarioId);
     res.json(response);
 }));
 app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -217,7 +228,7 @@ app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, v
         message: "Se acepto la donacion por parte del restaurante",
         data: donacion
     };
-    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId);
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId, donacion.donadorId);
     res.json(response);
 }));
 app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -233,7 +244,7 @@ app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, voi
         message: "Se acepto la donacion por parte del proveedor",
         data: donacion
     };
-    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId);
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId, donacion.donadorId);
     res.json(response);
 }));
 app.patch('/notificacion/usuario/ver/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

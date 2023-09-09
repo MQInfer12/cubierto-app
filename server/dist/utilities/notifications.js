@@ -43,10 +43,11 @@ function notifyNuevaOferta(productoActivo) {
         yield queries_1.default.notificacion.createMany({
             data: allUsers.map(user => ({
                 usuarioId: user.id,
+                usuarioDeId: productoActivo.producto.usuario.id,
                 ionicon: "pricetags",
                 titulo: `¡Nueva oferta!`,
-                descripcion: `${productoActivo.producto.nombre} de ${productoActivo.producto.usuario.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
-                route: `verOferta/${productoActivo.id}`
+                descripcion: `<b>${productoActivo.producto.nombre}</b> de <b>${productoActivo.producto.usuario.nombre}</b> a tan solo <b>Bs. ${productoActivo.precioDescontado}</b>`,
+                route: `verOferta/${productoActivo.id}`,
             }))
         });
         yield queries_1.default.usuario.updateMany({
@@ -56,7 +57,7 @@ function notifyNuevaOferta(productoActivo) {
                 }
             }
         });
-        pusher_1.default.trigger('notification-channel', 'all', null);
+        yield pusher_1.default.trigger('notification-channel', 'all', null);
         yield sendPushNotification(usersToNotify.map(user => ({
             to: user.pushToken,
             sound: "default",
@@ -69,13 +70,34 @@ function notifyNuevaOferta(productoActivo) {
     });
 }
 exports.notifyNuevaOferta = notifyNuevaOferta;
-function notifyNuevoPedido(idRestaurante) {
+function notifyNuevoPedido(idRestaurante, idUsuario) {
     return __awaiter(this, void 0, void 0, function* () {
         const userToNotify = yield queries_1.default.usuario.findUnique({
             where: {
                 id: idRestaurante
             }
         });
+        yield queries_1.default.notificacion.create({
+            data: {
+                usuarioId: userToNotify.id,
+                usuarioDeId: idUsuario,
+                ionicon: "restaurant",
+                titulo: "¡Alguien te hizo un pedido!",
+                descripcion: "Mira los detalles",
+                route: 'cart/pendientes'
+            }
+        });
+        yield queries_1.default.usuario.update({
+            where: {
+                id: userToNotify.id
+            },
+            data: {
+                notificacionesPendientes: {
+                    increment: 1
+                }
+            }
+        });
+        yield pusher_1.default.trigger('notification-channel', userToNotify.id, null);
         if (!userToNotify.pushToken)
             return;
         yield sendPushNotification({
@@ -90,13 +112,34 @@ function notifyNuevoPedido(idRestaurante) {
     });
 }
 exports.notifyNuevoPedido = notifyNuevoPedido;
-function notifyEstadoPedido(idUsuario, estado) {
+function notifyEstadoPedido(idUsuario, idRestaurante, estado) {
     return __awaiter(this, void 0, void 0, function* () {
         const userToNotify = yield queries_1.default.usuario.findUnique({
             where: {
                 id: idUsuario
             }
         });
+        yield queries_1.default.notificacion.create({
+            data: {
+                usuarioId: userToNotify.id,
+                usuarioDeId: idRestaurante,
+                ionicon: estado === "aceptado" ? "thumbs-up" : "thumbs-down",
+                titulo: estado === "aceptado" ? "¡Te aceptaron el pedido!" : "Tu pedido fué rechazado...",
+                descripcion: estado === "aceptado" ? "Pasa ahora a recogerlo al restaurante" : "Lamentablemente tuvimos que rechazar tu pedido :(",
+                route: 'cart/pedidos'
+            }
+        });
+        yield queries_1.default.usuario.update({
+            where: {
+                id: userToNotify.id
+            },
+            data: {
+                notificacionesPendientes: {
+                    increment: 1
+                }
+            }
+        });
+        yield pusher_1.default.trigger('notification-channel', userToNotify.id, null);
         if (!userToNotify.pushToken)
             return;
         if (estado === "aceptado") {
@@ -124,13 +167,34 @@ function notifyEstadoPedido(idUsuario, estado) {
     });
 }
 exports.notifyEstadoPedido = notifyEstadoPedido;
-function notifyDonacionParaBeneficiario(idBeneficiario, rol) {
+function notifyDonacionParaBeneficiario(idBeneficiario, idDonador, rol) {
     return __awaiter(this, void 0, void 0, function* () {
         const userToNotify = yield queries_1.default.usuario.findUnique({
             where: {
                 id: idBeneficiario
             }
         });
+        yield queries_1.default.notificacion.create({
+            data: {
+                usuarioId: userToNotify.id,
+                usuarioDeId: idDonador,
+                ionicon: "heart-half",
+                titulo: "¡Donación pendiente!",
+                descripcion: `Un ${rol} te quiere hacer entrega de una donación`,
+                route: `donations/pendientes`
+            }
+        });
+        yield queries_1.default.usuario.update({
+            where: {
+                id: userToNotify.id
+            },
+            data: {
+                notificacionesPendientes: {
+                    increment: 1
+                }
+            }
+        });
+        yield pusher_1.default.trigger('notification-channel', userToNotify.id, null);
         if (!userToNotify.pushToken)
             return;
         yield sendPushNotification({
@@ -145,13 +209,34 @@ function notifyDonacionParaBeneficiario(idBeneficiario, rol) {
     });
 }
 exports.notifyDonacionParaBeneficiario = notifyDonacionParaBeneficiario;
-function notifyDonacionParaRestaurante(idRestaurante) {
+function notifyDonacionParaRestaurante(idRestaurante, idBeneficiario) {
     return __awaiter(this, void 0, void 0, function* () {
         const userToNotify = yield queries_1.default.usuario.findUnique({
             where: {
                 id: idRestaurante
             }
         });
+        yield queries_1.default.notificacion.create({
+            data: {
+                usuarioId: userToNotify.id,
+                usuarioDeId: idBeneficiario,
+                ionicon: "heart-half",
+                titulo: "¡Donación pendiente!",
+                descripcion: `Un beneficiario te pidió la donación de tu oferta`,
+                route: `donations/pendientes`
+            }
+        });
+        yield queries_1.default.usuario.update({
+            where: {
+                id: userToNotify.id
+            },
+            data: {
+                notificacionesPendientes: {
+                    increment: 1
+                }
+            }
+        });
+        yield pusher_1.default.trigger('notification-channel', userToNotify.id, null);
         if (!userToNotify.pushToken)
             return;
         yield sendPushNotification({
@@ -166,13 +251,34 @@ function notifyDonacionParaRestaurante(idRestaurante) {
     });
 }
 exports.notifyDonacionParaRestaurante = notifyDonacionParaRestaurante;
-function notifyDonacionCompletada(idDestinatario) {
+function notifyDonacionCompletada(idDestinatario, idOtro) {
     return __awaiter(this, void 0, void 0, function* () {
         const userToNotify = yield queries_1.default.usuario.findUnique({
             where: {
                 id: idDestinatario
             }
         });
+        yield queries_1.default.notificacion.create({
+            data: {
+                usuarioId: userToNotify.id,
+                usuarioDeId: idOtro,
+                ionicon: "heart",
+                titulo: "¡Donación completa!",
+                descripcion: `¡Muchas gracias por completar la donación!`,
+                route: `donations/completadas`
+            }
+        });
+        yield queries_1.default.usuario.update({
+            where: {
+                id: userToNotify.id
+            },
+            data: {
+                notificacionesPendientes: {
+                    increment: 1
+                }
+            }
+        });
+        yield pusher_1.default.trigger('notification-channel', userToNotify.id, null);
         if (!userToNotify.pushToken)
             return;
         yield sendPushNotification({

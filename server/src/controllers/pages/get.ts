@@ -314,6 +314,9 @@ app.get('/notificaciones/usuario/:idUsuario', async (req, res) => {
   const notificaciones = await xprisma.notificacion.findMany({
     where: {
       usuarioId: req.params.idUsuario
+    },
+    include: {
+      usuarioDe: true
     }
   });
   const response: ApiResponse<Notificacion[]> = {

@@ -33,7 +33,8 @@ model Usuario {
   favoritoDe                    Favorito[]        @relation("restaurante_favorito")
   cola                          Cola?             @relation("cola")
   enCola                        Cola[]            @relation("enCola")
-  notificaciones                Notificacion[]
+  notificaciones                Notificacion[]    @relation("para")
+  misNotificaciones             Notificacion[]    @relation("de")
   eliminado                     Boolean           @default(false)
 }
 
@@ -146,5 +147,7 @@ model Notificacion {
   descripcion   String      @db.VarChar(255)
   route         String      @db.VarChar(255)
   usuarioId     String      
-  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id], name: "para")
+  usuarioDeId   String
+  usuarioDe     Usuario     @relation(fields: [usuarioDeId], references: [id], name: "de")
 }
