@@ -34,6 +34,11 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
       pushToken: {
         not: null
       },
+      AND: productoActivo.producto.usuario.rol === "proveedor" ? {
+        rol: {
+          in: ["restaurante", "beneficiario", "admin", "proveedor"]
+        }
+      } : undefined
     },
     distinct: ['pushToken']
   });
@@ -45,7 +50,7 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
       usuarioDeId: productoActivo.producto.usuario.id,
       ionicon: "pricetags",
       titulo: `¡Nueva oferta!`,
-      descripcion: `<b>${productoActivo.producto.nombre}</b> de <b>${productoActivo.producto.usuario.nombre}</b> a tan solo <b>Bs. ${productoActivo.precioDescontado}</b>`,
+      descripcion: `${productoActivo.producto.nombre} de ${productoActivo.producto.usuario.nombre} a tan solo Bs. ${productoActivo.precioDescontado}`,
       route: `verOferta/${productoActivo.id}`,
     }))
   });
