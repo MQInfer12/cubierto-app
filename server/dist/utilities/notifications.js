@@ -44,7 +44,15 @@ function notifyNuevaOferta(productoActivo) {
             },
             distinct: ['pushToken']
         });
-        const allUsers = yield queries_1.default.usuario.findMany();
+        const allUsers = yield queries_1.default.usuario.findMany({
+            where: {
+                rol: {
+                    in: productoActivo.producto.usuario.rol === "proveedor" ?
+                        ["restaurante", "beneficiario", "admin", "proveedor"] :
+                        ["restaurante", "beneficiario", "admin", "proveedor", "usuario"]
+                }
+            }
+        });
         yield queries_1.default.notificacion.createMany({
             data: allUsers.map(user => ({
                 usuarioId: user.id,

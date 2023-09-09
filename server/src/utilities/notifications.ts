@@ -43,7 +43,15 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
     distinct: ['pushToken']
   });
 
-  const allUsers = await xprisma.usuario.findMany();
+  const allUsers = await xprisma.usuario.findMany({
+    where: {
+      rol: {
+        in: productoActivo.producto.usuario.rol === "proveedor" ?
+        ["restaurante", "beneficiario", "admin", "proveedor"] :
+        ["restaurante", "beneficiario", "admin", "proveedor", "usuario"]
+      }
+    }
+  });
   await xprisma.notificacion.createMany({
     data: allUsers.map(user => ({
       usuarioId: user.id,
