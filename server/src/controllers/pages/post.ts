@@ -9,17 +9,33 @@ import { notifyDonacionCompletada, notifyDonacionParaBeneficiario, notifyDonacio
 const app = Router();
 
 app.patch('/usuario/pushToken/:idUsuario', async (req, res) => {
+  const pushToken = req.body.pushToken;
+  const exists = await xprisma.usuario.findUnique({
+    where: {
+      pushToken: pushToken
+    }
+  });
+  if(exists) {
+    await xprisma.usuario.update({
+      where: {
+        id: exists.id
+      },
+      data: {
+        pushToken: null
+      }
+    });
+  }
   await xprisma.usuario.update({
     where: {
       id: req.params.idUsuario
     },
     data: {
-      pushToken: req.body.pushToken
+      pushToken: pushToken
     }
   });
   const response: ApiResponse<string> = {
     message: "Pushtoken del usuario cambiado correctamente",
-    data: req.body.pushToken
+    data: pushToken
   }
   res.json(response);
 })

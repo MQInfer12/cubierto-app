@@ -18,17 +18,33 @@ const filterOfertas_1 = require("../../utilities/filterOfertas");
 const notifications_1 = require("../../utilities/notifications");
 const app = (0, express_1.Router)();
 app.patch('/usuario/pushToken/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const pushToken = req.body.pushToken;
+    const exists = yield queries_1.default.usuario.findUnique({
+        where: {
+            pushToken: pushToken
+        }
+    });
+    if (exists) {
+        yield queries_1.default.usuario.update({
+            where: {
+                id: exists.id
+            },
+            data: {
+                pushToken: null
+            }
+        });
+    }
     yield queries_1.default.usuario.update({
         where: {
             id: req.params.idUsuario
         },
         data: {
-            pushToken: req.body.pushToken
+            pushToken: pushToken
         }
     });
     const response = {
         message: "Pushtoken del usuario cambiado correctamente",
-        data: req.body.pushToken
+        data: pushToken
     };
     res.json(response);
 }));

@@ -18,7 +18,7 @@ model Usuario {
   rol                           String            @default("usuario") @db.VarChar(255)
   notificacionesConfiguracion   String            @default("todas") @db.VarChar(255)
   notificacionesPendientes      Int               @default(0)
-  pushToken                     String?           @db.VarChar(255)
+  pushToken                     String?           @db.VarChar(255) @unique
   telefono                      Int?
   portada                       String?           @db.VarChar(255)
   descripcion                   String?           @db.VarChar(255)
