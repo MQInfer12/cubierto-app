@@ -39,8 +39,7 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
           in: ["restaurante", "beneficiario", "admin", "proveedor"]
         }
       } : undefined
-    },
-    distinct: ['pushToken']
+    }
   });
 
   const allUsers = await xprisma.usuario.findMany({
@@ -63,13 +62,18 @@ export async function notifyNuevaOferta(productoActivo: ProductoActivo & {
     }))
   });
   await xprisma.usuario.updateMany({
+    where: {
+      id: {
+        in: allUsers.map(user => user.id)
+      }
+    },
     data: {
       notificacionesPendientes: {
         increment: 1
       }
     }
   });
-  await pusher.trigger('notification-channel', 'all', null);
+  await pusher.trigger('notification-channel', productoActivo.producto.usuario.rol === "proveedor" ? 'prov' : 'all', null);
 
   await sendPushNotification(usersToNotify.map(user => ({
     to: user.pushToken,
