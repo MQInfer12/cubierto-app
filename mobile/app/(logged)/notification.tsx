@@ -1,4 +1,4 @@
-import { RefreshControl, ScrollView, StyleSheet } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FontedText from '../../components/global/fontedText';
 import { useGet } from '../../hooks/useGet';
@@ -68,7 +68,10 @@ const Notification = () => {
         {
           newNots.length !== 0 &&
           <>
-          <FontedText style={styles.ofertasText} weight={700}>Notificaciones nuevas</FontedText>
+          <View style={styles.anterioresContainer}>
+            <FontedText weight={700} style={styles.anterioresText}>Nuevas</FontedText>
+            <View style={styles.line} />
+          </View> 
           {newNots.map(notificacion => (
             <NotificationCard 
               key={notificacion.id} 
@@ -81,7 +84,13 @@ const Notification = () => {
         {
           oldNots.length !== 0 &&
           <>
-          <FontedText style={styles.ofertasText} weight={700}>Notificaciones anteriores</FontedText>
+          {
+            newNots.length !== 0 &&
+            <View style={styles.anterioresContainer}>
+              <FontedText weight={700} style={styles.anterioresText}>Anteriores</FontedText>
+              <View style={styles.line} />
+            </View> 
+          }
           {oldNots.map(notificacion => (
             <NotificationCard 
               key={notificacion.id} 
@@ -103,11 +112,28 @@ const styles = StyleSheet.create<any>({
   container: (fullscreen: boolean) => ({
     paddingVertical: 20,
     paddingHorizontal: 20,
-    gap: 20,
+    gap: 12,
     flex: fullscreen ? 1 : undefined
   }),
   ofertasText: {
     fontSize: 24,
     color: colors.gray900,
   },
+  anterioresContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12
+  },
+  line: {
+    width: "100%",
+    height: 1,
+    backgroundColor: colors.primary500
+  },
+  anterioresText: {
+    color: colors.primary500,
+    position: "absolute",
+    paddingHorizontal: 8,
+    backgroundColor: colors.bg,
+    zIndex: 1
+  }
 })
