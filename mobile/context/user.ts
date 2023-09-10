@@ -21,6 +21,7 @@ interface Functions {
   addProducto: (producto: Producto) => void
   editProducto: (producto: Producto) => void
   removeProducto: (producto: Producto) => void
+  changeNotificacionesPendientes: (change: (old: number) => number) => void
 }
 
 export const useUser = create<Properties & Functions>((set) => {
@@ -136,6 +137,20 @@ export const useUser = create<Properties & Functions>((set) => {
         }
         return old;
       });
+    },
+    changeNotificacionesPendientes: (change) => {
+      set(old => {
+        if(old.user) {
+          return {
+            ...old,
+            user: {
+              ...old.user,
+              notificacionesPendientes: change(old.user.notificacionesPendientes)
+            }
+          }
+        }
+        return old;
+      })
     }
   }
 })

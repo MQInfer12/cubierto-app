@@ -8,29 +8,29 @@ export const useHandleColaBeneficiario = () => {
   const { user } = useUser();
   const [cola, setCola] = useState<Cola | null>(null);
 
-  const entrarCola = async() => {
-    const res = await sendRequest<Cola>(`cola/beneficiario/entrar/${user?.id}`, null, {
-      method: "PUT"
-    });
-    if(res) {
-      setCola(res.data);
-      channel.bind("beneficiario", (res: Cola) => {
-        setCola(res);
-      });
-    }
-  }
-
-  const salirCola = async() => {
-    const res = await sendRequest<Cola>(`cola/beneficiario/salir/${user?.id}`, null, {
-      method: "PUT"
-    });
-    if(res) {
-      setCola(null);
-      channel.unbind("beneficiario");
-    }
-  }
-
   useEffect(() => {
+    const entrarCola = async() => {
+      const res = await sendRequest<Cola>(`cola/beneficiario/entrar/${user?.id}`, null, {
+        method: "PUT"
+      });
+      if(res) {
+        setCola(res.data);
+        channel.bind("beneficiario", (res: Cola) => {
+          setCola(res);
+        });
+      }
+    }
+  
+    const salirCola = async() => {
+      const res = await sendRequest<Cola>(`cola/beneficiario/salir/${user?.id}`, null, {
+        method: "PUT"
+      });
+      if(res) {
+        setCola(null);
+        channel.unbind("beneficiario");
+      }
+    }
+    
     entrarCola();
     return () => {
       salirCola();
@@ -44,10 +44,7 @@ export const useHandleColaBeneficiario = () => {
     myPos = cola.personas.indexOf(user.id);
   }
 
-  console.log("cola de " + user?.id, cola);
-
   return {
-    salirCola,
     cola,
     myTurn,
     myPos

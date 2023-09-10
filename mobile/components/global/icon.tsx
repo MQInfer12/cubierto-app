@@ -5,14 +5,14 @@ import { Ionicons } from '@expo/vector-icons'
 type IconName = keyof typeof Ionicons.glyphMap
 
 interface Props {
-  name: IconName,
+  name: IconName | string,
   size: number,
   color: string
 }
 
 const Icon = ({ name, size, color }: Props) => {
   return (
-    <Ionicons name={name} size={size} color={color} />
+    <Ionicons name={name as IconName} size={size} color={color} />
   )
 }
 

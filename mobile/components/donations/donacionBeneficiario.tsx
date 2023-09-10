@@ -16,9 +16,9 @@ interface Props {
 }
 
 const DonacionBeneficiario = ({ setPage }: Props) => {
-  const { cola, myTurn, myPos, salirCola } = useHandleColaBeneficiario();
+  const { cola, myTurn, myPos } = useHandleColaBeneficiario();
 
-  if(myTurn) return <ViewDonation salirCola={salirCola} setPage={setPage} />
+  if(myTurn) return <ViewDonation setPage={setPage} />
   return (
     <ScrollView 
       contentContainerStyle={styles.container}

@@ -15,7 +15,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
+const notifications_1 = require("../../utilities/notifications");
 const app = (0, express_1.Router)();
+app.patch('/usuario/pushToken/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const pushToken = req.body.pushToken;
+    const exists = yield queries_1.default.usuario.findUnique({
+        where: {
+            pushToken: pushToken
+        }
+    });
+    if (exists) {
+        yield queries_1.default.usuario.update({
+            where: {
+                id: exists.id
+            },
+            data: {
+                pushToken: null
+            }
+        });
+    }
+    yield queries_1.default.usuario.update({
+        where: {
+            id: req.params.idUsuario
+        },
+        data: {
+            pushToken: pushToken
+        }
+    });
+    const response = {
+        message: "Pushtoken del usuario cambiado correctamente",
+        data: pushToken
+    };
+    res.json(response);
+}));
 app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     const productosActivos = data.map(item => item.productoActivo);
@@ -58,6 +90,7 @@ app.post('/carrito/enviar/:idUsuario', (req, res) => __awaiter(void 0, void 0, v
             message: "Se pidieron los productos correctamente",
             data: ventaConDetalles
         };
+        yield (0, notifications_1.notifyNuevoPedido)(ventaConDetalles.detalles[0].productoActivo.producto.usuarioId, req.params.idUsuario);
         res.json(response);
     }
     else {
@@ -103,12 +136,24 @@ app.patch('/venta/estado/:idVenta', (req, res) => __awaiter(void 0, void 0, void
         },
         data: {
             estado: req.body.estado
+        },
+        include: {
+            detalles: {
+                select: {
+                    productoActivo: {
+                        select: {
+                            producto: true
+                        }
+                    }
+                }
+            }
         }
     });
     const response = {
         message: "Estado de venta cambiado correctamente",
         data: venta
     };
+    yield (0, notifications_1.notifyEstadoPedido)(venta.usuarioId, venta.detalles[0].productoActivo.producto.usuarioId, venta.estado);
     res.json(response);
 }));
 app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -141,6 +186,7 @@ app.post('/donacion/pedir/:idBeneficiario', (req, res) => __awaiter(void 0, void
         message: "Se pidieron los productos correctamente",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionParaRestaurante)(donacion.donadorId, donacion.beneficiarioId);
     res.json(response);
 }));
 app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -150,6 +196,9 @@ app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, voi
             donadorId: req.params.idRestaurante,
             beneficiarioId: data.beneficiarioId,
             estadoDonador: "aceptado"
+        },
+        include: {
+            donador: true
         }
     });
     yield queries_1.default.detalleDonacion.createMany({
@@ -163,6 +212,7 @@ app.post('/donacion/ofrecer/:idRestaurante', (req, res) => __awaiter(void 0, voi
         message: "Donacion ofrecida correctamente",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionParaBeneficiario)(data.beneficiarioId, req.params.idRestaurante, donacion.donador.rol);
     res.json(response);
 }));
 app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -178,6 +228,7 @@ app.patch('/donacion/beneficiario/:idDonacion', (req, res) => __awaiter(void 0, 
         message: "Se acepto la donacion por parte del beneficiario",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.donadorId, donacion.beneficiarioId);
     res.json(response);
 }));
 app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -193,6 +244,7 @@ app.patch('/donacion/restaurante/:idDonacion', (req, res) => __awaiter(void 0, v
         message: "Se acepto la donacion por parte del restaurante",
         data: donacion
     };
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId, donacion.donadorId);
     res.json(response);
 }));
 app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -207,6 +259,22 @@ app.patch('/donacion/proveedor/:idDonacion', (req, res) => __awaiter(void 0, voi
     const response = {
         message: "Se acepto la donacion por parte del proveedor",
         data: donacion
+    };
+    yield (0, notifications_1.notifyDonacionCompletada)(donacion.beneficiarioId, donacion.donadorId);
+    res.json(response);
+}));
+app.patch('/notificacion/usuario/ver/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield queries_1.default.usuario.update({
+        where: {
+            id: req.params.idUsuario
+        },
+        data: {
+            notificacionesPendientes: 0
+        }
+    });
+    const response = {
+        message: "Se borraron las notificaciones pendientes",
+        data: null
     };
     res.json(response);
 }));

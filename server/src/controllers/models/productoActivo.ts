@@ -3,6 +3,7 @@ import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { ProductoActivo } from "@prisma/client";
 import { CreateProductoActivoInput, UpdateProductoActivoInput } from "../../interfaces/models/productoActivo";
+import { notifyNuevaOferta, sendPushNotification } from "../../utilities/notifications";
 
 const app = Router();
 
@@ -18,7 +19,8 @@ app.get('/productoActivo', async (req, res) => {
 app.get('/productoActivo/:id', async (req, res) => {
   const productoActivo = await xprisma.productoActivo.findUnique({
     where: {
-      id: Number(req.params.id)
+      id: Number(req.params.id),
+      eliminado: undefined
     }
   });
   const response: ApiResponse<ProductoActivo> = {
@@ -31,12 +33,20 @@ app.get('/productoActivo/:id', async (req, res) => {
 app.post('/productoActivo', async (req, res) => {
   const data: CreateProductoActivoInput = req.body;
   const productoActivo = await xprisma.productoActivo.create({
-    data: data
+    data: data,
+    include: {
+      producto: {
+        include: {
+          usuario: true
+        }
+      }
+    }
   });
   const response: ApiResponse<ProductoActivo> = {
     message: "Producto Activo creado correctamente",
     data: productoActivo
   };
+  await notifyNuevaOferta(productoActivo);
   res.json(response);
 });
 

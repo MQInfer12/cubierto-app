@@ -2,19 +2,22 @@ import { Cola } from "./cola";
 import { Favorito } from "./favorito";
 import { Producto } from "./producto";
 import { Ubicacion } from "./ubicacion";
-import { Venta } from "./venta";
+
+export type UserRol = "usuario" | "restaurante" | "proveedor" | "beneficiario" | "admin";
 
 type Usuario = {
   id: string;
   nombre: string;
   email: string;
   foto: string;
-  rol: "usuario" | "restaurante" | "proveedor" | "beneficiario" | "admin";
-  notificaciones: "todas" | "favoritos";
+  rol: UserRol;
+  notificacionesConfiguracion: "todas" | "favoritos";
+  notificacionesPendientes: number;
   telefono: number;
   portada: string;
   descripcion: string;
   ubicacionActualId: number;
+  pushToken: string;
   productos: Producto[];
   cola: Cola;
   ubicaciones: Ubicacion[];

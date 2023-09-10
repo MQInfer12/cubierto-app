@@ -4,7 +4,7 @@ import { ApiResponse } from "../../interfaces/apiResponse";
 import { PedirResponse } from "../../interfaces/pages/pedir";
 import { RestauranteResponse } from "../../interfaces/pages/restaurante";
 import { filterDonaciones, filterOfertas } from "../../utilities/filterOfertas";
-import { Donacion, ProductoActivo, Usuario, Venta } from "@prisma/client";
+import { Donacion, Notificacion, ProductoActivo, Usuario, Venta } from "@prisma/client";
 
 const app = Router();
 
@@ -108,6 +108,9 @@ app.get('/ofertas/:idRestaurante', async (req, res) => {
     where: {
       producto: {
         usuarioId: req.params.idRestaurante
+      },
+      AND: {
+        donado: false
       }
     }
   });
@@ -305,6 +308,22 @@ app.get('/donaciones/restaurante/:id', async (req, res) => {
 
 app.get('/donaciones/proveedor/:id', async (req, res) => {
   getDonations(req, res);
+});
+
+app.get('/notificaciones/usuario/:idUsuario', async (req, res) => {
+  const notificaciones = await xprisma.notificacion.findMany({
+    where: {
+      usuarioId: req.params.idUsuario
+    },
+    include: {
+      usuarioDe: true
+    }
+  });
+  const response: ApiResponse<Notificacion[]> = {
+    message: "Notificaciones de usuario obtenidas correctamente",
+    data: notificaciones
+  }
+  res.json(response);
 });
 
 export default app;

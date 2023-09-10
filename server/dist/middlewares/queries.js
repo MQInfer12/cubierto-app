@@ -5,23 +5,25 @@ const prisma = new client_1.PrismaClient();
 const xprisma = prisma.$extends({
     query: {
         $allModels: {
-            findMany({ args, query }) {
+            findMany({ args, query, operation }) {
                 args.orderBy = Object.assign({ id: "asc" }, args.orderBy);
                 return query(args);
             }
         },
         usuario: {
-            $allOperations({ args, query }) {
+            $allOperations({ args, query, operation }) {
                 const newArgs = args;
-                newArgs.include = Object.assign(Object.assign({}, newArgs.include), { productos: {
-                        where: {
-                            eliminado: false
-                        }
-                    }, cola: true, ubicaciones: true, ubicacionActual: true, favoritos: {
-                        include: {
-                            restaurante: true
-                        }
-                    } });
+                if (operation !== "updateMany") {
+                    newArgs.include = Object.assign(Object.assign({}, newArgs.include), { productos: {
+                            where: {
+                                eliminado: false
+                            }
+                        }, cola: true, ubicaciones: true, ubicacionActual: true, favoritos: {
+                            include: {
+                                restaurante: true
+                            }
+                        } });
+                }
                 return query(newArgs);
             },
             findMany({ args, query }) {
@@ -112,11 +114,11 @@ const xprisma = prisma.$extends({
                 return query(newArgs);
             },
             findMany({ args, query }) {
-                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                args.where = Object.assign({ eliminado: false }, args.where);
                 return query(args);
             },
             findUnique({ args, query }) {
-                args.where = Object.assign(Object.assign({}, args.where), { eliminado: false });
+                args.where = Object.assign({ eliminado: false }, args.where);
                 return query(args);
             },
         }

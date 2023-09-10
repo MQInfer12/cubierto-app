@@ -12,10 +12,9 @@ import NothingHere from '../global/nothingHere'
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<Page>>
-  salirCola: () => Promise<void>
 }
 
-const ViewDonation = ({ setPage, salirCola }: Props) => {
+const ViewDonation = ({ setPage }: Props) => {
   const [cart, setCart] = useState<ProductoActivo[]>([]);
   const { res, loading, getData } = useGet<ProductoActivo[]>('donaciones');
 
@@ -48,7 +47,6 @@ const ViewDonation = ({ setPage, salirCola }: Props) => {
           cart={cart}
           removeFromCart={removeFromCart}
           setPage={setPage}
-          salirCola={salirCola}
         />
         </>
       }

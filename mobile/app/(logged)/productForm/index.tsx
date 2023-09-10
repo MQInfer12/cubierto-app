@@ -13,14 +13,7 @@ import { sendCloudinary } from '../../../utilities/uploadImage'
 import { sendRequest } from '../../../utilities/sendRequest'
 import { Producto } from '../../../interfaces/producto'
 import { router } from 'expo-router'
-
-interface Form {
-  foto: ImagePicker.ImagePickerAsset | null
-  nombre: string
-  descripcion: string
-  precio: string
-  categoriaId: string | null
-}
+import { Form, validate } from './validate'
 
 const ProductForm = () => {
   useSetRouteName('Añadir producto');
@@ -48,6 +41,8 @@ const ProductForm = () => {
   }
 
   const handleSave = async () => {
+    const message = validate(form, true);
+    if(message) return Alert.alert(message); 
     let fotoUrl: string | undefined = undefined;
     if(form.foto) {
       fotoUrl = await sendCloudinary(form.foto, setProgress);  

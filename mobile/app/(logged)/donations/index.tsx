@@ -1,19 +1,23 @@
 import { StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
-import { useSetRouteName } from '../../context/routeName';
-import Tabs from '../../components/global/tabs';
-import DonacionBeneficiario from '../../components/donations/donacionBeneficiario';
-import MisDonaciones from '../../components/donations/misDonaciones';
-import DonacionesCompletadas from '../../components/donations/donacionesCompletadas';
-import { useUser } from '../../context/user';
-import DonacionRestaurante from '../../components/donations/donacionRestaurante';
+import { useSetRouteName } from '../../../context/routeName';
+import Tabs from '../../../components/global/tabs';
+import DonacionBeneficiario from '../../../components/donations/donacionBeneficiario';
+import MisDonaciones from '../../../components/donations/misDonaciones';
+import DonacionesCompletadas from '../../../components/donations/donacionesCompletadas';
+import { useUser } from '../../../context/user';
+import DonacionRestaurante from '../../../components/donations/donacionRestaurante';
 
 export type Page = "Donaciones" | "Pendientes" | "Completadas";
 
-const Donations = () => {
+interface Props {
+  initialPage?: Page
+}
+
+const Donations = ({ initialPage = "Donaciones" }: Props) => {
   useSetRouteName('Donaciones');
   const { user } = useUser();
-  const [page, setPage] = useState<Page>("Donaciones");
+  const [page, setPage] = useState<Page>(initialPage);
   const tabsData: Page[] = ["Donaciones", "Pendientes", "Completadas"];
 
   return (
@@ -27,7 +31,7 @@ const Donations = () => {
     </View>
     {
       (page === "Donaciones" && user?.rol === "beneficiario") ? <DonacionBeneficiario setPage={setPage} /> :
-      (page === "Donaciones" && user?.rol === "restaurante") ? <DonacionRestaurante setPage={setPage} /> :
+      (page === "Donaciones" && (user?.rol === "restaurante" || user?.rol === "proveedor")) ? <DonacionRestaurante setPage={setPage} /> :
       page === "Pendientes" ? <MisDonaciones /> :
       page === "Completadas" && <DonacionesCompletadas />
     }

@@ -1,4 +1,4 @@
-import { ProductoActivo, Venta } from "@prisma/client";
+import { ProductoActivo } from "@prisma/client";
 
 export const filterOfertas = (productosActivos: ProductoActivo[]) => {
   const ahora = new Date();

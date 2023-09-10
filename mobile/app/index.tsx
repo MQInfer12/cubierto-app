@@ -5,16 +5,19 @@ import { useFonts } from 'expo-font'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Usuario from '../interfaces/usuario'
+import { registerForPushNotificationsAsync } from '../utilities/notifications'
+import { usePushToken } from '../context/pushToken'
 
-const Index = () => {
+const Redirect = () => {
   const { user, setUser } = useUser();
   const [userLoaded, setUserLoaded] = useState(false);
+  const { setPushToken } = usePushToken();
 
   const [fontsLoaded] = useFonts({
     "Biko400": require('../assets/fonts/Biko_Regular.otf'),
     "Biko600": require('../assets/fonts/Biko_Bold.otf'),
     "Biko700": require('../assets/fonts/Biko_Black.otf')
-  }) 
+  })
 
   useEffect(() => {
     const prepare = async () => {
@@ -33,9 +36,17 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
+    registerForPushNotificationsAsync().then(token => {
+      if(!token) return;
+      setPushToken(token.data)
+    });
+  }, []);
+
+  useEffect(() => {
     const hideSS = async () => {
       await SplashScreen.hideAsync();
-      router.replace(user ? '/home' : '/login')
+      const viewed = await AsyncStorage.getItem("viewedInitialPages");
+      router.replace(user ? '/home' : viewed ? '/login' : '/initial');
     }
     if(fontsLoaded && userLoaded) {
       hideSS();
@@ -45,4 +56,4 @@ const Index = () => {
   return null;
 }
 
-export default Index
+export default Redirect

@@ -1,24 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import GoogleLogin from '../components/login/googleLogin';
 import { Image, StyleSheet, View } from 'react-native';
 import { Dimensions } from 'react-native';
 import FontedText from '../components/global/fontedText';
 import { colors } from '../styles/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const win = Dimensions.get('window');
 const ratio = win.width / 720;
 const imgHeight = 788 * ratio;
 
 const Login = () => {
+  useEffect(() => {
+    const saveViewedInitialPages = async () => {
+      const viewed = await AsyncStorage.getItem("viewedInitialPages");
+      if(!viewed) {
+        await AsyncStorage.setItem("viewedInitialPages", "true");
+      }
+    }
+    saveViewedInitialPages();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require('../assets/images/loginBG.png')} />
       <View style={styles.buttonContainer}>
         <View style={styles.top}>
-          <FontedText weight={700} style={styles.topText}>¡Bienvenido!</FontedText>
+          <FontedText weight={700} style={styles.topText}>Inicia sesión</FontedText>
         </View>
         <View style={styles.bottom}>
-          <Image style={styles.logo} source={require('../assets/images/CubiertoLogo.png')} />
+          <View style={styles.logoContainer}>
+            <Image style={styles.logo} source={require('../assets/images/CubiertoLogo.png')} />
+            <Image style={styles.uniLogo} source={require('../assets/images/unifranzLogo.png')} />
+          </View>
           <FontedText style={styles.text} weight={600}>Inicia sesión con tu cuenta de Google</FontedText>
           <GoogleLogin />
         </View>
@@ -63,9 +77,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 24
   },
+  logoContainer: {
+    flexDirection: "row",
+    marginBottom: 32,
+    alignItems: "center",
+    gap: 32
+  },
   logo: {
-    height: 160,
-    aspectRatio: 432 / 410,
-    marginBottom: 32
+    width: 128,
+    aspectRatio: 897 / 885,
+  },
+  uniLogo: {
+    width: 128,
+    aspectRatio: 200 / 85,
   }
 })

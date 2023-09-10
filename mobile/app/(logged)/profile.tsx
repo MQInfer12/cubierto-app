@@ -39,7 +39,7 @@ const Home = () => {
           <FontedText style={styles.bottomButtonText} weight={600}>Información personal</FontedText>
         </TouchableOpacity>
         {
-          user.rol === "restaurante" &&
+          (user.rol === "restaurante" || user.rol === "proveedor") &&
           <TouchableOpacity onPress={() => router.push(`productos`)} style={styles.bottomButton}>
             <View style={styles.bottomIconContainer}>
               <Icon name='book-outline' size={16} color={colors.gray900} />
@@ -47,17 +47,11 @@ const Home = () => {
             <FontedText style={styles.bottomButtonText} weight={600}>Productos</FontedText>
           </TouchableOpacity>
         }
-        <TouchableOpacity style={styles.bottomButton}>
+        <TouchableOpacity style={styles.bottomButton} onPress={() => router.push('notification')}>
           <View style={styles.bottomIconContainer}>
             <Icon name='notifications-outline' size={16} color={colors.gray900} />
           </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones</FontedText>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton}>
-          <View style={styles.bottomIconContainer}>
-            <Icon name='information-circle-outline' size={16} color={colors.gray900} />
-          </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Información legal</FontedText>
+          <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones {!!user.notificacionesPendientes && <FontedText style={styles.redText}>({user.notificacionesPendientes})</FontedText>}</FontedText>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
           <View style={styles.bottomIconContainer}>
@@ -131,5 +125,8 @@ const styles = StyleSheet.create({
   },
   bottomButtonText: {
     color: colors.gray900
+  },
+  redText: {
+    color: colors.primary500
   }
 });

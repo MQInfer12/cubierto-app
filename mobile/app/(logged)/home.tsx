@@ -15,10 +15,12 @@ import DonationCard from '../../components/home/donationCard'
 import { Donacion } from '../../interfaces/donacion'
 import Button from '../../components/global/button'
 import { useProtectCola } from '../../hooks/useProtectCola'
+import { useUser } from '../../context/user'
 
 const Home = () => {
   useSetRouteName('Home');
-  const { res, loading, getData, firstRender } = useGet<PedirResponse>('pedir');
+  const { user } = useUser();
+  const { res, loading, getData, firstRender } = useGet<PedirResponse>(user?.rol === "usuario" ? 'pedir/user' : 'pedir');
   const { cola } = useCola();
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
   useProtectCola();
@@ -55,7 +57,7 @@ const Home = () => {
         <View style={{ flex: 1 }}>
           <Button onPress={() => router.push('restaurantes')}>Ver restaurantes afiliados</Button>
         </View>
-        <TouchableOpacity style={styles.notificationsContainer}>
+        <TouchableOpacity onPress={() => router.push('notification')} style={styles.notificationsContainer}>
           <Icon color={colors.primary500} size={20} name="notifications-outline" />
         </TouchableOpacity>
       </View>

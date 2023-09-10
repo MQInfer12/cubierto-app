@@ -42,6 +42,14 @@ const OfertaCard = ({ oferta, getData }: Props) => {
     }]);
   }
 
+  const cantidadVendida = oferta.detalleVentas.reduce((suma, detalle) => {
+    suma += detalle.cantidad;
+    return suma;
+  }, 0);
+  const maxproducts = (oferta.cantidad || 1) - (cantidadVendida || 0);
+  const agotado = maxproducts <= 0;
+
+  if(agotado) return null;
   return (
     <View style={styles.ofertaCard}>
       <View style={styles.productData}>
@@ -49,7 +57,7 @@ const OfertaCard = ({ oferta, getData }: Props) => {
         <View style={styles.productTexts}>
           <FontedText style={styles.fecha}>{formatFecha(oferta.fecha)}</FontedText>
           <FontedText numberOfLines={1} weight={700} style={styles.name}>{oferta.producto.nombre}</FontedText>
-          <FontedText style={styles.description}>{oferta.cantidad} Unidades - {isActive ? restanteString : "En donaciones..."}</FontedText>
+          <FontedText style={styles.description}>{maxproducts} Restantes  - {isActive ? restanteString : "En donaciones..."}</FontedText>
         </View>
       </View>
       {

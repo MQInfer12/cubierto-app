@@ -48,7 +48,9 @@ const MiDonacionCard = ({ donacion }: Props) => {
     <View style={styles.container}>
       <View style={styles.allContainer}>
         <View style={styles.topContainer}>
-          <Image style={styles.foto} source={{ uri: donacion.donador.foto }} />
+          <Image style={styles.foto} source={{ 
+            uri: user?.rol === "beneficiario" ? donacion.donador.foto : donacion.beneficiario.foto
+          }} />
           <View style={styles.textsContainer}>
             <FontedText numberOfLines={1} weight={700} style={styles.nameText}>
               {

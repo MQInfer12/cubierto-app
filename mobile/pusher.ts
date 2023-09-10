@@ -7,3 +7,4 @@ const pusher = new Pusher(API_KEY, {
 });
 
 export const channel = pusher.subscribe("cola-channel");
+export const notChannel = pusher.subscribe("notification-channel");

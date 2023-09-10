@@ -113,6 +113,9 @@ app.get('/ofertas/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 
         where: {
             producto: {
                 usuarioId: req.params.idRestaurante
+            },
+            AND: {
+                donado: false
             }
         }
     });
@@ -296,6 +299,21 @@ app.get('/donaciones/restaurante/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 app.get('/donaciones/proveedor/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     getDonations(req, res);
+}));
+app.get('/notificaciones/usuario/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const notificaciones = yield queries_1.default.notificacion.findMany({
+        where: {
+            usuarioId: req.params.idUsuario
+        },
+        include: {
+            usuarioDe: true
+        }
+    });
+    const response = {
+        message: "Notificaciones de usuario obtenidas correctamente",
+        data: notificaciones
+    };
+    res.json(response);
 }));
 exports.default = app;
 //# sourceMappingURL=get.js.map
