@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native'
+import { FlatList, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import { useUser } from '../../context/user'
 import NothingHere from '../global/nothingHere';
@@ -11,7 +11,7 @@ import { useGet } from '../../hooks/useGet';
 
 const PedidosMapper = () => {
   const { user } = useUser();
-  const { res } = useGet<Venta[]>(`pedidos/${user?.id}`);
+  const { res, loading, getData } = useGet<Venta[]>(`pedidos/${user?.id}`);
   const [showOlds, setShowOlds] = useState(false);
 
   const getMinutesPast = (venta: Venta) => {
@@ -43,50 +43,62 @@ const PedidosMapper = () => {
     })
   }
 
-  if(!res) return null;
+  if(!res) return <NothingHere type='loading' text='Cargando pedidos...' />;
 
   let ventas: Venta[] = [];
   ventas = [...res.data];
   ventas.reverse();
-
-  if(!res.data.length) return <NothingHere text='¡Ups... no tienes pedidos!' />
+  
   return (
     <ScrollView 
-      contentContainerStyle={styles.container}
+      contentContainerStyle={styles.container(!res.data.length)}
       showsVerticalScrollIndicator={false} 
+      refreshControl={
+        <RefreshControl 
+          refreshing={loading}
+          onRefresh={getData}
+        />
+      }
     >
       {
-        filterVentasActuales(ventas).length !== 0 &&
-        <>
-        <FontedText weight={700} style={styles.titleText}>Pedidos actuales</FontedText>
-        {filterVentasActuales(ventas).map(venta => (
-          <PedidoActualCard 
-            key={venta.id} 
-            venta={venta}
-          />
-        ))}
-        </>
-      }
-      <FontedText weight={700} style={styles.titleText}>Pedidos anteriores</FontedText>
-      {
-        filterVentasAnteriores(ventas).length === 0 ?
-        <FontedText style={styles.nothingText}>No tienes pedidos anteriormente</FontedText>
-        : !showOlds ?
-        <Button onPress={() => setShowOlds(true)}>Ver mis pedidos anteriores</Button> 
+        !res.data.length ?
+        <NothingHere text='¡Ups... no tienes pedidos!' />
         :
-        <FlatList 
-          scrollEnabled={false}
-          data={filterVentasAnteriores(ventas)}
-          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-          renderItem={({ item: venta }) => (
+        <>
+        {
+          filterVentasActuales(ventas).length !== 0 &&
+          <>
+          <FontedText weight={700} style={styles.titleText}>Pedidos actuales</FontedText>
+          {filterVentasActuales(ventas).map(venta => (
             <PedidoActualCard 
               key={venta.id} 
               venta={venta}
             />
-          )}
-          initialNumToRender={4}
-          nestedScrollEnabled={true}
-        />
+          ))}
+          </>
+        }
+        <FontedText weight={700} style={styles.titleText}>Pedidos anteriores</FontedText>
+        {
+          filterVentasAnteriores(ventas).length === 0 ?
+          <FontedText style={styles.nothingText}>No tienes pedidos anteriormente</FontedText>
+          : !showOlds ?
+          <Button onPress={() => setShowOlds(true)}>Ver mis pedidos anteriores</Button> 
+          :
+          <FlatList 
+            scrollEnabled={false}
+            data={filterVentasAnteriores(ventas)}
+            ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+            renderItem={({ item: venta }) => (
+              <PedidoActualCard 
+                key={venta.id} 
+                venta={venta}
+              />
+            )}
+            initialNumToRender={4}
+            nestedScrollEnabled={true}
+          />
+        }
+        </>
       }
     </ScrollView>
   )
@@ -94,12 +106,13 @@ const PedidosMapper = () => {
 
 export default PedidosMapper
 
-const styles = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create<any>({
+  container: (fullscreen: boolean) => ({
     gap: 16,
     paddingVertical: 20,
-    paddingHorizontal: 20
-  },
+    paddingHorizontal: 20,
+    flex: fullscreen ? 1 : undefined
+  }),
   titleText: {
     fontSize: 24,
     color: colors.gray900

@@ -17,11 +17,59 @@ const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
 app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            estadoBeneficiario: "aceptado",
+            AND: {
+                estadoDonador: "aceptado"
+            }
+        },
+        orderBy: {
+            id: "desc"
+        },
+        take: 4
+    });
+    const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     const categorias = yield queries_1.default.categoria.findMany();
     const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany());
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
+            donacion: randomDonacion,
+            categorias,
+            ofertas
+        }
+    };
+    res.json(response);
+}));
+app.get('/pedir/user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const donaciones = yield queries_1.default.donacion.findMany({
+        where: {
+            estadoBeneficiario: "aceptado",
+            AND: {
+                estadoDonador: "aceptado"
+            }
+        },
+        orderBy: {
+            id: "desc"
+        },
+        take: 4
+    });
+    const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
+    const categorias = yield queries_1.default.categoria.findMany();
+    const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
+        where: {
+            producto: {
+                usuario: {
+                    rol: "restaurante"
+                }
+            }
+        }
+    }));
+    const response = {
+        message: "Datos obtenidos correctamente",
+        data: {
+            donacion: randomDonacion,
             categorias,
             ofertas
         }
@@ -186,6 +234,39 @@ app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function*
     };
     res.json(response);
 }));
+app.get('/beneficiarios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const beneficiarios = yield queries_1.default.usuario.findMany({
+        where: {
+            rol: "beneficiario"
+        }
+    });
+    const response = {
+        message: "Beneficiarios obtenidos correctamente",
+        data: beneficiarios
+    };
+    res.json(response);
+}));
+app.get('/restaurantes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const restaurantes = yield queries_1.default.usuario.findMany({
+        where: {
+            rol: "restaurante"
+        }
+    });
+    restaurantes.sort((x, y) => {
+        if (x.nombre < y.nombre) {
+            return -1;
+        }
+        if (x.nombre > y.nombre) {
+            return 1;
+        }
+        return x.id < y.id && -1;
+    });
+    const response = {
+        message: "Restaurantes obtenidos correctamente",
+        data: restaurantes
+    };
+    res.json(response);
+}));
 app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
@@ -198,10 +279,10 @@ app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void
     };
     res.json(response);
 }));
-app.get('/donaciones/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getDonations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
-            donadorId: req.params.idRestaurante
+            donadorId: req.params.id
         }
     });
     const response = {
@@ -209,6 +290,12 @@ app.get('/donaciones/restaurante/:idRestaurante', (req, res) => __awaiter(void 0
         data: donaciones
     };
     res.json(response);
+});
+app.get('/donaciones/restaurante/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    getDonations(req, res);
+}));
+app.get('/donaciones/proveedor/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    getDonations(req, res);
 }));
 exports.default = app;
 //# sourceMappingURL=get.js.map

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import NothingHere from '../global/nothingHere'
 import { useGet } from '../../hooks/useGet'
@@ -8,28 +8,38 @@ import PendienteCard from './pendienteCard'
 
 const PendientesMapper = () => {
   const { user } = useUser();
-  const { res } = useGet<Venta[]>(`pendientes/${user?.id}`);
+  const { res, getData, loading } = useGet<Venta[]>(`pendientes/${user?.id}`);
   
-  if(!res) return null;
-
-  if(res.data.length === 0) return <NothingHere text='No tienes pedidos pendientes...' />  
+  if(!res) return <NothingHere type='loading' text='Cargando pendientes...' />;
   return (
     <ScrollView 
-      contentContainerStyle={styles.container}
+      contentContainerStyle={styles.container(!res.data.length)}
+      refreshControl={
+        <RefreshControl 
+          refreshing={loading}
+          onRefresh={getData}
+        />
+      }
     >
-      {res.data.map(venta => (
-        <PendienteCard key={venta.id} venta={venta} />
-      ))}
+      {
+        !res.data.length ?
+        <NothingHere text='No tienes pedidos pendientes...' />  
+        :
+        res.data.map(venta => (
+          <PendienteCard key={venta.id} venta={venta} />
+        ))
+      }
     </ScrollView>
   )
 }
 
 export default PendientesMapper
 
-const styles = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create<any>({
+  container: (fullscreen: boolean) => ({
     gap: 16,
     paddingVertical: 20,
-    paddingHorizontal: 20
-  },
+    paddingHorizontal: 20,
+    flex: fullscreen ? 1 : undefined
+  }),
 })

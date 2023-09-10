@@ -6,9 +6,7 @@ const xprisma = prisma.$extends({
     query: {
         $allModels: {
             findMany({ args, query }) {
-                args.orderBy = {
-                    id: "asc"
-                };
+                args.orderBy = Object.assign({ id: "asc" }, args.orderBy);
                 return query(args);
             }
         },

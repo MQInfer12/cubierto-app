@@ -1,7 +1,7 @@
 import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import { CarritoBeneficiario, ItemCarrito } from "../../interfaces/pages/post";
+import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito } from "../../interfaces/pages/post";
 import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
 
@@ -144,6 +144,29 @@ app.post('/donacion/pedir/:idBeneficiario', async (req, res) => {
   res.json(response);
 });
 
+app.post('/donacion/ofrecer/:idRestaurante', async (req, res) => {
+  const data: CarritoRestaurante = req.body;
+  const donacion = await xprisma.donacion.create({
+    data: {
+      donadorId: req.params.idRestaurante,
+      beneficiarioId: data.beneficiarioId,
+      estadoDonador: "aceptado"
+    }
+  });
+  await xprisma.detalleDonacion.createMany({
+    data: data.items.map(item => ({
+      donacionId: donacion.id,
+      cantidad: item.cantidad,
+      productoId: item.producto.id
+    }))
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Donacion ofrecida correctamente",
+    data: donacion
+  }
+  res.json(response);
+});
+
 app.patch('/donacion/beneficiario/:idDonacion', async (req, res) => {
   const donacion = await xprisma.donacion.update({
     where: {
@@ -171,6 +194,22 @@ app.patch('/donacion/restaurante/:idDonacion', async (req, res) => {
   });
   const response: ApiResponse<Donacion> = {
     message: "Se acepto la donacion por parte del restaurante",
+    data: donacion
+  }
+  res.json(response);
+})
+
+app.patch('/donacion/proveedor/:idDonacion', async (req, res) => {
+  const donacion = await xprisma.donacion.update({
+    where: {
+      id: Number(req.params.idDonacion)
+    },
+    data: {
+      estadoDonador: "aceptado"
+    }
+  });
+  const response: ApiResponse<Donacion> = {
+    message: "Se acepto la donacion por parte del proveedor",
     data: donacion
   }
   res.json(response);

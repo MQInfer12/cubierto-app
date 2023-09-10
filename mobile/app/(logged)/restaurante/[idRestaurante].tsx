@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, Image, Linking, ScrollView } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Image, Linking, ScrollView, RefreshControl } from 'react-native'
 import React, { useState } from 'react'
 import { useSetRouteName } from '../../../context/routeName';
 import { useLocalSearchParams } from 'expo-router';
@@ -17,7 +17,7 @@ import { sendRequest } from '../../../utilities/sendRequest';
 const VerRestaurante = () => {
   useSetRouteName('Ver restaurante');
   const { idRestaurante } = useLocalSearchParams();
-  const { res } = useGet<RestauranteResponse>(`restaurante/${idRestaurante}`);
+  const { res, loading, getData } = useGet<RestauranteResponse>(`restaurante/${idRestaurante}`);
   const { user, addFavorito, removeFavorito } = useUser();
   const [favoritoLoading, setFavoritoLoading] = useState(false);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<number | null>(null);
@@ -124,7 +124,16 @@ const VerRestaurante = () => {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <ScrollView contentContainerStyle={styles.productsContainer} showsVerticalScrollIndicator={false}>
+        <ScrollView 
+          contentContainerStyle={styles.productsContainer} 
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl 
+              refreshing={loading}
+              onRefresh={getData}
+            />
+          }
+        >
           <View style={styles.upBottomContainer}>
             <CategoriaMapper 
               categorias={res.data.categorias}

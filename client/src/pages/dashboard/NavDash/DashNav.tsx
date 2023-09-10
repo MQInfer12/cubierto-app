@@ -8,18 +8,20 @@ import Rolecomponent from "../../../components/rolecomponent";
 interface props {
   children: JSX.Element | JSX.Element[] | string
 }
-const Dashnav = ({children}:props) => {
+const Dashnav = ({ children }: props) => {
   const { logout } = useUser();
 
   return (
     <Dash>
       <NavDash>
         {children}
-        <section>
-          <Linkdash to="/dashboard/ventas">
-            <img src={pedidos} alt="icon-pedidos" />
-            Ventas
-          </Linkdash>
+        <article>
+          
+            <Linkdash to="/dashboard/ventas">
+              <img src={pedidos} alt="icon-pedidos" />
+              Ventas
+            </Linkdash>
+          
           <Linkdash to="/dashboard/perfil">
             <img src={perfil} alt="icon-perfil" />
             Perfil
@@ -29,12 +31,13 @@ const Dashnav = ({children}:props) => {
               <img src={perfil} alt="icon-perfil" />
               Usuario
             </Linkdash>
+
           </Rolecomponent>
           <Linkdash to="/" onClick={logout}>
             <img src={secion} alt="icon-secion" />
             Cerrar seción
           </Linkdash>
-        </section>
+        </article>
       </NavDash>
       <Outlet />
     </Dash>
