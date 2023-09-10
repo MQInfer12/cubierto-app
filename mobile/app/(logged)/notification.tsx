@@ -84,13 +84,10 @@ const Notification = () => {
         {
           oldNots.length !== 0 &&
           <>
-          {
-            newNots.length !== 0 &&
-            <View style={styles.anterioresContainer}>
-              <FontedText weight={700} style={styles.anterioresText}>Anteriores</FontedText>
-              <View style={styles.line} />
-            </View> 
-          }
+          <View style={styles.anterioresContainer}>
+            <FontedText weight={700} style={styles.anterioresText}>Anteriores</FontedText>
+            <View style={styles.line} />
+          </View> 
           {oldNots.map(notificacion => (
             <NotificationCard 
               key={notificacion.id} 

@@ -1,26 +1,18 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { useSetRouteName } from '../../context/routeName'
-import FontedText from '../../components/global/fontedText';
-import { useUser } from '../../context/user';
-import { colors } from '../../styles/colors';
-import Button from '../../components/global/button';
-import { sendRequest } from '../../utilities/sendRequest';
-import Usuario from '../../interfaces/usuario';
+import { useSetRouteName } from '../../../context/routeName'
+import FontedText from '../../../components/global/fontedText';
+import { useUser } from '../../../context/user';
+import { colors } from '../../../styles/colors';
+import Button from '../../../components/global/button';
+import { sendRequest } from '../../../utilities/sendRequest';
+import Usuario from '../../../interfaces/usuario';
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from 'expo-router';
-import { Ubicacion } from '../../interfaces/ubicacion';
+import { Ubicacion } from '../../../interfaces/ubicacion';
 import * as ImagePicker from 'expo-image-picker';
-import { sendCloudinary } from '../../utilities/uploadImage';
-
-interface Form {
-  foto: ImagePicker.ImagePickerAsset | undefined,
-  portada: ImagePicker.ImagePickerAsset | undefined,
-  nombre: string | undefined,
-  descripcion: string | undefined,
-  telefono: string
-  ubicacion: number | undefined
-}
+import { sendCloudinary } from '../../../utilities/uploadImage';
+import { Form, validate } from './validate';
 
 const UserInfo = () => {
   useSetRouteName("Información personal");
@@ -60,6 +52,8 @@ const UserInfo = () => {
   }
 
   const handleSave = async () => {
+    const message = validate(form);
+    if(message) return Alert.alert(message);
     let fotoUrl: string | undefined = undefined;
     let portadaUrl: string | undefined = undefined;
     if(form.foto) {

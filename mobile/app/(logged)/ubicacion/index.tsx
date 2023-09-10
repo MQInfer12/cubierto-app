@@ -1,24 +1,27 @@
 import { Alert, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
-import { useSetRouteName } from '../../context/routeName'
-import FontedText from '../../components/global/fontedText';
-import { useUser } from '../../context/user';
-import { colors } from '../../styles/colors';
-import Button from '../../components/global/button';
-import { sendRequest } from '../../utilities/sendRequest';
+import { useSetRouteName } from '../../../context/routeName'
+import FontedText from '../../../components/global/fontedText';
+import { useUser } from '../../../context/user';
+import { colors } from '../../../styles/colors';
+import Button from '../../../components/global/button';
+import { sendRequest } from '../../../utilities/sendRequest';
 import { router } from 'expo-router';
-import { Ubicacion } from '../../interfaces/ubicacion';
+import { Ubicacion } from '../../../interfaces/ubicacion';
+import { Form, validate } from './validate';
 
 const UserInfo = () => {
   useSetRouteName("Información personal");
   const { user, addUbicacion } = useUser();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Form>({
     nombre: "",
     latitud: "",
     longitud: ""
   });
 
   const handleSave = async () => {
+    const message = validate(form);
+    if(message) return Alert.alert(message);
     const res = await sendRequest<Ubicacion>(`ubicacion`, {
       nombre: form.nombre,
       latitud: Number(form.latitud),

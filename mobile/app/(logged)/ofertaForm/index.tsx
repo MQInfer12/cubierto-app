@@ -9,13 +9,7 @@ import { Dropdown } from 'react-native-element-dropdown'
 import { sendRequest } from '../../../utilities/sendRequest'
 import { Producto } from '../../../interfaces/producto'
 import { router } from 'expo-router'
-
-interface Form {
-  productoId: string | null
-  cantidad: string
-  precioDescontado: string
-  tiempo: string
-}
+import { Form, validate } from './validate'
 
 const OfertaForm = () => {
   useSetRouteName('Añadir oferta');
@@ -26,6 +20,7 @@ const OfertaForm = () => {
     precioDescontado: "",
     tiempo: ""
   });
+  const productoSeleccionado = user?.productos.find(producto => String(producto.id) === form.productoId);
   
   const handleSave = async () => {
     const res = await sendRequest<Producto>(`productoActivo`, {
@@ -43,6 +38,8 @@ const OfertaForm = () => {
   }
 
   const handleAlertSave = () => {
+    const message = validate(form, productoSeleccionado?.precio as number);
+    if(message) return Alert.alert(message);
     Alert.alert("¿Estás seguro?", "No podrás modificar ni eliminar la oferta", [{
       text: "Cancelar",
       onPress: () => {
@@ -82,7 +79,7 @@ const OfertaForm = () => {
       </View>
       <View style={styles.inputContainer}>
         <FontedText style={styles.inputTitle} weight={600}>
-          Precio descontado {form.productoId && `(Antes Bs. ${user?.productos.find(producto => String(producto.id) === form.productoId)?.precio})`}
+          Precio descontado {form.productoId && `(Antes Bs. ${productoSeleccionado?.precio})`}
         </FontedText>
         <TextInput  
           style={styles.textInput} 

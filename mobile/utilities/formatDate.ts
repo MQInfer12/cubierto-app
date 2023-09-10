@@ -5,7 +5,9 @@ export const formatFecha = (date: Date) => {
   const anio = fecha.getFullYear();
   const string = `${dia}/${mes}/${anio}`;
   const minuto = fecha.getMinutes();
+  const minutoConCeros = minuto < 10 ? `0${minuto}` : minuto;
   const hora = fecha.getHours();
-  const horas = `${hora}:${minuto}`;
+  const horaConCeros = hora < 10 ? `0${hora}` : hora;
+  const horas = `${horaConCeros}:${minutoConCeros}`;
   return string + " " + horas;
 }

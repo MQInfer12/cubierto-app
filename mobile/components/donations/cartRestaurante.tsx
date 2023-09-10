@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ProductoActivo } from '../../interfaces/productoActivo'
 import FontedText from '../global/fontedText'
@@ -35,6 +35,19 @@ const CartRestaurante = ({ cart, removeFromCart, setPage, beneficiarios = [] }: 
     }
   }
 
+  const handleAlert = () => {
+    if(!selected) return Alert.alert("Selecciona un beneficiario");
+    Alert.alert("¿Estás seguro?", "Ofrecerás estos productos a el beneficiario", [{
+      text: "Cancelar",
+      onPress: () => {
+        return;
+      }
+    }, {
+      text: "Continuar",
+      onPress: handlePedirDonacion
+    }])
+  }
+
   return (
     <View style={styles.container}>
       <Dropdown
@@ -58,7 +71,7 @@ const CartRestaurante = ({ cart, removeFromCart, setPage, beneficiarios = [] }: 
           </TouchableOpacity>
         </View>
       ))}
-      <Button onPress={handlePedirDonacion}>Donar</Button>
+      <Button onPress={handleAlert}>Donar</Button>
     </View>
   )
 }
