@@ -2,13 +2,13 @@ import { useUser } from '../context/user'
 import { router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useFonts } from 'expo-font'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Usuario from '../interfaces/usuario'
 import { registerForPushNotificationsAsync } from '../utilities/notifications'
 import { usePushToken } from '../context/pushToken'
 
-const Index = () => {
+const Redirect = () => {
   const { user, setUser } = useUser();
   const [userLoaded, setUserLoaded] = useState(false);
   const { setPushToken } = usePushToken();
@@ -45,7 +45,8 @@ const Index = () => {
   useEffect(() => {
     const hideSS = async () => {
       await SplashScreen.hideAsync();
-      router.replace(user ? '/home' : '/login')
+      const viewed = await AsyncStorage.getItem("viewedInitialPages");
+      router.replace(user ? '/home' : viewed ? '/login' : '/initial');
     }
     if(fontsLoaded && userLoaded) {
       hideSS();
@@ -55,4 +56,4 @@ const Index = () => {
   return null;
 }
 
-export default Index
+export default Redirect
