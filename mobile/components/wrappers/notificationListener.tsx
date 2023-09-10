@@ -17,6 +17,7 @@ const NotificationListener = ({ children }: Props) => {
 
   useEffect(() => {
     const changePushToken = async () => {
+      console.log("Changing token to " + pushToken);
       await sendRequest(`usuario/pushToken/${user?.id}`, {
         pushToken: pushToken
       }, {
@@ -41,11 +42,25 @@ const NotificationListener = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    notChannel.bind("all", () => {
+    if(user?.rol === "usuario") {
+      notChannel.bind("prov", () => {
+        changeNotificacionesPendientes(old => old + 1);
+      });
+    } else {
+      notChannel.bind("all", () => {
+        changeNotificacionesPendientes(old => old + 1);
+      });
+    }
+    notChannel.bind(user?.id as string, () => {
       changeNotificacionesPendientes(old => old + 1);
     });
     return () => {
-      notChannel.unbind("all");
+      if(user?.rol === "usuario") {
+        notChannel.unbind("prov");
+      } else {
+        notChannel.unbind("all");
+      }
+      notChannel.unbind(user?.id);
     }
   }, []);
 

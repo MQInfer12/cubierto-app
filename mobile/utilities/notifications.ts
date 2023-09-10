@@ -42,14 +42,14 @@ export async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+      alert('Fallo en la suscripción a las notificaciones');
       return;
     }
     token = await Notifications.getExpoPushTokenAsync({
       projectId: Constants.expoConfig?.extra?.eas.projectId,
     });
   } else {
-    alert('Must use physical device for Push Notifications');
+    alert('Debes usar un dispositivo físico para recibir notificaciones');
   }
 
   if (Platform.OS === 'android') {

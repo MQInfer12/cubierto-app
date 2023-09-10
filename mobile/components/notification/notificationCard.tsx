@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { Notificacion } from '../../interfaces/notificacion'
 import { colors } from '../../styles/colors'
@@ -33,7 +33,10 @@ const NotificationCard = ({ notificacion, setNots }: Props) => {
     <TouchableOpacity style={styles.ofertaCard} onPress={() => router.push(notificacion.route)}>
       <View style={styles.productData}>
         <View style={styles.productFoto}>
-          <Icon name={notificacion.ionicon} size={24} color={colors.primary500} />
+          <Image style={styles.img} source={{ uri: notificacion.usuarioDe.foto }} />
+          <View style={styles.iconContainer}>
+            <Icon name={notificacion.ionicon} size={16} color={colors.primary500} />
+          </View>
         </View>
         <View style={styles.productTexts}>
           <FontedText numberOfLines={1} weight={700} style={styles.name}>{notificacion.titulo}</FontedText>
@@ -70,25 +73,40 @@ const styles = StyleSheet.create({
   productFoto: {
     width: 48,
     height: 48,
-    borderRadius: 8,
     marginRight: 16,
-    borderColor: colors.primary500,
-    borderWidth: 1,
     alignItems: "center",
     justifyContent: "center"
   },
+  img: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+  },
+  iconContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: 24,
+    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.white,
+    ...shadows.shadow400,
+    borderRadius: 4,
+
+  },
   productTexts: {
     height: "100%",
-    justifyContent: "space-between"
   },
   name: {
     color: colors.gray900,
     fontSize: 16,
-    width: 192
+    width: 224,
+    marginBottom: 4
   },
   description: {
     color: colors.gray500,
-    width: 200
+    width: 224
   },
   buttons: {
     flexDirection: "row",

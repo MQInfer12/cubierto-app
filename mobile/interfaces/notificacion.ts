@@ -1,3 +1,5 @@
+import Usuario from "./usuario";
+
 export interface Notificacion {
   id: number;
   ionicon: string;
@@ -5,4 +7,5 @@ export interface Notificacion {
   descripcion: string;
   route: string;
   usuarioId: string;
+  usuarioDe: Usuario;
 }
