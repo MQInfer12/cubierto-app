@@ -14,5 +14,11 @@
       "src": "/(.*)",
       "dest": "dist/index.js"
     }
+  ],
+  "crons": [
+    {
+      "path": "/cola/cron",
+      "schedule": "*/1 * * * *"
+    }
   ]
 }

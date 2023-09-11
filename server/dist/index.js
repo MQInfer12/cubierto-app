@@ -23,6 +23,7 @@ const get_1 = __importDefault(require("./controllers/pages/get"));
 const post_1 = __importDefault(require("./controllers/pages/post"));
 const cola_1 = __importDefault(require("./controllers/pages/cola"));
 const colaBeneficiario_1 = __importDefault(require("./controllers/pages/colaBeneficiario"));
+const cron_1 = __importDefault(require("./controllers/pages/cron"));
 const app = (0, express_1.default)();
 const port = 3000;
 dotenv_1.default.config();
@@ -48,6 +49,7 @@ app.use(get_1.default);
 app.use(post_1.default);
 app.use(cola_1.default);
 app.use(colaBeneficiario_1.default);
+app.use(cron_1.default);
 app.listen(port, () => {
     return console.log(`server is listening on http://localhost:${port}`);
 });

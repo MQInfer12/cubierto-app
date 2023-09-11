@@ -1,24 +1,9 @@
-import { Usuario } from "@prisma/client";
 import { Router } from "express";
 import pusher from "../../utilities/pusher";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import cron from 'node-cron';
+import { Cola, cola } from "../../utilities/colaBeneficiario";
 
 const app = Router();
-
-interface Cola {
-  updatedAt: Date
-  personas: string[]
-}
-
-const cola: Cola = {
-  updatedAt: new Date(),
-  personas: []
-};
-
-cron.schedule('*/1 * * * *', async () => {
-  cola.personas.push("a");
-});
 
 app.put('/cola/beneficiario/entrar/:usuarioId', async (req, res) => {
   if(!cola.personas.includes(req.params.usuarioId)) {
@@ -46,9 +31,5 @@ app.put('/cola/beneficiario/salir/:usuarioId', async (req, res) => {
   }
   res.json(response);
 });
-
-app.get("/colabeneficiario", (req, res) => {
-  res.json(cola);
-})
 
 export default app;

@@ -19,6 +19,7 @@ import getPagesController from './controllers/pages/get';
 import postPagesController from './controllers/pages/post';
 import colaController from './controllers/pages/cola';
 import colaBController from './controllers/pages/colaBeneficiario';
+import cronController from './controllers/pages/cron';
 
 const app = express();
 const port = 3000;
@@ -49,6 +50,7 @@ app.use(getPagesController);
 app.use(postPagesController);
 app.use(colaController);
 app.use(colaBController);
+app.use(cronController);
 
 app.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);
