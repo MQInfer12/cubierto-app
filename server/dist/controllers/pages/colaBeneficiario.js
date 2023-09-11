@@ -41,5 +41,23 @@ app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, v
     };
     res.json(response);
 }));
+app.put('/cola/expulsarprimero', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ahora = new Date();
+    const diff = ahora.getTime() - colaBeneficiario_1.cola.updatedAt.getTime();
+    const seconds = diff / 1000;
+    const minutes = seconds / 60;
+    if (minutes > 5) {
+        colaBeneficiario_1.cola.personas.shift();
+        yield pusher_1.default.trigger("cola-channel", "beneficiario", colaBeneficiario_1.cola);
+        res.json({
+            "message": `Se retiró al primer lugar de la cola despúes de ${Math.floor(minutes)} minutos`
+        });
+    }
+    else {
+        res.json({
+            "message": `El primer lugar de la cola aún tiene ${Math.floor(minutes)} minutos`
+        });
+    }
+}));
 exports.default = app;
 //# sourceMappingURL=colaBeneficiario.js.map

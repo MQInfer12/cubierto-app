@@ -32,4 +32,22 @@ app.put('/cola/beneficiario/salir/:usuarioId', async (req, res) => {
   res.json(response);
 });
 
+app.put('/cola/expulsarprimero', async (req, res) => {
+  const ahora = new Date();
+  const diff = ahora.getTime() - cola.updatedAt.getTime();
+  const seconds = diff / 1000;
+  const minutes = seconds / 60;
+  if(minutes > 5) {
+    cola.personas.shift();
+    await pusher.trigger("cola-channel", "beneficiario", cola);
+    res.json({
+      "message": `Se retiró al primer lugar de la cola despúes de ${Math.floor(minutes)} minutos`
+    });
+  } else {
+    res.json({
+      "message": `El primer lugar de la cola aún tiene ${Math.floor(minutes)} minutos`
+    });
+  }
+});
+
 export default app;
