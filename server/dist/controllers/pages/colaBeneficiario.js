@@ -21,14 +21,15 @@ const cola = {
     personas: []
 };
 node_cron_1.default.schedule('*/1 * * * *', () => __awaiter(void 0, void 0, void 0, function* () {
-    const ahora = new Date();
+    /* const ahora = new Date();
     const diff = ahora.getTime() - cola.updatedAt.getTime();
     const seconds = diff / 1000;
     const minutes = seconds / 60;
-    if (minutes > 5) {
-        cola.personas.shift();
-        yield pusher_1.default.trigger("cola-channel", "beneficiario", cola);
-    }
+    if(minutes > 5) {
+      cola.personas.shift();
+      await pusher.trigger("cola-channel", "beneficiario", cola);
+    } */
+    console.log("Trigger");
 }));
 app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!cola.personas.includes(req.params.usuarioId)) {

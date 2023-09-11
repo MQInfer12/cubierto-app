@@ -17,14 +17,15 @@ const cola: Cola = {
 };
 
 cron.schedule('*/1 * * * *', async () => {
-  const ahora = new Date();
+  /* const ahora = new Date();
   const diff = ahora.getTime() - cola.updatedAt.getTime();
   const seconds = diff / 1000;
   const minutes = seconds / 60;
   if(minutes > 5) {
     cola.personas.shift();
     await pusher.trigger("cola-channel", "beneficiario", cola);
-  }
+  } */
+  console.log("Trigger");
 });
 
 app.put('/cola/beneficiario/entrar/:usuarioId', async (req, res) => {
