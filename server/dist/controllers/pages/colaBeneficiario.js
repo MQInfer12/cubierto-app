@@ -14,14 +14,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const pusher_1 = __importDefault(require("../../utilities/pusher"));
+const node_cron_1 = __importDefault(require("node-cron"));
 const app = (0, express_1.Router)();
 const cola = {
     updatedAt: new Date(),
     personas: []
 };
+node_cron_1.default.schedule('*/1 * * * *', () => __awaiter(void 0, void 0, void 0, function* () {
+    const ahora = new Date();
+    const diff = ahora.getTime() - cola.updatedAt.getTime();
+    const seconds = diff / 1000;
+    const minutes = seconds / 60;
+    if (minutes > 5) {
+        cola.personas.shift();
+        yield pusher_1.default.trigger("cola-channel", "beneficiario", cola);
+    }
+}));
 app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!cola.personas.includes(req.params.usuarioId)) {
         cola.personas.push(req.params.usuarioId);
+    }
+    if (cola.personas.length === 1) {
         cola.updatedAt = new Date();
     }
     const response = {
@@ -31,8 +44,10 @@ app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, 
     res.json(response);
 }));
 app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (cola.personas[0] === req.params.usuarioId) {
+        cola.updatedAt = new Date();
+    }
     cola.personas = cola.personas.filter(persona => persona !== req.params.usuarioId);
-    cola.updatedAt = new Date();
     yield pusher_1.default.trigger("cola-channel", "beneficiario", cola);
     const response = {
         message: `Un usuario salio de la cola`,
