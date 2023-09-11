@@ -14,31 +14,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const pusher_1 = __importDefault(require("../../utilities/pusher"));
+const colaBeneficiario_1 = require("../../utilities/colaBeneficiario");
 const app = (0, express_1.Router)();
-const cola = {
-    updatedAt: new Date(),
-    personas: []
-};
 app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!cola.personas.includes(req.params.usuarioId)) {
-        cola.personas.push(req.params.usuarioId);
-        cola.updatedAt = new Date();
+    if (!colaBeneficiario_1.cola.personas.includes(req.params.usuarioId)) {
+        colaBeneficiario_1.cola.personas.push(req.params.usuarioId);
+    }
+    if (colaBeneficiario_1.cola.personas.length === 1) {
+        colaBeneficiario_1.cola.updatedAt = new Date();
     }
     const response = {
         message: "Un usuario ingreso a la cola",
-        data: cola
+        data: colaBeneficiario_1.cola
     };
     res.json(response);
 }));
 app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    cola.personas = cola.personas.filter(persona => persona !== req.params.usuarioId);
-    cola.updatedAt = new Date();
-    yield pusher_1.default.trigger("cola-channel", "beneficiario", cola);
+    if (colaBeneficiario_1.cola.personas[0] === req.params.usuarioId) {
+        colaBeneficiario_1.cola.updatedAt = new Date();
+    }
+    colaBeneficiario_1.cola.personas = colaBeneficiario_1.cola.personas.filter(persona => persona !== req.params.usuarioId);
+    yield pusher_1.default.trigger("cola-channel", "beneficiario", colaBeneficiario_1.cola);
     const response = {
         message: `Un usuario salio de la cola`,
-        data: cola
+        data: colaBeneficiario_1.cola
     };
     res.json(response);
+}));
+app.put('/cola/expulsarprimero', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const ahora = new Date();
+    const diff = ahora.getTime() - colaBeneficiario_1.cola.updatedAt.getTime();
+    const seconds = diff / 1000;
+    const minutes = seconds / 60;
+    if (minutes > 5) {
+        colaBeneficiario_1.cola.personas.shift();
+        yield pusher_1.default.trigger("cola-channel", "beneficiario", colaBeneficiario_1.cola);
+        res.json({
+            "message": `Se retiró al primer lugar de la cola despúes de ${Math.floor(minutes)} minutos`
+        });
+    }
+    else {
+        res.json({
+            "message": `El primer lugar de la cola aún tiene ${Math.floor(minutes)} minutos`
+        });
+    }
 }));
 exports.default = app;
 //# sourceMappingURL=colaBeneficiario.js.map
