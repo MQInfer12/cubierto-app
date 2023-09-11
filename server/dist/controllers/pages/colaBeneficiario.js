@@ -21,15 +21,7 @@ const cola = {
     personas: []
 };
 node_cron_1.default.schedule('*/1 * * * *', () => __awaiter(void 0, void 0, void 0, function* () {
-    /* const ahora = new Date();
-    const diff = ahora.getTime() - cola.updatedAt.getTime();
-    const seconds = diff / 1000;
-    const minutes = seconds / 60;
-    if(minutes > 5) {
-      cola.personas.shift();
-      await pusher.trigger("cola-channel", "beneficiario", cola);
-    } */
-    console.log("Trigger");
+    cola.personas.push("a");
 }));
 app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!cola.personas.includes(req.params.usuarioId)) {
@@ -56,5 +48,8 @@ app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, v
     };
     res.json(response);
 }));
+app.get("/colabeneficiario", (req, res) => {
+    res.json(cola);
+});
 exports.default = app;
 //# sourceMappingURL=colaBeneficiario.js.map
