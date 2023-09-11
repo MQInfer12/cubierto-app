@@ -31,6 +31,9 @@ node_cron_1.default.schedule('*/1 * * * *', () => __awaiter(void 0, void 0, void
 }));
 app.get('/cola/cron', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield checkInactiveBeneficiario();
+    res.json({
+        "message": "Checkeado inactividad de la cola"
+    });
 }));
 exports.default = app;
 //# sourceMappingURL=cron.js.map

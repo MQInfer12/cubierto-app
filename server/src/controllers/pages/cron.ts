@@ -23,6 +23,9 @@ cron.schedule('*/1 * * * *', async () => {
 
 app.get('/cola/cron', async (req, res) => {
   await checkInactiveBeneficiario();
+  res.json({
+    "message": "Checkeado inactividad de la cola"
+  });
 })
 
 export default app;
