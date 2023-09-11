@@ -20,6 +20,7 @@ import Dashboard from "./pages/dashboard/dashboard";
 import RoleRoute from "./components/roleRoute";
 import Ventas from "./pages/dashboard/ventas";
 import Ubicaciones from "./components/ubicaciones";
+import Categorias from "./pages/categorias";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
               <Route path="/dashboard/ventas" element={<Ventas />} />
               <Route path="/dashboard/Perfil" element={<Perfil />} />
               <Route path="/dashboard/ubicaciones" element={<Ubicaciones />} />
+              <Route path="dashboard/categorias" element={<Categorias/>}/>
               <Route path="/dashboard/usuario" element={
                 <RoleRoute roles={['admin']}>
                   <Usuarios />

@@ -13,13 +13,15 @@ interface Form {
   ubicacion: number | undefined;
 }
 import { useUser } from "../../context/useUser";
-import { Container,Divfile } from "../../styles/perfil";
+import { Container, Divfile } from "../../styles/perfil";
+import Ubicaciones from "../../components/ubicaciones";
 const Perfil = () => {
   const navigate = useNavigate();
   const { user, setUser, removeUbicacion } = useUser();
   const [fotoPre, setFotoPre] = useState<any>(null);
   const [portadaPre, setPortadaPre] = useState<any>(null);
   const [progress, setProgress] = useState(0);
+  const [agregarUbicacion, setAgregarUbicacion] = useState(false);
   const [form, setForm] = useState<Form>({
     foto: undefined,
     portada: undefined,
@@ -107,83 +109,85 @@ const Perfil = () => {
       <section>
         <Divfile>
           <label>Foto de perfil</label>
-          <input type="file" name="foto" onChange={(e) => seleccionarFoto(e)}  id="file"/>
+          <input type="file" name="foto" onChange={(e) => seleccionarFoto(e)} id="file" />
           <img src={form.foto ? fotoPre : user?.foto} alt="" />
           <label htmlFor="">{progress}</label>
         </Divfile>
         <div>
-        <label htmlFor="">Foto de portada</label>
-        <input
-          type="file"
-          name="portada"
-          onChange={(e) => seleccionarPortada(e)}
-        />
-        <img src={form.portada ? portadaPre : user?.portada} alt="" />
-        <label htmlFor="">{progress}</label>
+          <label htmlFor="">Foto de portada</label>
+          <input
+            type="file"
+            name="portada"
+            onChange={(e) => seleccionarPortada(e)}
+          />
+          <img src={form.portada ? portadaPre : user?.portada} alt="" />
+          <label htmlFor="">{progress}</label>
 
         </div>
-       <div>
-       <label htmlFor="">Nombre</label>
-        <input
-          type="text"
-          value={form.nombre}
-          onChange={(e) =>
-            setForm((old) => ({ ...old, nombre: e.target.value }))
-          }
-        />
-       </div>
-       <div>
-       <label htmlFor="">Descripcion</label>
-        <textarea
-          name="descripcion"
-          id=""
-          value={form.descripcion}
-          onChange={(e) =>
-            setForm((old) => ({ ...old, descripcion: e.target.value }))
-          }
-        ></textarea>
-       </div>
         <div>
-        <label htmlFor="">Telefono</label>
-        <input
-          type="number"
-          value={form.telefono}
-          onChange={(e) =>
-            setForm((old) => ({ ...old, telefono: e.target.value }))
-          }
-        />
+          <label htmlFor="">Nombre</label>
+          <input
+            type="text"
+            value={form.nombre}
+            onChange={(e) =>
+              setForm((old) => ({ ...old, nombre: e.target.value }))
+            }
+          />
         </div>
-       <div>
-       <label htmlFor="">Ubicacion</label>
-        <select
-          name=""
-          id=""
-          value={form.ubicacion}
-          onChange={(e) =>
-            setForm((old) => ({ ...old, ubicacion: Number(e.target.value) }))
-          }
-        >
-          <option value="">Seleccionar ubicacion</option>
-          {user?.ubicaciones.map((ubicacio) => (
-            <>
-              <option value={ubicacio.id} key={ubicacio.id}>
-                {ubicacio.nombre}
-              </option>
-            </>
-          ))}
-        </select>
-       </div>
-  
-     <div>
-     <button onClick={() => navigate("/dashboard/ubicaciones")}>
-        Agregar UBICACION
-      </button>
-     </div>
-    <div>
-    <button onClick={handleBorrar}>Eliminar</button>
+        <div>
+          <label htmlFor="">Descripcion</label>
+          <textarea
+            name="descripcion"
+            id=""
+            value={form.descripcion}
+            onChange={(e) =>
+              setForm((old) => ({ ...old, descripcion: e.target.value }))
+            }
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="">Telefono</label>
+          <input
+            type="number"
+            value={form.telefono}
+            onChange={(e) =>
+              setForm((old) => ({ ...old, telefono: e.target.value }))
+            }
+          />
+        </div>
+        <div>
+          <label htmlFor="">Ubicacion</label>
+          <select
+            name=""
+            id=""
+            value={form.ubicacion}
+            onChange={(e) =>
+              setForm((old) => ({ ...old, ubicacion: Number(e.target.value) }))
+            }
+          >
+            <option value="">Seleccionar ubicacion</option>
+            {user?.ubicaciones.map((ubicacio) => (
+              <>
+                <option value={ubicacio.id} key={ubicacio.id}>
+                  {ubicacio.nombre}
+                </option>
+              </>
+            ))}
+          </select>
+        </div>
+        {
+          !agregarUbicacion ? <></> : <><Ubicaciones /></>
+        }
+        <div>
+          <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
+            Agregar UBICACION
+          </button>
+        </div>
+        <div>
+          <button onClick={handleBorrar}>Eliminar</button>
 
-    <button onClick={handleSave}>Guardar</button>
-    </div>
+          <button onClick={handleSave}>Guardar</button>
+        </div>
       </section>
     </Container>
   );

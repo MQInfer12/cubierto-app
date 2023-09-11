@@ -41,7 +41,7 @@ const Ubicaciones = () => {
 }
 
 export default Ubicaciones
-const Container=styled.div`
+const Container = styled.div`
   padding-left:calc(210px + 3rem) ;
   gap: 10px;
   display: flex;

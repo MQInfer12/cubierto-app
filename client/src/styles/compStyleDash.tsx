@@ -248,11 +248,11 @@ export const Section = styled.section`
             }
           }
           & > button {
-            background-color: ${colors.primary};
+            background: rgba(24, 201, 100, 0.2);
+            color: #18c964;
             border: none;
             padding: 0 1em;
             border-radius: 1em;
-            color: #fff;
             font-weight: 100;
             cursor: pointer;
           }
@@ -295,7 +295,7 @@ export const Section = styled.section`
 export const Tr = styled.tr`
   margin: 1em;
   & > button {
-            background-color: ${colors.primary};
+            background:#18c964;
             border: none;
             padding: 0 1em;
             border-radius: 1em;

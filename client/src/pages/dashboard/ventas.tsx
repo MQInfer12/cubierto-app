@@ -13,28 +13,48 @@ const Ventas = () => {
   const { res } = useGet<Venta[]>(`venta/completado/${user?.id}`);
   const hora = new Date().toLocaleTimeString();
   const crearExcel = (venta: Venta, total: any) => {
-    const libro = XLSX.utils.book_new();
-    const hoja = XLSX.utils.json_to_sheet([
-      ["Venta"],
-      ["Usuario", venta.usuario.nombre],
-      ["Total", total],
-      ["Detalle Venta",venta.detalles.map((detalle)=>( detalle.productoActivo))],
-      ["Fecha de venta", venta.fecha],
-    ]);
-    if (hoja?.["!cols"]) {
-      for (let i = 0; i < hoja["!cols"].length; i++) {
-        hoja["!cols"][i].wch = 15;
-      }
+   
+    
+    const informacionAdicional = {
+      A: `Creado por ${user?.nombre}, el ${hora}`,
     }
-    XLSX.utils.book_append_sheet(libro, hoja, "Venta");
-    XLSX.writeFile(libro, "Venta.xlsx");
+    let tabla = [
+      {
+        AC: "Usuario",
+        AD: "Total",
+        AE: "Fecha de venta",
+        A: "Nº",
+        B: "Producto",
+        C: "Precio unitario",
+        D: "Cantidad",
+       
+      },
+    ];
+    venta?.detalles.map((detalle, i) => {
+      const total = detalle.precioUnitario*detalle.cantidad;
+      tabla.push({
+      
+        AC:String(venta.usuario.nombre),
+        AD:String(total),
+        AE:String(formatFecha(venta.fecha)),
+        A: String(i + 1),
+        B: String(detalle.productoActivo.producto.nombre),
+        C: String(detalle.precioUnitario),
+        D: String(detalle.cantidad),
+  
+      });
+    });
+    const dataFinal = [...titulo, ...tabla, informacionAdicional];
+    setTimeout(() => {
+      creadoArchivo(dataFinal);
+      setLoading(false);
+    }, 1000);
   };
-
 
   const [loading, setLoading] = useState(false);
   const titulo = [{ A: "Reporte de Ventas realizada" }, {}];
   const informacionAdicional = {
-    A: "Creado por: Josh, 04 de septiembre 2023 ",
+    A: `Creado por ${user?.nombre}, el ${hora}`,
   }
   const longitud = [5, 35, 25, 20, 10, 10, 10];
   const handleDownload = () => {
@@ -80,6 +100,7 @@ const Ventas = () => {
     hoja["!cols"] = propiedades;
     XLSX.utils.book_append_sheet(libro, hoja, "Ventas");
     XLSX.writeFile(libro, "Venta.xlsx");
+    toast.success("Descargando excel correctamente");
   }
 
   return (
@@ -102,6 +123,7 @@ const Ventas = () => {
           {res?.data.map((venta) => {
             const total = venta.detalles.reduce((suma, detalle) => {
               suma += detalle.cantidad * detalle.precioUnitario;
+
               return suma;
             }, 0);
             return (
