@@ -8,6 +8,10 @@ import { filterOfertas } from "../../utilities/filterOfertas";
 
 const app = Router();
 
+setInterval(() => {
+  console.log("Triggering");
+}, 60000);
+
 app.post('/cola/entrar', async (req, res) => {
   const data: CreateColaInput = req.body;
   const existente = await xprisma.cola.findUnique({

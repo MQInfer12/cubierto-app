@@ -41,8 +41,7 @@ function notifyNuevaOferta(productoActivo) {
                         in: ["restaurante", "beneficiario", "admin", "proveedor"]
                     }
                 } : undefined
-            },
-            distinct: ['pushToken']
+            }
         });
         const allUsers = yield queries_1.default.usuario.findMany({
             where: {
@@ -64,13 +63,18 @@ function notifyNuevaOferta(productoActivo) {
             }))
         });
         yield queries_1.default.usuario.updateMany({
+            where: {
+                id: {
+                    in: allUsers.map(user => user.id)
+                }
+            },
             data: {
                 notificacionesPendientes: {
                     increment: 1
                 }
             }
         });
-        yield pusher_1.default.trigger('notification-channel', 'all', null);
+        yield pusher_1.default.trigger('notification-channel', productoActivo.producto.usuario.rol === "proveedor" ? 'prov' : 'all', null);
         yield sendPushNotification(usersToNotify.map(user => ({
             to: user.pushToken,
             sound: "default",
