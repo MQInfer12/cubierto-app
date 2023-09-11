@@ -1,32 +1,51 @@
-import { Aside, SliderStyle } from "../styles/slyderStyle";
+import { Aside, Section, SliderStyle, SlyderImg } from "../styles/slyderStyle";
 import { imagedata } from "../data/slylderdata";
 import styled from "styled-components";
 import { ComunStyles, colors } from "../styles/styleGlobal";
+import { useState, useEffect } from 'react';
 
 const Slyder = () => {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive(old => (old + 1) % imagedata.length);
+    }, 4000);
+    return () => {
+      clearInterval(interval);
+    }
+  }, []);
+
   return (
     <>
-      <Aside>
-        <h3>Meet our organization</h3>
-        <p>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-          sint. Velit officia consequat duis enim velit mollit. Exercitation
-          veniam consequat sunt nostrud amet.
-        </p>
-      </Aside>
-      <SliderStyle>
-        {imagedata.map((imagen) => (
-          <div key={imagen.id}>
-            <img src={imagen.image} />
+      <Section>
+        <Aside>
+          <h3>Nuestra gastronomía</h3>
+          <div key={active}>
+            <h2>Pique macho</h2>
+            <p>
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+              sint. Velit officia consequat duis enim velit mollit. Exercitation
+              veniam consequat sunt nostrud amet.
+            </p>
           </div>
-        ))}
-      </SliderStyle>
+        </Aside>
+        <SliderStyle>
+          {imagedata.map((imagen, i) => (
+            <SlyderImg 
+              src={imagen.image} 
+              key={imagen.id} 
+              active={active === i}
+            />
+          ))}
+        </SliderStyle>
+      </Section>
       <Card>
         <Cardownload>
           <div>
             <div>
-              <h2>Download the APP</h2>
-              <p>Amet minim mollit non deserunt ullamco est.</p>
+              <h2>Nuestra aplicación</h2>
+              <p>Descarga nuestra aplicación desde tu tienda favorita</p>
             </div>
             <section>
               <button>App Store</button>
@@ -49,19 +68,19 @@ export const Cardownload = styled.section`
   width: 932px;
   height: 160px;
   border-radius: 16px;
-  padding: 50px 20px;
   gap: 10px;
   background: #d04e4b;
+  display: flex;
+  align-items: center;
+  padding: 20px;
 
   & > div {
     width: 892px;
-    height: 60px;
     gap: 73px;
     display: flex;
     flex-direction: row;
     & > div {
       width: 361px;
-      height: 60px;
       & > h2 {
         font-weight: 700;
         font-size: 24px;
@@ -79,6 +98,7 @@ export const Cardownload = styled.section`
       gap: 26px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       & > button {
         width: 216px;
         height: 40px;

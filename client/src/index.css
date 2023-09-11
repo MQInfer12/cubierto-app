@@ -1,6 +1,6 @@
 
 
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@1,400&display=swap');
 
 * {
   margin: 0;
@@ -24,4 +24,41 @@
 
 ::-webkit-scrollbar-track {
   background-color: #f1f1f177; /* Color de fondo de la barra */
+}
+
+@keyframes AparecerDeLaIzquierda {
+  from {
+    opacity: 0;
+    transform: translateX(-320px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes AparecerDeLaDerecha {
+  from {
+    opacity: 0;
+    transform: translateX(320px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes Aparecer {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }

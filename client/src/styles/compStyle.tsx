@@ -8,15 +8,18 @@ export const Contenedor = styled.header`
 export const ConNab = styled.nav`
   background-color: ${colors.primary};
   padding-top: 2rem;
+  position: fixed;
+  width: 100%;
+  z-index: 5;
 `;
 export const ContentNavbar = styled.header`
   background-color: ${colors.primary};
   width: 90%;
   ${ComunStyles}
   justify-content:space-between;
-  margin: 0rem auto 3rem auto;
-
+  margin: 0rem auto 2rem auto;
   font-size: 20px;
+  
   & > nav {
     width: 90%;
     ${ComunStyles}
@@ -24,11 +27,39 @@ export const ContentNavbar = styled.header`
     font-weight: 400;
     font-size: 16px;
   }
+
+  & > .logo-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    & > img {
+      height: 32px;
+    }
+  }
 `;
 export const Links = styled(Link)`
   color: ${colors.light};
   text-decoration: none;
   font-weight: lighter;
+  position: relative;
+
+  &::after {
+    content: "";
+    height: 1px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: ${colors.light};
+    width: 0;
+    transform-origin: right;
+    transition: width 0.3s;
+  }
+
+  &:hover::after {
+    transform-origin: left;
+    width: 100%;
+  }
 `;
 export const BtnRegister = styled(Link)`
   color: ${colors.light};
@@ -43,6 +74,7 @@ export const BtnRegister = styled(Link)`
   );
   padding: 0.5em 1.5rem;
   border-radius: 3rem;
+  white-space: nowrap;
   &:hover {
     background: linear-gradient(
       to right,
@@ -54,14 +86,16 @@ export const BtnRegister = styled(Link)`
 `;
 export const Content = styled.article`
   ${ComunStyles};
-  ${Stylecomun}
-  gap: 18rem;
+  ${Stylecomun};
+  justify-content: space-around;
+  height: calc(100vh - 105px);
   & > section {
     ${ComunStyles};
     flex-direction: column;
     gap: 1.5rem;
     width: ${sizes.small};
     color: #fff;
+    animation: AparecerDeLaIzquierda 1s;
     & > h1 {
       font-size: 6rem;
 
@@ -75,8 +109,10 @@ export const Content = styled.article`
   }
   & > img {
     width: ${sizes.small};
-    height: 690px;
+    height: 80%;
     object-fit: cover;
+    border-radius: 24px;
+    animation: AparecerDeLaDerecha 1s;
   }
 `;
 
@@ -84,6 +120,7 @@ export const CarsStyle = styled.section`
   ${ComunStyles}
   width: 90%;
   margin: 3.5rem auto;
+
   & > div {
     display: flex;
     align-items: flex-start;
@@ -92,6 +129,31 @@ export const CarsStyle = styled.section`
     padding: 2em;
     gap: 1.5rem;
     color: ${colors.light};
+
+    &.hidden {
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateX(-100%);
+      transition: none;
+    }
+
+    &.show {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateX(0);
+      transition: all 1s;
+    }
+
+    &:nth-child(1) {
+      transition-delay: 200ms;
+    }
+    &:nth-child(2) {
+      transition-delay: 400ms;
+    }
+    &:nth-child(3) {
+      transition-delay: 600ms;
+    }
+
     & > p {
       font-size: 1rem;
       font-weight: 400;
@@ -108,6 +170,10 @@ export const CarsStyle = styled.section`
       width: 3.5rem;
       height: 3.5rem;
       border-radius: 50%;
+      object-fit: cover;
     }
   }
+`;
+export const BodyContainer = styled.main`
+  padding-top: 105px;
 `;

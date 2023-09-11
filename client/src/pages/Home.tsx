@@ -9,10 +9,9 @@ const Home = () => {
     <Contenedor>
       <Content>
         <section>
-          <h1>MY HEADING</h1>
+          <h1>CUBIERTO</h1>
           <p>
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint.{" "}
+            ¡Disfruta de nuestra gastronomía cochabambina y ayudemos a no desperdiciar alimentos!
           </p>
         </section>
         <img src={Portada} alt="Comida-portada.png" />
