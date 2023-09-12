@@ -31,6 +31,7 @@ export const useHandleCola = (actualizarProducto?: (productos: ProductoActivo[])
     if(response) {
       cargarCola(response.data);
       channel.bind(restauranteId, (res: ApiResponse<SalirColaResponse>) => {
+        console.log(res);
         const estoy = res.data.cola.find(item => item.usuarioId === user?.id);
         if(!estoy) {
           Alert.alert("Ya no te encuentras en la cola");

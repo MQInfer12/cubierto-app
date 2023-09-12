@@ -18,7 +18,7 @@ import { useProtectCola } from '../../hooks/useProtectCola'
 import { useUser } from '../../context/user'
 
 const Home = () => {
-  useSetRouteName('Home');
+  useSetRouteName('Inicio');
   const { user } = useUser();
   const { res, loading, getData, firstRender } = useGet<PedirResponse>(user?.rol === "usuario" ? 'pedir/user' : 'pedir');
   const { cola } = useCola();

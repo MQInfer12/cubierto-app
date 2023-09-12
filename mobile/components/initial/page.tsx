@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
-import Animated, { useSharedValue, withTiming } from 'react-native-reanimated'
+import React from 'react'
 import FontedText from '../global/fontedText';
 import { colors } from '../../styles/colors';
+import FromOpacityView from '../global/fromOpacityView';
 
 interface Props {
   data: {
@@ -13,23 +13,12 @@ interface Props {
 }
 
 const Page = ({ data }: Props) => {
-  const opacity = useSharedValue(0);
-
-  useEffect(() => {
-    opacity.value = withTiming(1, { duration: 1000 });
-  }, []);
-
   return (
-    <Animated.View 
-      style={[
-        styles.pageContainer,
-        { opacity }
-      ]}
-    >
+    <FromOpacityView duration={1000} style={styles.pageContainer}>
       {data.image}
       <FontedText style={styles.title} weight={700}>{data.title}</FontedText>
       <FontedText style={styles.description}>{data.description}</FontedText>
-    </Animated.View>
+    </FromOpacityView>
   )
 }
 

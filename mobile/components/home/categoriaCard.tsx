@@ -5,6 +5,7 @@ import { colors } from '../../styles/colors'
 import { shadows } from '../../styles/shadows'
 import FontedText from '../global/fontedText'
 import { Categoria } from '../../interfaces/categoria'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 interface Props {
   categoria: Categoria
@@ -18,7 +19,7 @@ const CategoriaCard = ({ categoria, seleccionarCategoria, active }: Props) => {
       style={styles.categorieContainer}
     >
       <TouchableOpacity style={styles.categorieButton(active)} onPress={() => seleccionarCategoria(categoria.id)}>
-        <Icon color={active ? colors.white : colors.primary500} size={24} name={categoria.ionicon} />
+        <FontAwesome5 size={18} color={active ? colors.white : colors.primary500} name={categoria.ionicon}  />
       </TouchableOpacity>
       <FontedText style={styles.categorieText}>{categoria.nombre}</FontedText>
     </View>

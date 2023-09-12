@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
-import Animated, { interpolateColor, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
+import React from 'react'
+import Animated, { interpolateColor, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
 import { colors } from '../../styles/colors'
 
 interface Props {
