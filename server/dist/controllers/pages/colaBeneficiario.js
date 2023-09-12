@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const pusher_1 = __importDefault(require("../../utilities/pusher"));
 const colaBeneficiario_1 = require("../../utilities/colaBeneficiario");
+const queries_1 = __importDefault(require("../../middlewares/queries"));
 const app = (0, express_1.Router)();
 app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!colaBeneficiario_1.cola.personas.includes(req.params.usuarioId)) {
@@ -41,23 +42,44 @@ app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, v
     };
     res.json(response);
 }));
-app.put('/cola/expulsarprimero', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.put('/cola/beneficiario/expulsarprimero', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!colaBeneficiario_1.cola.personas.length) {
+        return res.json({
+            "message": "La cola está vacía"
+        });
+    }
     const ahora = new Date();
     const diff = ahora.getTime() - colaBeneficiario_1.cola.updatedAt.getTime();
     const seconds = diff / 1000;
     const minutes = seconds / 60;
     if (minutes > 5) {
         colaBeneficiario_1.cola.personas.shift();
+        colaBeneficiario_1.cola.updatedAt = new Date();
         yield pusher_1.default.trigger("cola-channel", "beneficiario", colaBeneficiario_1.cola);
         res.json({
-            "message": `Se retiró al primer lugar de la cola despúes de ${Math.floor(minutes)} minutos`
+            "message": `Se retiró al primer lugar de la cola después de ${Math.floor(minutes)} minutos`
         });
     }
     else {
         res.json({
-            "message": `El primer lugar de la cola aún tiene ${Math.floor(minutes)} minutos`
+            "message": `El primer lugar de la cola aún tiene ${5 - Math.floor(minutes)} minutos`
         });
     }
+}));
+app.get('/cola/beneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield queries_1.default.usuario.findMany({
+        where: {
+            id: {
+                in: colaBeneficiario_1.cola.personas
+            }
+        }
+    });
+    const colaDePersonas = colaBeneficiario_1.cola.personas.map(persona => users.find(user => user.id === persona));
+    const response = {
+        message: "Se encontró la cola",
+        data: colaDePersonas
+    };
+    res.json(response);
 }));
 exports.default = app;
 //# sourceMappingURL=colaBeneficiario.js.map

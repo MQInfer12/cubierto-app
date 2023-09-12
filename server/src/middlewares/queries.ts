@@ -18,7 +18,7 @@ const xprisma = prisma.$extends({
         const newArgs = args as any;
         if(operation !== "updateMany") {
           newArgs.include = {
-            ...newArgs.include, 
+            ...newArgs.include,
             productos: {
               where: {
                 eliminado: false
@@ -31,7 +31,7 @@ const xprisma = prisma.$extends({
               include: {
                 restaurante: true
               }
-            }
+            },
           }
         }
         return query(newArgs);
