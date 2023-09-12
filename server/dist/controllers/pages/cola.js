@@ -103,9 +103,7 @@ app.put('/cola/restaurante/vaciar/:idRestaurante', (req, res) => __awaiter(void 
             cola: []
         }
     };
-    yield pusher_1.default.trigger("cola-channel", req.params.idRestaurante, {
-        cola: response
-    });
+    yield pusher_1.default.trigger("cola-channel", req.params.idRestaurante, response);
     res.json(response);
 }));
 exports.default = app;
