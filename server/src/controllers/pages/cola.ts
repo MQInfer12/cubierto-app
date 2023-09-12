@@ -75,4 +75,34 @@ app.delete('/cola/salir/:id', async (req, res) => {
   res.json(response);
 });
 
+app.get('/cola/restaurante/:idRestaurante', async (req, res) => {
+  const cola = await xprisma.cola.findMany({
+    where: {
+      restauranteId: req.params.idRestaurante
+    },
+    include: {
+      usuario: true
+    }
+  });
+  const response: ApiResponse<Cola[]> = {
+    message: "Cola de restaurante obtenida correctamente",
+    data: cola
+  }
+  res.json(response);
+});
+
+app.put('/cola/restaurante/vaciar/:idRestaurante', async (req, res) => {
+  await xprisma.cola.deleteMany({
+    where: {
+      restauranteId: req.params.idRestaurante
+    }
+  });
+  const response: ApiResponse<Cola[]> = {
+    message: "Cola de restaurante vaciada",
+    data: []
+  }
+  await pusher.trigger("cola-channel", req.params.idRestaurante, response);
+  res.json(response);
+});
+
 export default app; 

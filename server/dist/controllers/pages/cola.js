@@ -76,5 +76,33 @@ app.delete('/cola/salir/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
     yield pusher_1.default.trigger("cola-channel", restauranteId, response);
     res.json(response);
 }));
+app.get('/cola/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cola = yield queries_1.default.cola.findMany({
+        where: {
+            restauranteId: req.params.idRestaurante
+        },
+        include: {
+            usuario: true
+        }
+    });
+    const response = {
+        message: "Cola de restaurante obtenida correctamente",
+        data: cola
+    };
+    res.json(response);
+}));
+app.put('/cola/restaurante/vaciar/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield queries_1.default.cola.deleteMany({
+        where: {
+            restauranteId: req.params.idRestaurante
+        }
+    });
+    const response = {
+        message: "Cola de restaurante vaciada",
+        data: []
+    };
+    yield pusher_1.default.trigger("cola-channel", req.params.idRestaurante, response);
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=cola.js.map

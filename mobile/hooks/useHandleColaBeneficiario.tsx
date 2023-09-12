@@ -24,6 +24,7 @@ export const useHandleColaBeneficiario = () => {
           setCola(null);
           channel.unbind("beneficiario");
           setVolverAIngresar(true);
+          return;
         }
         setCola(res);
       });
