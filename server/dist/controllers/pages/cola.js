@@ -101,7 +101,9 @@ app.put('/cola/restaurante/vaciar/:idRestaurante', (req, res) => __awaiter(void 
         message: "Cola de restaurante vaciada",
         data: []
     };
-    yield pusher_1.default.trigger("cola-channel", req.params.idRestaurante, response);
+    yield pusher_1.default.trigger("cola-channel", req.params.idRestaurante, {
+        cola: response
+    });
     res.json(response);
 }));
 exports.default = app;

@@ -101,7 +101,9 @@ app.put('/cola/restaurante/vaciar/:idRestaurante', async (req, res) => {
     message: "Cola de restaurante vaciada",
     data: []
   }
-  await pusher.trigger("cola-channel", req.params.idRestaurante, response);
+  await pusher.trigger("cola-channel", req.params.idRestaurante, {
+    cola: response
+  });
   res.json(response);
 });
 
