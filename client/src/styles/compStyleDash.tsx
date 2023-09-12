@@ -290,6 +290,27 @@ export const Section = styled.section`
       }
     }
   }
+  & aside{
+    width:70%;
+    flex-direction:row;
+    display:flex;
+    flex-wrap:wrap;
+    gap:1em;
+    & label{
+width:20%;
+
+    }
+    & input{
+      width:70%;
+    border: solid 1px #0005;
+        padding: 0.5em;
+        border-radius: 1em;
+    }
+    & button{
+padding:.5em 2em;
+${buttonStyle}
+    }
+  }
 `;
 
 export const Tr = styled.tr`

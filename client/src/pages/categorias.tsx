@@ -44,7 +44,8 @@ const Categorias = () => {
             <article>
                 <p>Categorias</p>
             </article>
-            {!nuevoCategoria ? <></> : <><label htmlFor="">Nombre</label>
+          <aside>
+          {!nuevoCategoria ? <></> : <><label htmlFor="">Nombre</label>
                 <input type="text" onChange={(e) => setForm(old => ({ ...old, nombre: e.target.value }))} value={form.nombre} />
                 <label htmlFor="">Icono</label>
                 <input type="text" onChange={(e) => setForm(old => ({ ...old, ionicon: e.target.value }))} value={form.ionicon} />
@@ -55,6 +56,7 @@ const Categorias = () => {
             }}>
                 {!nuevoCategoria ? <> <i className="fa-regular fa-square-plus"></i></> : <><i className="fa-solid fa-circle-up"></i></>}
             </button>
+          </aside>
 
             <table>
                 <thead>
