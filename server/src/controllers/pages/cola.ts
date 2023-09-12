@@ -37,7 +37,7 @@ app.post('/cola/entrar', async (req, res) => {
 
 interface SalirColaResponse {
   cola: Cola[]
-  productoActivos: ProductoActivo[]
+  productoActivos?: ProductoActivo[]
 }
 
 app.delete('/cola/salir/:id', async (req, res) => {
@@ -97,9 +97,11 @@ app.put('/cola/restaurante/vaciar/:idRestaurante', async (req, res) => {
       restauranteId: req.params.idRestaurante
     }
   });
-  const response: ApiResponse<Cola[]> = {
+  const response: ApiResponse<SalirColaResponse> = {
     message: "Cola de restaurante vaciada",
-    data: []
+    data: {
+      cola: []
+    }
   }
   await pusher.trigger("cola-channel", req.params.idRestaurante, {
     cola: response
