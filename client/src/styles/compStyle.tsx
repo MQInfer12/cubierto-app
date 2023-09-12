@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 export const Contenedor = styled.header`
   background-color: ${colors.primary};
+  position:relative;
 `;
 export const ConNab = styled.nav`
   background-color: ${colors.primary};
   padding-top: 2rem;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   z-index: 5;
 `;
 export const ContentNavbar = styled.header`

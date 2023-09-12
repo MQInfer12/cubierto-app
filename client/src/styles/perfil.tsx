@@ -2,8 +2,7 @@ import { styled } from "styled-components";
 import { ComunStyles, colors } from "./styleGlobal";
 
 export const Container = styled.section`
-  width: 80%;
-  margin: 2em auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   & > div {
@@ -62,7 +61,8 @@ export const Container = styled.section`
         letter-spacing: 0.1em;
       }
       & > button {
-        padding: 0.4em 1em;
+        height:3em;
+        width:12rem;
         border: none;
         background: ${colors.primary};
         border-radius: 2em;
@@ -71,27 +71,73 @@ export const Container = styled.section`
         font-weight: 100;
         cursor: pointer;
       }
-      & select{
-        border-radius:1em;
-        padding:.4em 1em;
-        border:solid 1px #0005;
+      & select {
+        border-radius: 1em;
+        padding: 0.4em 1em;
+        border: solid 1px #0005;
       }
     }
   }
 `;
 
-export const Divfile=styled.div`
-  &>input{
+export const Divfile = styled.div`
+  & > input {
     display: none;
   }
-  &>label{
+  & > label {
     height: 100px;
     width: 150px;
     border-radius: 6px;
     border: 1px dashed #999;
-    &:hover{
+    &:hover {
       color: #de0611;
       border: 1px dashed #de0611;
     }
   }
-`
+`;
+export const Portada = styled.article`
+  width: calc(100vw - 220px);
+  background-color: ${colors.primary || "#0005"};
+  height: 40vh;
+  position: relative;
+  & > img {
+    position: absolute;
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
+  }
+  & > div {
+    position: absolute;
+    content: "";
+    bottom: 2em;
+    & > input {
+      width: 35px;
+      height: 35px;
+      position: absolute;
+      bottom: 0.2em;
+      display:none;
+    }
+    & > img {
+      position: absolute;
+      bottom: 1em;
+      left: 2em;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      &:nth-child(2) {
+        position: absolute;
+        bottom: 1em;
+        left: 4em;
+        width: 20px;
+        height: 20px;
+        border-radius:0;
+        filter:invert(1);
+        background-color:#fff5;
+        cursor: pointer;
+      }
+      &>input{
+
+      };
+    }
+  }
+`;

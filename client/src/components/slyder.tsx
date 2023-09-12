@@ -60,20 +60,19 @@ const Slyder = () => {
 
 export default Slyder;
 const Card=styled.div`
-  width: 100vw;
+  width: 95vw;
   height: 50vh;
   ${ComunStyles}
 `
 export const Cardownload = styled.section`
-  width: 932px;
+  width:80%;
   height: 160px;
   border-radius: 16px;
   gap: 10px;
   background: #d04e4b;
   display: flex;
   align-items: center;
-  padding: 20px;
-
+padding:3em;
   & > div {
     width: 892px;
     gap: 73px;

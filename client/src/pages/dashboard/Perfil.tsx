@@ -4,6 +4,8 @@ import { sendRequest } from "../../utilities/sendRequest";
 import Usuario from "../../interfaces/usuario";
 import { useNavigate } from "react-router-dom";
 import { Ubicacion } from "../../interfaces/ubicacion";
+import React, { useRef } from 'react';
+import edit from "../../assets/dash/editar.png"
 interface Form {
   foto: File | undefined;
   portada: File | undefined;
@@ -13,7 +15,7 @@ interface Form {
   ubicacion: number | undefined;
 }
 import { useUser } from "../../context/useUser";
-import { Container, Divfile } from "../../styles/perfil";
+import { Container, Divfile, Portada } from "../../styles/perfil";
 import Ubicaciones from "../../components/ubicaciones";
 const Perfil = () => {
   const navigate = useNavigate();
@@ -100,20 +102,43 @@ const Perfil = () => {
       alert("Se eliminó la ubicación con éxito");
     }
   };
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const seleccionarFotoperfil = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    if (selectedFile) {
+    
+    }
+  };
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
   return (
     <Container>
-      <div>
+      <Portada>
         <img src={form.portada ? portadaPre : user?.portada} alt="" />
-        <p>Foto de Portada</p>
-      </div>
-      <section>
-        <Divfile>
-          <label>Foto de perfil</label>
-          <input type="file" name="foto" onChange={(e) => seleccionarFoto(e)} id="file" />
-          <img src={form.foto ? fotoPre : user?.foto} alt="" />
-          <label htmlFor="">{progress}</label>
-        </Divfile>
+
+
         <div>
+        <img src={form.foto ? fotoPre : user?.foto} alt="" />
+        <img src={edit} alt="editar" onClick={handleImageClick} />
+
+          <input
+            type="file"
+            name="foto"
+            // onChange={(e) => seleccionarFoto(e)}
+            onChange={seleccionarFotoperfil}
+            id="file"
+            ref={fileInputRef}
+          />
+          {/* <label htmlFor="">{progress}</label> */}
+       </div> 
+
+      </Portada>
+      <section>
+        {/* <div>
           <label htmlFor="">Foto de portada</label>
           <input
             type="file"
@@ -122,8 +147,7 @@ const Perfil = () => {
           />
           <img src={form.portada ? portadaPre : user?.portada} alt="" />
           <label htmlFor="">{progress}</label>
-
-        </div>
+        </div> */}
         <div>
           <label htmlFor="">Nombre</label>
           <input
@@ -175,17 +199,23 @@ const Perfil = () => {
             ))}
           </select>
         </div>
-        {
-          !agregarUbicacion ? <></> : <><Ubicaciones /></>
-        }
-        <div>
-          <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
-            Agregar UBICACION
+       
+      <div>
+      <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
+            {!agregarUbicacion ? "Agregar UBICACION": "Volver"}
           </button>
-        </div>
+      {!agregarUbicacion ? (
+          <></>
+        ) : (
+          <>
+            <Ubicaciones />
+           
+          </>
+        )}
+    
+      </div>
         <div>
           <button onClick={handleBorrar}>Eliminar</button>
-
           <button onClick={handleSave}>Guardar</button>
         </div>
       </section>
