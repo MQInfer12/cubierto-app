@@ -31,15 +31,14 @@ export const useHandleCola = (actualizarProducto?: (productos: ProductoActivo[])
     if(response) {
       cargarCola(response.data);
       channel.bind(restauranteId, (res: ApiResponse<SalirColaResponse>) => {
-        console.log(res);
         const estoy = res.data.cola.find(item => item.usuarioId === user?.id);
-        if(!estoy) {
+        if(!estoy && res.message === "Cola de restaurante vaciada") {
           Alert.alert("Ya no te encuentras en la cola");
           channel.unbind(restauranteId);
           vaciarCola();
           emptyCart();
           return;
-        } 
+        }
         cargarCola(res.data.cola);
         if(actualizarProducto) {
           //FIXME: Ahora mismo estamos trayendo todos los productos activos del restaurante con sus respectivas ventas (esto se hace para calcular el total

@@ -30,7 +30,7 @@ app.put('/cola/beneficiario/entrar/:usuarioId', (req, res) => __awaiter(void 0, 
     };
     res.json(response);
 }));
-app.put('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.delete('/cola/beneficiario/salir/:usuarioId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (colaBeneficiario_1.cola.personas[0] === req.params.usuarioId) {
         colaBeneficiario_1.cola.updatedAt = new Date();
     }

@@ -21,7 +21,7 @@ app.put('/cola/beneficiario/entrar/:usuarioId', async (req, res) => {
   res.json(response);
 });
 
-app.put('/cola/beneficiario/salir/:usuarioId', async (req, res) => {
+app.delete('/cola/beneficiario/salir/:usuarioId', async (req, res) => {
   if(cola.personas[0] === req.params.usuarioId) {
     cola.updatedAt = new Date();
   }

@@ -87,7 +87,7 @@ app.get('/cola/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void
     });
     const response = {
         message: "Cola de restaurante obtenida correctamente",
-        data: cola
+        data: cola.map(c => (Object.assign(Object.assign({}, c.usuario), { colaId: c.id })))
     };
     res.json(response);
 }));
