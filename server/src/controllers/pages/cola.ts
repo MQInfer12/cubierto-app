@@ -2,7 +2,7 @@ import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { CreateColaInput } from "../../interfaces/models/cola";
 import { ApiResponse } from "../../interfaces/apiResponse";
-import { Cola, ProductoActivo } from "@prisma/client";
+import { Cola, ProductoActivo, Usuario } from "@prisma/client";
 import pusher from "../../utilities/pusher";
 import { filterOfertas } from "../../utilities/filterOfertas";
 
@@ -84,9 +84,9 @@ app.get('/cola/restaurante/:idRestaurante', async (req, res) => {
       usuario: true
     }
   });
-  const response: ApiResponse<Cola[]> = {
+  const response: ApiResponse<Usuario[]> = {
     message: "Cola de restaurante obtenida correctamente",
-    data: cola
+    data: cola.map(c => c.usuario)
   }
   res.json(response);
 });
