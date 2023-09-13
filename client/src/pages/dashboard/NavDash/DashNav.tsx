@@ -22,6 +22,10 @@ const Dashnav = ({ children }: props) => {
               <img src={pedidos} alt="icon-pedidos" />
               Ventas
             </Linkdash>
+            <Linkdash to="dashboard/cola">
+              <img src={pedidos} alt="icon-pedidos" />
+              Cola
+            </Linkdash>
           
           <Linkdash to="/dashboard/perfil">
             <img src={perfil} alt="icon-perfil" />

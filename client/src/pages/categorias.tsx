@@ -45,10 +45,12 @@ const Categorias = () => {
                 <p>Categorias</p>
             </article>
           <aside>
+            <p></p>
           {!nuevoCategoria ? <></> : <><label htmlFor="">Nombre</label>
                 <input type="text" onChange={(e) => setForm(old => ({ ...old, nombre: e.target.value }))} value={form.nombre} />
                 <label htmlFor="">Icono</label>
                 <input type="text" onChange={(e) => setForm(old => ({ ...old, ionicon: e.target.value }))} value={form.ionicon} />
+                <p><a href="https://fontawesome.com/v5/search?o=r&m=free" target="_blank"> Ver iconos</a></p>
                 <button onClick={handleSave}>Guardar</button>
             </>}
             <button onClick={() => {
@@ -71,7 +73,7 @@ const Categorias = () => {
                         res?.data.map((categoria) => (
                             <tr>
                                 <td>{categoria.nombre}</td>
-                                <td><i className={categoria.ionicon}></i></td>
+                                <td><i className={"fa-solid fa-" +categoria.ionicon}></i></td>
                                 <td><button onClick={()=>handleBorrar(categoria.id)}><img src={Eliminar} alt="" /></button>
                                 </td>
                             </tr>

@@ -20,7 +20,8 @@ type Usuario = {
   ubicaciones: Ubicacion[];
   ubicacionActual: Ubicacion;
   favoritos: Favorito[];
-  eliminado:boolean;
-}
+  eliminado: boolean;
+  colaId: number;
+};
 
 export default Usuario;
