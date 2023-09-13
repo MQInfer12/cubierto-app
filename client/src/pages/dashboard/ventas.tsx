@@ -12,7 +12,7 @@ const Ventas = () => {
   const { user } = useUser();
   const { res } = useGet<Venta[]>(`venta/completado/${user?.id}`);
   const hora = new Date().toLocaleTimeString();
-  const crearExcel = (venta: Venta, total: any) => {
+  const crearExcel = (venta: Venta) => {
    
     
     const informacionAdicional = {
@@ -140,7 +140,7 @@ const Ventas = () => {
                 <td> Total:{total}</td>
                 <td>{formatFecha(venta.fecha)}</td>
                 <td>
-                  <button onClick={() => crearExcel(venta, total)}>Excel</button>
+                  <button onClick={() => crearExcel(venta)}>Excel</button>
                 </td>
               </Tr>
             );

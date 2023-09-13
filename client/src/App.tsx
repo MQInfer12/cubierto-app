@@ -1,22 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import Navbar from "./components/navbar";
-import Home from "./pages/home";
-import QuienesSomos from "./pages/quienesSomos";
-import Organizacion from "./pages/organizacion";
-import Estadisticas from "./pages/estadisticas";
-import Ofertas from "./pages/ofertas";
-import Register from "./pages/login/register";
+import Home from "./pages/Home";
+import QuienesSomos from "./pages/QuienesSomos";
+import Organizacion from "./pages/Organizacion";
+import Estadisticas from "./pages/Estadisticas";
+import Ofertas from "./pages/Ofertas";
+import Register from "./pages/Login/Register";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import ProtectRoute from "./components/protectRoute";
-import Usuarios from "./pages/dashboard/usuarios";
-import Dashnav from "./pages/dashboard/navDash/dashNav";
-import DatosNavDash from "./pages/dashboard/navDash/datosNavDash";
-import Promociones from "./pages/dashboard/promociones";
-import Favoritos from "./pages/dashboard/favoritos";
-import Pedidos from "./pages/dashboard/pedidos";
-import Perfil from "./pages/dashboard/perfil";
-import Dashboard from "./pages/dashboard/dashboard";
-
+import ProtectRoute from "./components/ProtectRoute";
+import Usuarios from "./pages/dashboard/Usuarios";
+import Dashnav from "./pages/dashboard/NavDash/DashNav";
+import DatosNavDash from "./pages/dashboard/NavDash/DatosNavDash";
+import Promociones from "./pages/dashboard/Promociones";
+import Favoritos from "./pages/dashboard/Favoritos";
+import Perfil from "./pages/dashboard/Perfil";
+import Dashboard from "./pages/dashboard/Dashboard";
 import RoleRoute from "./components/roleRoute";
 import Ventas from "./pages/dashboard/ventas";
 import Ubicaciones from "./components/ubicaciones";
@@ -27,7 +25,7 @@ function App() {
   return (
     <>
       <GoogleOAuthProvider clientId={import.meta.env.VITE_OUTHID}>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Navbar />}>
               <Route path="/" element={<Home />} />
@@ -66,7 +64,7 @@ function App() {
 
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </GoogleOAuthProvider>
     </>
   );
