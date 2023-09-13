@@ -84,9 +84,11 @@ app.get('/cola/restaurante/:idRestaurante', async (req, res) => {
       usuario: true
     }
   });
-  const response: ApiResponse<Usuario[]> = {
+  const response: ApiResponse<(Usuario & {
+    colaId: number
+  })[]> = {
     message: "Cola de restaurante obtenida correctamente",
-    data: cola.map(c => c.usuario)
+    data: cola.map(c => ({...c.usuario, colaId: c.id }))
   }
   res.json(response);
 });
