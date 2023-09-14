@@ -1,5 +1,3 @@
-import React from 'react'
-import { useUser } from '../context/useUser';
 import { useLoggedUser } from '../hook/useLoggedUser';
 interface Props {
     children: string | JSX.Element | JSX.Element[]

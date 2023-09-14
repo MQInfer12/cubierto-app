@@ -1,11 +1,11 @@
 import {  Routes, Route, HashRouter } from "react-router-dom";
 import Navbar from "./components/navbar";
-import Home from "./pages/home";
-import QuienesSomos from "./pages/quienesSomos";
-import Organizacion from "./pages/organizacion";
-import Estadisticas from "./pages/estadisticas";
-import Ofertas from "./pages/ofertas";
-import Register from "./pages/login/register";
+import Home from "./pages/Home";
+import QuienesSomos from "./pages/QuienesSomos";
+import Organizacion from "./pages/Organizacion";
+import Estadisticas from "./pages/Estadisticas";
+import Ofertas from "./pages/Ofertas";
+import Register from "./pages/Login/Register";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ProtectRoute from "./components/protectRoute";
 import Usuarios from "./pages/dashboard/usuarios";
@@ -13,7 +13,6 @@ import Dashnav from "./pages/dashboard/navDash/dashNav";
 import DatosNavDash from "./pages/dashboard/navDash/datosNavDash";
 import Promociones from "./pages/dashboard/promociones";
 import Favoritos from "./pages/dashboard/favoritos";
-
 import Perfil from "./pages/dashboard/perfil";
 import RoleRoute from "./components/roleRoute";
 import Ventas from "./pages/dashboard/ventas";
