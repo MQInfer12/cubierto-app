@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 export const Dash = styled.section`
   display: flex;
   flex-direction: row;
-  width: 98vw;
+  width: 100vw;
+  position: fixed;
+ 
 `;
-
 export const NavDash = styled.nav`
   background-color: ${colors.light};
   width: 210px;
@@ -22,7 +23,8 @@ export const NavDash = styled.nav`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    text-align: center;
+    color: ${colors.gray900};
     & > p > img {
       width: 100px;
       object-fit: cover;
@@ -38,17 +40,18 @@ export const NavDash = styled.nav`
   }
   & p {
     color: ${colors.dark};
-    font-weight: 900;
+    font-weight: 700;
   }
   & h3 {
-    font-weight: 100;
+    font-weight: 400;
     font-size: 10px;
     width: 150px;
     word-wrap: break-word;
+    color: ${colors.gray500};
   }
   & h2 {
     font-size: 16px;
-    font-weight: 900;
+    font-weight: 700;
   }
   & > section {
     width: 100%;
@@ -69,9 +72,10 @@ export const Linkdash = styled(Link)`
   display: flex;
   gap: 1em;
   font-size: 0.9em;
-  color: #000;
+  color: ${colors.gray600};
+align-items: center;
   &:hover {
-    color: ${colors.primary};
+    color: ${colors.primary500};
     & img {
       filter: saturate(100);
     }
@@ -113,81 +117,6 @@ export const Dashbo = styled.section`
     }
   }
 `;
-
-export const BusquedaStyle = styled.section`
-  display: flex;
-  gap: 1em;
-  height: 5vh;
-  width: 20%;
-  border-radius: 3em;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
-  padding: 8px 24px;
-  & input {
-    border: none;
-    width: 100%;
-    outline: none;
-  }
-  & > img {
-    width: 24px;
-  }
-`;
-
-export const CasrStyle = styled.div`
-  width: 90%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2em;
-  margin: 0 auto;
-  & > div {
-    box-shadow: 0 3px 10px 5px #0005;
-    transition: all 0.5s ease-in-out;
-    border-radius: 8px 8px 0px 0px;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-    & > img {
-      width: 300px;
-      height: 168px;
-      border-radius: 8px 8px 0px 0px;
-    }
-    & > article {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-      padding: 1em;
-      & > p {
-        color: #8b8686;
-
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-      }
-      & > em {
-        color: #e75854;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-      }
-      & > strong {
-        display: flex;
-        align-items: center;
-        color: #8b8686;
-        font-family: Poppins;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-
-        & img {
-        }
-      }
-    }
-  }
-`;
-
 export const Section = styled.section`
   margin: 0 auto;
   padding: 2em;
@@ -195,6 +124,10 @@ export const Section = styled.section`
   display: flex;
   gap: 3em;
   flex-direction: column;
+  min-height: 100vh;
+  &>h4{
+    color: ${colors.gray500};
+  }
   & article {
     ${ComunStyles}
     flex-direction:row;
@@ -202,31 +135,48 @@ export const Section = styled.section`
     & p {
       font-size: 2em;
       font-weight: bold;
+      color: ${colors.gray900};
     }
     & > button {
       ${buttonStyle}
     }
   }
-  & > table {
+  & >div> table {
     border-collapse: collapse;
     width: 100%;
     font-size: 14px;
+    background: ${colors.light};
+    border-radius: 10px;
+   table-layout: fixed;
     & > thead {
       & > tr {
         background-color: #e4e4e453;
-
         & > th {
           font-size: 12px;
-          font-weight: 100;
+          font-weight: 400;
           padding: 0.7em 1em;
           text-align: start;
           text-transform: uppercase;
           color: #0008;
         }
+        &>.pequeno{
+          width: 250px;
+        }
+        &>.mini{
+          width: 180px;
+          
+        }
+        &>.center{
+          text-align: center;
+        }
       }
     }
     & tbody {
       & > tr {
+        transition: all 0.3s;
+        &:hover{
+          background-color: ${colors.bg};
+        }
         & > button {
           color: #18c964;
           background: rgba(24, 201, 100, 0.2);
@@ -236,7 +186,8 @@ export const Section = styled.section`
           border-radius: 2em;
         }
         & > td {
-          padding: 0 0.5em;
+          padding: 1em 1em;
+          color: ${colors.gray900};
           & > article {
             ${ComunStyles}
             justify-content:flex-start;
@@ -253,13 +204,22 @@ export const Section = styled.section`
             border: none;
             padding: 0 1em;
             border-radius: 1em;
-            font-weight: 100;
+            font-weight: 400;
             cursor: pointer;
           }
+          &>.buttonEliminar{
+            background: transparent;
+            filter: invert(70%) sepia(78%) saturate(6583%) hue-rotate(335deg) brightness(112%) contrast(81%);
+          }
+          &>i{
+            font-size: 20px;
+            color:${colors.gray500} ;
+          }
           & > select {
-            width: 15em;
+            background: transparent;
             outline: none;
             border: none;
+            color: ${colors.gray900};
           }
           & > div {
             width: 10em;
@@ -298,19 +258,27 @@ export const Section = styled.section`
     gap:1em;
     & label{
 width:20%;
-
     }
     & input{
       width:70%;
     border: solid 1px #0005;
         padding: 0.5em;
         border-radius: 1em;
+        outline: none;
     }
-    & button{
+    & button,a{
 padding:.5em 2em;
+text-decoration: none;
+font-size: 14px;
+cursor: pointer;
+transition:all 0.3s;
+&:hover{
+  opacity: 0.8;
+}
 ${buttonStyle}
     }
   }
+
 `;
 
 export const Tr = styled.tr`
@@ -321,7 +289,7 @@ export const Tr = styled.tr`
             padding: 0 1em;
             border-radius: 1em;
             color: #fff;
-            font-weight: 100;
+            font-weight: 400;
             cursor: pointer;
           }
 `;

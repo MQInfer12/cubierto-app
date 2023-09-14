@@ -1,64 +1,86 @@
+ @font-face {
+   font-family: 'Biko';
+   src: url('./assets/fonts/Biko_Regular.otf');
+   font-weight: 400;
+ }
 
+ @font-face {
+   font-family: 'Biko';
+   src: url('./assets/fonts/Biko_Bold.otf');
+   font-weight: 600;
+ }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@1,400&display=swap');
+ @font-face {
+   font-family: 'Biko';
+   src: url('./assets/fonts/Biko_Black.otf');
+   font-weight: 700;
+ }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Biko', sans-serif ;
+ }
 
-::-webkit-scrollbar {
-  width: 10px; /* Ancho de la barra de desplazamiento */
-}
+ ::-webkit-scrollbar {
+   width: 4px;
+   height: 4px;
+   /* Ancho de la barra de desplazamiento */
+ }
 
-::-webkit-scrollbar-thumb {
-  background-color: #e7595493; /* Color del "pulgarcito" de la barra */
-}
+ ::-webkit-scrollbar-thumb {
+   background-color: rgb(255, 54, 26);
+   /* Color del "pulgarcito" de la barra */
+ }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #362d2ddc; /* Color del "pulgarcito" al pasar el mouse */
-  width: 12px; /* Ancho de la barra de desplazamiento */
-}
+ ::-webkit-scrollbar-thumb:hover {
+   /* Color del "pulgarcito" al pasar el mouse */
+   width: 12px;
+   /* Ancho de la barra de desplazamiento */
+ }
 
-::-webkit-scrollbar-track {
-  background-color: #f1f1f177; /* Color de fondo de la barra */
-}
+ ::-webkit-scrollbar-track {
+   background-color: #f1f1f177;
+   /* Color de fondo de la barra */
+ }
 
-@keyframes AparecerDeLaIzquierda {
-  from {
-    opacity: 0;
-    transform: translateX(-320px);
-    filter: blur(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-    filter: blur(0);
-  }
-}
+ @keyframes AparecerDeLaIzquierda {
+   from {
+     opacity: 0;
+     transform: translateX(-320px);
+     filter: blur(5px);
+   }
 
-@keyframes AparecerDeLaDerecha {
-  from {
-    opacity: 0;
-    transform: translateX(320px);
-    filter: blur(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-    filter: blur(0);
-  }
-}
+   to {
+     opacity: 1;
+     transform: translateX(0);
+     filter: blur(0);
+   }
+ }
 
-@keyframes Aparecer {
-  from {
-    opacity: 0;
-    filter: blur(5px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-  }
-}
+ @keyframes AparecerDeLaDerecha {
+   from {
+     opacity: 0;
+     transform: translateX(320px);
+     filter: blur(5px);
+   }
+
+   to {
+     opacity: 1;
+     transform: translateX(0);
+     filter: blur(0);
+   }
+ }
+
+ @keyframes Aparecer {
+   from {
+     opacity: 0;
+     filter: blur(5px);
+   }
+
+   to {
+     opacity: 1;
+     filter: blur(0);
+   }
+ }

@@ -21,16 +21,24 @@ const Register = () => {
     if (response.ok) {
       const user = await response.json();
       setUser(user.data);
-      navigate('/dashboard');
+      if(user.data.rol=="usuario" || user.data.rol=="beneficiario"){
+       navigate('/');
+       
+      }
+      else{
+        navigate('/dashboard');
+      }
     }
   }
   return (
     <>
+   
       <GoogleLogin
         onSuccess={res => getGoogleUser(res)}
         shape="circle"
         size='medium'
       />
+   
     </>
   )
 }

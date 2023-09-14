@@ -2,11 +2,13 @@ import { useUser } from "../context/useUser";
 import { sendRequest } from "../utilities/sendRequest";
 import { Ubicacion } from "../interfaces/ubicacion";
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "../styles/styleGlobal";
-const Ubicaciones = () => {
-    const navigate = useNavigate();
+import toast from "react-hot-toast";
+interface Props {
+    cerrar: () => void
+}
+const Ubicaciones = ({ cerrar }: Props) => {
     const { user, addUbicacion } = useUser();
     const [form, setForm] = useState({
         nombre: "",
@@ -23,8 +25,9 @@ const Ubicaciones = () => {
         });
         if (res) {
             addUbicacion(res.data);
-            alert("Se guardó la ubicación con éxito");
-            navigate("/dashboard/perfil");
+            toast.success("Se guardó la ubicación con éxito");
+            setForm({ latitud: "", longitud: "", nombre: "" })
+            cerrar();
         }
     }
     //(e) => setForm(old => ({ ...old, telefono: e.target.value }))}
@@ -56,21 +59,29 @@ border:dashed 1px #0005;
 width:20%;
 letter-spacing: 0.1em;
 font-size: 0.8em;
+     color: ${colors.gray700};
 }
 & input{
     width:70%;
     border: solid 1px #0005;
         padding: 0.5em;
         border-radius: 1em;
+        outline: none;
+             color: ${colors.gray700};
 }
 & > button{
   padding:.5em 2em;
         border: none;
-        background: ${colors.primary};
+        background: ${colors.primary500};
         border-radius: 2em;
         color: ${colors.light};
         font-size: 0.8em;
-        font-weight: 100;
+        font-weight: 400;
         cursor: pointer;
+        transition: 0.3s;
+        &:hover{
+            opacity: 0.8;
+            
+        }
 }
 `;

@@ -3,6 +3,7 @@ import { ComunStyles, colors } from "./styleGlobal";
 
 export const Container = styled.section`
   width: 100%;
+   min-height: 100vh;
   display: flex;
   flex-direction: column;
   & > div {
@@ -10,7 +11,6 @@ export const Container = styled.section`
     justify-content:flex-start;
     gap: 1em;
     padding: 2em;
-    border-bottom: solid 1px #0005;
     & > img {
       width: 60px;
       height: auto;
@@ -22,6 +22,7 @@ export const Container = styled.section`
     padding: 2em;
     display: flex;
     flex-wrap: wrap;
+    
     gap: 1em;
     & img {
       width: 60px;
@@ -41,6 +42,8 @@ export const Container = styled.section`
         padding: 0.5em;
         width: 100%;
         border-radius: 1em;
+        outline: none;
+        color: ${colors.gray700};
       }
       & input[type="file"] {
         border: none;
@@ -59,22 +62,31 @@ export const Container = styled.section`
         width: 100%;
         font-size: 0.8em;
         letter-spacing: 0.1em;
+        color: ${colors.gray700};
       }
       & > button {
         height:3em;
         width:12rem;
         border: none;
-        background: ${colors.primary};
+        background: ${colors.primary500};
         border-radius: 2em;
         color: ${colors.light};
         font-size: 0.8em;
-        font-weight: 100;
+        font-weight: 400;
         cursor: pointer;
+        transition: 0.3s;
+        &:hover{
+            opacity: 0.8;
+            
+        }
       }
       & select {
         border-radius: 1em;
         padding: 0.4em 1em;
         border: solid 1px #0005;
+        width: 100%;
+        outline: none;
+             color: ${colors.gray700};
       }
     }
   }
@@ -96,34 +108,48 @@ export const Divfile = styled.div`
   }
 `;
 export const Portada = styled.article`
-  width: calc(100vw - 220px);
+  width: calc(100vw - 200px);
   background-color: ${colors.primary || "#0005"};
-  height: 40vh;
+  height: 32vh;
   position: relative;
+  &>.bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: ${colors.primary500};
+    z-index: 1;
+    opacity: 0.6;
+  }
   & > img {
     position: absolute;
     width: 100%;
-    height: 40vh;
+    height: 32vh;
     object-fit: cover;
+  
   }
   & > div {
     position: absolute;
     content: "";
     bottom: 2em;
+    z-index: 2;
+   
     & > input {
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       position: absolute;
       bottom: 0.2em;
       display:none;
+      
     }
     & > img {
       position: absolute;
       bottom: 1em;
       left: 2em;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      border-radius: 20px;
+      object-fit: cover;
+      
       &:nth-child(2) {
         position: absolute;
         bottom: 1em;

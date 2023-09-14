@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { useGet } from "../../hook/useGet";
 import { Venta } from "../../interfaces/venta";
 import { Section, Tr } from "../../styles/compStyleDash";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { formatFecha } from "../../utilities/formatDate";
 import { useUser } from "../../context/useUser";
 import { useState } from "react";
 import * as XLSX from 'xlsx'; // Importar la biblioteca XLSX
+import { Divtabla } from "../../styles/compStyle";
 
 const Ventas = () => {
   const { user } = useUser();
@@ -105,18 +106,18 @@ const Ventas = () => {
 
   return (
     <Section>
-      <Toaster position="top-center" reverseOrder={false} />
       <article>
         <p>Ventas</p>
         <button onClick={handleDownload}>Excel</button>
       </article>
+      <Divtabla>
       <table>
         <thead>
           <tr>
             <th>Usuario</th>
-            <th>Ganancia</th>
-            <th>Fecha de venta</th>
-            <th>Reporte individual</th>
+            <th className="mini">Ganancia</th>
+            <th className="mini">Fecha de venta</th>
+            <th className="mini">Reporte individual</th>
           </tr>
         </thead>
         <tbody>
@@ -147,6 +148,7 @@ const Ventas = () => {
           })}
         </tbody>
       </table>
+      </Divtabla>
     </Section>
   );
 };

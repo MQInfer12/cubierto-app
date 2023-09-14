@@ -87,7 +87,7 @@ padding:3em;
         color: #e4eaf1;
       }
       & > p {
-        font-weight: 500;
+        font-weight: 400;
         font-size: 16px;
         line-height: 24px;
         color: #e4eaf1;
@@ -105,7 +105,7 @@ padding:3em;
         color: ${colors.light};
         text-decoration: none;
         font-size: 16px;
-        font-weight: 300;
+        font-weight: 400;
         background: linear-gradient(
           to right,
           ${colors.gr1},

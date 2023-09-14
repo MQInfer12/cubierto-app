@@ -13,9 +13,21 @@ export const ConNab = styled.nav`
   width: 100vw;
   z-index: 5;
 `;
+export const Divtabla=styled.div`
+  height: max-content;
+  max-height: 580px;
+  border-radius: 10px;
+  overflow-y: auto;
+  scrollbar-gutter: stable ;
+  box-shadow: 0px 5px 5px #0005;
+  &.mini{
+    max-height: 380px;
+  }
+`;
 export const ContentNavbar = styled.header`
   background-color: ${colors.primary};
   width: 90%;
+
   ${ComunStyles}
   justify-content:space-between;
   margin: 0rem auto 2rem auto;
@@ -39,6 +51,7 @@ export const ContentNavbar = styled.header`
     }
   }
 `;
+
 export const Links = styled(Link)`
   color: ${colors.light};
   text-decoration: none;
@@ -62,11 +75,11 @@ export const Links = styled(Link)`
     width: 100%;
   }
 `;
-export const BtnRegister = styled(Link)`
+export const BtnRegister = styled.button`
   color: ${colors.light};
   text-decoration: none;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   background: linear-gradient(
     to right,
     ${colors.gr1},
@@ -163,7 +176,7 @@ export const CarsStyle = styled.section`
     }
     & > h2 {
       font-size: 1.5rem;
-      font-weight: 200;
+      font-weight: 400;
       line-height: 2.25rem;
     }
     & > img {

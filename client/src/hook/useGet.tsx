@@ -16,21 +16,19 @@ interface ReturnData<T> {
 
 export const useGet = <T,>(route: string): ReturnData<T> => {
   const [res, setRes] = useState<Data<T>>(null);
-
   const getData = async () => {
+
     const res = await fetch(`${BACKEND_URL}${route}`);
     if(res.ok) {
       const resJson = await res.json();
       setRes(resJson);
     }
   };
-
   useEffect(() => {
     getData();
   }, []);
-
   return {
     res,
-    getData
+    getData,
   }
 }

@@ -1,4 +1,5 @@
 
+
 import Usuario from "../interfaces/usuario"
 import { sendRequest } from "../utilities/sendRequest"
 import { useState } from 'react'
@@ -46,7 +47,9 @@ const UsuarioFila = ({ user }: Props) => {
                     <section>
                         <img src={user.foto} alt="foto usuario " />{" "}
                         <div>
-                            <p>{user.nombre}</p>
+                            <p>
+                                
+                                {user.nombre}</p>
                             <p>{user.email}</p>
                         </div>
                     </section>

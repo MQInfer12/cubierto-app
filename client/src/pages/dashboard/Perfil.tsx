@@ -17,6 +17,7 @@ interface Form {
 import { useUser } from "../../context/useUser";
 import { Container, Divfile, Portada } from "../../styles/perfil";
 import Ubicaciones from "../../components/ubicaciones";
+import toast from "react-hot-toast";
 const Perfil = () => {
   const navigate = useNavigate();
   const { user, setUser, removeUbicacion } = useUser();
@@ -85,7 +86,7 @@ const Perfil = () => {
         ubicacion: res.data?.ubicacionActualId,
       });
       setUser(res.data);
-      alert("Se actualizaron tus datos con éxito");
+      toast.success("Se actualizaron tus datos con éxito");
     }
   };
   const handleBorrar = async () => {
@@ -99,7 +100,7 @@ const Perfil = () => {
     if (res) {
       setForm((old) => ({ ...old, ubicacion: undefined }));
       removeUbicacion(res.data);
-      alert("Se eliminó la ubicación con éxito");
+      toast.success("Se eliminó la ubicación con éxito");
     }
   };
 
@@ -107,7 +108,7 @@ const Perfil = () => {
   const seleccionarFotoperfil = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
-    
+
     }
   };
   const handleImageClick = () => {
@@ -118,13 +119,12 @@ const Perfil = () => {
   return (
     <Container>
       <Portada>
+        <section className="bg">
+        </section>
         <img src={form.portada ? portadaPre : user?.portada} alt="" />
-
-
         <div>
-        <img src={form.foto ? fotoPre : user?.foto} alt="" />
-        <img src={edit} alt="editar" onClick={handleImageClick} />
-
+          <img src={form.foto ? fotoPre : user?.foto} alt="" />
+          <img src={edit} alt="editar" onClick={handleImageClick} />
           <input
             type="file"
             name="foto"
@@ -134,20 +134,10 @@ const Perfil = () => {
             ref={fileInputRef}
           />
           {/* <label htmlFor="">{progress}</label> */}
-       </div> 
+        </div>
 
       </Portada>
       <section>
-        {/* <div>
-          <label htmlFor="">Foto de portada</label>
-          <input
-            type="file"
-            name="portada"
-            onChange={(e) => seleccionarPortada(e)}
-          />
-          <img src={form.portada ? portadaPre : user?.portada} alt="" />
-          <label htmlFor="">{progress}</label>
-        </div> */}
         <div>
           <label htmlFor="">Nombre</label>
           <input
@@ -160,24 +150,15 @@ const Perfil = () => {
         </div>
         <div>
           <label htmlFor="">Descripcion</label>
-          <textarea
+          <input
+          type="text"
             name="descripcion"
             id=""
             value={form.descripcion}
             onChange={(e) =>
               setForm((old) => ({ ...old, descripcion: e.target.value }))
             }
-          ></textarea>
-        </div>
-        <div>
-          <label htmlFor="">Telefono</label>
-          <input
-            type="number"
-            value={form.telefono}
-            onChange={(e) =>
-              setForm((old) => ({ ...old, telefono: e.target.value }))
-            }
-          />
+          ></input>
         </div>
         <div>
           <label htmlFor="">Ubicacion</label>
@@ -198,24 +179,37 @@ const Perfil = () => {
               </>
             ))}
           </select>
+          
+        </div>
+        <div>
+          <label htmlFor="">Telefono</label>
+          <input
+            type="number"
+            value={form.telefono}
+            onChange={(e) =>
+              setForm((old) => ({ ...old, telefono: e.target.value }))
+            }
+          />
         </div>
        
-      <div>
-      <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
-            {!agregarUbicacion ? "Agregar UBICACION": "Volver"}
-          </button>
-      {!agregarUbicacion ? (
-          <></>
-        ) : (
-          <>
-            <Ubicaciones />
-           
-          </>
-        )}
-    
-      </div>
+
         <div>
-          <button onClick={handleBorrar}>Eliminar</button>
+        <button onClick={handleBorrar}>Eliminar</button>
+          <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
+            {!agregarUbicacion ? "Agregar ubicacion" : "Volver"}
+          </button>
+          {!agregarUbicacion ? (
+            <></>
+          ) : (
+            <>
+              <Ubicaciones cerrar={()=>setAgregarUbicacion(false)}/>
+
+            </>
+          )}
+
+        </div>
+        <div>
+          
           <button onClick={handleSave}>Guardar</button>
         </div>
       </section>

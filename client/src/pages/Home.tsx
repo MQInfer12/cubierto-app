@@ -7,6 +7,7 @@ import Cars from "../components/cars";
 const Home = () => {
   return (
     <Contenedor>
+     
       <Content>
         <section>
           <h1>CUBIERTO</h1>
