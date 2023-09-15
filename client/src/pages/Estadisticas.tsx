@@ -10,7 +10,7 @@ import SectionAyuda from "./pageInfo/sectionAyuda";
 const Estadisticas = () => {
   return (
     <>
-      <HeaderInfo />
+      <HeaderInfo text="héroes." />
    <SectionAyuda/>
    <Fraces/>
    <SectionAliados/>

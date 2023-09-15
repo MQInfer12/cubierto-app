@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { ComunStyles, colors } from "./styleGlobal";
+import { ComunStyles, colors, girar, girar1 } from "./styleGlobal";
 
 export const Content2 = styled.aside`
   background-color: ${colors.primary};
@@ -51,15 +51,23 @@ export const FracesDiv = styled.section`
     }
   }
 `;
-const Rotates = keyframes`
-  from {
-    opacity: 0;
-    transform: rotate(5deg)
-  }
-  to {
-    opacity: 1;
-    transform: rotate(0deg)
-  }
+const animateLetras = keyframes`
+  0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    25% {
+        opacity: 1;
+        transform: translateY(-10px);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(0);
+    }
   `;
 
 export const Page2 = styled.header`
@@ -96,18 +104,38 @@ export const Page2 = styled.header`
       &:nth-child(1) {
         width: 50%;
         padding: 3em;
-
+        ${ComunStyles}
+        justify-content:start;
         & h3 {
           font-size: 3.4rem;
           color: ${colors.light};
           letter-spacing: 2px;
-
-          & > strong {
-            color: ${colors.primary};
+          width: 65%;
+          & strong {
+            &:first-child {
+              margin: 0 2px;
+            }
+            & span {
+              display: inline-block;
+              color: ${colors.primary};
+              font-size: 3.4rem;
+              animation: jump 1.5s ease-in-out infinite;
+              @keyframes jump {
+                0%,
+                100% {
+                  transform: translateY(0);
+                }
+                50% {
+                  transform: translateY(-10px);
+                }
+              }
+            }
           }
         }
+
         & p {
           color: ${colors.primary};
+          margin: 1.5em 0;
         }
       }
 
@@ -115,7 +143,7 @@ export const Page2 = styled.header`
         position: relative;
         width: 40em;
         animation: AparecerDeLaDerecha 1s;
-
+     
         & img:nth-child(1) {
           position: absolute;
           z-index: -1;
@@ -130,6 +158,7 @@ export const Page2 = styled.header`
           height: auto;
           right: 2.5em;
           bottom: 8rem;
+          animation: ${girar1} 10s ease infinite;
         }
         & img:nth-child(3) {
           position: absolute;
@@ -138,6 +167,8 @@ export const Page2 = styled.header`
           height: auto;
           top: 7rem;
           left: 14em;
+          animation: ${girar1} 5s linear infinite;
+
         }
         & img:nth-child(4) {
           position: absolute;
@@ -146,6 +177,8 @@ export const Page2 = styled.header`
           height: auto;
           left: 10em;
           bottom: 8rem;
+          animation: ${girar1} 4s linear infinite;
+
         }
       }
     }
@@ -202,7 +235,6 @@ export const AsideNotasStyle = styled.aside`
     ${ComunStyles}
     justify-content:space-around;
     gap: 10em;
-
     & > img {
       animation: AparecerDeLaIzquierda 1s;
       width: 35%;

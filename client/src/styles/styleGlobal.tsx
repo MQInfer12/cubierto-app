@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css, keyframes } from "styled-components";
 
 export const colors = {
   primary: " #E75854;",
@@ -50,3 +50,21 @@ padding:.5em 3em;
 border-radius:.8em;
 color:${colors.light};
 ` ;
+export const girar1 = keyframes`
+ 0% {
+        
+        transform: translateY(0);
+    }
+    25% {
+    
+        transform: translateY(-10px);
+    }
+    50% {
+
+        transform: translateY(-20px);
+    }
+    100% {
+
+        transform: translateY(-10);
+    }
+`;
