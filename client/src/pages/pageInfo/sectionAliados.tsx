@@ -7,15 +7,20 @@ const SectionAliados = () => {
     <SectionAliadosStyle>
       <img src={fondo1} alt="" />
       <article>
-          <h3>
-           Nuetros <strong>aliados.</strong>
-          </h3>
-     <aside>
-     <div> </div>
-        <div> </div>
-        <div> </div>
-        <div> </div>
-     </aside>
+        <h3>
+          Nuestros <strong>aliados.</strong>
+        </h3>
+        <aside>
+          <div> <h2>Unifranz</h2>
+            <p>Lleno de capos en inges</p></div>
+          <div><h2>Ingenieria de sistemas</h2><p>
+            Los sin novia
+          </p> </div>
+          <div><h2>Administracion de empresas</h2>
+            <p>La peor carrera</p> </div>
+          <div> <h2>Publicidad y marketing</h2>
+            <p>Los con lapicez</p></div>
+        </aside>
       </article>
     </SectionAliadosStyle>
   );

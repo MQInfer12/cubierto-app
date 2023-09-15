@@ -77,26 +77,18 @@ export const Links = styled(Link)`
   }
 `;
 export const BtnRegister = styled.button`
+   box-shadow: 0px 5px 5px rgba(0,0,0,.2);
   color: ${colors.light};
   text-decoration: none;
   font-size: 16px;
-  font-weight: 400;
-  background: linear-gradient(
-    to right,
-    ${colors.gr1},
-    ${colors.gr2},
-    ${colors.gr2}
-  );
+  background: ${colors.primary500};
   padding: 0.5em 1.5rem;
+  border: none;
   border-radius: 3rem;
-  white-space: nowrap;
+  transition: 0.5s;
+  cursor: pointer;
   &:hover {
-    background: linear-gradient(
-      to right,
-      ${colors.gr1},
-      ${colors.gr1},
-      ${colors.gr2}
-    );
+    opacity: 0.8;
   }
 `;
 export const Content = styled.article`

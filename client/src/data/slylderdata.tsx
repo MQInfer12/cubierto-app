@@ -48,4 +48,11 @@ export const imagedata = [
       "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
     image: `https://chipabythedozen.com/wp-content/uploads/2022/06/sopa-de-mani-boliviana.jpg`,
   },
+  {
+    id: 8,
+    name: "image 7",
+    description:
+      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    image: `https://chipabythedozen.com/wp-content/uploads/2022/06/sopa-de-mani-boliviana.jpg`,
+  },
 ];
