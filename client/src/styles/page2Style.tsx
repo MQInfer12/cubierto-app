@@ -5,53 +5,52 @@ export const Content2 = styled.aside`
   background-color: ${colors.primary};
   ${ComunStyles}
   padding:4em;
-  & > img{
-    width:22em;
-    height:26em;
+  justify-content: space-around;
+  & > img {
+    width: 22em;
+    height: 30em;
     animation: AparecerDeLaIzquierda 1s;
-
-
   }
-  & div{
-    width:40%;
-    margin:0 auto ;
+  & div {
+    width: 40%;
+    ${ComunStyles}
+    flex-direction:column;
+    gap: 2em;
     animation: AparecerDeLaDerecha 1s;
-
-    & h3{
-        text-align:right;
-        font-size:2.5em;
-        letter-spacing:2px;
-        color:${colors.light};
+    & h3 {
+      text-align: right;
+      font-size: 2.5em;
+      letter-spacing: 2px;
+      color: ${colors.light};
     }
-    & p{
-        padding:1em;
-        letter-spacing:1px;
-        font-weight:600;
-        color:#0008;
-
+    & p {
+      padding: 1em;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #0008;
+      font-size: 1.5em;
     }
   }
-
 `;
 
 export const FracesDiv = styled.section`
- background-color: ${colors.primary};
+  background-color: ${colors.primary};
   ${ComunStyles}
   color:#0008;
-height:5em;
-padding:5em;
-justify-content:space-evenly;
-& p{
-    width:3em;
-    font-weight:600;
-&:nth-child(2n){
-    margin-top:3em;
-}
-&:nth-child(3){
-    margin-top:4em;
-}
-}
-`; 
+  height: 5em;
+  padding: 5em;
+  justify-content: space-evenly;
+  & p {
+    width: 3em;
+    font-weight: 600;
+    &:nth-child(2n) {
+      margin-top: 3em;
+    }
+    &:nth-child(3) {
+      margin-top: 4em;
+    }
+  }
+`;
 const Rotates = keyframes`
   from {
     opacity: 0;
@@ -61,19 +60,19 @@ const Rotates = keyframes`
     opacity: 1;
     transform: rotate(0deg)
   }
-  `
+  `;
 
 export const Page2 = styled.header`
   background-color: ${colors.primary};
   position: relative;
   z-index: -1;
-  width: 99.3vw;
+  width: 99.7vw;
   height: 100vh;
   & > img {
     position: absolute;
     z-index: -1;
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
   & h2 {
     color: ${colors.primary};
@@ -88,9 +87,9 @@ export const Page2 = styled.header`
     height: 80%;
     width: 100%;
     ${ComunStyles}
-    
+
     & div {
-        align-content: center;
+      align-content: center;
       height: 100%;
       ${ComunStyles}
       flex-wrap:wrap;
@@ -115,16 +114,15 @@ export const Page2 = styled.header`
       &:nth-child(2) {
         position: relative;
         width: 40em;
-    animation: AparecerDeLaDerecha 1s;
- 
+        animation: AparecerDeLaDerecha 1s;
+
         & img:nth-child(1) {
           position: absolute;
           z-index: -1;
           width: 28rem;
           height: auto;
           bottom: 5em;
-      
-    }
+        }
         & img:nth-child(2) {
           position: absolute;
           z-index: 2;
@@ -132,14 +130,13 @@ export const Page2 = styled.header`
           height: auto;
           right: 2.5em;
           bottom: 8rem;
-          
         }
         & img:nth-child(3) {
           position: absolute;
           z-index: 1;
           width: 7rem;
           height: auto;
-          top: 1.5em;
+          top: 7rem;
           left: 14em;
         }
         & img:nth-child(4) {
@@ -153,4 +150,82 @@ export const Page2 = styled.header`
       }
     }
   }
-`
+`;
+export const SectionAliadosStyle = styled.section`
+  height: 45em;
+  position: relative;
+  & > img {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 45em;
+    background-color: ${colors.primary};
+  }
+  & > article {
+    width: 100%;
+    ${ComunStyles}
+    height:42em;
+    color: ${colors.light};
+    align-items: start;
+    padding: 3em;
+    flex-direction: column;
+    gap: 2em;
+    & h3 {
+      font-size: 3em;
+      letter-spacing: 2px;
+    }
+  }
+  & aside {
+    ${ComunStyles}
+    flex-wrap:wrap;
+    gap: 2em;
+    width: 100%;
+    & > div {
+      width: 18em;
+      height: 8em;
+      background-color: ${colors.primary};
+      border-radius: 18px;
+    }
+  }
+`;
+export const AsideNotasStyle = styled.aside`
+  background-color: ${colors.primary};
+  padding: 5em 3em;
+  & h3 {
+    margin: 1em 0;
+    font-size: 3em;
+    letter-spacing: 2px;
+    color: ${colors.light};
+  }
+  & div {
+    ${ComunStyles}
+    justify-content:space-around;
+    gap: 10em;
+
+    & > img {
+      animation: AparecerDeLaIzquierda 1s;
+      width: 35%;
+    }
+  }
+  & section {
+    ${ComunStyles}
+    flex-direction:column;
+    align-items: start;
+    gap: 2em;
+    width: 60%;
+    & p {
+      width: 80%;
+      font-size: 2em;
+      color: #0008;
+      font-weight: 600;
+      animation: AparecerDeLaDerecha 1s;
+    }
+    & > strong {
+      font-size: 1.4em;
+      color: #0008;
+      font-weight: 600;
+      animation: AparecerDeLaDerecha 1.5s;
+    }
+  }
+`;

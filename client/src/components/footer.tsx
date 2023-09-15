@@ -35,6 +35,7 @@ const Foote = styled.footer`
   display: flex;
   flex-direction: row;
   ${ComunStyles}
+  background-color:${colors.primary};
   & > h2 {
     width: 0vw;
     height: 100%;
