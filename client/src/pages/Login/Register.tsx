@@ -45,7 +45,7 @@ const Register = () => {
           <GoogleLogin
             onSuccess={res => getGoogleUser(res)}
             shape="circle"
-            size='medium'
+            size='large'
           />
         </div>
       </Login>
@@ -72,14 +72,14 @@ export const Login = styled.div`
       box-shadow: 0px 5px 5px rgba(0,0,0,.2);
       border-radius: 20px;
       position: relative;
-      background: ${colors.primary500};
+      background: ${colors.light};
       &>h1{
         color:${colors.light};
         position: relative;
         top: 20px;
       }
       &>p{
-        color: ${colors.gray300};
+        color: ${colors.gray600};
         font-size: 17px;
       }
      
