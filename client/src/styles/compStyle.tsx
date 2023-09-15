@@ -14,7 +14,7 @@ export const ConNab = styled.nav`
   z-index: 5;
   height: 105px;
 `;
-export const Divtabla=styled.div`
+export const Divtabla = styled.div`
   height: max-content;
   max-height: 580px;
   border-radius: 10px;
@@ -77,6 +77,7 @@ export const Links = styled(Link)`
   }
 `;
 export const BtnRegister = styled.button`
+width: 150px;
    box-shadow: 0px 5px 5px rgba(0,0,0,.2);
   color: ${colors.light};
   text-decoration: none;
