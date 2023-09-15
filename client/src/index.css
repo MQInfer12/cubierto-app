@@ -84,3 +84,10 @@
      filter: blur(0);
    }
  }
+ @media screen and (max-width: 320px) {
+  body{
+    width: 100vw;
+  
+    overflow: hidden;
+  }
+ }

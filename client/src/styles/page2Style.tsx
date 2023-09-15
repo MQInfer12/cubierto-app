@@ -38,7 +38,7 @@ export const FracesDiv = styled.section`
   ${ComunStyles}
   color:#0008;
   height: 5em;
-  padding: 5em;
+  padding: 10em 5em;
   justify-content: space-evenly;
   & p {
     width: 3em;
