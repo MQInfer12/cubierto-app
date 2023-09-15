@@ -132,7 +132,6 @@ export const Portada = styled.article`
     content: "";
     bottom: 2em;
     z-index: 2;
-   
     & > input {
       width: 40px;
       height: 40px;
@@ -149,17 +148,18 @@ export const Portada = styled.article`
       height: 90px;
       border-radius: 20px;
       object-fit: cover;
-      
       &:nth-child(2) {
         position: absolute;
-        bottom: 1em;
-        left: 4em;
+        bottom: 0.8rem;
+        left: 6.5em;
         width: 20px;
         height: 20px;
         border-radius:0;
-        filter:invert(1);
-        background-color:#fff5;
+         width: 26px;
+         height: 26px;
+         filter: invert(100%) sepia(0%) saturate(6%) hue-rotate(145deg) brightness(95%) contrast(78%);
         cursor: pointer;
+        
       }
       &>input{
 

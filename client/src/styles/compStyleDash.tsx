@@ -137,8 +137,22 @@ export const Section = styled.section`
       font-weight: bold;
       color: ${colors.gray900};
     }
+    &>div{
+      width: 40%;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      &>i{
+        font-size: 18px;
+      }
+    }
     & > button {
       ${buttonStyle}
+      cursor: pointer;
+      transition:all 0.5s;
+      &:hover{
+        opacity: 0.8;
+      }
     }
   }
   & >div> table {
@@ -293,3 +307,17 @@ export const Tr = styled.tr`
             cursor: pointer;
           }
 `;
+export const Inputfilter = styled.input`  
+width: 50%;
+  border: solid 1px ${colors.gray700};
+  padding: 0.5em;
+  border-radius: 1rem;
+  outline: none;
+  transition: width 0.2s ease-in-out;
+  margin-right: 5px;
+  transition: 0.5s;
+  color: ${colors.gray600};
+  &:focus{
+    width: 80%;
+  }
+  `

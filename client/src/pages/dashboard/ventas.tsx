@@ -124,7 +124,6 @@ const Ventas = () => {
           {res?.data.map((venta) => {
             const total = venta.detalles.reduce((suma, detalle) => {
               suma += detalle.cantidad * detalle.precioUnitario;
-
               return suma;
             }, 0);
             return (

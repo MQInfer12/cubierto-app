@@ -9,20 +9,32 @@ import { Divtabla } from "../styles/compStyle";
 import { Skeleton } from "../styles/loading";
 
 const Categorias = () => {
-    const { res,getData } = useGet<Categoria[]>('categoria');
+    const { res, getData } = useGet<Categoria[]>('categoria');
     const [form, setForm] = useState({
         nombre: "",
         ionicon: ""
     });
     const handleSave = async () => {
-        const res = await sendRequest<Categoria>(`categoria`, {
-            nombre: form.nombre,
-            ionicon: form.ionicon
-        });
-        if (res) {
-            toast.success(`Se Agrego categoria correctamente`);
-            getData();
-            setForm({ionicon:"",nombre:""})
+
+        if (form.nombre == "" && form.ionicon == "") {
+            toast.error("Llenar los campos nombre y icono")
+        }
+        else if (form.nombre == "" && form.ionicon.length > 0) {
+            toast.error("LLenar el campo nombre");
+        }
+        else if (form.ionicon == "" && form.nombre.length > 0) {
+            toast.error("Llenar el campo icono");
+        }
+        else if (form.nombre.length > 0 && form.ionicon.length > 0) {
+            const res = await sendRequest<Categoria>(`categoria`, {
+                nombre: form.nombre,
+                ionicon: form.ionicon
+            });
+            if (res) {
+                toast.success(`Se Agrego categoria correctamente`);
+                getData();
+                setForm({ ionicon: "", nombre: "" })
+            }
         }
     }
     const handleBorrar = async (id: number) => {
@@ -41,22 +53,21 @@ const Categorias = () => {
     };
     return (
         <Section>
-          
             <article>
                 <p>Categorias</p>
             </article>
             <aside>
-              
+
                 <label htmlFor="">Nombre</label>
-                    <input type="text" onChange={(e) => setForm(old => ({ ...old, nombre: e.target.value }))} value={form.nombre} />
-                    <label htmlFor="">Icono</label>
-                    <input type="text" onChange={(e) => setForm(old => ({ ...old, ionicon: e.target.value }))} value={form.ionicon} />
-                    <a href="https://fontawesome.com/v5/search?o=r&m=free" target="_blank"> Ver iconos</a>
-                    <button onClick={handleSave}>Guardar</button>
-                
-              
+                <input type="text" onChange={(e) => setForm(old => ({ ...old, nombre: e.target.value }))} value={form.nombre} />
+                <label htmlFor="">Icono</label>
+                <input type="text" onChange={(e) => setForm(old => ({ ...old, ionicon: e.target.value }))} value={form.ionicon} />
+                <a href="https://fontawesome.com/v5/search?o=r&m=free" target="_blank"> Ver iconos</a>
+                <button onClick={handleSave}>Guardar</button>
+
+
             </aside>
-            <Divtabla  className="mini">
+            <Divtabla className="mini">
 
                 <table>
                     <thead>
@@ -68,18 +79,28 @@ const Categorias = () => {
                     </thead>
                     <tbody>
                         {
-                            !res ? <tr>
-                              <Skeleton colSpan={3} height={500}>
-                              </Skeleton>
-                              
-                            </tr> : res?.data.map((categoria) => (
+                            !res ? <><tr>
+                                <Skeleton colSpan={3} height={500}>
+                                </Skeleton>
+
+                            </tr>
                                 <tr>
-                                    <td>{categoria.nombre}</td>
-                                    <td><i className={"fa-solid fa-" + categoria.ionicon}></i></td>
-                                    <td><button onClick={() => handleBorrar(categoria.id)} className="buttonEliminar"><img src={Eliminar} alt="" /></button>
-                                    </td>
+                                    <Skeleton colSpan={3} height={500}>
+                                    </Skeleton>
+
                                 </tr>
-                            ))
+                                <tr>
+                                    <Skeleton colSpan={3} height={500}>
+                                    </Skeleton>
+
+                                </tr></> : res?.data.map((categoria) => (
+                                    <tr>
+                                        <td>{categoria.nombre}</td>
+                                        <td><i className={"fa-solid fa-" + categoria.ionicon}></i></td>
+                                        <td><button onClick={() => handleBorrar(categoria.id)} className="buttonEliminar"><img src={Eliminar} alt="" /></button>
+                                        </td>
+                                    </tr>
+                                ))
                         }
                     </tbody>
                 </table>

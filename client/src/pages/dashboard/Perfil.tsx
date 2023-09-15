@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Ubicacion } from "../../interfaces/ubicacion";
 import React, { useRef } from 'react';
 import edit from "../../assets/dash/editar.png"
+import PerfilEdit from "../../assets/camera-solid.svg"
 interface Form {
   foto: File | undefined;
   portada: File | undefined;
@@ -103,7 +104,7 @@ const Perfil = () => {
       toast.success("Se eliminó la ubicación con éxito");
     }
   };
-
+  const fileInputPortada = useRef<HTMLInputElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const seleccionarFotoperfil = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
@@ -116,6 +117,11 @@ const Perfil = () => {
       fileInputRef.current.click();
     }
   };
+  const handleImageClickPortada = () => {
+    if (fileInputPortada.current) {
+      fileInputPortada.current.click();
+    }
+  };
   return (
     <Container>
       <Portada>
@@ -124,19 +130,19 @@ const Perfil = () => {
         <img src={form.portada ? portadaPre : user?.portada} alt="" />
         <div>
           <img src={form.foto ? fotoPre : user?.foto} alt="" />
-          <img src={edit} alt="editar" onClick={handleImageClick} />
+          <img src={PerfilEdit} alt="editar" onClick={handleImageClick} />
           <input
             type="file"
             name="foto"
-            // onChange={(e) => seleccionarFoto(e)}
-            onChange={seleccionarFotoperfil}
+            onChange={(e) => seleccionarFoto(e)}
+            //onChange={seleccionarFotoperfil}
             id="file"
             ref={fileInputRef}
           />
-          {/* <label htmlFor="">{progress}</label> */}
         </div>
-
+        <img src={PerfilEdit} alt="" onClick={handleImageClickPortada}/>
       </Portada>
+
       <section>
         <div>
           <label htmlFor="">Nombre</label>
@@ -151,7 +157,7 @@ const Perfil = () => {
         <div>
           <label htmlFor="">Descripcion</label>
           <input
-          type="text"
+            type="text"
             name="descripcion"
             id=""
             value={form.descripcion}
@@ -179,7 +185,7 @@ const Perfil = () => {
               </>
             ))}
           </select>
-          
+
         </div>
         <div>
           <label htmlFor="">Telefono</label>
@@ -191,10 +197,10 @@ const Perfil = () => {
             }
           />
         </div>
-       
+
 
         <div>
-        <button onClick={handleBorrar}>Eliminar</button>
+          <button onClick={handleBorrar}>Eliminar</button>
           <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
             {!agregarUbicacion ? "Agregar ubicacion" : "Volver"}
           </button>
@@ -202,14 +208,14 @@ const Perfil = () => {
             <></>
           ) : (
             <>
-              <Ubicaciones cerrar={()=>setAgregarUbicacion(false)}/>
+              <Ubicaciones cerrar={() => setAgregarUbicacion(false)} />
 
             </>
           )}
 
         </div>
         <div>
-          
+
           <button onClick={handleSave}>Guardar</button>
         </div>
       </section>

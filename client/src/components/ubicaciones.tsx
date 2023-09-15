@@ -15,22 +15,44 @@ const Ubicaciones = ({ cerrar }: Props) => {
         latitud: "",
         longitud: ""
     });
-
     const handleSave = async () => {
-        const res = await sendRequest<Ubicacion>(`ubicacion`, {
-            nombre: form.nombre,
-            latitud: Number(form.latitud),
-            longitud: Number(form.longitud),
-            usuarioId: user?.id
-        });
-        if (res) {
-            addUbicacion(res.data);
-            toast.success("Se guardó la ubicación con éxito");
-            setForm({ latitud: "", longitud: "", nombre: "" })
-            cerrar();
+        if (form.latitud == "" && form.longitud == "" && form.nombre == "") {
+            toast.error("Debe llenar todos los campos");
+        }
+        else if (form.latitud.length > 0 && form.longitud == "" && form.nombre == "") {
+            toast.error("Debe llenar los campos nombre y longitud");
+        }
+        else if (form.latitud == "" && form.longitud.length > 0 && form.nombre == "") {
+            toast.error("Debe llenar los campos de latitud y nombre");
+        }
+        else if (
+            form.latitud == "" && form.longitud == "" && form.nombre.length > 0) {
+            toast.error("Debe llegar los campos de longitud y latitud");
+        }
+        else if (form.latitud.length > 0 && form.longitud.length > 0 && form.nombre == "") {
+            toast.error("Debe llegar el campo nombre");
+        }
+        else if (form.latitud.length > 0 && form.longitud == "" && form.nombre.length > 0) {
+            toast.error("Debe llegar el campo de longitud")
+        }
+        else if (form.latitud == "" && form.longitud.length > 0 && form.nombre.length > 0) {
+            toast.error("Debe llegar el campo de latitud")
+        }
+        else if (form.latitud.length > 0 && form.longitud.length > 0 && form.nombre.length > 0) {
+            const res = await sendRequest<Ubicacion>(`ubicacion`, {
+                nombre: form.nombre,
+                latitud: Number(form.latitud),
+                longitud: Number(form.longitud),
+                usuarioId: user?.id
+            });
+            if (res) {
+                addUbicacion(res.data);
+                toast.success("Se guardó la ubicación con éxito");
+                setForm({ latitud: "", longitud: "", nombre: "" })
+                cerrar();
+            }
         }
     }
-    //(e) => setForm(old => ({ ...old, telefono: e.target.value }))}
     return (
         <Container>
             <label htmlFor="">Nombre</label>
