@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { colors, ComunStyles, fonts, sizes, Stylecomun } from "./styleGlobal";
 import { Link } from "react-router-dom";
-import { navScrean320, screen320Link } from "./respStyle";
+import { imgheaderscren420, navScrean320, screen320Link } from "./respStyle";
 
 export const Contenedor = styled.header`
   background-color: ${colors.primary};
@@ -19,7 +19,7 @@ export const ConNab = styled.nav`
     filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(287deg)
       brightness(101%) contrast(101%);
   }
-${navScrean320}
+  ${navScrean320}
 `;
 export const Divtabla = styled.div`
   height: max-content;
@@ -67,7 +67,7 @@ export const Links = styled(Link)`
   text-decoration: none;
   font-weight: lighter;
   position: relative;
- ${screen320Link}
+  ${screen320Link}
   &::after {
     content: "";
     height: 1px;
@@ -86,7 +86,7 @@ export const Links = styled(Link)`
   }
 `;
 export const BtnRegister = styled.button`
-   box-shadow: 0px 5px 5px rgba(0,0,0,.2);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   color: ${colors.light};
   text-decoration: none;
   font-size: 16px;
@@ -129,6 +129,8 @@ export const Content = styled.article`
     border-radius: 24px;
     animation: AparecerDeLaDerecha 1s;
   }
+  ${imgheaderscren420}
+
 `;
 
 export const CarsStyle = styled.section`
@@ -136,6 +138,16 @@ export const CarsStyle = styled.section`
   width: 90%;
   margin: 3.5rem auto;
 
+  @media screen and (max-width: 420px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    & div {
+      width: 50%;
+    }
+  }
   & > div {
     display: flex;
     align-items: flex-start;

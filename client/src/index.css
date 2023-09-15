@@ -21,6 +21,7 @@
    padding: 0;
    box-sizing: border-box;
    font-family: 'Biko', sans-serif ;
+  /* border: solid 1px red; */
  }
 
  ::-webkit-scrollbar {

@@ -1,15 +1,17 @@
 import { styled } from "styled-components";
 import { colors, fonts, sizes } from "./styleGlobal";
+import { slyder320 } from "./respStyle";
 
 export const Section = styled.section`
   height: calc(100vh - 105px);
   display: flex;
   flex-direction: column;
+ ${slyder320}
 `;
 
 export const Aside = styled.aside`
-  color:${colors.light};
-  padding:3em 7em;
+  color: ${colors.light};
+  padding: 3em 7em;
   & > h3 {
     font-size: 3rem;
     line-height: 4.5rem;
@@ -32,8 +34,8 @@ export const Aside = styled.aside`
 export const SliderStyle = styled.article`
   display: flex;
   flex-direction: row;
-  color:${colors.light};
-  justify-content:center;
+  color: ${colors.light};
+  justify-content: center;
   align-items: center;
   gap: 2rem;
   overflow: hidden;
@@ -41,14 +43,14 @@ export const SliderStyle = styled.article`
 `;
 
 interface SlyderImgProps {
-  active: boolean
+  active: boolean;
 }
 
 export const SlyderImg = styled.img<SlyderImgProps>`
   height: 100%;
-  width: ${props => props.active ? "240px" : "88px"};
+  width: ${(props) => (props.active ? "240px" : "88px")};
   border-radius: 16px;
   object-fit: cover;
-  filter: grayscale(${props => props.active ? 0 : 1});
-  transition: all .5s;
+  filter: grayscale(${(props) => (props.active ? 0 : 1)});
+  transition: all 0.5s;
 `;

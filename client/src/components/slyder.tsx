@@ -2,18 +2,19 @@ import { Aside, Section, SliderStyle, SlyderImg } from "../styles/slyderStyle";
 import { imagedata } from "../data/slylderdata";
 import styled from "styled-components";
 import { ComunStyles, colors } from "../styles/styleGlobal";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { car420 } from "../styles/respStyle";
 
 const Slyder = () => {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActive(old => (old + 1) % imagedata.length);
+      setActive((old) => (old + 1) % imagedata.length);
     }, 4000);
     return () => {
       clearInterval(interval);
-    }
+    };
   }, []);
 
   return (
@@ -24,17 +25,17 @@ const Slyder = () => {
           <div key={active}>
             <h2>Pique macho</h2>
             <p>
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-              sint. Velit officia consequat duis enim velit mollit. Exercitation
-              veniam consequat sunt nostrud amet.
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
+              amet sint. Velit officia consequat duis enim velit mollit.
+              Exercitation veniam consequat sunt nostrud amet.
             </p>
           </div>
         </Aside>
         <SliderStyle>
           {imagedata.map((imagen, i) => (
-            <SlyderImg 
-              src={imagen.image} 
-              key={imagen.id} 
+            <SlyderImg
+              src={imagen.image}
+              key={imagen.id}
               active={active === i}
             />
           ))}
@@ -59,27 +60,29 @@ const Slyder = () => {
 };
 
 export default Slyder;
-const Card=styled.div`
+const Card = styled.div`
   width: 100vw;
   height: 50vh;
   ${ComunStyles}
-`
+  ${car420}
+`;
 export const Cardownload = styled.section`
-  width:65%;
+  width: 65%;
   height: 160px;
   border-radius: 16px;
   gap: 10px;
   background: #d04e4b;
   display: flex;
   align-items: center;
-padding:3em;
+  padding: 3em;
+
   & > div {
     width: 100%;
-    
     gap: 73px;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+
     & > div {
       width: 361px;
       & > h2 {
@@ -108,14 +111,14 @@ padding:3em;
         text-decoration: none;
         font-size: 16px;
         font-weight: 400;
-        background:${colors.primary500};
+        background: ${colors.primary500};
         padding: 0.5em 1.5rem;
         border-radius: 3rem;
         border: none;
         cursor: pointer;
-        box-shadow: 0px 5px 5px rgba(0,0,0,.2);
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
         transform: 0.5s;
-        &:hover{
+        &:hover {
           opacity: 0.8;
         }
       }

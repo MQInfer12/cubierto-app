@@ -1,19 +1,20 @@
-
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ComunStyles, colors } from "../styles/styleGlobal";
+import { footer420 } from "../styles/respStyle";
 const Footer = () => {
   return (
     <Foote>
-      <h2>CUBIERTO</h2>
       <div>
-        <div>
+        <h2>CUBIERTO</h2>
+
+        <div className="links">
           <Links to="/">Inicio</Links>
           <Links to="">Información</Links>
           <Links to="/login">Iniciar sesión</Links>
         </div>
         <span />
-        <section>
+        <section className="datos">
           <label>CIDTU - Unifranz - Derechos reservados 2023</label>
           <div>
             <Oval></Oval>
@@ -24,26 +25,25 @@ const Footer = () => {
         </section>
       </div>
     </Foote>
-    
   );
 };
 
 export default Footer;
 const Foote = styled.footer`
-  width: 100%;
+  width: 100vw;
   height: 15rem;
-  display: flex;
-  flex-direction: row;
   ${ComunStyles}
-  background-color:${colors.primary};
-  & > h2 {
-    width: 0vw;
-    height: 100%;
+  flex-direction: column;
+  align-items: start;
+  background-color: ${colors.primary};
+  margin: 0 auto;
+ ${footer420}
+  & h2 {
     color: #e4eaf1;
-    background: #000;
   }
   & > div {
     width: 60%;
+    margin: 0 auto;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -108,4 +108,8 @@ const Oval = styled.div`
   height: 2rem;
   border-radius: 50%;
   background: #e4eaf1;
+  @media screen and (max-width: 420px) {
+    width: 3rem;
+    height: 2rem;
+  }
 `;

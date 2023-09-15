@@ -22,10 +22,9 @@ const Navbar = () => {
   }
   const abrir = () => {
     setAbrirNav(!abrirNav);
-
   };
   const cerrar = () => {
-    setAbrirNav(false);
+    setAbrirNav(!abrirNav);
   };
   return (
     <>
