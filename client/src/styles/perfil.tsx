@@ -131,7 +131,7 @@ export const Portada = styled.article`
     position: absolute;
     content: "";
     bottom: 2em;
-    z-index: 2;
+    z-index: 4;
     & > input {
       width: 40px;
       height: 40px;
@@ -148,22 +148,45 @@ export const Portada = styled.article`
       height: 90px;
       border-radius: 20px;
       object-fit: cover;
+      
       &:nth-child(2) {
         position: absolute;
         bottom: 0.8rem;
         left: 6.5em;
-        width: 20px;
-        height: 20px;
         border-radius:0;
          width: 26px;
          height: 26px;
+         cursor: pointer;
          filter: invert(100%) sepia(0%) saturate(6%) hue-rotate(145deg) brightness(95%) contrast(78%);
-        cursor: pointer;
         
       }
       &>input{
 
       };
     }
+  }
+  &>.PortadaEdit{
+    z-index: 2;
+    position: relative;
+    width: 100vw;
+    height: 100%;
+   &>img{
+    width: 70px;
+    height: 50px;
+    position: absolute;
+    top: 180px;
+    left: 80%;
+    padding: 10px;
+    background: ${colors.gray700};
+    cursor: pointer;
+    filter: invert(100%) sepia(0%) saturate(6%) hue-rotate(145deg) brightness(95%) contrast(78%);
+    transition: 0.5s;
+    &:hover{
+      opacity: 0.9;
+    }
+   }
+   &>input{
+    display: none;
+   }
   }
 `;

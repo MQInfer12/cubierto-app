@@ -140,7 +140,17 @@ const Perfil = () => {
             ref={fileInputRef}
           />
         </div>
-        <img src={PerfilEdit} alt="" onClick={handleImageClickPortada}/>
+        <section className="PortadaEdit">
+          <img src={PerfilEdit} alt="" onClick={handleImageClickPortada}/>
+          <input
+              type="file"
+              name="portada"
+              onChange={(e) => seleccionarPortada(e)}
+              //onChange={seleccionarFotoperfil}
+              id="file"
+              ref={fileInputPortada}
+            />
+        </section>
       </Portada>
 
       <section>
@@ -200,7 +210,7 @@ const Perfil = () => {
 
 
         <div>
-          <button onClick={handleBorrar}>Eliminar</button>
+          <button onClick={handleBorrar}>Eliminar ubicacion</button>
           <button onClick={() => setAgregarUbicacion(!agregarUbicacion)}>
             {!agregarUbicacion ? "Agregar ubicacion" : "Volver"}
           </button>
