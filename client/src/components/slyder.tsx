@@ -60,12 +60,12 @@ const Slyder = () => {
 
 export default Slyder;
 const Card=styled.div`
-  width: 95vw;
+  width: 100vw;
   height: 50vh;
   ${ComunStyles}
 `
 export const Cardownload = styled.section`
-  width:80%;
+  width:65%;
   height: 160px;
   border-radius: 16px;
   gap: 10px;
@@ -74,9 +74,11 @@ export const Cardownload = styled.section`
   align-items: center;
 padding:3em;
   & > div {
-    width: 892px;
+    width: 100%;
+    
     gap: 73px;
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     & > div {
       width: 361px;
@@ -106,15 +108,16 @@ padding:3em;
         text-decoration: none;
         font-size: 16px;
         font-weight: 400;
-        background: linear-gradient(
-          to right,
-          ${colors.gr1},
-          ${colors.gr2},
-          ${colors.gr2}
-        );
+        background:${colors.primary500};
         padding: 0.5em 1.5rem;
         border-radius: 3rem;
         border: none;
+        cursor: pointer;
+        box-shadow: 0px 5px 5px rgba(0,0,0,.2);
+        transform: 0.5s;
+        &:hover{
+          opacity: 0.8;
+        }
       }
     }
   }
