@@ -12,6 +12,7 @@ export const ConNab = styled.nav`
   position: fixed;
   width: 100vw;
   z-index: 5;
+  height: 105px;
 `;
 export const Divtabla=styled.div`
   height: max-content;

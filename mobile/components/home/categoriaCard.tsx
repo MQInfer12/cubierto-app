@@ -21,7 +21,7 @@ const CategoriaCard = ({ categoria, seleccionarCategoria, active }: Props) => {
       <TouchableOpacity style={styles.categorieButton(active)} onPress={() => seleccionarCategoria(categoria.id)}>
         <FontAwesome5 size={18} color={active ? colors.white : colors.primary500} name={categoria.ionicon}  />
       </TouchableOpacity>
-      <FontedText style={styles.categorieText}>{categoria.nombre}</FontedText>
+      <FontedText numberOfLines={2} style={styles.categorieText}>{categoria.nombre}</FontedText>
     </View>
   )
 }
@@ -45,6 +45,8 @@ const styles = StyleSheet.create<any>({
   }),
   categorieText: {
     fontSize: 12,
-    color: colors.gray500
+    color: colors.gray500,
+    width: 52,
+    textAlign: "center"
   },
 })
