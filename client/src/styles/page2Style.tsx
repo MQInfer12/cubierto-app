@@ -110,7 +110,7 @@ export const Page2 = styled.header`
           font-size: 3.4rem;
           color: ${colors.light};
           letter-spacing: 2px;
-          width: 65%;
+          width:70%;
           & strong {
             &:first-child {
               margin: 0 2px;
@@ -219,6 +219,7 @@ export const SectionAliadosStyle = styled.section`
       height: 8em;
       background-color: ${colors.primary};
       border-radius: 18px;
+      padding:2em;
     }
   }
 `;

@@ -15,7 +15,8 @@ const HeaderInfo = ({ text }: { text: string }) => {
       <section>
         <div>
           <h3>
-            Elevando a nuestros
+          Productos de calidad, precios 
+          <br />
             <strong>
               
               {text.split("").map((letter, index) => (

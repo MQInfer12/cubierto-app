@@ -1,28 +1,35 @@
 import { Outlet } from "react-router-dom";
-import { BodyContainer, BtnRegister, ConNab, ContentNavbar, Links } from "../styles/compStyle";
+import {
+  BodyContainer,
+  BtnRegister,
+  ConNab,
+  ContentNavbar,
+  Links,
+} from "../styles/compStyle";
 import { useUser } from "../context/useUser";
-import Logo from '../assets/CubiertoIsotipo1.png'
+import Logo from "../assets/CubiertoIsotipo1.png";
 import { useNavigate } from "react-router-dom";
-import menu from "../assets/menu.png"
+import menu from "../assets/menu.png";
 import { useState } from "react";
 const Navbar = () => {
   const [abrirNav, setAbrirNav] = useState(true);
   const navigation = useNavigate();
   const { user } = useUser();
+
   const handleClick = () => {
     if (user) {
-      navigation('/dashboard')
+      navigation("/dashboard");
+    } else {
+      navigation("/login");
     }
-    else {
-      navigation('/login')
-    }
-  }
+  };
   const abrir = () => {
-    setAbrirNav(!abrirNav);
+    setAbrirNav(true);
   };
   const cerrar = () => {
-    setAbrirNav(!abrirNav);
+    setAbrirNav(false);
   };
+
   return (
     <>
       <ConNab>
@@ -32,18 +39,22 @@ const Navbar = () => {
             <img onClick={cerrar} src={menu} />
             <div className="logo-container">
               <img src={Logo} />
-              <Links to="/" onClick={cerrar}>Cubierto</Links>
+              <Links to="/">Cubierto</Links>
             </div>
             <section>
-              <Links to="/" onClick={cerrar}>Inicio</Links>
-              <Links to="/estadisticas" onClick={cerrar}>Información</Links>
+              <Links to="/">Inicio</Links>
+              <Links to="/estadisticas">Información</Links>
             </section>
-            <BtnRegister onClick={handleClick}>{
-              user ? user.rol == "usuario" || user.rol == "beneficiario" ? 'Disfruta' : 'Dashboard' : 'Inicia sesión'
-            }</BtnRegister>
+            <BtnRegister>
+              {user
+                ? user.rol == "usuario" || user.rol == "beneficiario"
+                  ? "Disfruta"
+                  : "Dashboard"
+                : "Inicia sesión"}
+            </BtnRegister>
           </ContentNavbar>
         )}
-      </ConNab >
+      </ConNab>
       <BodyContainer>
         <Outlet />
       </BodyContainer>

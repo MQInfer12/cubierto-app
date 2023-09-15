@@ -25,9 +25,7 @@ const Slyder = () => {
           <h3>Nuestra gastronomía</h3>
           <div key={active}>
             <h2>{imagedata[active].titulo}</h2>
-            <p>
-              {imagedata[active].description}
-            </p>
+            <p>{imagedata[active].description}</p>
           </div>
         </Aside>
         <SliderStyle>
@@ -40,68 +38,54 @@ const Slyder = () => {
           ))}
         </SliderStyle>
       </Section>
-      <Card>
-        <Cardownload>
-          <div>
-            <div>
-              <h2>Nuestra aplicación</h2>
-              <p>Descarga nuestra aplicación desde tu tienda favorita</p>
-            </div>
-            <section>
-              <button>App Store</button>
-              <button>Google Play</button>
-            </section>
-          </div>
-        </Cardownload>
-      </Card>
+      <Cardownload>
+        <div>
+          <h2>Nuestra aplicación</h2>
+          <p>Descarga nuestra aplicación desde tu tienda favorita</p>
+        </div>
+        <section>
+          <button>App Store</button>
+          <button>Google Play</button>
+        </section>
+      </Cardownload>
     </>
   );
 };
 
 export default Slyder;
-const Card = styled.div`
-  width: 100vw;
-  height: 50vh;
-  ${ComunStyles}
-  ${car420}
-`;
+
 export const Cardownload = styled.section`
   width: 65%;
   height: 160px;
   border-radius: 16px;
   gap: 10px;
   background: #d04e4b;
-  display: flex;
-  align-items: center;
+  ${ComunStyles}
+  margin:2em auto;
   padding: 3em;
+  ${car420}
 
   & > div {
-    width: 100%;
-    gap: 73px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-
-    & > div {
-      width: 361px;
-      & > h2 {
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 36px;
-        color: #e4eaf1;
-      }
-      & > p {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-        color: #e4eaf1;
-      }
+    width: 361px;
+    & > h2 {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 36px;
+      color: #e4eaf1;
     }
-    & > section {
+    & > p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #e4eaf1;
+    }
+  }
+  & > section {
       gap: 26px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-direction:row;
       & > button {
         width: 216px;
         height: 40px;
@@ -122,5 +106,4 @@ export const Cardownload = styled.section`
         }
       }
     }
-  }
 `;
