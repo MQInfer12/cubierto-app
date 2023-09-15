@@ -12,7 +12,7 @@ const Slyder = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActive((old) => (old + 1) % imagedata.length);
-    }, 4000);
+    }, 6000);
     return () => {
       clearInterval(interval);
     };

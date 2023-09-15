@@ -1,7 +1,7 @@
 import React from "react";
 import { CasrStyle } from "../../../styles/compStyleDash";
 import img from "../../..//assets/dash/img.jpg";
-import strella from "../../..//assets/dash/strella.svg";
+import strella from "../../../assets/dash/strella.svg";
 import { carsDataDash } from "../../../data/carsdata";
 import { ProductoActivo } from "../../../interfaces/productoActivo";
 
