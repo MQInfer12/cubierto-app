@@ -11,7 +11,7 @@ const HeaderInfo = ({ text }: { text: string }) => {
   return (
     <Page2>
       <img src={fondo1} alt="" />
-      <h2>Cubierto</h2>
+
       <section>
         <div>
           <h3>

@@ -3,11 +3,16 @@ import { BodyContainer, BtnRegister, ConNab, ContentNavbar, Links } from "../sty
 import { useUser } from "../context/useUser";
 import Logo from '../assets/CubiertoIsotipo1.png'
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import menu from "../assets/menu.png"
+import { useState } from "react";
 const Navbar = () => {
+  const [abrirNav, setAbrirNav] = useState(true);
+
   const navigation = useNavigate();
   const { user } = useUser();
+
   const handleClick = () => {
+    setAbrirNav(false);
     if (user) {
       navigation('/dashboard')
     }
@@ -15,22 +20,33 @@ const Navbar = () => {
       navigation('/login')
     }
   }
+  const abrir = () => {
+    setAbrirNav(!abrirNav);
+
+  };
+  const cerrar = () => {
+    setAbrirNav(false);
+  };
   return (
     <>
       <ConNab>
-        <ContentNavbar>
+        <img onClick={abrir} src={menu}/>
+        {abrirNav &&(
+          <ContentNavbar>
+            <img onClick={cerrar} src={menu}/>
           <div className="logo-container">
             <img src={Logo} />
-            <Links to="/">Cubierto</Links>
+            <Links to="/" onClick={cerrar}>Cubierto</Links>
           </div>
-          <nav>
-            <Links to="/">Inicio</Links>
-            <Links to="/estadisticas">Información</Links>
-          </nav>
+          <section>
+            <Links to="/" onClick={cerrar}>Inicio</Links>
+            <Links to="/estadisticas" onClick={cerrar}>Información</Links>
+          </section>
           <BtnRegister onClick={handleClick}>{
             user ? user.rol == "usuario" || user.rol=="beneficiario"? 'Disfruta':'Dashboard': 'Inicia sesión'
           }</BtnRegister>
         </ContentNavbar>
+        )}
       </ConNab>
       <BodyContainer>
         <Outlet />

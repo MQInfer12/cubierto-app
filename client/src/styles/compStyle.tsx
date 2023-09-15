@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
 import { colors, ComunStyles, fonts, sizes, Stylecomun } from "./styleGlobal";
 import { Link } from "react-router-dom";
+import { navScrean320, screen320Link } from "./respStyle";
 
 export const Contenedor = styled.header`
   background-color: ${colors.primary};
-  position:relative;
+  position: relative;
 `;
 export const ConNab = styled.nav`
   background-color: ${colors.primary};
@@ -13,28 +14,36 @@ export const ConNab = styled.nav`
   width: 100vw;
   z-index: 5;
   height: 105px;
+  & > img {
+    display: none;
+    filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(287deg)
+      brightness(101%) contrast(101%);
+  }
+${navScrean320}
 `;
 export const Divtabla = styled.div`
   height: max-content;
   max-height: 580px;
   border-radius: 10px;
   overflow-y: auto;
-  scrollbar-gutter: stable ;
+  scrollbar-gutter: stable;
   box-shadow: 0px 5px 5px #0005;
-  &.mini{
+  &.mini {
     max-height: 380px;
   }
 `;
 export const ContentNavbar = styled.header`
   background-color: ${colors.primary};
   width: 90%;
-
   ${ComunStyles}
   justify-content:space-between;
   margin: 0rem auto 2rem auto;
   font-size: 20px;
-  
-  & > nav {
+
+  & > img {
+    display: none;
+  }
+  & > section {
     width: 90%;
     ${ComunStyles}
     gap:2rem;
@@ -58,7 +67,7 @@ export const Links = styled(Link)`
   text-decoration: none;
   font-weight: lighter;
   position: relative;
-
+ ${screen320Link}
   &::after {
     content: "";
     height: 1px;
@@ -160,7 +169,6 @@ export const CarsStyle = styled.section`
     &:nth-child(3) {
       transition-delay: 600ms;
     }
-
     & > p {
       font-size: 1rem;
       font-weight: 400;
@@ -183,4 +191,8 @@ export const CarsStyle = styled.section`
 `;
 export const BodyContainer = styled.main`
   padding-top: 105px;
+
+  @media screen and (max-width: 768px) {
+    padding-top: 0;
+  }
 `;
