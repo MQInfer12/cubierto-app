@@ -1,58 +1,76 @@
+import Chicharon from '../assets/platoHome/Chicharon.jpg';
+import PiqueMacho from '../assets/platoHome/Piquemacho.jpg';
+import Silpancho from '../assets/platoHome/Silpancho.jpg';
+import Plancita from '../assets/platoHome/planchita.jpg';
+import Trancapecho from "../assets/platoHome/trancapecho.jpg";
+import Apipaste from "../assets/platoHome/apiconpastel.jpg";
+import Chorizo from '../assets/platoHome/chorizotarate.jpg';
+import Relleno from '../assets/platoHome/relleno-de-papa.jpg';
+
 export const imagedata = [
   {
     id: 1,
     name: "image 1",
+    titulo: "Chicharron",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://i.pinimg.com/originals/99/cf/10/99cf10b86238ff83878003cf540c8e4a.jpg`,
+      "Uno de los más conocidos. En Cochabamba se prepara con carne de cerdo cocida en una paila, se sirve con mote y chuño",
+    image: `${Chicharon}`,
   },
   {
     id: 2,
     name: "image 2",
+    titulo: "Pique macho",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://correodelsur.com/img/contents/images_640/2016/06/21/nota35975_imagen32691.jpg`,
+      "O pique a lo macho. Consiste en trozos de carne de res en su jugo, salchichas fritas acompañados de papas fritas, huevo, junto a rodajas de pimiento y tomate.",
+    image: `${PiqueMacho}`,
   },
   {
     id: 3,
     name: "image 3",
+    titulo: "Silpancho",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://www.cocina-ecuatoriana.com/base/stock/Recipe/299-image/299-image_web.jpg`,
+      "Es servido con una carne delgada apanada, entre sus acompañamientos está el arroz, papas cocidas y doradas, salsa cruda con locotos y huevo frito.",
+    image: `${Silpancho}`,
   },
   {
     id: 4,
     name: "image 4",
+    titulo:"Planchitas",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://i0.wp.com/elcalderoviajero.com/wp-content/uploads/2018/12/pique-a-lo-macho-12.jpg?fit=750%2C498&ssl=1`,
+      "Es una deliciosa opción cochabambina, consta de pedazos de carne o chuleta de res, chorizo o salchicha, yuca, huevo y chorrellana (cebolla y tomate cocido), es servido en una gran paila",
+    image: `${Plancita}`,
   },
   {
     id: 5,
     name: "image 5",
+    titulo:"Trancapecho",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://www.eabolivia.com/images/stories/a33/silpancho-cochabambino.jpg`,
+      "Sin duda una de las mejores opciones, es un sándwich que lleva carne apanada, un huevo estrellado, papas fritas, salsa de tomate, cebolla y locoto picados, todo dentro de un pan",
+    image: `${Trancapecho}`,
   },
   {
     id: 6,
     name: "image 6",
+    titulo:"Api con pastel",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://saboresbolivianos.com/wp-content/uploads/relleno-de-papa.jpg`,
+      "El api es una tradición nacional, una bebida milenaria acompañada de un pastel repleto de queso en su interior, la receta de api con pastel puede variar sin embargo la capital culinaria de esta gloriosa bebida esta en Oruro, que es justamente aquí donde se dio a conocer.",
+    image: `${Apipaste}`,
   },
   {
     id: 7,
     name: "image 7",
+    titulo:"Chorizo tarateño",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://chipabythedozen.com/wp-content/uploads/2022/06/sopa-de-mani-boliviana.jpg`,
+      "Carne de cerdo dentro de tripas de cordero, mote de trigo o de maíz y ensalada de verduras frescas. ​​ Se suele acompañar con chicha.",
+      image: `${Chorizo}`,
   },
   {
     id: 8,
     name: "image 7",
+    titulo:"Relleno de papa",
     description:
-      "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    image: `https://chipabythedozen.com/wp-content/uploads/2022/06/sopa-de-mani-boliviana.jpg`,
+      "Una capa del cremoso puré de papa, seguido por un jugoso relleno de carne con un poco de verduras. La sorpresa de un pedazo de huevo duro y una aceituna. Al final, el picantito de la llajua. Eso es un relleno de papa!",
+    image: `${Relleno}`,
   },
 ];
+

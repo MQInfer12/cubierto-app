@@ -7,7 +7,8 @@ import { car420 } from "../styles/respStyle";
 
 const Slyder = () => {
   const [active, setActive] = useState(0);
-
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   useEffect(() => {
     const interval = setInterval(() => {
       setActive((old) => (old + 1) % imagedata.length);
@@ -23,11 +24,9 @@ const Slyder = () => {
         <Aside>
           <h3>Nuestra gastronomía</h3>
           <div key={active}>
-            <h2>Pique macho</h2>
+            <h2>{imagedata[active].titulo}</h2>
             <p>
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
-              Exercitation veniam consequat sunt nostrud amet.
+              {imagedata[active].description}
             </p>
           </div>
         </Aside>

@@ -86,7 +86,8 @@ export const Links = styled(Link)`
   }
 `;
 export const BtnRegister = styled.button`
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+width: 150px;
+   box-shadow: 0px 5px 5px rgba(0,0,0,.2);
   color: ${colors.light};
   text-decoration: none;
   font-size: 16px;
@@ -134,7 +135,10 @@ export const Content = styled.article`
 `;
 
 export const CarsStyle = styled.section`
-  ${ComunStyles}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
   width: 90%;
   margin: 3.5rem auto;
 
@@ -149,6 +153,7 @@ export const CarsStyle = styled.section`
     }
   }
   & > div {
+    width: 30%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -156,7 +161,7 @@ export const CarsStyle = styled.section`
     padding: 2em;
     gap: 1.5rem;
     color: ${colors.light};
-
+   
     &.hidden {
       opacity: 0;
       filter: blur(5px);
@@ -192,10 +197,8 @@ export const CarsStyle = styled.section`
       line-height: 2.25rem;
     }
     & > img {
-      background-color: ${colors.light};
       width: 3.5rem;
       height: 3.5rem;
-      border-radius: 50%;
       object-fit: cover;
     }
   }

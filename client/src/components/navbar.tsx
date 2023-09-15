@@ -7,12 +7,9 @@ import menu from "../assets/menu.png"
 import { useState } from "react";
 const Navbar = () => {
   const [abrirNav, setAbrirNav] = useState(true);
-
   const navigation = useNavigate();
   const { user } = useUser();
-
   const handleClick = () => {
-    setAbrirNav(false);
     if (user) {
       navigation('/dashboard')
     }
@@ -29,24 +26,24 @@ const Navbar = () => {
   return (
     <>
       <ConNab>
-        <img onClick={abrir} src={menu}/>
-        {abrirNav &&(
+        <img onClick={abrir} src={menu} />
+        {abrirNav && (
           <ContentNavbar>
-            <img onClick={cerrar} src={menu}/>
-          <div className="logo-container">
-            <img src={Logo} />
-            <Links to="/" onClick={cerrar}>Cubierto</Links>
-          </div>
-          <section>
-            <Links to="/" onClick={cerrar}>Inicio</Links>
-            <Links to="/estadisticas" onClick={cerrar}>Información</Links>
-          </section>
-          <BtnRegister onClick={handleClick}>{
-            user ? user.rol == "usuario" || user.rol=="beneficiario"? 'Disfruta':'Dashboard': 'Inicia sesión'
-          }</BtnRegister>
-        </ContentNavbar>
+            <img onClick={cerrar} src={menu} />
+            <div className="logo-container">
+              <img src={Logo} />
+              <Links to="/" onClick={cerrar}>Cubierto</Links>
+            </div>
+            <section>
+              <Links to="/" onClick={cerrar}>Inicio</Links>
+              <Links to="/estadisticas" onClick={cerrar}>Información</Links>
+            </section>
+            <BtnRegister onClick={handleClick}>{
+              user ? user.rol == "usuario" || user.rol == "beneficiario" ? 'Disfruta' : 'Dashboard' : 'Inicia sesión'
+            }</BtnRegister>
+          </ContentNavbar>
         )}
-      </ConNab>
+      </ConNab >
       <BodyContainer>
         <Outlet />
       </BodyContainer>
