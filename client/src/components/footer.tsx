@@ -11,7 +11,6 @@ const Footer = () => {
     <Foote>
       <div>
         <h2>CUBIERTO</h2>
-
         <div className="links">
           <Links to="/">Inicio</Links>
           <Links to="">Información</Links>
@@ -35,7 +34,7 @@ const Footer = () => {
 
 export default Footer;
 const Foote = styled.footer`
-  width: 100vw;
+  width: 99.7vw;
   height: 15rem;
   ${ComunStyles}
   flex-direction: column;

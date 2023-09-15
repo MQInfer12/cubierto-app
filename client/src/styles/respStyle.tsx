@@ -2,22 +2,22 @@ import { css } from "styled-components";
 import { ComunStyles, Stylecomun, colors, fonts, sizes } from "./styleGlobal";
 
 export const screen320Link = css`
- @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     color: ${colors.primary};
-    border-left:2px solid ${colors.primary};
-    padding:0 1em;
-&:active{
-background-color:${colors.primary};
-}
+    border-left: 2px solid ${colors.primary};
+    padding: 0 1em;
+    &:active {
+      background-color: ${colors.primary};
+    }
   }
 `;
 
 export const navScrean320 = css`
-@media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     align-items: start;
     justify-content: start;
-  position:fixed;
+    position: fixed;
     height: 3em;
     background-color: ${colors.primary};
 
@@ -36,7 +36,7 @@ export const navScrean320 = css`
       background-color: #fff;
       flex-direction: column;
       width: 80vw;
-      justify-content:space-evenly;
+      justify-content: space-evenly;
       position: absolute;
       animation: AparecerDeLaIzquierda 1s;
       & > img {
@@ -50,29 +50,29 @@ export const navScrean320 = css`
         flex-direction: column;
       }
     }
-  }`
-  export const footer420 = css`
+  }
+`;
+export const footer420 = css`
   @media screen and (max-width: 768px) {
-     width: 100vw;
-     overflow: hidden;
-     gap:1em;
-   margin: 2em auto 0 0;
- 
-     .links {
-       display: none;
-     }
-     .datos {
-       flex-direction: column;
-       justify-content: center;
-       & > div {
-         justify-content: center;
-         gap: 0.5em;
-       }
-     }
-   }
- `
-// nav y footer
+    width: 100vw;
+    overflow: hidden;
+    gap: 1em;
+    margin: 2em auto 0 0;
 
+    .links {
+      display: none;
+    }
+    .datos {
+      flex-direction: column;
+      justify-content: center;
+      & > div {
+        justify-content: center;
+        gap: 0.5em;
+      }
+    }
+  }
+`;
+// nav y footer
 
 export const imgheaderscren420 = css`
   @media screen and (max-width: 420px) {
@@ -81,24 +81,24 @@ export const imgheaderscren420 = css`
     z-index: 1;
     padding: 0;
     width: 100vw;
-    height:60vh;
-    overflow:hidden;
+    height: 60vh;
+    overflow: hidden;
     & > img {
       position: absolute;
       width: 100%;
       z-index: -1;
-      border-radius: 0 0 2em 2em ;
-      top:2em;
-      box-shadow:0 2px 10px ${colors.primary};
+      border-radius: 0 0 2em 2em;
+      top: 2em;
+      box-shadow: 0 2px 10px ${colors.primary};
     }
     & > section {
       position: absolute;
       width: 100%;
       background-color: #0007;
-      padding:0 0 1em 0;
-      bottom:3.5em;
-      border-radius: 0 0 2em 2em ;
-      gap:0;
+      padding: 0 0 1em 0;
+      bottom: 3.5em;
+      border-radius: 0 0 2em 2em;
+      gap: 0;
       & h1 {
         font-size: 2em;
         z-index: 3;
@@ -115,24 +115,24 @@ export const imgheaderscren420 = css`
     z-index: 1;
     padding: 0;
     width: 100vw;
-    height:60vh;
-    overflow:hidden;
+    height: 60vh;
+    overflow: hidden;
     & > img {
       position: absolute;
       width: 100%;
       z-index: -1;
-      border-radius: 0 0 2em 2em ;
-      top:2em;
-      box-shadow:0 2px 10px ${colors.primary};
+      border-radius: 0 0 2em 2em;
+      top: 1.8em;
+      box-shadow: 0 2px 10px ${colors.primary};
     }
     & > section {
       position: absolute;
       width: 100%;
       background-color: #0007;
-      padding:0 0 1em 0;
-      bottom:3.5em;
-      border-radius: 0 0 2em 2em ;
-      gap:0;
+      padding: 0 0 1em 0;
+      bottom: 3.5em;
+      border-radius: 0 0 2em 2em;
+      gap: 0;
       & h1 {
         font-size: 2em;
         z-index: 3;
@@ -163,49 +163,50 @@ export const imgheaderscren420 = css`
     }
   }
   @media screen and (min-width: 1024px) {
-  ${ComunStyles};
-  ${Stylecomun};
-  justify-content: space-around;
-  height: calc(100vh - 105px);
-  & > section {
     ${ComunStyles};
-    flex-direction: column;
-    gap: 1.5rem;
-    width: ${sizes.small};
-    color: #fff;
-    animation: AparecerDeLaIzquierda 1s;
-    & > h1 {
-      font-size: 6rem;
-      line-height: 96px;
-      ${fonts}
+    ${Stylecomun};
+    justify-content: space-around;
+    height: calc(100vh - 105px);
+    & > section {
+      ${ComunStyles};
+      flex-direction: column;
+      gap: 1.5rem;
+      width: ${sizes.small};
+      color: #fff;
+      animation: AparecerDeLaIzquierda 1s;
+      & > h1 {
+        font-size: 6rem;
+        line-height: 96px;
+        ${fonts}
+      }
+      & > p {
+        font-size: 2rem;
+        ${fonts}
+      }
     }
-    & > p {
-      font-size: 2rem;
-      ${fonts}
+    & > img {
+      width: ${sizes.small};
+      height: 80%;
+      object-fit: cover;
+      border-radius: 24px;
+      animation: AparecerDeLaDerecha 1s;
     }
   }
-  & > img {
-    width: ${sizes.small};
-    height: 80%;
-    object-fit: cover;
-    border-radius: 24px;
-    animation: AparecerDeLaDerecha 1s;
-  }
-}
-
 `;
 export const slyder320 = css`
- @media screen and (max-width: 420px) {
+  @media screen and (max-width: 420px) {
     width: 100vw;
     & aside {
-      width: 100vw;
-      padding: 2em;
+      width: 80vw;
+      padding: 0em;
+
       flex-direction: column;
       & h3 {
         font-size: 1.5rem;
+        width: 70%;
       }
       & > div {
-        width: 80%;
+        width: 70%;
         & h2 {
           font-size: 1.5rem;
         }
@@ -215,23 +216,25 @@ export const slyder320 = css`
         }
       }
     }
-    & article{
-        width:95vw;
-        padding:1em;
-        overflow:hidden;
+    & article {
+      width: 90vw;
+      padding: 1em;
+      overflow: hidden;
     }
   }
-  @media screen and (max-width: 768px) {
-    width: 100vw;
+  @media screen and (max-width: 769px) {
+    width: 80vw;
+    padding: 2em;
     & aside {
-      width: 100vw;
-      padding: 2em;
+      width: 80vw;
+
+      padding: 0em !important;
       flex-direction: column;
       & h3 {
         font-size: 1.5rem;
       }
       & > div {
-        width: 80%;
+        width: 60%;
         & h2 {
           font-size: 1.5rem;
         }
@@ -241,111 +244,104 @@ export const slyder320 = css`
         }
       }
     }
-    & article{
-        width:95vw;
-        padding:1em;
-        overflow:hidden;
+    & article {
+      width: 80vw;
+      padding: 1em;
+      overflow: hidden;
     }
   }
- 
 `;
 export const car420 = css`
   @media screen and (max-width: 420px) {
-    padding: 0;
+    padding: 1em !important;
     gap: 0;
-    & > section {
+    flex-direction: column;
+    height:50vh;
+    & > div {
+      ${ComunStyles}
       flex-direction: column;
-      height: 50vh;
-      width: 80vw;
-      padding:0;
-      & > div {
-        flex-direction: column;
-        width: 100vw;
-        padding: 2em;
-        gap:0;
-
-        & > div {
-          ${ComunStyles}
-          flex-direction: column;
-          width:60vw;
-          & p {
-            width: 80%;
-          }
-          & h2{
-            padding:1em ;
-          }
-        }
-        & > section {
-          flex-direction: column;
-        }
+      width: 100% !important;
+      padding: 0;
+      & p {
+        width: 100%;
+      }
+      & h2 {
+        padding: 1em;
       }
     }
+    &  section {
+        display:flex;
+      flex-direction: column !important;
+    }
   }
-  @media screen and (max-width: 768px) {
-    padding: 0;
+  @media screen and (max-width: 769px) {
+    padding: 1em !important;
     gap: 0;
-    & > section {
+    flex-direction: column;
+    height:50vh;
+    & > div {
+      ${ComunStyles}
       flex-direction: column;
-      height: 50vh;
-      width: 80vw;
-      padding:2em;
-      & > div {
-        flex-direction: column;
-        width: 100vw;
-        padding: 2em;
-        gap:0;
-
-        & > div {
-          ${ComunStyles}
-          flex-direction: column;
-          width:60vw;
-        padding: 0 4em;
-
-          & p {
-            width: 80%;
-          }
-          & h2{
-            padding:1em ;
-          }
-        }
-        & > section {
-          flex-direction: column;
-        }
+      width: 100% !important;
+      padding: 0;
+      & p {
+        width: 100%;
       }
+      & h2 {
+        padding: 1em;
+      }
+    }
+    &  section {
+        display:flex;
+      flex-direction: column !important;
     }
   }
   @media screen and (min-width: 769px) {
-    padding: 0;
+    padding: 1em !important;
     gap: 0;
-    & > section {
-      flex-direction: column;
-      height: 28vh;
-      padding:2em;
-      & > div {
-        flex-direction: column;
-        width: 100vw;
-        padding: 2em;
-        gap:0;
-
-        & > div {
-          ${ComunStyles}
-          flex-direction: column;
-          width:60vw;
-        padding: 0 4em;
-
-          & p {
-            width: 80%;
-          }
-          & h2{
-            padding:1em ;
-          }
-        }
-        & > section {
-            margin:0 auto;
-            width:30%;
-          flex-direction: row;
-        }
+    height:20vh;
+    width:100%;
+    & > div {
+      ${ComunStyles}
+      width: 100% !important;
+      padding: 0;
+      flex-wrap:wrap;
+      justify-content:start;
+      & p {
+        width: 40vw;
+      }
+      & h2 {
+        padding: 0em;
       }
     }
+    &  section {
+        display:flex;
+    }
   }
+  @media screen and (min-width: 1030px) {
+    padding: 1em !important;
+    gap: 0;
+    height:20vh;
+    width:80%;
+    & > div {
+      ${ComunStyles}
+      width: 100% !important;
+      padding: 0;
+      flex-wrap:wrap;
+      justify-content:start;
+      & p {
+
+        width: 35vw;
+      }
+      & h2 {
+        width:100%;
+        padding: 0em;
+      }
+    }
+    &  section {
+        display:flex;
+    }
+  }
+
+
 `;

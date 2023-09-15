@@ -12,6 +12,7 @@ export const Section = styled.section`
 export const Aside = styled.aside`
   color: ${colors.light};
   padding: 3em 7em;
+
   & > h3 {
     font-size: 3rem;
     line-height: 4.5rem;

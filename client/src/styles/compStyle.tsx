@@ -141,15 +141,22 @@ export const CarsStyle = styled.section`
   justify-content: space-around;
   width: 90%;
   margin: 3.5rem auto;
-
+flex-wrap:wrap;
   @media screen and (max-width: 420px) {
+    width:100vw;
     flex-direction: column;
+    flex-wrap:wrap;
+    &  div{
+      width:100vw !important;
+    }
   }
   @media screen and (max-width: 768px) {
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
+    width: 100vw;
     & div {
-      width: 50%;
+      width:100vw !important;
+
     }
   }
   & > div {
