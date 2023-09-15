@@ -12,7 +12,7 @@ const Slyder = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActive((old) => (old + 1) % imagedata.length);
-    }, 4000);
+    }, 6000);
     return () => {
       clearInterval(interval);
     };
@@ -43,10 +43,8 @@ const Slyder = () => {
       <Card>
         <Cardownload>
           <div>
-            <div>
-              <h2>Nuestra aplicación</h2>
-              <p>Descarga nuestra aplicación desde tu tienda favorita</p>
-            </div>
+            <h2>Nuestra aplicación</h2>
+            <p>Descarga nuestra aplicación desde tu tienda favorita</p>
             <section>
               <button>App Store</button>
               <button>Google Play</button>
@@ -77,25 +75,23 @@ export const Cardownload = styled.section`
 
   & > div {
     width: 100%;
-    gap: 73px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
+    gap: 8px !important;
 
-    & > div {
-      width: 361px;
-      & > h2 {
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 36px;
-        color: #e4eaf1;
-      }
-      & > p {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-        color: #e4eaf1;
-      }
+    & > h2 {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 36px;
+      color: #e4eaf1;
+    }
+    & > p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #e4eaf1;
     }
     & > section {
       gap: 26px;

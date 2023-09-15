@@ -14,12 +14,12 @@ const SectionAliados = () => {
           <div> <h2>Unifranz</h2>
             <p>Lleno de capos en inges</p></div>
           <div><h2>Ingenieria de sistemas</h2><p>
-            Los sin novia
+            Lorem ipsum dolor sit amet.
           </p> </div>
           <div><h2>Administracion de empresas</h2>
-            <p>La peor carrera</p> </div>
+            <p>Lorem ipsum dolor sit amet.</p> </div>
           <div> <h2>Publicidad y marketing</h2>
-            <p>Los con lapicez</p></div>
+            <p>Lorem ipsum dolor sit amet.</p></div>
         </aside>
       </article>
     </SectionAliadosStyle>

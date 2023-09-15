@@ -321,3 +321,57 @@ width: 50%;
     width: 80%;
   }
   `
+  
+  export const CasrStyle = styled.div`
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  margin: 0 auto;
+  & > div {
+    box-shadow: 0 3px 10px 5px #0005;
+    transition: all 0.5s ease-in-out;
+    border-radius: 8px 8px 0px 0px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+    & > img {
+      width: 300px;
+      height: 168px;
+      border-radius: 8px 8px 0px 0px;
+    }
+    & > article {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      padding: 1em;
+      & > p {
+        color: #8b8686;
+
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+      & > em {
+        color: #e75854;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+      }
+      & > strong {
+        display: flex;
+        align-items: center;
+        color: #8b8686;
+        font-family: Poppins;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+
+        & img {
+        }
+      }
+    }
+  }
+`;
