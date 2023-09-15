@@ -9,8 +9,7 @@ export const colors = {
   bg: "#E4EAF1",
   bgTransparent: "rgba(228, 234, 241, 0.8)",
   navTextColor: "#000000",
-  primary700: "rgb(109, 55, 31)",
-  primary600: "rgb(195, 59, 11)",
   primary500: "rgb(255, 54, 26)",
   success: "#75c927"
 }
+
