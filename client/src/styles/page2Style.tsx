@@ -41,7 +41,7 @@ export const FracesDiv = styled.section`
   padding: 10em 5em;
   justify-content: space-evenly;
   & p {
-    width: 3em;
+    width: 10em;
     font-weight: 600;
     &:nth-child(2n) {
       margin-top: 3em;
@@ -214,9 +214,12 @@ export const SectionAliadosStyle = styled.section`
     flex-wrap:wrap;
     gap: 2em;
     width: 100%;
+    & p{
+      font-size:0.8em;
+    }
     & > div {
       width: 18em;
-      height: 8em;
+      height: 10em;
       background-color: ${colors.primary};
       border-radius: 18px;
       padding:2em;
