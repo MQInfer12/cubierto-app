@@ -113,7 +113,6 @@ export const Content = styled.article`
     animation: AparecerDeLaIzquierda 1s;
     & > h1 {
       font-size: 6rem;
-
       line-height: 96px;
       ${fonts}
     }

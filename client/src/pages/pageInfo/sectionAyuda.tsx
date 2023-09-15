@@ -3,7 +3,7 @@ import { Content2 } from '../../styles/page2Style'
 import verduras from "../../assets/page2/Frame 1.png"
 const SectionAyuda = () => {
   return (
-    <Content2>
+    <Content2 className='hidden show'>
       <img src={verduras} alt="" />
       <div><h3>¿De que manera 
 se brinda nuestra ayuda?</h3>

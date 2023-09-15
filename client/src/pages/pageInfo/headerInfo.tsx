@@ -25,12 +25,6 @@ const HeaderInfo = ({ text }: { text: string }) => {
               ))}
             </strong>
           </h3>
-          <article></article>
-          {/* {text.split('').map((letter, index) => (
-        <span  className="animated-letter" >
-       
-        </span>
-      ))} */}
 
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus

@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { ComunStyles, colors, girar, girar1 } from "./styleGlobal";
+import { ComunStyles, colors, girar1 } from "./styleGlobal";
 
 export const Content2 = styled.aside`
   background-color: ${colors.primary};
