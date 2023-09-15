@@ -2,6 +2,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ComunStyles, colors } from "../styles/styleGlobal";
+import Facebook from '../assets/redesSociales/facebook.png'
+import Instagram from '../assets/redesSociales/instagram.png';
+import Twitter from '../assets/redesSociales/gorjeo.png';
+import Linke from '../assets/redesSociales/linkedin.png'
 const Footer = () => {
   return (
     <Foote>
@@ -16,15 +20,16 @@ const Footer = () => {
         <section>
           <label>CIDTU - Unifranz - Derechos reservados 2023</label>
           <div>
-            <Oval></Oval>
-            <Oval></Oval>
-            <Oval></Oval>
-            <Oval></Oval>
+            <Oval>
+              <a href="https://www.facebook.com/unifranz.edu/?locale=es_LA" target="_blank" ><img src={Facebook} alt="" /></a></Oval>
+            <Oval><a href="https://www.instagram.com/unifranz/?hl=es" target="_blank"><img src={Instagram} alt="" /></a></Oval>
+            <Oval> <a href="https://twitter.com/UnifranzBolivia?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank"><img src={Twitter} alt="" /></a></Oval>
+            <Oval><a href="https://bo.linkedin.com/school/universidad-franz-tamayo/" target="_blank"><img src={Linke} alt="" /></a></Oval>
           </div>
         </section>
       </div>
     </Foote>
-    
+
   );
 };
 
@@ -108,4 +113,18 @@ const Oval = styled.div`
   height: 2rem;
   border-radius: 50%;
   background: #e4eaf1;
+ 
+  &>a{
+    width: 100vh;
+    height: 100vh;
+    z-index: 1;
+    position: relative;
+    
+    &>img{
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      
+    }
+  }
 `;

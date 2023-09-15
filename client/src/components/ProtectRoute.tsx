@@ -17,13 +17,13 @@ const ProtectRoute = ({ children }: Props) => {
     useEffect(() => {
         if (!user) {
             Navigate("/login");
-
         }
         if (user?.rol == "usuario" || user?.rol == "beneficiario") {
             toast.success("Descarga la aplicacion para disfrutar de nuestras funcionalidades");
             Navigate("/");
 
         }
+       
         setLoad(true);
     }, [])
     if (!load) {

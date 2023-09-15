@@ -25,9 +25,9 @@ const Register = () => {
     if (response.ok) {
       const user = await response.json();
       setUser(user.data);
+      
       if (user.data.rol == "usuario" || user.data.rol == "beneficiario") {
         navigate('/');
-
       }
       else {
         navigate('/dashboard');
