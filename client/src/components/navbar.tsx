@@ -24,10 +24,10 @@ const Navbar = () => {
     }
   };
   const abrir = () => {
-    setAbrirNav(true);
+    setAbrirNav(!abrirNav);
   };
   const cerrar = () => {
-    setAbrirNav(false);
+    setAbrirNav(!abrirNav);
   };
 
   return (
@@ -36,7 +36,7 @@ const Navbar = () => {
         <img onClick={abrir} src={menu} />
         {abrirNav && (
           <ContentNavbar>
-            <img onClick={cerrar} src={menu} />
+            <img onClick={abrir} src={menu} />
             <div className="logo-container">
               <img src={Logo} />
               <Links to="/">Cubierto</Links>

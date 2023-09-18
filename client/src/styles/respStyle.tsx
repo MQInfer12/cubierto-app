@@ -20,15 +20,13 @@ export const navScrean320 = css`
     position: fixed;
     height: 3em;
     background-color: ${colors.primary};
-
     padding: 0;
     & > img {
       position: absolute;
       display: block;
       width: 25px;
-      z-index: 1050;
       top: 1em;
-      left: 1em;
+      right: 1em;
     }
     & > header {
       ${ComunStyles}
@@ -36,6 +34,7 @@ export const navScrean320 = css`
       background-color: #fff;
       flex-direction: column;
       width: 80vw;
+      overflow: hidden;
       justify-content: space-evenly;
       position: absolute;
       animation: AparecerDeLaIzquierda 1s;
@@ -56,13 +55,13 @@ export const footer420 = css`
   @media screen and (max-width: 768px) {
     width: 100vw;
     overflow: hidden;
-    gap: 1em;
-    margin: 2em auto 0 0;
+    gap: 2em;
 
     .links {
       display: none;
     }
     .datos {
+      width:100%;
       flex-direction: column;
       justify-content: center;
       & > div {
@@ -81,7 +80,7 @@ export const imgheaderscren420 = css`
     z-index: 1;
     padding: 0;
     width: 100vw;
-    height: 60vh;
+    height: 100vh;
     overflow: hidden;
     & > img {
       position: absolute;
@@ -96,7 +95,7 @@ export const imgheaderscren420 = css`
       width: 100%;
       background-color: #0007;
       padding: 0 0 1em 0;
-      bottom: 3.5em;
+      bottom: 0;
       border-radius: 0 0 2em 2em;
       gap: 0;
       & h1 {
@@ -128,14 +127,18 @@ export const imgheaderscren420 = css`
     & > section {
       position: absolute;
       width: 100%;
-      background-color: #0007;
       padding: 0 0 1em 0;
-      bottom: 3.5em;
+      bottom: 3em;
       border-radius: 0 0 2em 2em;
       gap: 0;
+      box-shadow: 0 2px 10px ${colors.dark};
+      background-color: #fff9;
+      color: ${colors.primary};
       & h1 {
         font-size: 2em;
         z-index: 3;
+        width: 100%;
+        text-align: center;
       }
       & p {
         width: 60%;
@@ -256,7 +259,7 @@ export const car420 = css`
     padding: 1em !important;
     gap: 0;
     flex-direction: column;
-    height:50vh;
+    height: 50vh;
     & > div {
       ${ComunStyles}
       flex-direction: column;
@@ -269,8 +272,8 @@ export const car420 = css`
         padding: 1em;
       }
     }
-    &  section {
-        display:flex;
+    & section {
+      display: flex;
       flex-direction: column !important;
     }
   }
@@ -278,7 +281,7 @@ export const car420 = css`
     padding: 1em !important;
     gap: 0;
     flex-direction: column;
-    height:50vh;
+    height: 50vh;
     & > div {
       ${ComunStyles}
       flex-direction: column;
@@ -291,22 +294,22 @@ export const car420 = css`
         padding: 1em;
       }
     }
-    &  section {
-        display:flex;
+    & section {
+      display: flex;
       flex-direction: column !important;
     }
   }
   @media screen and (min-width: 769px) {
     padding: 1em !important;
     gap: 0;
-    height:20vh;
-    width:100%;
+    height: 20vh;
+    width: 100%;
     & > div {
       ${ComunStyles}
       width: 100% !important;
       padding: 0;
-      flex-wrap:wrap;
-      justify-content:start;
+      flex-wrap: wrap;
+      justify-content: start;
       & p {
         width: 40vw;
       }
@@ -314,34 +317,31 @@ export const car420 = css`
         padding: 0em;
       }
     }
-    &  section {
-        display:flex;
+    & section {
+      display: flex;
     }
   }
   @media screen and (min-width: 1030px) {
     padding: 1em !important;
     gap: 0;
-    height:20vh;
-    width:80%;
+    height: 20vh;
+    width: 80%;
     & > div {
       ${ComunStyles}
       width: 100% !important;
       padding: 0;
-      flex-wrap:wrap;
-      justify-content:start;
+      flex-wrap: wrap;
+      justify-content: start;
       & p {
-
         width: 35vw;
       }
       & h2 {
-        width:100%;
+        width: 100%;
         padding: 0em;
       }
     }
-    &  section {
-        display:flex;
+    & section {
+      display: flex;
     }
   }
-
-
 `;
