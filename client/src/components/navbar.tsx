@@ -19,6 +19,7 @@ const Navbar = () => {
   const handleClick = () => {
     if (user) {
       navigation("/dashboard");
+      console.log("days");
     } else {
       navigation("/login");
     }
@@ -45,7 +46,7 @@ const Navbar = () => {
               <Links to="/">Inicio</Links>
               <Links to="/estadisticas">Información</Links>
             </section>
-            <BtnRegister>
+            <BtnRegister onClick={handleClick}>
               {user
                 ? user.rol == "usuario" || user.rol == "beneficiario"
                   ? "Disfruta"

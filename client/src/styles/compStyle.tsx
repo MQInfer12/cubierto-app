@@ -20,6 +20,8 @@ export const ConNab = styled.nav`
       brightness(101%) contrast(101%);
   }
   ${navScrean320}
+
+  
 `;
 export const Divtabla = styled.div`
   height: max-content;
