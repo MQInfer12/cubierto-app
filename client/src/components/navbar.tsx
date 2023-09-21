@@ -19,15 +19,16 @@ const Navbar = () => {
   const handleClick = () => {
     if (user) {
       navigation("/dashboard");
+      console.log("days");
     } else {
       navigation("/login");
     }
   };
   const abrir = () => {
-    setAbrirNav(true);
+    setAbrirNav(!abrirNav);
   };
   const cerrar = () => {
-    setAbrirNav(false);
+    setAbrirNav(!abrirNav);
   };
 
   return (
@@ -36,7 +37,7 @@ const Navbar = () => {
         <img onClick={abrir} src={menu} />
         {abrirNav && (
           <ContentNavbar>
-            <img onClick={cerrar} src={menu} />
+            <img onClick={abrir} src={menu} />
             <div className="logo-container">
               <img src={Logo} />
               <Links to="/">Cubierto</Links>
@@ -45,7 +46,7 @@ const Navbar = () => {
               <Links to="/">Inicio</Links>
               <Links to="/estadisticas">Información</Links>
             </section>
-            <BtnRegister>
+            <BtnRegister onClick={handleClick}>
               {user
                 ? user.rol == "usuario" || user.rol == "beneficiario"
                   ? "Disfruta"

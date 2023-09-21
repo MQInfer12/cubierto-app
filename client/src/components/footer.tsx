@@ -41,7 +41,7 @@ const Foote = styled.footer`
   align-items: start;
   background-color: ${colors.primary};
   margin: 0 auto;
- ${footer420}
+
   & h2 {
     color: #e4eaf1;
   }
@@ -81,6 +81,7 @@ const Foote = styled.footer`
       }
     }
   }
+  ${footer420}
 `;
 const Links = styled(Link)`
   color: ${colors.light};

@@ -7,7 +7,48 @@ export const Dash = styled.section`
   flex-direction: row;
   width: 100vw;
   position: fixed;
- 
+  & > aside {
+    display: none;
+    & > #menuA {
+      border-radius: 0;
+      display: none;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  @media screen and (max-width: 720px) {
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    & > aside {
+      display: block;
+      background-color: ${colors.primary};
+      padding: 0.5em 2em;
+      box-shadow: 0 5px 10px #0005;
+      z-index: 3;
+      & > #menuA {
+        border-radius: 0;
+        display: block;
+        width: 30px;
+        height: 30px;
+        filter: invert(1);
+      }
+    }
+    & > nav {
+      position: absolute;
+      width: 80%;
+      background-color: #fff;
+      animation: AparecerDeLaIzquierda 1s;
+      z-index: 100;
+      & > #menuA {
+        display: flex;
+        position: absolute;
+        top: 2em;
+        right: 2em;
+      }
+    }
+  }
 `;
 export const NavDash = styled.nav`
   background-color: ${colors.light};
@@ -19,6 +60,12 @@ export const NavDash = styled.nav`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  & > #menuA {
+    border-radius: 0;
+    display: none;
+    width: 30px;
+    height: 30px;
+  }
   & > section {
     display: flex;
     justify-content: center;
@@ -33,7 +80,7 @@ export const NavDash = styled.nav`
       background-color: transparent;
     }
   }
-  & img {
+  & > img {
     width: 80px;
     border-radius: 50%;
     height: 80px;
@@ -59,11 +106,10 @@ export const NavDash = styled.nav`
     display: flex;
     flex-direction: column;
   }
-  & article{
-    display:flex;
-    flex-direction:column;
-    gap:2em;
-    
+  & article {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
   }
 `;
 export const Linkdash = styled(Link)`
@@ -73,7 +119,7 @@ export const Linkdash = styled(Link)`
   gap: 1em;
   font-size: 0.9em;
   color: ${colors.gray600};
-align-items: center;
+  align-items: center;
   &:hover {
     color: ${colors.primary500};
     & img {
@@ -125,7 +171,7 @@ export const Section = styled.section`
   gap: 3em;
   flex-direction: column;
   min-height: 100vh;
-  &>h4{
+  & > h4 {
     color: ${colors.gray500};
   }
   & article {
@@ -137,31 +183,31 @@ export const Section = styled.section`
       font-weight: bold;
       color: ${colors.gray900};
     }
-    &>div{
+    & > div {
       width: 40%;
       display: flex;
       justify-content: end;
       align-items: center;
-      &>i{
+      & > i {
         font-size: 18px;
       }
     }
     & > button {
       ${buttonStyle}
       cursor: pointer;
-      transition:all 0.5s;
-      &:hover{
+      transition: all 0.5s;
+      &:hover {
         opacity: 0.8;
       }
     }
   }
-  & >div> table {
+  & > div > table {
     border-collapse: collapse;
     width: 100%;
     font-size: 14px;
     background: ${colors.light};
     border-radius: 10px;
-   table-layout: fixed;
+    table-layout: fixed;
     & > thead {
       & > tr {
         background-color: #e4e4e453;
@@ -173,14 +219,13 @@ export const Section = styled.section`
           text-transform: uppercase;
           color: #0008;
         }
-        &>.pequeno{
+        & > .pequeno {
           width: 250px;
         }
-        &>.mini{
+        & > .mini {
           width: 180px;
-          
         }
-        &>.center{
+        & > .center {
           text-align: center;
         }
       }
@@ -188,7 +233,7 @@ export const Section = styled.section`
     & tbody {
       & > tr {
         transition: all 0.3s;
-        &:hover{
+        &:hover {
           background-color: ${colors.bg};
         }
         & > button {
@@ -221,13 +266,14 @@ export const Section = styled.section`
             font-weight: 400;
             cursor: pointer;
           }
-          &>.buttonEliminar{
+          & > .buttonEliminar {
             background: transparent;
-            filter: invert(70%) sepia(78%) saturate(6583%) hue-rotate(335deg) brightness(112%) contrast(81%);
+            filter: invert(70%) sepia(78%) saturate(6583%) hue-rotate(335deg)
+              brightness(112%) contrast(81%);
           }
-          &>i{
+          & > i {
             font-size: 20px;
-            color:${colors.gray500} ;
+            color: ${colors.gray500};
           }
           & > select {
             background: transparent;
@@ -264,51 +310,51 @@ export const Section = styled.section`
       }
     }
   }
-  & aside{
-    width:70%;
-    flex-direction:row;
-    display:flex;
-    flex-wrap:wrap;
-    gap:1em;
-    & label{
-width:20%;
+  & aside {
+    width: 70%;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    & label {
+      width: 20%;
     }
-    & input{
-      width:70%;
-    border: solid 1px #0005;
-        padding: 0.5em;
-        border-radius: 1em;
-        outline: none;
+    & input {
+      width: 70%;
+      border: solid 1px #0005;
+      padding: 0.5em;
+      border-radius: 1em;
+      outline: none;
     }
-    & button,a{
-padding:.5em 2em;
-text-decoration: none;
-font-size: 14px;
-cursor: pointer;
-transition:all 0.3s;
-&:hover{
-  opacity: 0.8;
-}
-${buttonStyle}
+    & button,
+    a {
+      padding: 0.5em 2em;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      &:hover {
+        opacity: 0.8;
+      }
+      ${buttonStyle}
     }
   }
-
 `;
 
 export const Tr = styled.tr`
   margin: 1em;
   & > button {
-            background:#18c964;
-            border: none;
-            padding: 0 1em;
-            border-radius: 1em;
-            color: #fff;
-            font-weight: 400;
-            cursor: pointer;
-          }
+    background: #18c964;
+    border: none;
+    padding: 0 1em;
+    border-radius: 1em;
+    color: #fff;
+    font-weight: 400;
+    cursor: pointer;
+  }
 `;
-export const Inputfilter = styled.input`  
-width: 50%;
+export const Inputfilter = styled.input`
+  width: 50%;
   border: solid 1px ${colors.gray700};
   padding: 0.5em;
   border-radius: 1rem;
@@ -317,12 +363,12 @@ width: 50%;
   margin-right: 5px;
   transition: 0.5s;
   color: ${colors.gray600};
-  &:focus{
+  &:focus {
     width: 80%;
   }
-  `
-  
-  export const CasrStyle = styled.div`
+`;
+
+export const CasrStyle = styled.div`
   width: 90%;
   display: flex;
   flex-wrap: wrap;

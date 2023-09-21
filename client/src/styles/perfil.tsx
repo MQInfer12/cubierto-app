@@ -90,6 +90,18 @@ export const Container = styled.section`
       }
     }
   }
+  @media screen and (max-width: 720px) {
+    &>section{
+      width:100%;
+      flex-wrap:wrap;
+      & div{
+        width:15em;
+        & > label{
+        width:50%;
+      }
+      }
+    }
+  }
 `;
 
 export const Divfile = styled.div`
@@ -158,7 +170,6 @@ export const Portada = styled.article`
          height: 26px;
          cursor: pointer;
          filter: invert(100%) sepia(0%) saturate(6%) hue-rotate(145deg) brightness(95%) contrast(78%);
-        
       }
       &>input{
 
@@ -187,6 +198,17 @@ export const Portada = styled.article`
    }
    &>input{
     display: none;
+   }
+  }
+  @media screen and (max-width: 720px) {
+  width: 100vw;
+  &>.PortadaEdit{
+   &>img{
+ width:40px;
+ height:40px;  
+ top: 70%;
+    left: 85%;
+  }
    }
   }
 `;

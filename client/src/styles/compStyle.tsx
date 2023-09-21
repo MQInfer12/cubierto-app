@@ -15,11 +15,13 @@ export const ConNab = styled.nav`
   z-index: 5;
   height: 105px;
   & > img {
-    display: none;
+    display: none ;
     filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(287deg)
       brightness(101%) contrast(101%);
   }
   ${navScrean320}
+
+  
 `;
 export const Divtabla = styled.div`
   height: max-content;

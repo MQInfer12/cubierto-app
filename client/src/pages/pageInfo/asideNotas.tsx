@@ -9,11 +9,12 @@ const AsideNotas = () => {
         <img src={imgnotas} alt="" />
         <section>
           <p>
-            Lorem ipsum dolor sit amet consectetur. Laoreet pellentesque quis ut
-            nisl amet. Consequat neque eu sit cursus ac lectus amet iaculis.
-            Diam volutpat pretium rhoncus in.
+            En colaboración con nuestros aliados, trabajamos incansablemente
+            para reducir el desperdicio de alimentos y construir puentes entre
+            proveedores y consumidores, creando un mundo más sostenible y menos
+            hambriento.
           </p>
-          <strong>Jhon</strong>
+          <strong>Ing. en sistemas</strong>
         </section>
       </div>
     </AsideNotasStyle>

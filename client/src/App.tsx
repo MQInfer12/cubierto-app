@@ -30,10 +30,6 @@ function App() {
             <Route path="/" element={<Navbar />}>
               <Route path="/" element={<Home />} />
             <Route path="/estadisticas" element={<Estadisticas />} />
-
-              <Route path="/ofertas" element={<Ofertas />} />
-              <Route path="/quienes-somos" element={<QuienesSomos />} />
-              <Route path="/organizacion" element={<Organizacion />} />
               <Route path="/login" element={<Register />} />
             </Route>
           </Routes>
