@@ -44,7 +44,11 @@ const xprisma = prisma.$extends({
                                 include: {
                                     producto: {
                                         include: {
-                                            usuario: true
+                                            usuario: {
+                                                include: {
+                                                    ubicacionActual: true
+                                                }
+                                            }
                                         }
                                     }
                                 }
