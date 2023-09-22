@@ -26,6 +26,7 @@ const UserInfo = () => {
     ubicacion: user?.ubicacionActualId
   });
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const SeleccionarFoto = async () => {
     const res = await ImagePicker.launchImageLibraryAsync({
@@ -54,6 +55,7 @@ const UserInfo = () => {
   const handleSave = async () => {
     const message = validate(form);
     if(message) return Alert.alert(message);
+    setLoading(true);
     let fotoUrl: string | undefined = undefined;
     let portadaUrl: string | undefined = undefined;
     if(form.foto) {
@@ -84,6 +86,7 @@ const UserInfo = () => {
       setUser(res.data);
       Alert.alert("Se actualizaron tus datos con éxito");
     }
+    setLoading(false);
   }
 
   const handleBorrar = async () => {
@@ -131,6 +134,7 @@ const UserInfo = () => {
           </View>
         }
       </View>
+      <FontedText style={styles.sizeAlert}>Tamaño de imagen recomendado: 1MB</FontedText>
       <View style={styles.inputContainer}>
         <FontedText style={styles.inputTitle} weight={600}>Nombre de usuario</FontedText>
         <TextInput 
@@ -192,7 +196,7 @@ const UserInfo = () => {
         </View>
         </>
       }
-      <Button onPress={handleSave}>Guardar cambios</Button>
+      <Button onPress={handleSave} disabled={loading}>{loading ? "Cargando..." : "Guardar cambios"}</Button>
     </ScrollView>
   )
 }
@@ -213,6 +217,11 @@ const styles = StyleSheet.create({
   unaFotoContainer: {
     flex: 1,
     gap: 4
+  },
+  sizeAlert: {
+    fontSize: 12,
+    color: colors.gray600,
+    alignSelf: "flex-start"
   },
   foto: {
     height: 104,

@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Venta } from '../../interfaces/venta'
 import FontedText from '../global/fontedText'
@@ -50,7 +50,19 @@ const PedidoActualCard = ({ venta }: Props) => {
               venta.estado === "recogido" ?
               `¡Muchas gracias, disfruta tu pedido!`
               : venta.estado === "aceptado" ?
-              rol === "restaurante" ? `¡Pedido aceptado, pasa a recogerlo al restaurante!` : `¡El proveedor aceptó tu pedido correctamente!`
+                rol === "restaurante" ? 
+                <View style={styles.totalView}>
+                  <FontedText style={styles.totalText}>¡Pedido aceptado, pasa a recogerlo al restaurante!</FontedText>
+                  <TouchableOpacity
+                    onPress={() => {
+                      const { latitud, longitud } = venta.detalles[0].productoActivo.producto.usuario.ubicacionActual
+                      Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${latitud}%2C${longitud}`)
+                    }}
+                  >
+                    <FontedText style={styles.buttonText}>¿Cómo llegar?</FontedText>
+                  </TouchableOpacity>
+                </View> : 
+                <Text>¡El proveedor aceptó tu pedido correctamente!</Text>
               : venta.estado === "rechazado" ?
               `Lo lamentamos, el restaurante rechazó tu pedido...`
               : 
@@ -130,8 +142,16 @@ const styles = StyleSheet.create<any>({
   horasText: {
     color: colors.gray500
   },
+  totalView: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   totalText: {
     color: colors.gray500,
+    fontSize: 14
+  },
+  buttonText: {
+    color: colors.primary500,
     fontSize: 14
   },
   verDetallesContainer: {

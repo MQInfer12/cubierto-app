@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useUser } from '../../context/user';
 import { UseLoggedUser } from '../../hooks/useLoggedUser'
@@ -52,6 +52,14 @@ const Home = () => {
             <Icon name='notifications-outline' size={16} color={colors.gray900} />
           </View>
           <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones {!!user.notificacionesPendientes && <FontedText style={styles.redText}>({user.notificacionesPendientes})</FontedText>}</FontedText>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bottomButton} onPress={() => {
+          Linking.openURL(`https://cubierto.cidtec-uc.com`)
+        }}>
+          <View style={styles.bottomIconContainer}>
+            <Icon name='globe-outline' size={16} color={colors.gray900} />
+          </View>
+          <FontedText style={styles.bottomButtonText} weight={600}>Aplicación web</FontedText>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
           <View style={styles.bottomIconContainer}>

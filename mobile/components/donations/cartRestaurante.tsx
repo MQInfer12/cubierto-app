@@ -23,16 +23,19 @@ interface Props {
 const CartRestaurante = ({ cart, removeFromCart, setPage, beneficiarios = [] }: Props) => {
   const { user } = useUser();
   const [selected, setSelected] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handlePedirDonacion = async () => {
+    setLoading(true);
     const res = await sendRequest(`donacion/ofrecer/${user?.id}`, {
       beneficiarioId: selected,
       items: cart
     });
     if(res) {
-      alert("Se ofreció la donación correctamente");
+      Alert.alert("Se ofreció la donación correctamente");
       setPage("Pendientes");
     }
+    setLoading(false);
   }
 
   const handleAlert = () => {
@@ -71,7 +74,7 @@ const CartRestaurante = ({ cart, removeFromCart, setPage, beneficiarios = [] }: 
           </TouchableOpacity>
         </View>
       ))}
-      <Button onPress={handleAlert}>Donar</Button>
+      <Button onPress={handleAlert} disabled={loading}>{loading ? "Cargando..." : "Donar"}</Button>
     </View>
   )
 }

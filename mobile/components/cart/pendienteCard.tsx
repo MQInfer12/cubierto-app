@@ -1,4 +1,4 @@
-import { Alert, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Venta, VentaEstado } from '../../interfaces/venta'
 import FontedText from '../global/fontedText'
@@ -88,7 +88,16 @@ const PendienteCard = ({ venta }: Props) => {
             estado === "aceptado" ?
             `¡Pedido aceptado! espera contento a tu cliente, pronto llegará`
             : estado === "recogido" ?
-            `¡Pedido recogido! mira tus detalles en nuestra aplicación web`
+            <View style={styles.totalView}>
+              <FontedText weight={600} style={styles.totalText}>¡Pedido recogido! mira tus detalles en nuestra </FontedText>
+              <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL(`https://cubierto.cidtec-uc.com`)
+                }}
+              >
+                <FontedText style={styles.buttonText} weight={600}>aplicación web</FontedText>
+              </TouchableOpacity>
+            </View>
             : estado === "rechazado" ?
             `Pedido rechazado, se borrará de la lista`
             : isActive ? 
@@ -181,8 +190,16 @@ const styles = StyleSheet.create({
   horasText: {
     color: colors.gray500
   },
+  totalView: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   totalText: {
     color: colors.gray500,
+    fontSize: 14
+  },
+  buttonText: {
+    color: colors.primary500,
     fontSize: 14
   },
   verDetallesContainer: {

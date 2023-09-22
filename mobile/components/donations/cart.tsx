@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { ProductoActivo } from '../../interfaces/productoActivo'
 import FontedText from '../global/fontedText'
 import Button from '../global/button'
@@ -18,8 +18,10 @@ interface Props {
 
 const Cart = ({ cart, removeFromCart, setPage }: Props) => {
   const { user } = useUser();
+  const [loading, setLoading] = useState(false);
 
   const handlePedirDonacion = async () => {
+    setLoading(true);
     const body = {
       donadorId: cart[0].producto.usuarioId,
       items: cart.map(item => ({
@@ -29,9 +31,10 @@ const Cart = ({ cart, removeFromCart, setPage }: Props) => {
     };
     const res = await sendRequest(`donacion/pedir/${user?.id}`, body);
     if(res) {
-      alert("Se pidió la donación correctamente");
+      Alert.alert("Se pidió la donación correctamente");
       setPage("Pendientes");
     }
+    setLoading(false);
   }
 
   return (
@@ -44,7 +47,7 @@ const Cart = ({ cart, removeFromCart, setPage }: Props) => {
           </TouchableOpacity>
         </View>
       ))}
-      <Button onPress={handlePedirDonacion}>Pedir</Button>
+      <Button onPress={handlePedirDonacion} disabled={loading}>{loading ? "Cargando..." : "Pedir"}</Button>
     </View>
   )
 }

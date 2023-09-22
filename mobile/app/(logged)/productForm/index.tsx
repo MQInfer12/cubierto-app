@@ -27,6 +27,7 @@ const ProductForm = () => {
     categoriaId: null,
   });
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const SeleccionarFoto = async () => {
     const res = await ImagePicker.launchImageLibraryAsync({
@@ -43,6 +44,7 @@ const ProductForm = () => {
   const handleSave = async () => {
     const message = validate(form, true);
     if(message) return Alert.alert(message); 
+    setLoading(true);
     let fotoUrl: string | undefined = undefined;
     if(form.foto) {
       fotoUrl = await sendCloudinary(form.foto, setProgress);  
@@ -62,6 +64,7 @@ const ProductForm = () => {
       router.push("productos");
       Alert.alert("Se añadió tu producto con éxito");
     }
+    setLoading(false);
   }
 
   return (
@@ -79,6 +82,7 @@ const ProductForm = () => {
           />
         </TouchableOpacity>
       </View>
+      <FontedText style={styles.sizeAlert}>Tamaño de imagen recomendado: 1MB</FontedText>
       <View style={styles.inputContainer}>
         <FontedText style={styles.inputTitle} weight={600}>Nombre</FontedText>
         <TextInput 
@@ -119,7 +123,7 @@ const ProductForm = () => {
             fontFamily='Biko400'
           />
         </View>
-      <Button onPress={handleSave}>Guardar producto</Button>
+      <Button onPress={handleSave} disabled={loading}>{loading ? "Cargando..." : "Guardar producto"}</Button>
     </ScrollView>
   )
 }
@@ -132,6 +136,11 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: 16,
     alignItems: "flex-end"
+  },
+  sizeAlert: {
+    fontSize: 12,
+    color: colors.gray600,
+    alignSelf: "flex-start"
   },
   fotoContainer: {
     alignSelf: "flex-start",

@@ -20,9 +20,11 @@ const OfertaForm = () => {
     precioDescontado: "",
     tiempo: ""
   });
+  const [loading, setLoading] = useState(false);
   const productoSeleccionado = user?.productos.find(producto => String(producto.id) === form.productoId);
   
   const handleSave = async () => {
+    setLoading(true);
     const res = await sendRequest<Producto>(`productoActivo`, {
       productoId: form.productoId ? Number(form.productoId) : null,
       cantidad: Number(form.cantidad),
@@ -35,6 +37,7 @@ const OfertaForm = () => {
       router.push("ofertas");
       Alert.alert("Se añadió tu oferta con éxito");
     }
+    setLoading(false);
   }
 
   const handleAlertSave = () => {
@@ -95,7 +98,7 @@ const OfertaForm = () => {
           onChangeText={text => setForm(old => ({...old, tiempo: text.replace(/[^0-9]/g, '') }))} 
         />
       </View>
-      <Button onPress={handleAlertSave}>Guardar producto</Button>
+      <Button onPress={handleAlertSave} disabled={loading}>{loading ? "Cargando..." : "Publicar oferta"}</Button>
     </ScrollView>
   )
 }

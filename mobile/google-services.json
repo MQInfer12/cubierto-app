@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "167888371379",
+    "project_id": "cubierto-unifranz",
+    "storage_bucket": "cubierto-unifranz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167888371379:android:a06ffb7d7e58ce9063bac6",
+        "android_client_info": {
+          "package_name": "com.mqinfer12.cubierto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167888371379-47i92otsc50q2lauttodnbalut7is4pp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG7umRytEWQAtZI_nhom-sPRAGi_XygMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167888371379-47i92otsc50q2lauttodnbalut7is4pp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,10 +18,12 @@ const UserInfo = () => {
     latitud: "",
     longitud: ""
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
     const message = validate(form);
     if(message) return Alert.alert(message);
+    setLoading(true);
     const res = await sendRequest<Ubicacion>(`ubicacion`, {
       nombre: form.nombre,
       latitud: Number(form.latitud),
@@ -33,6 +35,7 @@ const UserInfo = () => {
       Alert.alert("Se guardó la ubicación con éxito");
       router.back();
     }
+    setLoading(false);
   }
 
   if(!user) return null;
@@ -62,7 +65,7 @@ const UserInfo = () => {
           onChangeText={text => setForm(old => ({...old, longitud: text.replace(/[^0-9-.]/g, '') }))} 
         />
       </View>
-      <Button onPress={handleSave}>Guardar ubicación</Button>
+      <Button onPress={handleSave} disabled={loading}>{loading ? "Cargando..." : "Guardar ubicación"}</Button>
     </ScrollView>
   )
 }
