@@ -31,6 +31,7 @@ export const Content2 = styled.aside`
       width: 22em;
       height: 30em;
       animation: AparecerDeLaIzquierda 1s;
+      border-radius: 32px;
     }
     & div {
       width: 40%;

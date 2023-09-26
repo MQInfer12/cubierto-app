@@ -39,7 +39,6 @@ export const Dash = styled.section`
       position: absolute;
       width: 80%;
       background-color: #fff;
-      animation: AparecerDeLaIzquierda 1s;
       z-index: 100;
       & > #menuA {
         display: flex;
@@ -50,7 +49,12 @@ export const Dash = styled.section`
     }
   }
 `;
-export const NavDash = styled.nav`
+
+interface NavDashProps {
+  active: boolean
+}
+
+export const NavDash = styled.nav<NavDashProps>`
   background-color: ${colors.light};
   width: 210px;
   height: 100vh;
@@ -60,6 +64,12 @@ export const NavDash = styled.nav`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+
+  @media screen and (max-width: 720px) {
+    transition: transform 0.5s;
+    transform: ${props => props.active ? "translateX(0)" : "translateX(-100%)"};
+  }
+
   & > #menuA {
     border-radius: 0;
     display: none;
@@ -79,11 +89,11 @@ export const NavDash = styled.nav`
       border-radius: 0;
       background-color: transparent;
     }
-  }
-  & > img {
-    width: 80px;
-    border-radius: 50%;
-    height: 80px;
+    & > img {
+      width: 80px;
+      border-radius: 50%;
+      height: 80px;
+    }
   }
   & p {
     color: ${colors.dark};
@@ -171,6 +181,11 @@ export const Section = styled.section`
   gap: 3em;
   flex-direction: column;
   min-height: 100vh;
+
+  @media screen and (max-width: 720px) {
+    min-height: calc(100vh - 46px);
+  }
+
   & > h4 {
     color: ${colors.gray500};
   }
@@ -228,6 +243,9 @@ export const Section = styled.section`
         & > .center {
           text-align: center;
         }
+        & > .min {
+          width: 300px;
+        }
       }
     }
     & tbody {
@@ -247,6 +265,11 @@ export const Section = styled.section`
         & > td {
           padding: 1em 1em;
           color: ${colors.gray900};
+
+          &.min {
+            overflow: hidden;
+          }
+
           & > article {
             ${ComunStyles}
             justify-content:flex-start;

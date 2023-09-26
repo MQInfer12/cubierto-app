@@ -10,9 +10,8 @@ interface Props {
 
 const ProtectRoute = ({ children }: Props) => {
     const [load, setLoad] = useState(false);
-    const { user } = useUser();
+    const { user, logout } = useUser();
     const Navigate = useNavigate();
-
 
     useEffect(() => {
         if (!user) {
@@ -21,17 +20,16 @@ const ProtectRoute = ({ children }: Props) => {
         if (user?.rol == "usuario" || user?.rol == "beneficiario") {
             toast.success("Descarga la aplicacion para disfrutar de nuestras funcionalidades");
             Navigate("/");
-
+            logout();
         }
-       
         setLoad(true);
     }, [])
     if (!load) {
         return null;
     }
-    return <ReloadUser>
-        {children}
-    </ReloadUser>;
+    return (
+        <ReloadUser>{children}</ReloadUser>
+    );
 }
 
 export default ProtectRoute

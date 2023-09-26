@@ -72,7 +72,8 @@ const Categorias = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th >Categoria</th>
+                            <th className="min">Categoria</th>
+                            <th></th>
                             <th className="mini">Icono</th>
                             <th className="mini">Acciones</th>
                         </tr>
@@ -95,7 +96,7 @@ const Categorias = () => {
 
                                 </tr></> : res?.data.map((categoria) => (
                                     <tr>
-                                        <td>{categoria.nombre}</td>
+                                        <td colSpan={2} className="min">{categoria.nombre}</td>
                                         <td><i className={"fa-solid fa-" + categoria.ionicon}></i></td>
                                         <td><button onClick={() => handleBorrar(categoria.id)} className="buttonEliminar"><img src={Eliminar} alt="" /></button>
                                         </td>

@@ -11,9 +11,10 @@ const Footer = () => {
     <Foote>
       <div>
         <h2>CUBIERTO</h2>
+        <p>Encuéntranos en <a href="https://play.google.com/store/apps/details?id=com.mqinfer12.cubierto">Google Play</a></p>
         <div className="links">
           <Links to="/">Inicio</Links>
-          <Links to="">Información</Links>
+          <Links to="/estadisticas">Información</Links>
           <Links to="/login">Iniciar sesión</Links>
         </div>
         <span />
@@ -34,7 +35,7 @@ const Footer = () => {
 
 export default Footer;
 const Foote = styled.footer`
-  width: 99.7vw;
+  width: 100vw;
   height: 15rem;
   ${ComunStyles}
   flex-direction: column;
@@ -78,6 +79,13 @@ const Foote = styled.footer`
         flex-direction: row;
         gap: 3rem;
         margin: 1rem 0.5rem;
+      }
+    }
+
+    & > p {
+      color: #FFF;
+      & > a {
+        color: #FFF;
       }
     }
   }

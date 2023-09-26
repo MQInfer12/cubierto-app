@@ -114,7 +114,8 @@ const Ventas = () => {
       <table>
         <thead>
           <tr>
-            <th>Usuario</th>
+            <th className="min">Usuario</th>
+            <th></th>
             <th className="mini">Ganancia</th>
             <th className="mini">Fecha de venta</th>
             <th className="mini">Reporte individual</th>
@@ -128,7 +129,7 @@ const Ventas = () => {
             }, 0);
             return (
               <Tr key={venta.id}>
-                <td>
+                <td className="min" colSpan={2}>
                   <section>
                     <img src={venta.usuario.foto} alt="foto usuario " />{" "}
                     <div>

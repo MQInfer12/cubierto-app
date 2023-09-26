@@ -23,9 +23,8 @@ const HeaderInfo = ({ text }: { text: string }) => {
             </strong>
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
-            repellat delectus nostrum corporis eius asperiores minima quia.
-            Quidem, consequuntur quae!
+            Pide y recoge las mejores ofertas de restaurantes de toda la ciudad que trabajan en conjunto con nosotros para brindarte
+            sus mejores productos al mejor precio.
           </p>
         </div>
         <div className="cars">

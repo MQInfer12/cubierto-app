@@ -4,7 +4,7 @@ import imgnotas from "../../assets/Frame 6.png";
 const AsideNotas = () => {
   return (
     <AsideNotasStyle>
-      <h3>Nuestras notas</h3>
+      <h3>Nuestra nota</h3>
       <div>
         <img src={imgnotas} alt="" />
         <section>
@@ -14,7 +14,7 @@ const AsideNotas = () => {
             proveedores y consumidores, creando un mundo más sostenible y menos
             hambriento.
           </p>
-          <strong>Ing. en sistemas</strong>
+          <strong>Unifranz, Cochabamba - Bolivia</strong>
         </section>
       </div>
     </AsideNotasStyle>

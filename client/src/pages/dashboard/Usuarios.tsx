@@ -26,7 +26,8 @@ const Usuarios = () => {
         <table>
           <thead>
             <tr>
-              <th>Nombre</th>
+              <th className="min">Nombre</th>
+              <th></th>
               <th className="pequeno">Rol</th>
               <th className="mini">Estado</th>
             </tr>

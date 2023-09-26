@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { colors, fonts, sizes } from "./styleGlobal";
 import { slyder320 } from "./respStyle";
 
+
 export const Section = styled.section`
   height: calc(100vh - 105px);
   display: flex;
@@ -32,6 +33,7 @@ export const Aside = styled.aside`
     }
   }
 `;
+
 export const SliderStyle = styled.article`
   display: flex;
   flex-direction: row;
@@ -54,4 +56,26 @@ export const SlyderImg = styled.img<SlyderImgProps>`
   object-fit: cover;
   filter: grayscale(${(props) => (props.active ? 0 : 1)});
   transition: all 0.5s;
+  cursor: pointer;
+
+  @media screen and (max-width: 1180px) {
+    width: ${(props) => (props.active ? "240px" : "40px")};
+  }
+
+  @media screen and (max-width: 820px) {
+    width: 300px;
+    display: ${props => props.active ? "block" : "none"};
+    animation: appear 1s;
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      filter: blur(5px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
 `;

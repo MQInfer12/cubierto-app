@@ -37,7 +37,6 @@ export const navScrean320 = css`
       overflow: hidden;
       justify-content: space-evenly;
       position: absolute;
-      animation: AparecerDeLaIzquierda 1s;
       & > img {
         display: flex;
         position: absolute;
@@ -81,7 +80,6 @@ export const imgheaderscren420 = css`
     padding: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
     & > img {
       position: absolute;
       width: 100%;
@@ -115,20 +113,20 @@ export const imgheaderscren420 = css`
     padding: 0;
     width: 100vw;
     height: 60vh;
-    overflow: hidden;
     & > img {
       position: absolute;
       width: 100%;
+      height: 100%;
       z-index: -1;
+      top: 0;
       border-radius: 0 0 2em 2em;
-      top: 1.8em;
       box-shadow: 0 2px 10px ${colors.primary};
     }
     & > section {
       position: absolute;
       width: 100%;
       padding: 0 0 1em 0;
-      bottom: 3em;
+      bottom: 0;
       border-radius: 0 0 2em 2em;
       gap: 0;
       box-shadow: 0 2px 10px ${colors.dark};
@@ -143,6 +141,7 @@ export const imgheaderscren420 = css`
       & p {
         width: 60%;
         font-size: 14px;
+        text-align: center;
       }
     }
   }
@@ -191,7 +190,6 @@ export const imgheaderscren420 = css`
       width: ${sizes.small};
       height: 80%;
       object-fit: cover;
-      border-radius: 24px;
       animation: AparecerDeLaDerecha 1s;
     }
   }
@@ -206,7 +204,6 @@ export const slyder320 = css`
       flex-direction: column;
       & h3 {
         font-size: 1.5rem;
-        width: 70%;
       }
       & > div {
         width: 70%;

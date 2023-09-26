@@ -3,7 +3,7 @@
     "name": "Cubierto",
     "slug": "cubierto",
     "scheme": "cubierto",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +26,8 @@
       },
       "package": "com.mqinfer12.cubierto",
       "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"

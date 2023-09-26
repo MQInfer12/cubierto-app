@@ -7,7 +7,7 @@ const Fraces = () => {
       <p>No solo ahorras dinero, también ayudas al planeta.</p>
       <p>Un descuento, una comida salvada.</p>
       <p>Tu compra inteligente es un acto de responsabilidad ambiental</p>
-      <p>"Productos de calidad a precios que evitan el desperdicio</p>
+      <p>Productos de calidad a precios que evitan el desperdicio</p>
     </FracesDiv>
   );
 };

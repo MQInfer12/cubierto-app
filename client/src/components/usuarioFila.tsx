@@ -42,8 +42,7 @@ const UsuarioFila = ({ user }: Props) => {
     return (
         <>
             <tr>
-                <td>
-
+                <td colSpan={2} className="min">
                     <section>
                         <img src={user.foto} alt="foto usuario " />{" "}
                         <div>

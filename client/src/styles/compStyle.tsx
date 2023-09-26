@@ -34,7 +34,12 @@ export const Divtabla = styled.div`
     max-height: 380px;
   }
 `;
-export const ContentNavbar = styled.header`
+
+interface NavProps {
+  active: boolean
+}
+
+export const ContentNavbar = styled.header<NavProps>`
   background-color: ${colors.primary};
   width: 90%;
   ${ComunStyles}
@@ -61,6 +66,11 @@ export const ContentNavbar = styled.header`
     & > img {
       height: 32px;
     }
+  }
+
+  @media screen and (max-width: 769px) {
+    transition: transform 0.5s;
+    transform: ${props => props.active ? "translateX(0)" : "translateX(-100%)"};
   }
 `;
 
@@ -98,6 +108,7 @@ width: 150px;
   border: none;
   border-radius: 3rem;
   transition: 0.5s;
+  white-space: nowrap;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
@@ -133,7 +144,6 @@ export const Content = styled.article`
     animation: AparecerDeLaDerecha 1s;
   }
   ${imgheaderscren420}
-
 `;
 
 export const CarsStyle = styled.section`
@@ -158,7 +168,6 @@ flex-wrap:wrap;
     width: 100vw;
     & div {
       width:100vw !important;
-
     }
   }
   & > div {
@@ -186,14 +195,27 @@ flex-wrap:wrap;
     }
 
     &:nth-child(1) {
-      transition-delay: 200ms;
+      transition-delay: 0ms;
     }
     &:nth-child(2) {
-      transition-delay: 400ms;
+      transition-delay: 200ms;
     }
     &:nth-child(3) {
-      transition-delay: 600ms;
+      transition-delay: 400ms;
     }
+
+    @media screen and (max-width: 768px) {
+      &:nth-child(1) {
+      transition-delay: 0;
+    }
+    &:nth-child(2) {
+      transition-delay: 0;
+    }
+    &:nth-child(3) {
+      transition-delay: 0;
+    }
+    }
+
     & > p {
       font-size: 1rem;
       font-weight: 400;

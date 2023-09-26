@@ -7,16 +7,15 @@ import { car420 } from "../styles/respStyle";
 
 const Slyder = () => {
   const [active, setActive] = useState(0);
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       setActive((old) => (old + 1) % imagedata.length);
     }, 6000);
     return () => {
-      clearInterval(interval);
+      clearTimeout(timeout);
     };
-  }, []);
+  }, [active]);
 
   return (
     <>
@@ -34,6 +33,7 @@ const Slyder = () => {
               src={imagen.image}
               key={imagen.id}
               active={active === i}
+              onClick={() => setActive(i)}
             />
           ))}
         </SliderStyle>
@@ -44,8 +44,7 @@ const Slyder = () => {
           <p>Descarga nuestra aplicación desde tu tienda favorita</p>
         </div>
         <section>
-          <button>App Store</button>
-          <button>Google Play</button>
+          <a href="https://play.google.com/store/apps/details?id=com.mqinfer12.cubierto">Google Play</a>
         </section>
       </Cardownload>
     </>
@@ -86,8 +85,9 @@ export const Cardownload = styled.section`
       justify-content: space-between;
       align-items: center;
       flex-direction:row;
-      & > button {
+      & > a {
         width: 216px;
+        text-align: center;
         height: 40px;
         gap: 10px;
         color: ${colors.light};

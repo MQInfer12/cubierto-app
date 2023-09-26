@@ -10,14 +10,12 @@ import SectionAyuda from "./pageInfo/sectionAyuda";
 const Estadisticas = () => {
   return (
     <>
-      <HeaderInfo text="inigualables." />
-   <SectionAyuda/>
-   <Fraces/>
-   <SectionAliados/>
-   <AsideNotas/>
-   
-   <Footer />
-
+    <HeaderInfo text="inigualables." />
+    <SectionAyuda/>
+    <Fraces/>
+    <SectionAliados/>
+    <AsideNotas/>
+    <Footer />
     </>
   );
 };

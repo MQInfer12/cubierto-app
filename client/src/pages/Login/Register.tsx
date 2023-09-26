@@ -53,37 +53,41 @@ const Register = () => {
   )
 }
 export default Register
+
 export const Login = styled.div`
   width: 100vw;
-  height: calc(100vh - 105px);
+  height: calc(100dvh - 105px);
   background-color: ${colors.primary};
-   display: flex;
-   justify-content: center;
-   align-items: center;
-    &>div {
-      overflow: hidden;
-      display: flex;
-      width: 400px;
-      height: 492px;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 35px;
-      box-shadow: 0px 5px 5px rgba(0,0,0,.2);
-      border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &>div {
+    overflow: hidden;
+    display: flex;
+    width: 400px;
+    height: 492px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    box-shadow: 0px 5px 5px rgba(0,0,0,.2);
+    border-radius: 20px;
+    position: relative;
+    background: ${colors.light};
+    &>h1{
+      color:${colors.light};
       position: relative;
-      background: ${colors.light};
-      &>h1{
-        color:${colors.light};
-        position: relative;
-        top: 20px;
-      }
-      &>p{
-        color: ${colors.gray600};
-        font-size: 17px;
-      }
-     
+      top: 20px;
     }
+    &>p{
+      color: ${colors.gray600};
+      font-size: 17px;
+    }
+    
+  }
+  @media screen and (max-width: 769px) {
+    height: 100dvh;
+  }
 `
 const Imgfondo = styled.img`
 top: 0;
