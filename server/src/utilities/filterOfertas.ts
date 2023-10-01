@@ -1,6 +1,6 @@
 import { ProductoActivo } from "@prisma/client";
 
-export const filterOfertas = (productosActivos: ProductoActivo[]) => {
+export const filterOfertas = (productosActivos: ProductoActivo[]): ProductoActivo[] => {
   const ahora = new Date();
   return productosActivos.filter(oferta => {
     const publicado = new Date(oferta.fecha);
