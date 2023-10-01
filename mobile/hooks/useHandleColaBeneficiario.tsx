@@ -20,7 +20,6 @@ export const useHandleColaBeneficiario = () => {
       channel.bind("beneficiario", (res: Cola) => {
         const estoy = res.personas.find(persona => persona === user?.id);
         if(!estoy) {
-          Alert.alert("Ya no estás en la cola...");
           setCola(null);
           channel.unbind("beneficiario");
           setVolverAIngresar(true);
@@ -33,7 +32,7 @@ export const useHandleColaBeneficiario = () => {
 
   const salirCola = async() => {
     const res = await sendRequest<Cola>(`cola/beneficiario/salir/${user?.id}`, null, {
-      method: "PUT"
+      method: "DELETE"
     });
     if(res) {
       setCola(null);
@@ -44,9 +43,7 @@ export const useHandleColaBeneficiario = () => {
   useEffect(() => {
     entrarCola();
     return () => {
-      if(cola) {
-        salirCola();
-      }
+      salirCola();
     }
   }, [])
 

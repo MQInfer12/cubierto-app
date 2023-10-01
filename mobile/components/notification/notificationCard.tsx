@@ -29,6 +29,20 @@ const NotificationCard = ({ notificacion, setNots }: Props) => {
     }
   }
 
+  const now = new Date();
+  const then = new Date(notificacion.fecha);
+  const milliseconds = now.getTime() - then.getTime();
+  const seconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  const string = 
+    minutes < 1 ? "Hace un momento" : 
+    hours < 1 ? `Hace ${minutes} minuto${minutes === 1 ? "" : "s"}` :
+    days < 1 ? `Hace ${hours} hora${hours === 1 ? "" : "s"}` :
+    `Hace ${days} día${days === 1 ? "" : "s"}`    
+
   return (
     <TouchableOpacity style={styles.ofertaCard} onPress={() => router.push(notificacion.route)}>
       <View style={styles.productData}>
@@ -39,13 +53,14 @@ const NotificationCard = ({ notificacion, setNots }: Props) => {
           </View>
         </View>
         <View style={styles.productTexts}>
+          <FontedText style={styles.hour}>{string}</FontedText>
           <FontedText numberOfLines={1} weight={700} style={styles.name}>{notificacion.titulo}</FontedText>
           <FontedText numberOfLines={2}  style={styles.description}>{notificacion.descripcion}</FontedText>
         </View>
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity onPress={handleDelete}>
-          <Icon name='trash-outline' color={colors.primary500} size={18} />
+          <Icon name='trash-outline' color={colors.primary500} size={24} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -98,6 +113,10 @@ const styles = StyleSheet.create({
   productTexts: {
     height: "100%",
   },
+  hour: {
+    fontSize: 10,
+    color: colors.primary500
+  },
   name: {
     color: colors.gray900,
     fontSize: 16,
@@ -111,5 +130,5 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
     gap: 12
-  }
+  },
 })

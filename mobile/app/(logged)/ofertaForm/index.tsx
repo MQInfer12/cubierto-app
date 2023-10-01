@@ -41,6 +41,20 @@ const OfertaForm = () => {
   }
 
   const handleAlertSave = () => {
+    if(!user?.ubicacionActualId) {
+      Alert.alert("Asigna tu ubicación", "Tus compradores sabrán dónde recoger sus pedidos.", [{
+        text: "Ok",
+        onPress: () => {
+          return;
+        }
+      }, {
+        text: "Ir a mi información",
+        onPress: () => {
+          router.replace("userInfo");
+        }
+      }]);
+      return;
+    }
     const message = validate(form, productoSeleccionado?.precio as number);
     if(message) return Alert.alert(message);
     Alert.alert("¿Estás seguro?", "No podrás modificar ni eliminar la oferta", [{
@@ -50,7 +64,9 @@ const OfertaForm = () => {
       }
     }, {
       text: "Continuar",
-      onPress: handleSave
+      onPress: () => {
+        handleSave()
+      }
     }]);
   }
 

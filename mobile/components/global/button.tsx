@@ -16,8 +16,7 @@ const Button = ({ onPress, children, type = "primary", disabled = false, icon }:
   return (
     <TouchableOpacity disabled={disabled} onPress={onPress} style={styles.button(type, disabled)}>
       <FontedText weight={700} style={styles.buttonText(type)}>
-        {icon && <Icon name={icon} size={16} color={type === "primary" ? colors.white : colors.primary500} />}
-        {children}
+        {icon && <Icon name={icon} size={16} color={type === "primary" ? colors.white : colors.primary500} />} {children}
       </FontedText>
     </TouchableOpacity>
   )
@@ -37,6 +36,7 @@ const styles = StyleSheet.create<any>({
     borderColor: type === "secondary" ? colors.gray400 : undefined
   }),
   buttonText:  (type: "primary" | "secondary") => ({
+    alignItems: "center",
     color: type === "primary" ? colors.white : colors.primary500
   })
 })

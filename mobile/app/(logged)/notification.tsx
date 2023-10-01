@@ -1,4 +1,4 @@
-import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { Alert, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FontedText from '../../components/global/fontedText';
 import { useGet } from '../../hooks/useGet';
@@ -9,6 +9,7 @@ import { sendRequest } from '../../utilities/sendRequest';
 import { colors } from '../../styles/colors';
 import NotificationCard from '../../components/notification/notificationCard';
 import NothingHere from '../../components/global/nothingHere';
+import Button from '../../components/global/button';
 
 const Notification = () => {
   useSetRouteName('Notificaciones');
@@ -45,6 +46,25 @@ const Notification = () => {
     oldNots = notsOrdered.filter((not, i) => i >= pendientes);
   }
 
+  const handleDeleteAll = () => {
+    Alert.alert("¿Estás seguro?", "Se eliminarán todas las notificaciones", [{
+      text: "Cancelar",
+      onPress: () => {
+        return;
+      }
+    }, {
+      text: "Continuar",
+      onPress: async () => {
+        const res = await sendRequest(`notificacion/usuario/${user?.id}`, null, {
+          method: "DELETE"
+        });
+        if(res) {
+          getData();
+        }
+      }
+    }])
+  }
+
   return (
     <ScrollView
       contentContainerStyle={styles.container(!nots || nots.length === 0)}
@@ -65,6 +85,7 @@ const Notification = () => {
           type={nots?.length === 0 ? "sad" : 'loading'}
         /> :
         <>
+        <Button onPress={handleDeleteAll}>Borrar todas</Button>
         {
           newNots.length !== 0 &&
           <>

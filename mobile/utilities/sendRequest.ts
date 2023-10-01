@@ -19,7 +19,7 @@ export const sendRequest = async <T,>(route: string, body: Record<string, any> |
       "Content-Type": "application/json",
       "Accept": "application/json"
     },
-    body: JSON.stringify(body || {})
+    body: thisOptions.method !== "GET" ? JSON.stringify(body || {}) : undefined
   });
   if(res.ok) {
     const json: ApiResponse<T> = await res.json();

@@ -8,4 +8,5 @@ export interface Notificacion {
   route: string;
   usuarioId: string;
   usuarioDe: Usuario;
+  fecha: Date;
 }

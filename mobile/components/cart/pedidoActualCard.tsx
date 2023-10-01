@@ -51,7 +51,7 @@ const PedidoActualCard = ({ venta }: Props) => {
               `¡Muchas gracias, disfruta tu pedido!`
               : venta.estado === "aceptado" ?
                 rol === "restaurante" ? 
-                <View style={styles.totalView}>
+                <>
                   <FontedText style={styles.totalText}>¡Pedido aceptado, pasa a recogerlo al restaurante!</FontedText>
                   <TouchableOpacity
                     onPress={() => {
@@ -61,7 +61,7 @@ const PedidoActualCard = ({ venta }: Props) => {
                   >
                     <FontedText style={styles.buttonText}>¿Cómo llegar?</FontedText>
                   </TouchableOpacity>
-                </View> : 
+                </> : 
                 <Text>¡El proveedor aceptó tu pedido correctamente!</Text>
               : venta.estado === "rechazado" ?
               `Lo lamentamos, el restaurante rechazó tu pedido...`
@@ -143,8 +143,7 @@ const styles = StyleSheet.create<any>({
     color: colors.gray500
   },
   totalView: {
-    flexDirection: "row",
-    alignItems: "center"
+
   },
   totalText: {
     color: colors.gray500,

@@ -1,12 +1,8 @@
-import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import React from 'react'
 import FontedText from '../global/fontedText'
-import DonationMapper from './donationMapper'
 import { colors } from '../../styles/colors'
-import { ProductoActivo } from '../../interfaces/productoActivo'
-import Cart from './cart'
 import { Page } from '../../app/(logged)/donations'
-import { useGet } from '../../hooks/useGet'
 import { useHandleColaBeneficiario } from '../../hooks/useHandleColaBeneficiario'
 import NothingHere from '../global/nothingHere'
 import ViewDonation from './viewDonations'
@@ -26,7 +22,8 @@ const DonacionBeneficiario = ({ setPage }: Props) => {
     >
       {
         volverAIngresar ?
-        <View style={{ alignSelf: "center" }}>
+        <View style={{ alignSelf: "center", alignItems: "center", gap: 20 }}>
+          <FontedText style={styles.text} weight={700}>Ya no estás en cola... :(</FontedText>
           <Button onPress={entrarCola}>Volver a entrar a la cola</Button>
         </View>
         :
@@ -46,5 +43,9 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 24,
     flex: 1
+  },
+  text: {
+    color: colors.gray500,
+    fontSize: 14
   }
 })

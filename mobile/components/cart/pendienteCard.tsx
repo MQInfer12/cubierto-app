@@ -88,7 +88,7 @@ const PendienteCard = ({ venta }: Props) => {
             estado === "aceptado" ?
             `¡Pedido aceptado! espera contento a tu cliente, pronto llegará`
             : estado === "recogido" ?
-            <View style={styles.totalView}>
+            <>
               <FontedText weight={600} style={styles.totalText}>¡Pedido recogido! mira tus detalles en nuestra </FontedText>
               <TouchableOpacity
                 onPress={() => {
@@ -97,7 +97,7 @@ const PendienteCard = ({ venta }: Props) => {
               >
                 <FontedText style={styles.buttonText} weight={600}>aplicación web</FontedText>
               </TouchableOpacity>
-            </View>
+            </>
             : estado === "rechazado" ?
             `Pedido rechazado, se borrará de la lista`
             : isActive ? 

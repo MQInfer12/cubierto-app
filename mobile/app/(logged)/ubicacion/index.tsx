@@ -42,13 +42,15 @@ const UserInfo = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.inputContainer}>
-        <FontedText style={styles.inputTitle} weight={600}>Descripción de la ubicación</FontedText>
+        <FontedText style={styles.inputTitle} weight={600}>Nombre de la ubicación</FontedText>
         <TextInput 
           style={styles.textInput} 
           value={form.nombre} 
           onChangeText={text => setForm(old => ({...old, nombre: text }))} 
         />
       </View>
+      <FontedText style={styles.sizeAlert}>Para obtener tus coordenadas ingresa a Google Maps, mantén tu dedo en la ubicación que desees y haz click en los números que están entre paréntesis '(lat, lng)' para copiarlos y pégalos en los recuadros de abajo.</FontedText>
+      <FontedText style={styles.sizeAlert}>Ejm. Latitud: -17.3844166, Longitud: -66.135518</FontedText>
       <View style={styles.inputContainer}>
         <FontedText style={styles.inputTitle} weight={600}>Latitud</FontedText>
         <TextInput 
@@ -86,6 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.gray600,
     marginLeft: 8
+  },
+  sizeAlert: {
+    fontSize: 12,
+    color: colors.gray600,
+    alignSelf: "flex-start"
   },
   textInput: {
     borderWidth: 1,

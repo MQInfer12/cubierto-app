@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons'
 type IconName = keyof typeof Ionicons.glyphMap
 
 export interface Categoria {
-  id: number;
+  id: number | null;
   nombre: string;
-  ionicon: IconName;
+  ionicon: IconName | string;
 }

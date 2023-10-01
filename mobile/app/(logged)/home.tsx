@@ -26,11 +26,7 @@ const Home = () => {
   useProtectCola();
 
   const seleccionarCategoria = (id: number) => {
-    if(categoriaSeleccionada === id) {
-      setCategoriaSeleccionada(null);
-    } else {
-      setCategoriaSeleccionada(id);
-    }
+    setCategoriaSeleccionada(id);
   }
   
   const ofertas = res?.data.ofertas.filter(oferta => {
@@ -58,7 +54,14 @@ const Home = () => {
           <Button onPress={() => router.push('restaurantes')}>Ver restaurantes afiliados</Button>
         </View>
         <TouchableOpacity onPress={() => router.push('notification')} style={styles.notificationsContainer}>
+          {
+            !!user?.notificacionesPendientes &&
+            <FontedText style={styles.floatingPending}>{user?.notificacionesPendientes}</FontedText>
+          }
           <Icon color={colors.primary500} size={20} name="notifications-outline" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('info')} style={styles.notificationsContainer}>
+          <Icon color={colors.primary500} size={20} name="information-outline" />
         </TouchableOpacity>
       </View>
       <CategoriaMapper 
@@ -84,6 +87,18 @@ const styles = StyleSheet.create({
     gap: 16,
     paddingHorizontal: 20,
     paddingBottom: 16
+  },
+  floatingPending: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 16,
+    height: 16,
+    fontSize: 12,
+    borderRadius: 8,
+    backgroundColor: colors.primary500,
+    textAlign: "center",
+    color: colors.white
   },
   textInputContainer: {
     alignItems: "center",
@@ -117,5 +132,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: colors.gray900,
     paddingHorizontal: 20
-  }
+  },
 })

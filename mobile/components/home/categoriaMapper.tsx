@@ -16,6 +16,17 @@ const CategoriaMapper = ({ categorias, categoriaSeleccionada, seleccionarCategor
     <ScrollView horizontal={true} contentContainerStyle={styles.categoriesContainer} showsHorizontalScrollIndicator={false}>
       {
         categorias ?
+        <>
+        <CategoriaCard 
+          categoria={{
+            id: null,
+            ionicon: "th",
+            nombre: "Todos"
+          }} 
+          seleccionarCategoria={seleccionarCategoria} 
+          active={categoriaSeleccionada === null}
+        />
+        {
         categorias.map(categoria => (
           <CategoriaCard 
             key={categoria.id} 
@@ -23,7 +34,9 @@ const CategoriaMapper = ({ categorias, categoriaSeleccionada, seleccionarCategor
             seleccionarCategoria={seleccionarCategoria} 
             active={categoriaSeleccionada === categoria.id}
           />
-        )) :
+        )) 
+        }
+        </> :
         new Array(5).fill("skeleton").map((v, i) => (
           <CategoriaSkeleton key={i} />
         ))

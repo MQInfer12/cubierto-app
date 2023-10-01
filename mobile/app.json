@@ -3,7 +3,7 @@
     "name": "Cubierto",
     "slug": "cubierto",
     "scheme": "cubierto",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "2"
+      "buildNumber": "5"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +27,7 @@
       "package": "com.mqinfer12.cubierto",
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true,
-      "versionCode": 2
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -44,7 +44,15 @@
       "url": "https://u.expo.dev/26a6d06a-5e8a-4877-80e6-dd2234f67424"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ]
   }
 }
