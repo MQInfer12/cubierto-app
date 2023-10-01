@@ -278,5 +278,17 @@ app.patch('/notificacion/usuario/ver/:idUsuario', (req, res) => __awaiter(void 0
     };
     res.json(response);
 }));
+app.delete("/notificacion/usuario/:idUsuario", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield queries_1.default.notificacion.deleteMany({
+        where: {
+            usuarioId: req.params.idUsuario
+        }
+    });
+    const response = {
+        message: "Se borraron las notificaciones del usuario",
+        data: []
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=post.js.map

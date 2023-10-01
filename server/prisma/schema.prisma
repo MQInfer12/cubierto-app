@@ -150,4 +150,5 @@ model Notificacion {
   usuario       Usuario     @relation(fields: [usuarioId], references: [id], name: "para")
   usuarioDeId   String
   usuarioDe     Usuario     @relation(fields: [usuarioDeId], references: [id], name: "de")
+  fecha         DateTime    @default(now())
 }

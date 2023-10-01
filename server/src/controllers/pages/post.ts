@@ -2,7 +2,7 @@ import { Router } from "express";
 import xprisma from "../../middlewares/queries";
 import { ApiResponse } from "../../interfaces/apiResponse";
 import { CarritoBeneficiario, CarritoRestaurante, ItemCarrito, LikeTo } from "../../interfaces/pages/post";
-import { Donacion, Favorito, ProductoActivo, Venta } from "@prisma/client";
+import { Donacion, Favorito, Notificacion, ProductoActivo, Venta } from "@prisma/client";
 import { filterOfertas } from "../../utilities/filterOfertas";
 import { notifyDonacionCompletada, notifyDonacionParaBeneficiario, notifyDonacionParaRestaurante, notifyEstadoPedido, notifyNuevoPedido } from "../../utilities/notifications";
 
@@ -278,5 +278,18 @@ app.patch('/notificacion/usuario/ver/:idUsuario', async (req, res) => {
   }
   res.json(response);
 })
+
+app.delete("/notificacion/usuario/:idUsuario", async (req, res) => {
+  await xprisma.notificacion.deleteMany({
+    where: {
+      usuarioId: req.params.idUsuario
+    }
+  });
+  const response: ApiResponse<Notificacion[]> = {
+    message: "Se borraron las notificaciones del usuario",
+    data: []
+  }
+  res.json(response);
+});
 
 export default app;
