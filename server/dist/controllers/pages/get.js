@@ -325,5 +325,12 @@ app.get('/notificaciones/usuario/:idUsuario', (req, res) => __awaiter(void 0, vo
     };
     res.json(response);
 }));
+app.get("/contacto/telefono", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = {
+        message: "Telefono de contacto obtenido correctamente",
+        data: "59176407344"
+    };
+    res.json(response);
+}));
 exports.default = app;
 //# sourceMappingURL=get.js.map

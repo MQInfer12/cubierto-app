@@ -336,4 +336,12 @@ app.get('/notificaciones/usuario/:idUsuario', async (req, res) => {
   res.json(response);
 });
 
+app.get("/contacto/telefono", async (req, res) => {
+  const response: ApiResponse<string> = {
+    message: "Telefono de contacto obtenido correctamente",
+    data: "59176407344"
+  }
+  res.json(response);
+});
+
 export default app;
