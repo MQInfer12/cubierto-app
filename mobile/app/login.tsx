@@ -55,10 +55,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '100%',
     width: '100%',
+    alignItems: "center"
   },
   top: {
     height: imgHeight,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignSelf: "flex-start"
   },
   topText: {
     color: colors.white,
@@ -68,7 +70,9 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 12
+    paddingTop: 12,
+    position: "absolute",
+    bottom: "12%"
   },
   text: {
     color: colors.gray500,
