@@ -20,6 +20,7 @@ import postPagesController from './controllers/pages/post';
 import colaController from './controllers/pages/cola';
 import colaBController from './controllers/pages/colaBeneficiario';
 import cronController from './controllers/pages/cron';
+import { notifyAll } from './utilities/notifications';
 
 const app = express();
 const port = 3000;
@@ -51,6 +52,14 @@ app.use(postPagesController);
 app.use(colaController);
 app.use(colaBController);
 app.use(cronController);
+
+app.post("/notify/all", async (req, res) => {
+  const { body, route, title } = req.body;
+  await notifyAll({ body, route, title });
+  res.json({
+    message: "Notificaciones enviadas correctamente"
+  })
+});
 
 app.listen(port, () => {
   return console.log(`server is listening on http://localhost:${port}`);

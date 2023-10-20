@@ -322,3 +322,21 @@ export async function notifyDonacionCompletada(idDestinatario: string, idOtro: s
     }
   });
 }
+
+export const notifyAll = async (data: {
+  title: string
+  body: string
+  route: string
+}) => {
+  const allUsers = await xprisma.usuario.findMany();
+  const filtered = allUsers.filter(user => !!user.pushToken);
+  await sendPushNotification(filtered.map(user => ({
+    to: user.pushToken,
+    sound: "default",
+    title: data.title,
+    body: data.body,
+    data: {
+      route: data.route
+    }
+  })));
+}

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notifyDonacionCompletada = exports.notifyDonacionParaRestaurante = exports.notifyDonacionParaBeneficiario = exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
+exports.notifyAll = exports.notifyDonacionCompletada = exports.notifyDonacionParaRestaurante = exports.notifyDonacionParaBeneficiario = exports.notifyEstadoPedido = exports.notifyNuevoPedido = exports.notifyNuevaOferta = exports.sendPushNotification = void 0;
 const queries_1 = __importDefault(require("../middlewares/queries"));
 const pusher_1 = __importDefault(require("./pusher"));
 function sendPushNotification(body) {
@@ -318,4 +318,18 @@ function notifyDonacionCompletada(idDestinatario, idOtro) {
     });
 }
 exports.notifyDonacionCompletada = notifyDonacionCompletada;
+const notifyAll = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const allUsers = yield queries_1.default.usuario.findMany();
+    const filtered = allUsers.filter(user => !!user.pushToken);
+    yield sendPushNotification(filtered.map(user => ({
+        to: user.pushToken,
+        sound: "default",
+        title: data.title,
+        body: data.body,
+        data: {
+            route: data.route
+        }
+    })));
+});
+exports.notifyAll = notifyAll;
 //# sourceMappingURL=notifications.js.map

@@ -59,7 +59,6 @@ app.get('/pedir/user', async (req, res) => {
     take: 4
   });
   const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
-  const categorias = await xprisma.categoria.findMany();
   const ofertas = filterOfertas(await xprisma.productoActivo.findMany({
     where: {
       producto: {
@@ -69,6 +68,17 @@ app.get('/pedir/user', async (req, res) => {
       }
     }
   }));
+  const categorias = await xprisma.categoria.findMany({
+    where: {
+      productos: {
+        some: {
+          id: {
+            in: ofertas.map(oferta => oferta.productoId)
+          }
+        }
+      }
+    }
+  });
   const response: ApiResponse<PedirResponse> = {
     message: "Datos obtenidos correctamente",
     data: {

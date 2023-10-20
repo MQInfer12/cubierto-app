@@ -66,7 +66,6 @@ app.get('/pedir/user', (req, res) => __awaiter(void 0, void 0, void 0, function*
         take: 4
     });
     const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
-    const categorias = yield queries_1.default.categoria.findMany();
     const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
@@ -76,6 +75,17 @@ app.get('/pedir/user', (req, res) => __awaiter(void 0, void 0, void 0, function*
             }
         }
     }));
+    const categorias = yield queries_1.default.categoria.findMany({
+        where: {
+            productos: {
+                some: {
+                    id: {
+                        in: ofertas.map(oferta => oferta.productoId)
+                    }
+                }
+            }
+        }
+    });
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
