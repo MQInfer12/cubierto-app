@@ -121,3 +121,10 @@ La carpeta `pages` contiene todas las vistas de la pagina, ejm. el documento `ho
 La carpeta `styles` contiene algunas variables globales de los estilos, ejm. colores.
 
 La carpeta `utilities` contiene distintas funciones que realizan lógica, ejm. formatear fechas, pedir permisos, etc.
+
+
+## Diseños UX / UI
+
+El link propocionado contiene los archivos .fig de cada apartado diseñado de la App Cubierto ( Desktop - Mobile )
+
+- https://drive.google.com/drive/folders/16_DwQyh0IU1KCIOEK7tHfYhpooQa0KHF?usp=sharing 
