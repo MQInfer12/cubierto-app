@@ -23,7 +23,7 @@ import cronController from './controllers/pages/cron';
 import { notifyAll } from './utilities/notifications';
 
 const app = express();
-const port = 3000;
+const port = 5013;
 
 dotenv.config();
 

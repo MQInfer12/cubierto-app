@@ -1,0 +1,40 @@
+name: cubierto
+services:
+
+  frontend:
+    container_name: cubierto-front
+    build:
+      context: ./client      
+    restart: always
+    networks:
+      - cubierto-net
+    ports:
+      - 5012:80
+
+  backend:
+    container_name: cubierto-back
+    build:
+      context: ./server
+    ports:
+      - 5013:5013
+    restart: always
+    networks:
+      - cubierto-net
+
+  database:
+    image: postgres:15.5
+    restart: always
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: CubiertoDB
+    volumes:
+      - ./postgres:/var/lib/postgresql/dat
+    networks:
+      - cubierto-net
+
+networks:
+  cubierto-net:
+    driver: bridge
