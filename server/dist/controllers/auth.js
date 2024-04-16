@@ -15,6 +15,7 @@ const getParamsStr_1 = require("../utilities/getParamsStr");
 const app = (0, express_1.Router)();
 const prisma = new client_1.PrismaClient();
 const checkGoogleUserId = (googleUser) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("llega aqui", googleUser);
     let user = yield prisma.usuario.findUnique({
         where: {
             id: googleUser.sub,
@@ -48,7 +49,6 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
             grant_type: "authorization_code",
         };
         const url = baseUrl + (0, getParamsStr_1.getParamsStr)(params);
-        console.log(url);
         const response = yield fetch(url, {
             method: "POST",
             headers: {
@@ -76,7 +76,7 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
     catch (e) {
         res.json({
             error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
-            data: JSON.stringify(e)
+            data: JSON.stringify(e),
         });
     }
 });

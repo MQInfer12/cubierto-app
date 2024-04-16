@@ -14,6 +14,7 @@ interface GoogleUser {
 }
 
 const checkGoogleUserId = async (googleUser: GoogleUser) => {
+  console.log("llega aqui", googleUser);
   let user = await prisma.usuario.findUnique({
     where: {
       id: googleUser.sub,
@@ -49,7 +50,6 @@ const signUp = async (code: string, appUrl: string, res: any) => {
       grant_type: "authorization_code",
     };
     const url = baseUrl + getParamsStr(params);
-    console.log(url);
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -79,7 +79,7 @@ const signUp = async (code: string, appUrl: string, res: any) => {
   } catch (e) {
     res.json({
       error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
-      data: JSON.stringify(e)
+      data: JSON.stringify(e),
     });
   }
 };
