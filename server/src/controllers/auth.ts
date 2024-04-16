@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { Usuario } from "@prisma/client";
+import { PrismaClient, Usuario } from "@prisma/client";
 import { ApiResponse } from "../interfaces/apiResponse";
 import { getParamsStr } from "../utilities/getParamsStr";
-import xprisma from "../middlewares/queries";
 
 const app = Router();
+const prisma = new PrismaClient();
 
 interface GoogleUser {
   sub: string;
@@ -14,14 +14,13 @@ interface GoogleUser {
 }
 
 const checkGoogleUserId = async (googleUser: GoogleUser) => {
-  console.log("llega aqui", googleUser);
-  let user = await xprisma.usuario.findUnique({
+  let user = await prisma.usuario.findUnique({
     where: {
       id: googleUser.sub,
     },
   });
   if (!user) {
-    user = await xprisma.usuario.create({
+    user = await prisma.usuario.create({
       data: {
         id: googleUser.sub,
         nombre: googleUser.name,
