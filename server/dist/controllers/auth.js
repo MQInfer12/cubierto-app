@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const client_1 = require("@prisma/client");
+const getParamsStr_1 = require("../utilities/getParamsStr");
 const app = (0, express_1.Router)();
 const prisma = new client_1.PrismaClient();
 const checkGoogleUserId = (googleUser) => __awaiter(void 0, void 0, void 0, function* () {
@@ -36,8 +37,17 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
     const CLIENT_SECRET = process.env.CLIENT_SECRET;
     const BACKEND_URL = process.env.BACKEND_URL;
     try {
-        const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
-        console.log(url);
+        const baseUrl = "https://oauth2.googleapis.com/token";
+        const params = {
+            code,
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            redirect_uri: BACKEND_URL + "google",
+            state: "1234_purpleGoogle",
+            prompt: "consent",
+            grant_type: "authorization_code",
+        };
+        const url = baseUrl + (0, getParamsStr_1.getParamsStr)(params);
         const response = yield fetch(url, {
             method: "POST",
             headers: {

@@ -40,8 +40,8 @@ dotenv_1.default.config();
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
-app.get('/', (req, res) => {
-    res.send('¡CUBIERTO Backend!');
+app.get("/", (req, res) => {
+    res.send("¡CUBIERTO Backend!");
 });
 app.use(usuario_1.default);
 app.use(auth_1.default);
@@ -64,7 +64,7 @@ app.post("/notify/all", (req, res) => __awaiter(void 0, void 0, void 0, function
     const { body, route, title } = req.body;
     yield (0, notifications_1.notifyAll)({ body, route, title });
     res.json({
-        message: "Notificaciones enviadas correctamente"
+        message: "Notificaciones enviadas correctamente",
     });
 }));
 app.listen(port, () => {

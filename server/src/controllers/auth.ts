@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { PrismaClient, Usuario } from "@prisma/client";
 import { ApiResponse } from "../interfaces/apiResponse";
+import { getParamsStr } from "../utilities/getParamsStr";
 
 const app = Router();
 const prisma = new PrismaClient();
@@ -37,8 +38,17 @@ const signUp = async (code: string, appUrl: string, res: any) => {
   const BACKEND_URL = process.env.BACKEND_URL;
 
   try {
-    const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
-    console.log(url);
+    const baseUrl = "https://oauth2.googleapis.com/token";
+    const params = {
+      code,
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      redirect_uri: BACKEND_URL + "google",
+      state: "1234_purpleGoogle",
+      prompt: "consent",
+      grant_type: "authorization_code",
+    };
+    const url = baseUrl + getParamsStr(params);
     const response = await fetch(url, {
       method: "POST",
       headers: {
