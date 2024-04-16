@@ -37,6 +37,7 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
     const BACKEND_URL = process.env.BACKEND_URL;
     try {
         const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
+        console.log(url);
         const response = yield fetch(url, {
             method: "POST",
             headers: {
@@ -57,6 +58,7 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
         else {
             res.json({
                 error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
+                data: yield response.json(),
             });
         }
     }

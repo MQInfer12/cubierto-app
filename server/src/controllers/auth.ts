@@ -35,9 +35,10 @@ const signUp = async (code: string, appUrl: string, res: any) => {
   const CLIENT_ID = process.env.CLIENT_ID;
   const CLIENT_SECRET = process.env.CLIENT_SECRET;
   const BACKEND_URL = process.env.BACKEND_URL;
-  
+
   try {
     const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
+    console.log(url);
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -61,6 +62,7 @@ const signUp = async (code: string, appUrl: string, res: any) => {
     } else {
       res.json({
         error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
+        data: await response.json(),
       });
     }
   } catch (e) {
