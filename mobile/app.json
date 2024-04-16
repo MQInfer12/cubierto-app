@@ -17,17 +17,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "6"
+      "buildNumber": "2",
+      "bundleIdentifier": "com.cochabamba.cubierto"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mqinfer12.cubierto",
+      "package": "com.cochabamba.cubierto",
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true,
-      "versionCode": 6
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"

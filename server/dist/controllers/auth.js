@@ -13,14 +13,11 @@ const express_1 = require("express");
 const client_1 = require("@prisma/client");
 const app = (0, express_1.Router)();
 const prisma = new client_1.PrismaClient();
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const BACKEND_URL = process.env.BACKEND_URL;
 const checkGoogleUserId = (googleUser) => __awaiter(void 0, void 0, void 0, function* () {
     let user = yield prisma.usuario.findUnique({
         where: {
-            id: googleUser.sub
-        }
+            id: googleUser.sub,
+        },
     });
     if (!user) {
         user = yield prisma.usuario.create({
@@ -28,20 +25,23 @@ const checkGoogleUserId = (googleUser) => __awaiter(void 0, void 0, void 0, func
                 id: googleUser.sub,
                 nombre: googleUser.name,
                 email: googleUser.email,
-                foto: googleUser.picture
-            }
+                foto: googleUser.picture,
+            },
         });
     }
     return user;
 });
 const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const CLIENT_ID = process.env.CLIENT_ID;
+    const CLIENT_SECRET = process.env.CLIENT_SECRET;
+    const BACKEND_URL = process.env.BACKEND_URL;
     try {
         const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&redirect_uri=${BACKEND_URL}google&state=1234_purpleGoogle&grant_type=authorization_code`;
         const response = yield fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
         });
         if (response.ok) {
             const data = yield response.json();
@@ -54,10 +54,15 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
                 res.send(`<script>window.location.replace("${appUrl}?userId=${user.id}")</script>`);
             }
         }
+        else {
+            res.json({
+                error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
+            });
+        }
     }
     catch (e) {
         res.json({
-            error: "¡Ocurrió un error inesperado, inténtalo de nuevo!"
+            error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
         });
     }
 });
@@ -65,7 +70,7 @@ app.get("/google", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { code, state: appUrl } = req.query;
     if (!code) {
         return res.status(400).json({
-            error: "Código inválido"
+            error: "Código inválido",
         });
     }
     signUp(code, appUrl, res);
@@ -79,14 +84,14 @@ app.post("/google/login", (req, res) => __awaiter(void 0, void 0, void 0, functi
             const user = yield checkGoogleUserId(userData);
             const response = {
                 message: "Datos del usuario encontrados correctamente",
-                data: user
+                data: user,
             };
             res.json(response);
         }
     }
     catch (e) {
         res.json({
-            error: "¡Ocurrió un error inesperado, inténtalo de nuevo!"
+            error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
         });
     }
 }));
