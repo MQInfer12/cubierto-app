@@ -49,6 +49,7 @@ const signUp = async (code: string, appUrl: string, res: any) => {
       grant_type: "authorization_code",
     };
     const url = baseUrl + getParamsStr(params);
+    console.log(url);
     const response = await fetch(url, {
       method: "POST",
       headers: {

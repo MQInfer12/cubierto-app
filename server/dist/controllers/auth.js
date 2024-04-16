@@ -48,6 +48,7 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
             grant_type: "authorization_code",
         };
         const url = baseUrl + (0, getParamsStr_1.getParamsStr)(params);
+        console.log(url);
         const response = yield fetch(url, {
             method: "POST",
             headers: {
