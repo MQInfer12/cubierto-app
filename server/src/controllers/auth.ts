@@ -79,6 +79,7 @@ const signUp = async (code: string, appUrl: string, res: any) => {
   } catch (e) {
     res.json({
       error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
+      data: JSON.stringify(e)
     });
   }
 };

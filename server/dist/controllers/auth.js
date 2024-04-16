@@ -76,6 +76,7 @@ const signUp = (code, appUrl, res) => __awaiter(void 0, void 0, void 0, function
     catch (e) {
         res.json({
             error: "¡Ocurrió un error inesperado, inténtalo de nuevo!",
+            data: JSON.stringify(e)
         });
     }
 });
