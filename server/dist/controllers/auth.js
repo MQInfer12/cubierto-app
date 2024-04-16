@@ -8,21 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const client_1 = require("@prisma/client");
 const getParamsStr_1 = require("../utilities/getParamsStr");
+const queries_1 = __importDefault(require("../middlewares/queries"));
 const app = (0, express_1.Router)();
-const prisma = new client_1.PrismaClient();
 const checkGoogleUserId = (googleUser) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("llega aqui", googleUser);
-    let user = yield prisma.usuario.findUnique({
+    let user = yield queries_1.default.usuario.findUnique({
         where: {
             id: googleUser.sub,
         },
     });
     if (!user) {
-        user = yield prisma.usuario.create({
+        user = yield queries_1.default.usuario.create({
             data: {
                 id: googleUser.sub,
                 nombre: googleUser.name,
