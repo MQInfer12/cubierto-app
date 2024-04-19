@@ -338,7 +338,7 @@ app.get('/notificaciones/usuario/:idUsuario', (req, res) => __awaiter(void 0, vo
 app.get("/contacto/telefono", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const response = {
         message: "Telefono de contacto obtenido correctamente",
-        data: "59176407344"
+        data: "5917640000"
     };
     res.json(response);
 }));

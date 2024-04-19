@@ -3,7 +3,7 @@
     "name": "Cubierto",
     "slug": "cubierto",
     "scheme": "cubierto",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "2",
+      "buildNumber": "3",
       "bundleIdentifier": "com.cochabamba.cubierto"
     },
     "android": {
@@ -28,7 +28,7 @@
       "package": "com.cochabamba.cubierto",
       "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true,
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

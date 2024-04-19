@@ -44,7 +44,12 @@ const Slyder = () => {
           <p>Descarga nuestra aplicación desde tu tienda favorita</p>
         </div>
         <section>
-          <a href="https://play.google.com/store/apps/details?id=com.mqinfer12.cubierto">Google Play</a>
+          <a
+            target="_blank"
+            href="https://play.google.com/store/search?q=cubierto&c=apps"
+          >
+            Google Play
+          </a>
         </section>
       </Cardownload>
     </>
@@ -80,30 +85,30 @@ export const Cardownload = styled.section`
     }
   }
   & > section {
-      gap: 26px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-direction:row;
-      & > a {
-        width: 216px;
-        text-align: center;
-        height: 40px;
-        gap: 10px;
-        color: ${colors.light};
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 400;
-        background: ${colors.primary500};
-        padding: 0.5em 1.5rem;
-        border-radius: 3rem;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
-        transform: 0.5s;
-        &:hover {
-          opacity: 0.8;
-        }
+    gap: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    & > a {
+      width: 216px;
+      text-align: center;
+      height: 40px;
+      gap: 10px;
+      color: ${colors.light};
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 400;
+      background: ${colors.primary500};
+      padding: 0.5em 1.5rem;
+      border-radius: 3rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+      transform: 0.5s;
+      &:hover {
+        opacity: 0.8;
       }
     }
+  }
 `;

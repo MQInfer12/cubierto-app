@@ -1,17 +1,25 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ComunStyles, colors } from "../styles/styleGlobal";
-import Facebook from '../assets/redesSociales/facebook.png'
-import Instagram from '../assets/redesSociales/instagram.png';
-import Twitter from '../assets/redesSociales/gorjeo.png';
-import Linke from '../assets/redesSociales/linkedin.png'
+import Facebook from "../assets/redesSociales/facebook.png";
+import Instagram from "../assets/redesSociales/instagram.png";
+import Twitter from "../assets/redesSociales/gorjeo.png";
+import Linke from "../assets/redesSociales/linkedin.png";
 import { footer420 } from "../styles/respStyle";
 const Footer = () => {
   return (
     <Foote>
       <div>
         <h2>CUBIERTO</h2>
-        <p>Encuéntranos en <a href="https://play.google.com/store/apps/details?id=com.mqinfer12.cubierto">Google Play</a></p>
+        <p>
+          Encuéntranos en{" "}
+          <a
+            target="_blank"
+            href="https://play.google.com/store/search?q=cubierto&c=apps"
+          >
+            Google Play
+          </a>
+        </p>
         <div className="links">
           <Links to="/">Inicio</Links>
           <Links to="/estadisticas">Información</Links>
@@ -19,13 +27,50 @@ const Footer = () => {
         </div>
         <span />
         <section className="datos">
-          <label>CIDTU - Unifranz - Derechos reservados 2023</label>
+          <label
+            style={{
+              marginTop: "16px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            Cubierto, Derechos reservados 2024 - CIDTEC Unifranz - GAMC
+            Cochabamba, Cercado
+          </label>
           <div>
             <Oval>
-              <a href="https://www.facebook.com/unifranz.edu/?locale=es_LA" target="_blank" ><img src={Facebook} alt="" /></a></Oval>
-            <Oval><a href="https://www.instagram.com/unifranz/?hl=es" target="_blank"><img src={Instagram} alt="" /></a></Oval>
-            <Oval> <a href="https://twitter.com/UnifranzBolivia?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank"><img src={Twitter} alt="" /></a></Oval>
-            <Oval><a href="https://bo.linkedin.com/school/universidad-franz-tamayo/" target="_blank"><img src={Linke} alt="" /></a></Oval>
+              <a
+                href="https://www.facebook.com/unifranz.edu/?locale=es_LA"
+                target="_blank"
+              >
+                <img src={Facebook} alt="" />
+              </a>
+            </Oval>
+            <Oval>
+              <a
+                href="https://www.instagram.com/unifranz/?hl=es"
+                target="_blank"
+              >
+                <img src={Instagram} alt="" />
+              </a>
+            </Oval>
+            <Oval>
+              {" "}
+              <a
+                href="https://twitter.com/UnifranzBolivia?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+                target="_blank"
+              >
+                <img src={Twitter} alt="" />
+              </a>
+            </Oval>
+            <Oval>
+              <a
+                href="https://bo.linkedin.com/school/universidad-franz-tamayo/"
+                target="_blank"
+              >
+                <img src={Linke} alt="" />
+              </a>
+            </Oval>
           </div>
         </section>
       </div>
@@ -83,9 +128,9 @@ const Foote = styled.footer`
     }
 
     & > p {
-      color: #FFF;
+      color: #fff;
       & > a {
-        color: #FFF;
+        color: #fff;
       }
     }
   }
@@ -121,18 +166,17 @@ const Oval = styled.div`
   height: 2rem;
   border-radius: 50%;
   background: #e4eaf1;
- 
-  &>a{
+
+  & > a {
     width: 100vh;
     height: 100vh;
     z-index: 1;
     position: relative;
-    
-    &>img{
+
+    & > img {
       width: 100%;
       height: 100%;
       z-index: 0;
-      
     }
   }
 `;

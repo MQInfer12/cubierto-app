@@ -1,17 +1,23 @@
-import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { useUser } from '../../context/user';
-import { UseLoggedUser } from '../../hooks/useLoggedUser'
-import { colors } from '../../styles/colors';
-import FontedText from '../../components/global/fontedText';
-import Icon from '../../components/global/icon';
-import { useSetRouteName } from '../../context/routeName';
-import { useCart } from '../../context/cart';
-import { useCola } from '../../context/cola';
-import { router } from 'expo-router';
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React from "react";
+import { useUser } from "../../context/user";
+import { UseLoggedUser } from "../../hooks/useLoggedUser";
+import { colors } from "../../styles/colors";
+import FontedText from "../../components/global/fontedText";
+import Icon from "../../components/global/icon";
+import { useSetRouteName } from "../../context/routeName";
+import { useCart } from "../../context/cart";
+import { useCola } from "../../context/cola";
+import { router } from "expo-router";
 
 const Home = () => {
-  useSetRouteName('Perfil');
+  useSetRouteName("Perfil");
   const user = UseLoggedUser();
   const { logout } = useUser();
   const { emptyCart } = useCart();
@@ -21,64 +27,98 @@ const Home = () => {
     logout();
     emptyCart();
     vaciarCola();
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.top}>
         <Image style={styles.foto} source={{ uri: user.foto }} />
-        <FontedText style={styles.nombre} weight={700}>{user.nombre}</FontedText>
+        <FontedText style={styles.nombre} weight={700}>
+          {user.nombre}
+        </FontedText>
         <FontedText style={styles.email}>{user.email}</FontedText>
       </View>
       <View style={styles.bottom}>
-        <FontedText style={styles.bottomTitle} weight={600}>Mi cuenta</FontedText>
-        <TouchableOpacity onPress={() => router.push(`userInfo`)} style={styles.bottomButton}>
+        <FontedText style={styles.bottomTitle} weight={600}>
+          Mi cuenta
+        </FontedText>
+        <TouchableOpacity
+          onPress={() => router.push(`userInfo`)}
+          style={styles.bottomButton}
+        >
           <View style={styles.bottomIconContainer}>
-            <Icon name='person-outline' size={16} color={colors.gray900} />
+            <Icon name="person-outline" size={16} color={colors.gray900} />
           </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Información personal</FontedText>
+          <FontedText style={styles.bottomButtonText} weight={600}>
+            Información personal
+          </FontedText>
         </TouchableOpacity>
-        {
-          (user.rol === "restaurante" || user.rol === "proveedor") &&
-          <TouchableOpacity onPress={() => router.push(`productos`)} style={styles.bottomButton}>
+        {(user.rol === "restaurante" || user.rol === "proveedor") && (
+          <TouchableOpacity
+            onPress={() => router.push(`productos`)}
+            style={styles.bottomButton}
+          >
             <View style={styles.bottomIconContainer}>
-              <Icon name='book-outline' size={16} color={colors.gray900} />
+              <Icon name="book-outline" size={16} color={colors.gray900} />
             </View>
-            <FontedText style={styles.bottomButtonText} weight={600}>Productos</FontedText>
+            <FontedText style={styles.bottomButtonText} weight={600}>
+              Productos
+            </FontedText>
           </TouchableOpacity>
-        }
-        <TouchableOpacity style={styles.bottomButton} onPress={() => router.push('notification')}>
+        )}
+        <TouchableOpacity
+          style={styles.bottomButton}
+          onPress={() => router.push("notification")}
+        >
           <View style={styles.bottomIconContainer}>
-            <Icon name='notifications-outline' size={16} color={colors.gray900} />
+            <Icon
+              name="notifications-outline"
+              size={16}
+              color={colors.gray900}
+            />
           </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Notificaciones {!!user.notificacionesPendientes && <FontedText style={styles.redText}>({user.notificacionesPendientes})</FontedText>}</FontedText>
+          <FontedText style={styles.bottomButtonText} weight={600}>
+            Notificaciones{" "}
+            {!!user.notificacionesPendientes && (
+              <FontedText style={styles.redText}>
+                ({user.notificacionesPendientes})
+              </FontedText>
+            )}
+          </FontedText>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomButton} onPress={() => {
-          Linking.openURL(`https://cubierto.cidtec-uc.com`)
-        }}>
+        <TouchableOpacity
+          style={styles.bottomButton}
+          onPress={() => {
+            Linking.openURL(`https://cubierto.cochabamba.bo/`);
+          }}
+        >
           <View style={styles.bottomIconContainer}>
-            <Icon name='globe-outline' size={16} color={colors.gray900} />
+            <Icon name="globe-outline" size={16} color={colors.gray900} />
           </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Aplicación web</FontedText>
+          <FontedText style={styles.bottomButtonText} weight={600}>
+            Aplicación web
+          </FontedText>
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomButton} onPress={handleLogout}>
           <View style={styles.bottomIconContainer}>
-            <Icon name='log-out-outline' size={16} color={colors.gray900} />
+            <Icon name="log-out-outline" size={16} color={colors.gray900} />
           </View>
-          <FontedText style={styles.bottomButtonText} weight={600}>Cerrar sesión</FontedText>
+          <FontedText style={styles.bottomButtonText} weight={600}>
+            Cerrar sesión
+          </FontedText>
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   top: {
     flex: 1,
@@ -89,17 +129,17 @@ const styles = StyleSheet.create({
     width: 128,
     height: 128,
     borderRadius: 64,
-    marginBottom: 16
+    marginBottom: 16,
   },
   nombre: {
     fontSize: 20,
     color: colors.gray900,
-    textAlign: "center"
+    textAlign: "center",
   },
   email: {
     fontSize: 12,
     color: colors.gray600,
-    textAlign: "center"
+    textAlign: "center",
   },
   bottom: {
     paddingTop: 32,
@@ -108,12 +148,12 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopEndRadius: 24,
     borderTopLeftRadius: 24,
-    paddingBottom: 16
+    paddingBottom: 16,
   },
   bottomTitle: {
     fontSize: 16,
     color: colors.gray500,
-    marginBottom: 8
+    marginBottom: 8,
   },
   bottomButton: {
     flexDirection: "row",
@@ -121,7 +161,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray400,
     paddingVertical: 8,
     alignItems: "center",
-    gap: 16
+    gap: 16,
   },
   bottomIconContainer: {
     width: 32,
@@ -129,12 +169,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray400,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 16
+    borderRadius: 16,
   },
   bottomButtonText: {
-    color: colors.gray900
+    color: colors.gray900,
   },
   redText: {
-    color: colors.primary500
-  }
+    color: colors.primary500,
+  },
 });

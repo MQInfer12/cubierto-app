@@ -8,9 +8,11 @@ import {
 } from "../styles/compStyle";
 import { useUser } from "../context/useUser";
 import Logo from "../assets/CubiertoIsotipo1.png";
+import LogoCocha from "../assets/WebCubiertoLogos-02.png";
 import { useNavigate } from "react-router-dom";
 import menu from "../assets/menu.png";
 import { useEffect, useState } from "react";
+
 const Navbar = () => {
   const location = useLocation();
   const [abrirNav, setAbrirNav] = useState(false);
@@ -25,7 +27,7 @@ const Navbar = () => {
     }
   };
   const abrir = () => {
-    setAbrirNav(old => !old);
+    setAbrirNav((old) => !old);
   };
 
   useEffect(() => {
@@ -42,19 +44,24 @@ const Navbar = () => {
           <div className="logo-container">
             <img src={Logo} />
             <Links to="/">Cubierto</Links>
+            <img
+              style={{
+                marginLeft: "12px",
+                height: "32px"
+              }}
+              src={LogoCocha}
+            />
           </div>
           <section>
             <Links to="/">Inicio</Links>
             <Links to="/estadisticas">Información</Links>
           </section>
           <BtnRegister onClick={handleClick}>
-            {
-              user
+            {user
               ? user.rol == "usuario" || user.rol == "beneficiario"
                 ? "Descarga la app"
                 : "Dashboard"
-              : "Inicia sesión"
-            }
+              : "Inicia sesión"}
           </BtnRegister>
         </ContentNavbar>
       </ConNab>
