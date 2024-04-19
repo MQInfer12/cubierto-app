@@ -16,18 +16,18 @@ const express_1 = require("express");
 const queries_1 = __importDefault(require("../../middlewares/queries"));
 const filterOfertas_1 = require("../../utilities/filterOfertas");
 const app = (0, express_1.Router)();
-app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/pedir", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
             estadoBeneficiario: "aceptado",
             AND: {
-                estadoDonador: "aceptado"
-            }
+                estadoDonador: "aceptado",
+            },
         },
         orderBy: {
-            id: "desc"
+            id: "desc",
         },
-        take: 4
+        take: 4,
     });
     const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     let ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany());
@@ -36,131 +36,131 @@ app.get('/pedir', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             productos: {
                 some: {
                     id: {
-                        in: ofertas.map(oferta => oferta.productoId)
-                    }
-                }
-            }
-        }
+                        in: ofertas.map((oferta) => oferta.productoId),
+                    },
+                },
+            },
+        },
     });
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
             donacion: randomDonacion,
             categorias,
-            ofertas
-        }
+            ofertas,
+        },
     };
     res.json(response);
 }));
-app.get('/pedir/user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/pedir/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
             estadoBeneficiario: "aceptado",
             AND: {
-                estadoDonador: "aceptado"
-            }
+                estadoDonador: "aceptado",
+            },
         },
         orderBy: {
-            id: "desc"
+            id: "desc",
         },
-        take: 4
+        take: 4,
     });
     const randomDonacion = donaciones[Math.floor(Math.random() * donaciones.length)];
     const ofertas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
                 usuario: {
-                    rol: "restaurante"
-                }
-            }
-        }
+                    rol: "restaurante",
+                },
+            },
+        },
     }));
     const categorias = yield queries_1.default.categoria.findMany({
         where: {
             productos: {
                 some: {
                     id: {
-                        in: ofertas.map(oferta => oferta.productoId)
-                    }
-                }
-            }
-        }
+                        in: ofertas.map((oferta) => oferta.productoId),
+                    },
+                },
+            },
+        },
     });
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
             donacion: randomDonacion,
             categorias,
-            ofertas
-        }
+            ofertas,
+        },
     };
     res.json(response);
 }));
-app.get('/restaurante/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/restaurante/:idRestaurante", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const restaurante = yield queries_1.default.usuario.findUnique({
         where: {
-            id: req.params.idRestaurante
-        }
+            id: req.params.idRestaurante,
+        },
     });
     const ofertasActivas = (0, filterOfertas_1.filterOfertas)(yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
-                usuarioId: req.params.idRestaurante
-            }
-        }
+                usuarioId: req.params.idRestaurante,
+            },
+        },
     }));
     const categorias = yield queries_1.default.categoria.findMany({
         where: {
             productos: {
                 some: {
-                    usuarioId: req.params.idRestaurante
-                }
-            }
-        }
+                    usuarioId: req.params.idRestaurante,
+                },
+            },
+        },
     });
     const response = {
         message: "Datos obtenidos correctamente",
         data: {
             restaurante,
             ofertasActivas,
-            categorias
-        }
+            categorias,
+        },
     };
     res.json(response);
 }));
-app.get('/ofertas/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/ofertas/:idRestaurante", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ofertasActivas = yield queries_1.default.productoActivo.findMany({
         where: {
             producto: {
-                usuarioId: req.params.idRestaurante
+                usuarioId: req.params.idRestaurante,
             },
             AND: {
-                donado: false
-            }
-        }
+                donado: false,
+            },
+        },
     });
     const response = {
         message: "Se encontraron las ofertas activas",
-        data: ofertasActivas
+        data: ofertasActivas,
     };
     res.json(response);
 }));
-app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/pendientes/:idRestaurante", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let ventas = yield queries_1.default.venta.findMany({
         where: {
             detalles: {
                 every: {
                     productoActivo: {
                         producto: {
-                            usuarioId: req.params.idRestaurante
-                        }
-                    }
-                }
-            }
-        }
+                            usuarioId: req.params.idRestaurante,
+                        },
+                    },
+                },
+            },
+        },
     });
     const ahora = new Date();
-    ventas = ventas.filter(venta => {
+    ventas = ventas.filter((venta) => {
         if (venta.estado === "pendiente") {
             const fecha = new Date(venta.fecha);
             const milliseconds = ahora.getTime() - fecha.getTime();
@@ -172,49 +172,49 @@ app.get('/pendientes/:idRestaurante', (req, res) => __awaiter(void 0, void 0, vo
     });
     const response = {
         message: "Ventas encontradas correctamente",
-        data: ventas
+        data: ventas,
     };
     res.json(response);
 }));
-app.get('/pedidos/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/pedidos/:idUsuario", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ventas = yield queries_1.default.venta.findMany({
         where: {
-            usuarioId: req.params.idUsuario
-        }
+            usuarioId: req.params.idUsuario,
+        },
     });
     const response = {
         message: "Pedidos obtenidos correctamente",
-        data: ventas
+        data: ventas,
     };
     res.json(response);
 }));
-app.get('/venta/completado/:idRestaurante', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/venta/completado/:idRestaurante", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let ventas = yield queries_1.default.venta.findMany({
         where: {
             detalles: {
                 every: {
                     productoActivo: {
                         producto: {
-                            usuarioId: req.params.idRestaurante
-                        }
-                    }
-                }
+                            usuarioId: req.params.idRestaurante,
+                        },
+                    },
+                },
             },
             AND: {
-                estado: "recogido"
-            }
-        }
+                estado: "recogido",
+            },
+        },
     });
     const response = {
         message: "Ventas obtenidas correctamente",
-        data: ventas
+        data: ventas,
     };
     res.json(response);
 }));
-app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/donaciones", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ofertas = yield queries_1.default.productoActivo.findMany({
         where: {
-            donado: false
+            donado: false,
         },
         include: {
             detalleVentas: {
@@ -222,14 +222,14 @@ app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function*
                     venta: {
                         select: {
                             estado: true,
-                            fecha: true
-                        }
-                    }
-                }
-            }
-        }
+                            fecha: true,
+                        },
+                    },
+                },
+            },
+        },
     });
-    const ofertasRes = ofertas.map(oferta => {
+    const ofertasRes = ofertas.map((oferta) => {
         const stock = oferta.cantidad;
         const stockADescontar = oferta.detalleVentas.reduce((suma, detalle) => {
             if (detalle.venta.estado === "pendiente") {
@@ -253,27 +253,27 @@ app.get('/donaciones', (req, res) => __awaiter(void 0, void 0, void 0, function*
     const ofertasFinal = (0, filterOfertas_1.filterDonaciones)(ofertasRes);
     const response = {
         message: "Donaciones obtenidas correctamente",
-        data: ofertasFinal
+        data: ofertasFinal,
     };
     res.json(response);
 }));
-app.get('/beneficiarios', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/beneficiarios", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const beneficiarios = yield queries_1.default.usuario.findMany({
         where: {
-            rol: "beneficiario"
-        }
+            rol: "beneficiario",
+        },
     });
     const response = {
         message: "Beneficiarios obtenidos correctamente",
-        data: beneficiarios
+        data: beneficiarios,
     };
     res.json(response);
 }));
-app.get('/restaurantes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/restaurantes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const restaurantes = yield queries_1.default.usuario.findMany({
         where: {
-            rol: "restaurante"
-        }
+            rol: "restaurante",
+        },
     });
     restaurantes.sort((x, y) => {
         if (x.nombre < y.nombre) {
@@ -286,59 +286,59 @@ app.get('/restaurantes', (req, res) => __awaiter(void 0, void 0, void 0, functio
     });
     const response = {
         message: "Restaurantes obtenidos correctamente",
-        data: restaurantes
+        data: restaurantes,
     };
     res.json(response);
 }));
-app.get('/donaciones/beneficiario/:idBeneficiario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/donaciones/beneficiario/:idBeneficiario", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
-            beneficiarioId: req.params.idBeneficiario
-        }
+            beneficiarioId: req.params.idBeneficiario,
+        },
     });
     const response = {
         message: "Mis donaciones obtenidas correctamente",
-        data: donaciones
+        data: donaciones,
     };
     res.json(response);
 }));
 const getDonations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const donaciones = yield queries_1.default.donacion.findMany({
         where: {
-            donadorId: req.params.id
-        }
+            donadorId: req.params.id,
+        },
     });
     const response = {
         message: "Mis donaciones obtenidas correctamente",
-        data: donaciones
+        data: donaciones,
     };
     res.json(response);
 });
-app.get('/donaciones/restaurante/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/donaciones/restaurante/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     getDonations(req, res);
 }));
-app.get('/donaciones/proveedor/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/donaciones/proveedor/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     getDonations(req, res);
 }));
-app.get('/notificaciones/usuario/:idUsuario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/notificaciones/usuario/:idUsuario", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const notificaciones = yield queries_1.default.notificacion.findMany({
         where: {
-            usuarioId: req.params.idUsuario
+            usuarioId: req.params.idUsuario,
         },
         include: {
-            usuarioDe: true
-        }
+            usuarioDe: true,
+        },
     });
     const response = {
         message: "Notificaciones de usuario obtenidas correctamente",
-        data: notificaciones
+        data: notificaciones,
     };
     res.json(response);
 }));
 app.get("/contacto/telefono", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const response = {
         message: "Telefono de contacto obtenido correctamente",
-        data: "5917640000"
+        data: "5917640000",
     };
     res.json(response);
 }));
