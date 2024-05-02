@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     position: "absolute",
     bottom: "12%",
+    width: "100%",
+    padding: "10%",
   },
   text: {
     color: colors.gray500,

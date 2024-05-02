@@ -30,6 +30,8 @@ const Redirect = () => {
     const getLocalUser = async () => {
       const localUser = await AsyncStorage.getItem("user");
       setUser(localUser ? (JSON.parse(localUser) as Usuario) : null);
+      /* await AsyncStorage.removeItem("user");
+      setUser(null); */
       setUserLoaded(true);
     };
     getLocalUser();

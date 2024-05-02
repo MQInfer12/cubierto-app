@@ -1,4 +1,4 @@
-import {  Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Home from "./pages/Home";
 import QuienesSomos from "./pages/QuienesSomos";
@@ -19,18 +19,20 @@ import Ventas from "./pages/dashboard/ventas";
 import Categorias from "./pages/categorias";
 import Cola from "./pages/dashboard/cola";
 import { Toaster } from "react-hot-toast";
+import Politicas from "./pages/politicas";
 
 function App() {
   return (
     <>
       <GoogleOAuthProvider clientId={import.meta.env.VITE_OUTHID}>
-        <Toaster position="top-center" reverseOrder={false}/>
+        <Toaster position="top-center" reverseOrder={false} />
         <HashRouter>
           <Routes>
             <Route path="/" element={<Navbar />}>
               <Route path="/" element={<Home />} />
-            <Route path="/estadisticas" element={<Estadisticas />} />
+              <Route path="/estadisticas" element={<Estadisticas />} />
               <Route path="/login" element={<Register />} />
+              <Route path="/politicas" element={<Politicas />} />
             </Route>
           </Routes>
           <Routes>
@@ -50,10 +52,14 @@ function App() {
               <Route path="/dashboard/Perfil" element={<Perfil />} />
               <Route path="dashboard/categorias" element={<Categorias />} />
               <Route path="dashboard/cola" element={<Cola />} />
-              <Route path="/dashboard/usuario" element={
-                <RoleRoute roles={['admin']}>
-                  <Usuarios />
-                </RoleRoute>} />
+              <Route
+                path="/dashboard/usuario"
+                element={
+                  <RoleRoute roles={["admin"]}>
+                    <Usuarios />
+                  </RoleRoute>
+                }
+              />
             </Route>
           </Routes>
         </HashRouter>

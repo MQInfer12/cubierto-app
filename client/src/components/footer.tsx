@@ -22,6 +22,7 @@ const Footer = () => {
         </p>
         <div className="links">
           <Links to="/">Inicio</Links>
+          <Links to="/politicas">Políticas</Links>
           <Links to="/estadisticas">Información</Links>
           <Links to="/login">Iniciar sesión</Links>
         </div>
